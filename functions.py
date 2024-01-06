@@ -287,9 +287,23 @@ aggregate_player_bios(True, True, False)
 aggregate_player_bios(False, True, False)
 
 atoi_model_data = train_atoi_model(False, False)
+print(atoi_model_data) 
+'''
+Need to accomodate for same season data. 
+Phase each year of data to the previous year's weight based on gameNumber/82, which determines the progress of the season.
+For ex: For ATOI model gives [ 9.90060537e-02  1.05083392e-01  7.43612821e-01  -1.32400542e-01  2.21274207e-04  -1.24648414e-06  4.51331597e+00]
+1st game of season: [9.90060537e-02, 1.05083392e-01, 7.43612821e-01, 7.43612821e-01, ...]
+40th game of season: [(9.90060537e-02 - 0)*40/82, (1.05083392e-01 - 9.90060537e-02)*40/82, (7.43612821e-01 - 1.05083392e-01)*40/82, 7.43612821e-01, ...]
+Make sure that this adjustment of weights is accounted for when calculating the projected ATOI (weighted average).
+
+Also, if proj_year = 2024 and there is no df for that season, then copy the 2023 df, keep all names, set stats to 0.
+This is like if the season hasn't started yet.
+'''
 
 player_stat_df = pd.DataFrame()
 player_stat_df = project_atoi(projection_year, player_stat_df, atoi_model_data, True, False)
 print(player_stat_df)
 
 print(f"Runtime: {time.time()-start_time:.3f} seconds")
+
+## Should also make a new file for the scraper functions (historical stats and bio aggregator; first 2 functions)
