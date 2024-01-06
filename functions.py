@@ -92,6 +92,9 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
 def aggregate_training_data():
     file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
+    for file in files:
+        if file[-15:] != 'skater_data.csv':
+            files.remove(file)
     combinations = [files[i:i+4] for i in range(len(files)-3)]
 
     combined_data = pd.DataFrame()
@@ -140,6 +143,7 @@ def train_atoi_model(retrain_model, verbose):
     if retrain_model == True:
 
         atoi_train_data = aggregate_training_data()
+        print(atoi_train_data)
 
         # Split the data into training and testing sets
         train_data, test_data = train_test_split(atoi_train_data, test_size=0.5, random_state=42)
@@ -200,7 +204,8 @@ def train_atoi_model(retrain_model, verbose):
             print(f'{filename} does not exist in the following directory: {file_path}')
             return None
         
-def project_atoi(projection_year, player_stat_df, atoi_model_data, verbose):
+### Needs to be edited to include current season
+def project_atoi(projection_year, player_stat_df, atoi_model_data, download_file, verbose):
 
     combined_df = pd.DataFrame()
 
@@ -253,17 +258,20 @@ def project_atoi(projection_year, player_stat_df, atoi_model_data, verbose):
 
     combined_df = combined_df[['Player', 'Position', 'Y-0 Age', 'Proj. ATOI']]
     combined_df = combined_df.rename(columns={'Y-0 Age': 'Age', 'Proj. ATOI': 'ATOI'})
-    combined_df['Age'] = combined_df['Age'].astype(int)
+    combined_df['Age'] = (combined_df['Age'] - 1).astype(int)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
     else:
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['Player', 'Position', 'Age'], how='left')
 
-    export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
-    if not os.path.exists(export_path):
-        os.makedirs(export_path)
-    player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+    if download_file:
+        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
 
     return player_stat_df
 
@@ -281,7 +289,7 @@ aggregate_player_bios(False, True, False)
 atoi_model_data = train_atoi_model(False, False)
 
 player_stat_df = pd.DataFrame()
-player_stat_df = project_atoi(projection_year, player_stat_df, atoi_model_data, False)
+player_stat_df = project_atoi(projection_year, player_stat_df, atoi_model_data, True, False)
 print(player_stat_df)
 
 print(f"Runtime: {time.time()-start_time:.3f} seconds")
