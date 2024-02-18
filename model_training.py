@@ -204,7 +204,7 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
         # Define the feature columns
         goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'Position']
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
 
         # Separate the features and the target
         X = goal_train_data[feature_cols]
@@ -215,7 +215,7 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
         # Define the model
         model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(17, input_dim=17, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(20, input_dim=20, kernel_initializer='normal', activation='relu'))
         model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
         model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
         model.compile(loss='mean_squared_error', optimizer='adam')
@@ -235,4 +235,48 @@ def train_a1_model(projection_year, retrain_model, verbose):
     
     else:
         model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'), compile=False)
+        return model
+    
+def train_a2_model(projection_year, retrain_model, verbose):
+
+    if retrain_model == True:
+
+        goal_train_data = aggregate_training_data(projection_year)
+        
+        if verbose:
+            print(goal_train_data)
+
+        # Define the feature columns
+        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+
+        # Separate the features and the target
+        X = goal_train_data[feature_cols]
+        y = goal_train_data['Y-0 A2per1kChunk']
+
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # Define the model
+        model = tf.keras.models.Sequential()
+        model.add(tf.keras.layers.Dense(20, input_dim=20, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
+        model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
+        model.compile(loss='mean_squared_error', optimizer='adam')
+
+        # Train the model
+        model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=verbose)
+
+        # Evaluate the model
+        mse = model.evaluate(X_test, y_test, verbose=0)
+        if verbose:
+            print("MSE: %.2f" % mse)
+
+        # Save the model
+        model.save(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'))
+
+        return model
+    
+    else:
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'), compile=False)
         return model
