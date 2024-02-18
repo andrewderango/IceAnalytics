@@ -10,7 +10,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split
 
-def aggregate_training_data(projection_year):
+def aggregate_skater_training_data(projection_year):
     file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
     for file in files:
@@ -78,6 +78,65 @@ def aggregate_training_data(projection_year):
 
     return combined_data
 
+def aggregate_team_training_data(projection_year):
+    file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data')
+    files = sorted(os.listdir(file_path))
+    for file in files:
+        if file[-13:] != 'team_data.csv':
+            files.remove(file) # Remove files like .DS_Store or other unexpected files
+
+    combinations = [files[i:i+4] for i in range(len(files)-3)]
+    combined_data = pd.DataFrame()
+
+    for file_list in combinations:
+        combined_df = None
+        for index, file in enumerate(file_list):
+            df = pd.read_csv(os.path.join(file_path, file), usecols=['Team', 'GP', 'TOI', 'Point %', 'CA', 'FA', 'SA', 'GA', 'xGA', 'SCA', 'HDCA', 'HDGA', 'HDSV%', 'SV%'])
+            df['CA/GP'] = df['CA']/df['GP']
+            df['FA/GP'] = df['FA']/df['GP']
+            df['SA/GP'] = df['SA']/df['GP']
+            df['GA/GP'] = df['GA']/df['GP']
+            df['xGA/GP'] = df['xGA']/df['GP']
+            df['SCA/GP'] = df['SCA']/df['GP']
+            df['HDCA/GP'] = df['HDCA']/df['GP']
+            df['HDGA/GP'] = df['HDGA']/df['GP']
+            df = df.drop(columns=['TOI', 'CA', 'FA', 'SA', 'GA', 'xGA', 'SCA', 'HDCA', 'HDGA'])
+            df = df.rename(columns={
+                'GP': f'Y-{3-index} GP',
+                'Point %': f'Y-{3-index} P%',
+                'CA/GP': f'Y-{3-index} CA/GP',
+                'FA/GP': f'Y-{3-index} FA/GP',
+                'SA/GP': f'Y-{3-index} SHA/GP',
+                'GA/GP': f'Y-{3-index} GA/GP',
+                'xGA/GP': f'Y-{3-index} xGA/GP',
+                'SCA/GP': f'Y-{3-index} SCA/GP',
+                'HDCA/GP': f'Y-{3-index} HDCA/GP',
+                'HDGA/GP': f'Y-{3-index} HDGA/GP',
+                'HDSV%': f'Y-{3-index} HDSV%',
+                'SV%': f'Y-{3-index} SV%'
+            })
+            if combined_df is None:
+                combined_df = df
+            else:
+                combined_df = pd.merge(combined_df, df, on='Team', how='outer')
+
+        last_file = file_list[-1]
+        year = int(last_file.split('_')[0].split('-')[1])
+        combined_df['Y-0'] = year
+
+        combined_data = pd.concat([combined_data, combined_df], ignore_index=True)
+
+    # Data cleaning
+    combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 30) & (combined_data['Y-2 GP'] >= 30) & (combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
+    combined_data = combined_data[combined_data['Y-0'] != projection_year]
+    # combined_data.sort_values(by='Y-0 ATOI', ascending=False, inplace=True)
+    combined_data.sort_values(by=['Team', 'Y-0'], ascending=[True, False], inplace=True)
+    combined_data = combined_data.reset_index(drop=True)
+    # print(combined_data.to_string())
+    # print(combined_data)
+
+    return combined_data
+
 def train_atoi_model(projection_year, retrain_model, verbose):
 
     filename = 'atoi_model.csv'
@@ -85,7 +144,7 @@ def train_atoi_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        atoi_train_data = aggregate_training_data(projection_year)
+        atoi_train_data = aggregate_skater_training_data(projection_year)
         
         if verbose:
             print(atoi_train_data)
@@ -152,7 +211,7 @@ def train_goal_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_training_data(projection_year)
+        goal_train_data = aggregate_skater_training_data(projection_year)
         
         if verbose:
             print(goal_train_data)
@@ -197,7 +256,7 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_training_data(projection_year)
+        goal_train_data = aggregate_skater_training_data(projection_year)
         
         if verbose:
             print(goal_train_data)
@@ -241,7 +300,7 @@ def train_a2_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_training_data(projection_year)
+        goal_train_data = aggregate_skater_training_data(projection_year)
         
         if verbose:
             print(goal_train_data)
@@ -279,4 +338,45 @@ def train_a2_model(projection_year, retrain_model, verbose):
     
     else:
         model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'), compile=False)
+        return model
+    
+def train_ga_model(projection_year, retrain_model, verbose):
+
+    if retrain_model == True:
+
+        ga_train_data = aggregate_team_training_data(projection_year)
+        
+        if verbose:
+            print(ga_train_data)
+
+        # Define the feature columns
+        feature_cols = ['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']
+
+        # Separate the features and the target
+        X = ga_train_data[feature_cols]
+        y = ga_train_data['Y-0 GA/GP']
+
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # Define the model
+        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.1,
+                        max_depth = 5, n_estimators = 100)
+
+        # Train the model
+        model.fit(X_train, y_train, verbose=verbose)
+
+        # Evaluate the model
+        predictions = model.predict(X_test)
+        mse = mean_squared_error(y_test, predictions)
+        if verbose:
+            print("MSE: %.2f" % mse)
+
+        # Save the model
+        model.save_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
+
+        return model
+    
+    else:
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.keras'), compile=False)
         return model

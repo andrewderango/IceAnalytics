@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 # Function to scrape raw historical data from Natural Stat Trick
-def scrape_historical_data(start_year, end_year, skaters, bios, check_preexistence, verbose):
+def scrape_historical_player_data(start_year, end_year, skaters, bios, check_preexistence, verbose):
     for year in range(start_year, end_year+1):
         if skaters == True and bios == False:
             filename = f'{year-1}-{year}_skater_data.csv'
@@ -31,6 +31,34 @@ def scrape_historical_data(start_year, end_year, skaters, bios, check_preexisten
             url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
         elif skaters == False and bios == True:
             url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+        
+        df = pd.read_html(url)[0]
+        df = df.iloc[:, 1:]
+        if verbose == True:
+            print(df)
+
+        export_path = os.path.dirname(file_path)
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        df.to_csv(os.path.join(export_path, filename))
+        if verbose:
+            print(f'{filename} has been downloaded to the following directory: {export_path}')
+
+    return None
+
+# Function to scrape raw historical data from Natural Stat Trick
+def scrape_historical_team_data(start_year, end_year, check_preexistence, verbose):
+    for year in range(start_year, end_year+1):
+        filename = f'{year-1}-{year}_team_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', filename)
+
+        if check_preexistence == True:
+            if os.path.exists(file_path):
+                if verbose:
+                    print(f'{filename} already exists in the following directory: {file_path}')
+                continue
+
+        url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
         
         df = pd.read_html(url)[0]
         df = df.iloc[:, 1:]

@@ -375,28 +375,125 @@ def a2_model_inference(projection_year, player_stat_df, goal_model, download_fil
 
     return player_stat_df
 
+def ga_model_inference(projection_year, team_stat_df, goal_model, download_file, verbose):
+
+    combined_df = pd.DataFrame()
+    season_started = True
+
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_team_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['Team', 'GP', 'TOI', 'Point %', 'CA', 'FA', 'SA', 'GA', 'xGA', 'SCA', 'HDCA', 'HDGA', 'HDSV%', 'SV%']]
+            df['CA/GP'] = df['CA']/df['GP']
+            df['FA/GP'] = df['FA']/df['GP']
+            df['SA/GP'] = df['SA']/df['GP']
+            df['GA/GP'] = df['GA']/df['GP']
+            df['xGA/GP'] = df['xGA']/df['GP']
+            df['SCA/GP'] = df['SCA']/df['GP']
+            df['HDCA/GP'] = df['HDCA']/df['GP']
+            df['HDGA/GP'] = df['HDGA']/df['GP']
+            df = df.drop(columns=['TOI', 'CA', 'FA', 'SA', 'GA', 'xGA', 'SCA', 'HDCA', 'HDGA'])
+            df = df.rename(columns={
+                'GP': f'Y-{projection_year-year} GP',
+                'Point %': f'Y-{projection_year-year} P%',
+                'CA/GP': f'Y-{projection_year-year} CA/GP',
+                'FA/GP': f'Y-{projection_year-year} FA/GP',
+                'SA/GP': f'Y-{projection_year-year} SHA/GP',
+                'GA/GP': f'Y-{projection_year-year} GA/GP',
+                'xGA/GP': f'Y-{projection_year-year} xGA/GP',
+                'SCA/GP': f'Y-{projection_year-year} SCA/GP',
+                'HDCA/GP': f'Y-{projection_year-year} HDCA/GP',
+                'HDGA/GP': f'Y-{projection_year-year} HDGA/GP',
+                'HDSV%': f'Y-{projection_year-year} HDSV%',
+                'SV%': f'Y-{projection_year-year} SV%'
+            })
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', f'{year-2}-{year-1}_team_data.csv')) # copy last season df
+            df = df[['Player']]
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} P%'] = 0
+            df[f'Y-{projection_year-year} CA/GP'] = 0
+            df[f'Y-{projection_year-year} FA/GP'] = 0
+            df[f'Y-{projection_year-year} SHA/GP'] = 0
+            df[f'Y-{projection_year-year} GA/GP'] = 0
+            df[f'Y-{projection_year-year} xGA/GP'] = 0
+            df[f'Y-{projection_year-year} SCA/GP'] = 0
+            df[f'Y-{projection_year-year} HDCA/GP'] = 0
+            df[f'Y-{projection_year-year} HDGA/GP'] = 0
+            df[f'Y-{projection_year-year} HDSV%'] = 0
+            df[f'Y-{projection_year-year} SV%'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on='Team', how='outer')
+
+    predictions = goal_model.predict(combined_df[['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
+    predictions = predictions.reshape(-1)
+    combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/GP'] + (82-combined_df['Y-0 GP'])/82*predictions
+
+    combined_df = combined_df[['Team', 'Proj. GA/GP']]
+    combined_df.sort_values(by='Proj. GA/GP', ascending=False, inplace=True)
+    combined_df = combined_df.reset_index(drop=True)
+
+    if verbose:
+        print()
+        print(combined_df)
+
+    combined_df = combined_df.rename(columns={'Proj. GA/GP': 'GA/GP'})
+
+    if team_stat_df is None or team_stat_df.empty:
+        team_stat_df = combined_df
+    else:
+        team_stat_df = pd.merge(team_stat_df, combined_df, on='Player', how='left')
+
+    if download_file:
+        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_team_projections.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_team_projections.csv has been downloaded to the following directory: {export_path}')
+
+    return team_stat_df
+
 start_time = time.time()
 
 projection_year = 2024
-scrape_historical_data(2008, 2024, True, False, True, False)
-scrape_historical_data(2008, 2024, False, False, True, False)
-scrape_historical_data(2008, 2024, True, True, True, False)
-scrape_historical_data(2008, 2024, False, True, True, False)
+scrape_historical_player_data(2008, 2024, True, False, True, False)
+scrape_historical_player_data(2008, 2024, False, False, True, False)
+scrape_historical_player_data(2008, 2024, True, True, True, False)
+scrape_historical_player_data(2008, 2024, False, True, True, False)
+scrape_historical_team_data(2008, 2024, True, False)
 aggregate_player_bios(True, True, False)
 aggregate_player_bios(False, True, False)
 atoi_model_data = train_atoi_model(projection_year, False, False)
 goal_model = train_goal_model(projection_year, False, False)
 a1_model = train_a1_model(projection_year, False, False)
 a2_model = train_a2_model(projection_year, False, False)
+ga_model = train_ga_model(projection_year, True, True)
 
 player_stat_df = pd.DataFrame()
 player_stat_df = atoi_model_inference(projection_year, player_stat_df, atoi_model_data, True, False)
 player_stat_df = goal_model_inference(projection_year, player_stat_df, goal_model, True, False)
 player_stat_df = a1_model_inference(projection_year, player_stat_df, a1_model, True, False)
 player_stat_df = a2_model_inference(projection_year, player_stat_df, a2_model, True, False)
-
 player_stat_df = player_stat_df.sort_values(by='A2per1kChunk', ascending=False)
 print(player_stat_df)
+
+team_stat_df = pd.DataFrame()
+team_stat_df = ga_model_inference(projection_year, team_stat_df, ga_model, True, False)
+team_stat_df = team_stat_df.sort_values(by='GA/GP', ascending=False)
+print(team_stat_df)
 
 # player_stat_df['Gper1kChunk'] = player_stat_df['Gper1kChunk']/1000*2*player_stat_df['ATOI']*82
 # player_stat_df['A1per1kChunk'] = player_stat_df['A1per1kChunk']/1000*2*player_stat_df['ATOI']*82
