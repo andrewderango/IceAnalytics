@@ -2,101 +2,20 @@ import os
 import time
 import numpy as np
 import pandas as pd
+from scraper_functions import *
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-
-def scrape_historical_data(start_year, end_year, skaters, bios, verbose):
-    for year in range(start_year, end_year+1):
-        if skaters == True and bios == False:
-            filename = f'{year-1}-{year}_skater_data.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
-        elif skaters == False and bios == False:
-            filename = f'{year-1}-{year}_goalie_data.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Goaltending Data', filename)
-        elif skaters == True and bios == True:
-            filename = f'{year-1}-{year}_skater_bios.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', filename)
-        elif skaters == False and bios == True:
-            filename = f'{year-1}-{year}_goalie_bios.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Goaltenders', 'Historical Goaltender Bios', filename)
-
-        if os.path.exists(file_path):
-            if verbose:
-                print(f'{filename} already exists in the following directory: {file_path}')
-            continue
-
-        if skaters == True and bios == False:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        elif skaters == False and bios == False:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        elif skaters == True and bios == True:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        elif skaters == False and bios == True:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        
-        df = pd.read_html(url)[0]
-        df = df.iloc[:, 1:]
-        if verbose == True:
-            print(df)
-
-        export_path = os.path.dirname(file_path)
-        if not os.path.exists(export_path):
-            os.makedirs(export_path)
-        df.to_csv(os.path.join(export_path, filename))
-        if verbose:
-            print(f'{filename} has been downloaded to the following directory: {export_path}')
-
-    return None
-
-def aggregate_player_bios(skaters, check_preexistence, verbose):
-    if skaters == True:
-        filename = f'skater_bios.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', filename)
-    else:
-        filename = f'goalie_bios.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Goaltenders', filename)
-    
-    if check_preexistence == True:
-        if os.path.exists(file_path):
-            if verbose:
-                print(f'{filename} already exists in the following directory: {file_path}')
-            return
-
-    if skaters == True:
-        files = sorted(os.listdir(os.path.join(os.path.dirname(file_path), 'Historical Skater Bios')))
-    else:
-        files = sorted(os.listdir(os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios')))
-    dataframes = []
-    for file in files:
-        if skaters == True:
-            df = pd.read_csv(os.path.join(os.path.dirname(file_path), 'Historical Skater Bios', file), index_col=0)
-        else:
-            df = pd.read_csv(os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios', file), index_col=0)
-        dataframes.append(df)
-
-    combined_df = pd.concat(dataframes, ignore_index=False)
-    combined_df.drop_duplicates(subset='Player', keep='first', inplace=True)
-    combined_df = combined_df.reset_index(drop=True)
-
-    export_path = os.path.dirname(file_path)
-    if not os.path.exists(export_path):
-        os.makedirs(export_path)
-    combined_df.to_csv(os.path.join(export_path, filename), index=True)
-    if verbose:
-        print(f'{filename} has been downloaded to the following directory: {export_path}')
-
-    return combined_df
 
 def aggregate_training_data():
     file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
     for file in files:
         if file[-15:] != 'skater_data.csv':
-            files.remove(file)
-    combinations = [files[i:i+4] for i in range(len(files)-3)]
+            files.remove(file) # Remove files like .DS_Store or other unexpected files
 
+    combinations = [files[i:i+4] for i in range(len(files)-3)]
     combined_data = pd.DataFrame()
 
     for file_list in combinations:
@@ -204,24 +123,33 @@ def train_atoi_model(retrain_model, verbose):
             print(f'{filename} does not exist in the following directory: {file_path}')
             return None
         
-### Needs to be edited to include current season
 def project_atoi(projection_year, player_stat_df, atoi_model_data, download_file, verbose):
 
     combined_df = pd.DataFrame()
+    season_started = True
 
-    for year in range(projection_year-3, projection_year):
+    for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
         file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
-            print(f'{filename} does not exist in the following directory: {file_path}')
-            return
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
     
         # print the stat df
-        df = pd.read_csv(file_path)
-        df = df[['Player', 'GP', 'TOI']]
-        df['ATOI'] = df['TOI']/df['GP']
-        df = df.drop(columns=['TOI'])
-        df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP'})
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['Player', 'GP', 'TOI']]
+            df['ATOI'] = df['TOI']/df['GP']
+            df = df.drop(columns=['TOI'])
+            df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP'})
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['Player']]
+            df[f'Y-{projection_year-year} ATOI'] = 0
+            df[f'Y-{projection_year-year} GP'] = 0
 
         if combined_df is None or combined_df.empty:
             combined_df = df
@@ -238,17 +166,24 @@ def project_atoi(projection_year, player_stat_df, atoi_model_data, download_file
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
 
-    # combined_df['Proj. ATOI'] = atoi_model_data[0]*combined_df['Y-3 ATOI'] + atoi_model_data[1]*combined_df['Y-2 ATOI'] + atoi_model_data[2]*combined_df['Y-1 ATOI'] + atoi_model_data[3]*combined_df['Y-0 Age'] + atoi_model_data[4]*combined_df['Y-0 Age']*combined_df['Y-0 Age'] + atoi_model_data[5]*combined_df['Y-0 Age']*combined_df['Y-0 Age']*combined_df['Y-0 Age'] + atoi_model_data[6]
-    # combined_df['Weighted'] = (combined_df['Y-3 ATOI']*combined_df['Y-3 GP'] + combined_df['Y-2 ATOI']*combined_df['Y-2 GP'] + combined_df['Y-1 ATOI']*combined_df['Y-1 GP'])/(combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP'])
+    # Edit atoi_model_data to phase in the current season (Y-0) based on its progression into the season
+    max_gp = combined_df['Y-0 GP'].max()
+    atoi_model_data = np.insert(atoi_model_data, 3, atoi_model_data[2])
+    atoi_model_data[0] = (0 - atoi_model_data[0])*max_gp/82 + atoi_model_data[0]
+    atoi_model_data[1] = (atoi_model_data[0] - atoi_model_data[1])*max_gp/82 + atoi_model_data[1]
+    atoi_model_data[2] = (atoi_model_data[1] - atoi_model_data[2])*max_gp/82 + atoi_model_data[2]
 
+    # Calculate projected ATOI using weighted averages and bias
     combined_df['Y-3 Score'] = combined_df['Y-3 ATOI']*combined_df['Y-3 GP']*atoi_model_data[0]
     combined_df['Y-2 Score'] = combined_df['Y-2 ATOI']*combined_df['Y-2 GP']*atoi_model_data[1]
     combined_df['Y-1 Score'] = combined_df['Y-1 ATOI']*combined_df['Y-1 GP']*atoi_model_data[2]
-    combined_df['Age Score'] = combined_df['Y-0 Age']*atoi_model_data[3] + combined_df['Y-0 Age']*combined_df['Y-0 Age']*atoi_model_data[4] + combined_df['Y-0 Age']*combined_df['Y-0 Age']*combined_df['Y-0 Age']*atoi_model_data[5] + atoi_model_data[6]
-    combined_df['Weight'] = combined_df['Y-3 GP']*atoi_model_data[0] + combined_df['Y-2 GP']*atoi_model_data[1] + combined_df['Y-1 GP']*atoi_model_data[2]
-    combined_df['Score'] = combined_df['Y-3 Score'] + combined_df['Y-2 Score'] + combined_df['Y-1 Score'] + combined_df['Age Score']
+    combined_df['Y-0 Score'] = combined_df['Y-0 ATOI']*combined_df['Y-0 GP']*atoi_model_data[3]
+    combined_df['Age Score'] = combined_df['Y-0 Age']*atoi_model_data[4] + combined_df['Y-0 Age']*combined_df['Y-0 Age']*atoi_model_data[5] + combined_df['Y-0 Age']*combined_df['Y-0 Age']*combined_df['Y-0 Age']*atoi_model_data[6] + atoi_model_data[7]
+    combined_df['Weight'] = combined_df['Y-3 GP']*atoi_model_data[0] + combined_df['Y-2 GP']*atoi_model_data[1] + combined_df['Y-1 GP']*atoi_model_data[2] + combined_df['Y-0 GP']*atoi_model_data[3]
+    combined_df['Score'] = combined_df['Y-3 Score'] + combined_df['Y-2 Score'] + combined_df['Y-1 Score'] + combined_df['Y-0 Score'] + combined_df['Age Score']
     combined_df['Proj. ATOI'] = combined_df['Score']/combined_df['Weight']
-    combined_df = combined_df.drop(columns=['Y-3 Score', 'Y-2 Score', 'Y-1 Score', 'Age Score', 'Weight', 'Score'])
+
+    combined_df = combined_df.drop(columns=['Y-3 Score', 'Y-2 Score', 'Y-1 Score', 'Y-0 Score', 'Age Score', 'Weight', 'Score'])
     combined_df.sort_values(by='Proj. ATOI', ascending=False, inplace=True)
     combined_df = combined_df.reset_index(drop=True)
 
@@ -279,32 +214,16 @@ def project_atoi(projection_year, player_stat_df, atoi_model_data, download_file
 start_time = time.time()
 
 projection_year = 2024
-scrape_historical_data(2008, 2023, True, False, False)
-scrape_historical_data(2008, 2023, False, False, False)
-scrape_historical_data(2008, 2023, True, True, False)
-scrape_historical_data(2008, 2023, False, True, False)
+scrape_historical_data(2008, 2024, True, False, True, False)
+scrape_historical_data(2008, 2024, False, False, True, False)
+scrape_historical_data(2008, 2024, True, True, True, False)
+scrape_historical_data(2008, 2024, False, True, True, False)
 aggregate_player_bios(True, True, False)
 aggregate_player_bios(False, True, False)
-
 atoi_model_data = train_atoi_model(False, False)
-print(atoi_model_data) 
-'''
-Need to accomodate for same season data. 
-Phase each year of data to the previous year's weight based on gameNumber/82, which determines the progress of the season.
-For ex: For ATOI model gives [ 9.90060537e-02  1.05083392e-01  7.43612821e-01  -1.32400542e-01  2.21274207e-04  -1.24648414e-06  4.51331597e+00]
-Start of season (0th game): [9.90060537e-02, 1.05083392e-01, 7.43612821e-01, 7.43612821e-01, ...]
-40th game of season: [(0 - 9.90060537e-02)*40/82 + 9.90060537e-02 || (9.90060537e-02 - 1.05083392e-01)*40/82 + 1.05083392e-01 || (1.05083392e-01 - 7.43612821e-01)*0/82 + 7.43612821e-01 || 7.43612821e-01, ...]
-Use max GP for all players to determine season progress.
-Make sure that this adjustment of weights is accounted for when calculating the projected ATOI (weighted average).
-
-Also, if proj_year = 2024 and there is no df for that season, then copy the 2023 df, keep all names, set stats to 0.
-This is like if the season hasn't started yet.
-'''
 
 player_stat_df = pd.DataFrame()
 player_stat_df = project_atoi(projection_year, player_stat_df, atoi_model_data, True, False)
 print(player_stat_df)
 
 print(f"Runtime: {time.time()-start_time:.3f} seconds")
-
-## Should also make a new file for the scraper functions (historical stats and bio aggregator; first 2 functions)
