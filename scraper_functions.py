@@ -65,6 +65,10 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
         files = sorted(os.listdir(os.path.join(os.path.dirname(file_path), 'Historical Skater Bios')))
     else:
         files = sorted(os.listdir(os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios')))
+    for file in files:
+        if file[-4:] != '.csv':
+            files.remove(file)
+
     dataframes = []
     for file in files:
         if skaters == True:
@@ -74,7 +78,8 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
         dataframes.append(df)
 
     combined_df = pd.concat(dataframes, ignore_index=False)
-    combined_df.drop_duplicates(subset='Player', keep='first', inplace=True)
+    combined_df.drop_duplicates(subset='Player', keep='last', inplace=True)
+    combined_df = combined_df[combined_df['Date of Birth'] != '-']
     combined_df = combined_df.reset_index(drop=True)
 
     export_path = os.path.dirname(file_path)
