@@ -24,14 +24,18 @@ def aggregate_training_data(projection_year):
     for file_list in combinations:
         combined_df = None
         for index, file in enumerate(file_list):
-            df = pd.read_csv(os.path.join(file_path, file), usecols=['Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts'])
+            df = pd.read_csv(os.path.join(file_path, file), usecols=['Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
             df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
             df['SHper1kChunk'] = df['Shots']/df['TOI']/2 * 1000
             df['iCFper1kChunk'] = df['iCF']/df['TOI']/2 * 1000
             df['RAper1kChunk'] = df['Rush Attempts']/df['TOI']/2 * 1000
-            df = df.drop(columns=['TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts'])
+            df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
+            df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
+            df['RCper1kChunk'] = df['Rebounds Created']/df['TOI']/2 * 1000
+            df['TAper1kChunk'] = df['Takeaways']/df['TOI']/2 * 1000
+            df = df.drop(columns=['TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df = df.rename(columns={
                 'ATOI': f'Y-{3-index} ATOI', 
                 'GP': f'Y-{3-index} GP', 
@@ -39,7 +43,11 @@ def aggregate_training_data(projection_year):
                 'xGper1kChunk': f'Y-{3-index} xGper1kChunk',
                 'SHper1kChunk': f'Y-{3-index} SHper1kChunk',
                 'iCFper1kChunk': f'Y-{3-index} iCFper1kChunk',
-                'RAper1kChunk': f'Y-{3-index} RAper1kChunk'
+                'RAper1kChunk': f'Y-{3-index} RAper1kChunk',
+                'A1per1kChunk': f'Y-{3-index} A1per1kChunk',
+                'A2per1kChunk': f'Y-{3-index} A2per1kChunk',
+                'RCper1kChunk': f'Y-{3-index} RCper1kChunk',
+                'TAper1kChunk': f'Y-{3-index} TAper1kChunk'
             })
             if combined_df is None:
                 combined_df = df
@@ -184,4 +192,47 @@ def train_goal_model(projection_year, retrain_model, verbose):
         # model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
         model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goal_model.keras'), compile=False)
         return model
+    
+def train_a1_model(projection_year, retrain_model, verbose):
+
+    if retrain_model == True:
+
+        goal_train_data = aggregate_training_data(projection_year)
         
+        if verbose:
+            print(goal_train_data)
+
+        # Define the feature columns
+        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'Position']
+
+        # Separate the features and the target
+        X = goal_train_data[feature_cols]
+        y = goal_train_data['Y-0 A1per1kChunk']
+
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # Define the model
+        model = tf.keras.models.Sequential()
+        model.add(tf.keras.layers.Dense(17, input_dim=17, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
+        model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
+        model.compile(loss='mean_squared_error', optimizer='adam')
+
+        # Train the model
+        model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=verbose)
+
+        # Evaluate the model
+        mse = model.evaluate(X_test, y_test, verbose=0)
+        if verbose:
+            print("MSE: %.2f" % mse)
+
+        # Save the model
+        model.save(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'))
+
+        return model
+    
+    else:
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'), compile=False)
+        return model

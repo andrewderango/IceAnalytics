@@ -43,7 +43,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
             combined_df = pd.merge(combined_df, df, on='Player', how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on='Player', how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -77,14 +77,15 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
         print()
         print(combined_df)
 
-    combined_df = combined_df[['Player', 'Position', 'Y-0 Age', 'Proj. ATOI']]
+    combined_df = combined_df[['Player', 'Position', 'Team', 'Y-0 Age', 'Proj. ATOI']]
     combined_df = combined_df.rename(columns={'Y-0 Age': 'Age', 'Proj. ATOI': 'ATOI'})
     combined_df['Age'] = (combined_df['Age'] - 1).astype(int)
+    player_stat_df = player_stat_df.drop_duplicates(subset='Player', keep='last') ### drop duplicates
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
     else:
-        player_stat_df = pd.merge(player_stat_df, combined_df, on=['Player', 'Position', 'Age'], how='left')
+        player_stat_df = pd.merge(player_stat_df, combined_df, on='Player', how='left')
 
     if download_file:
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
@@ -172,11 +173,105 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
 
     combined_df = combined_df[['Player', 'Proj. Gper1kChunk']]
     combined_df = combined_df.rename(columns={'Proj. Gper1kChunk': 'Gper1kChunk'})
+    player_stat_df = player_stat_df.drop_duplicates(subset='Player', keep='last') ### drop duplicates
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
     else:
-        player_stat_df = pd.merge(player_stat_df, combined_df, on=['Player'], how='left')
+        player_stat_df = pd.merge(player_stat_df, combined_df, on='Player', how='left')
+
+    if download_file:
+        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
+
+    return player_stat_df
+
+def a1_model_inference(projection_year, player_stat_df, goal_model, download_file, verbose):
+
+    combined_df = pd.DataFrame()
+    season_started = True
+
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['Player', 'GP', 'TOI', 'First Assists', 'Second Assists', 'Rush Attempts', 'Rebounds Created', 'Takeaways']]
+            df['ATOI'] = df['TOI']/df['GP']
+            df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
+            df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
+            df['RAper1kChunk'] = df['Rush Attempts']/df['TOI']/2 * 1000
+            df['RCper1kChunk'] = df['Rebounds Created']/df['TOI']/2 * 1000
+            df['TAper1kChunk'] = df['Takeaways']/df['TOI']/2 * 1000
+            df = df.drop(columns=['TOI', 'First Assists', 'Second Assists', 'Rush Attempts', 'Rebounds Created', 'Takeaways'])
+            df = df.rename(columns={
+                'ATOI': f'Y-{projection_year-year} ATOI', 
+                'GP': f'Y-{projection_year-year} GP', 
+                'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk',
+                'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk',
+                'RAper1kChunk': f'Y-{projection_year-year} RAper1kChunk',
+                'RCper1kChunk': f'Y-{projection_year-year} RCper1kChunk',
+                'TAper1kChunk': f'Y-{projection_year-year} TAper1kChunk'
+            })
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['Player']]
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} ATOI'] = 0
+            df[f'Y-{projection_year-year} A1per1kChunk'] = 0
+            df[f'Y-{projection_year-year} A2per1kChunk'] = 0
+            df[f'Y-{projection_year-year} RAper1kChunk'] = 0
+            df[f'Y-{projection_year-year} RCper1kChunk'] = 0
+            df[f'Y-{projection_year-year} TAper1kChunk'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on='Player', how='outer')
+
+    # Calculate projection age
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['Player', 'Date of Birth', 'Position'])
+    combined_df = combined_df.merge(bios_df, on='Player', how='left')
+    combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+    combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
+    combined_df = combined_df.drop(columns=['Date of Birth'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.reset_index(drop=True)
+    combined_df = combined_df.fillna(0)
+    combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
+
+    predictions = goal_model.predict(combined_df[['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'PositionBool']], verbose=verbose)
+    predictions = predictions.reshape(-1)
+    max_gp = combined_df['Y-0 GP'].max()
+    combined_df['Proj. A1per1kChunk'] = max_gp/82*combined_df['Y-0 A1per1kChunk'] + (82-max_gp)/82*predictions
+
+    combined_df = combined_df[['Player', 'Proj. A1per1kChunk', 'Position', 'Y-0 Age']]
+    combined_df.sort_values(by='Proj. A1per1kChunk', ascending=False, inplace=True)
+    combined_df = combined_df.reset_index(drop=True)
+
+    if verbose:
+        print()
+        print(combined_df)
+
+    combined_df = combined_df[['Player', 'Proj. A1per1kChunk']]
+    combined_df = combined_df.rename(columns={'Proj. A1per1kChunk': 'A1per1kChunk'})
+    player_stat_df = player_stat_df.drop_duplicates(subset='Player', keep='last') ### drop duplicates
+
+    if player_stat_df is None or player_stat_df.empty:
+        player_stat_df = combined_df
+    else:
+        player_stat_df = pd.merge(player_stat_df, combined_df, on='Player', how='left')
 
     if download_file:
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
@@ -199,10 +294,16 @@ aggregate_player_bios(True, True, False)
 aggregate_player_bios(False, True, False)
 atoi_model_data = train_atoi_model(projection_year, False, False)
 goal_model = train_goal_model(projection_year, False, False)
+a1_model = train_a1_model(projection_year, False, False)
 
 player_stat_df = pd.DataFrame()
 player_stat_df = atoi_model_inference(projection_year, player_stat_df, atoi_model_data, True, False)
 player_stat_df = goal_model_inference(projection_year, player_stat_df, goal_model, True, False)
+player_stat_df = a1_model_inference(projection_year, player_stat_df, a1_model, True, False)
+
+# player_stat_df = player_stat_df.sort_values(by='A1per1kChunk', ascending=False)
 print(player_stat_df)
 
 print(f"Runtime: {time.time()-start_time:.3f} seconds")
+
+### Need to fix duplicate name issue (Sebastian Aho, etc. Stems from skater_bios.csv)
