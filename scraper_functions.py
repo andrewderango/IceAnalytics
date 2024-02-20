@@ -111,7 +111,6 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
     combined_df = pd.concat(dataframes, ignore_index=False)
     combined_df.sort_values(by=['Date of Birth', 'Last Season'], na_position='first', inplace=True)
     combined_df.drop_duplicates(subset='playerStripped', keep='last', inplace=True)
-    combined_df.drop(columns=['Last Season'], inplace=True)
     combined_df = combined_df[combined_df['Date of Birth'] != '-']
     combined_df = combined_df.reset_index(drop=True)
 

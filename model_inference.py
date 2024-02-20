@@ -1,7 +1,9 @@
 import os
 import time
+import random
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 import tensorflow as tf
 from model_training import *
 from scraper_functions import *
@@ -87,9 +89,9 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
-        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
         if verbose:
-            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
+            print(f'{projection_year}_skater_metaprojections.csv has been downloaded to the following directory: {export_path}')
 
     return player_stat_df
 
@@ -179,9 +181,9 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
-        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
         if verbose:
-            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
+            print(f'{projection_year}_skater_metaprojections.csv has been downloaded to the following directory: {export_path}')
 
     return player_stat_df
 
@@ -272,9 +274,9 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
-        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
         if verbose:
-            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
+            print(f'{projection_year}_skater_metaprojections.csv has been downloaded to the following directory: {export_path}')
 
     return player_stat_df
 
@@ -365,9 +367,9 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
-        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
+        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
         if verbose:
-            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
+            print(f'{projection_year}_skater_metaprojections.csv has been downloaded to the following directory: {export_path}')
 
     return player_stat_df
 
@@ -460,18 +462,153 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
         export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
-        player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_team_projections.csv'), index=True)
+        team_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_team_projections.csv'), index=True)
         if verbose:
             print(f'{projection_year}_team_projections.csv has been downloaded to the following directory: {export_path}')
 
     return team_stat_df
 
-def simulate_season():
-    return
-    # read season schedule
-    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', f'game_schedule.csv'))
-    print(schedule_df)
+def simulate_season(projetion_year, verbose):
+    # load dfs
+    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', f'game_schedule.csv'), index_col=0)
+    metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
+    metaprojection_df['Pper1kChunk'] = metaprojection_df['Gper1kChunk'] + metaprojection_df['A1per1kChunk'] + metaprojection_df['A2per1kChunk']
+    print(metaprojection_df.head(5))
+    teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
 
+    # configure skater monte carlo projection df
+    monte_carlo_skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
+    monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.assign(Games_Played=0, Goals=0, Primary_Assists=0, Secondary_Assists=0)
+    monte_carlo_skater_proj_df.rename(columns={'Games_Played': 'Games Played', 'Primary_Assists': 'Primary Assists', 'Secondary_Assists': 'Secondary Assists'}, inplace=True)
+    
+    # configure team monte carlo projection df
+    monte_carlo_team_proj_df = teams_df[['Team Name', 'Abbreviation']].copy()
+    active_teams = pd.concat([schedule_df['Home Team'], schedule_df['Visiting Team']])
+    monte_carlo_team_proj_df = monte_carlo_team_proj_df[monte_carlo_team_proj_df['Team Name'].isin(active_teams)]
+    monte_carlo_team_proj_df = monte_carlo_team_proj_df.assign(Wins=0, Losses=0, OTL=0, Goals_For=0, Goals_Against=0)
+    monte_carlo_team_proj_df.rename(columns={'Goals_For': 'Goals For', 'Goals_Against': 'Goals Against'}, inplace=True)
+
+    # add team abbreviations to schedule
+    schedule_df = schedule_df.merge(teams_df, left_on='Home Team', right_on='Team Name', how='left')
+    schedule_df = schedule_df.rename(columns={'Abbreviation': 'Home Abbreviation'})
+    schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID'])
+    schedule_df = schedule_df.merge(teams_df, left_on='Visiting Team', right_on='Team Name', how='left')
+    schedule_df = schedule_df.rename(columns={'Abbreviation': 'Visiting Abbreviation'})
+    schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID'])
+
+    # simulate each game
+    for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0]):
+        scoring_frequency = 0.05086743957 # average number of goals scored by both teams combined in 30 seconds of game time
+        a1_probability = 0.9438426454 # probability of a goal having a primary assistor
+        a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor
+        simulate_game(row['Home Abbreviation'], row['Visiting Abbreviation'], metaprojection_df, monte_carlo_skater_proj_df, monte_carlo_team_proj_df, scoring_frequency, a1_probability, a2_probability, verbose)
+
+        if index == 100:
+            monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.sort_values(by=['Goals', 'Primary Assists', 'Secondary Assists'], ascending=False)
+            monte_carlo_team_proj_df = monte_carlo_team_proj_df.sort_values(by=['Goals For', 'Goals Against'], ascending=False)
+            print(monte_carlo_skater_proj_df.head(10))
+            print(monte_carlo_team_proj_df.head(10))
+            print(f"Runtime: {time.time()-start_time:.3f} seconds")
+            quit('EXIT CODE 0')
+
+def simulate_game(home_team, visiting_team, metaprojection_df, monte_carlo_skater_proj_df, monte_carlo_team_proj_df, scoring_frequency, a1_probability, a2_probability, verbose):
+
+    # set initial score to 0-0
+    home_score = 0
+    visitor_score = 0
+
+    # get home and visiting team rosters
+    home_team_roster = metaprojection_df[metaprojection_df['Team'] == home_team]
+    visiting_team_roster = metaprojection_df[metaprojection_df['Team'] == visiting_team]
+
+    # increment games played for each player
+    monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['Team'] == home_team, 'Games Played'] += 1
+    monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['Team'] == visiting_team, 'Games Played'] += 1
+
+    for chunk in range(120):
+        # pick players for the shift (3F + 2D for each team)
+        home_team_offence = home_team_roster[home_team_roster['Position'] != 'D']
+        visiting_team_offence = visiting_team_roster[visiting_team_roster['Position'] != 'D']
+        home_team_defence = home_team_roster[home_team_roster['Position'] == 'D']
+        visiting_team_defence = visiting_team_roster[visiting_team_roster['Position'] == 'D']
+
+        home_team_on_ice_offence = home_team_offence.sample(n=3, weights='ATOI')
+        visiting_team_on_ice_offence = visiting_team_offence.sample(n=3, weights='ATOI')
+        home_team_on_ice_defence = home_team_defence.sample(n=2, weights='ATOI')
+        visiting_team_on_ice_defence = visiting_team_defence.sample(n=2, weights='ATOI')
+
+        home_team_on_ice = pd.concat([home_team_on_ice_offence, home_team_on_ice_defence])
+        visiting_team_on_ice = pd.concat([visiting_team_on_ice_offence, visiting_team_on_ice_defence])
+        
+        if random.uniform(0, 1) < scoring_frequency:
+
+            home_team_point_score = home_team_on_ice['Pper1kChunk'].sum()
+            visiting_team_point_score = visiting_team_on_ice['Pper1kChunk'].sum()
+            home_team_scoring_prob = home_team_point_score/(home_team_point_score + visiting_team_point_score)
+
+            if random.uniform(0, 1) < home_team_scoring_prob:
+                home_score += 1
+                on_ice_for_goal = home_team_on_ice
+                monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Goals For'] += 1
+                monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Goals Against'] += 1
+            else:
+                visitor_score += 1
+                on_ice_for_goal = visiting_team_on_ice
+                monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Goals For'] += 1
+                monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Goals Against'] += 1
+
+            scorer = on_ice_for_goal.sample(n=1, weights='Gper1kChunk')
+            monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['PlayerID'] == scorer['PlayerID'].values[0], 'Goals'] += 1
+
+            if random.uniform(0, 1) < a1_probability:
+                on_ice_for_goal = on_ice_for_goal[on_ice_for_goal['PlayerID'] != scorer['PlayerID'].values[0]] # remove scorer from on ice for goal so that he doesn't get an assist
+                a1 = on_ice_for_goal.sample(n=1, weights='A1per1kChunk')
+                monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['PlayerID'] == a1['PlayerID'].values[0], 'Primary Assists'] += 1
+                if random.uniform(0, 1) < a2_probability:
+                    on_ice_for_goal = on_ice_for_goal[on_ice_for_goal['PlayerID'] != a1['PlayerID'].values[0]] # remove a1 from on ice for goal so that he doesn't get a2
+                    a2 = on_ice_for_goal.sample(n=1, weights='A2per1kChunk')
+                    monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['PlayerID'] == a2['PlayerID'].values[0], 'Secondary Assists'] += 1
+
+    if home_score > visitor_score:
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Wins'] += 1
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Losses'] += 1
+    elif home_score < visitor_score:
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Wins'] += 1
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Losses'] += 1
+    else:
+        # overtime
+        if random.uniform(0, 1) < home_team_scoring_prob:
+            home_score += 1
+            on_ice_for_goal = home_team_on_ice
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Goals For'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Goals Against'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Wins'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'OTL'] += 1
+        else:
+            visitor_score += 1
+            on_ice_for_goal = visiting_team_on_ice
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Goals For'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Goals Against'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'OTL'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Wins'] += 1
+
+        scorer = on_ice_for_goal.sample(n=1, weights='Gper1kChunk')
+        monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['PlayerID'] == scorer['PlayerID'].values[0], 'Goals'] += 1
+
+        if random.uniform(0, 1) < a1_probability:
+            on_ice_for_goal = on_ice_for_goal[on_ice_for_goal['PlayerID'] != scorer['PlayerID'].values[0]] # remove scorer from on ice for goal so that he doesn't get an assist
+            a1 = on_ice_for_goal.sample(n=1, weights='A1per1kChunk')
+            monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['PlayerID'] == a1['PlayerID'].values[0], 'Primary Assists'] += 1
+            if random.uniform(0, 1) < a2_probability:
+                on_ice_for_goal = on_ice_for_goal[on_ice_for_goal['PlayerID'] != a1['PlayerID'].values[0]] # remove a1 from on ice for goal so that he doesn't get a2
+                a2 = on_ice_for_goal.sample(n=1, weights='A2per1kChunk')
+                monte_carlo_skater_proj_df.loc[monte_carlo_skater_proj_df['PlayerID'] == a2['PlayerID'].values[0], 'Secondary Assists'] += 1
+
+    # print(home_team + ' ' + str(home_score) + '-' + str(visitor_score) + ' ' + visiting_team)
+
+### Need to add team defence to simulate_game and simulate_season
+
+global start_time
 start_time = time.time()
 projection_year = 2024
 
@@ -482,7 +619,7 @@ scrape_historical_player_data(2008, 2024, True, True, True, False)
 scrape_historical_player_data(2008, 2024, False, True, True, False)
 scrape_nhlapi_data(2008, 2024, False, True, False)
 scrape_nhlapi_data(2008, 2024, True, True, False)
-aggregate_player_bios(True, False, False)
+aggregate_player_bios(True, True, False)
 aggregate_player_bios(False, True, False)
 
 # Scrape or fetch team data
@@ -493,13 +630,13 @@ scrape_games(projection_year, True, False)
 # Train models
 atoi_model_data = train_atoi_model(projection_year, False, False)
 goal_model = train_goal_model(projection_year, False, False)
-a1_model = train_a1_model(projection_year, True, True)
-a2_model = train_a2_model(projection_year, True, True)
+a1_model = train_a1_model(projection_year, False, False)
+a2_model = train_a2_model(projection_year, False, False)
 ga_model = train_ga_model(projection_year, False, False)
 
 # Make player inferences
 player_stat_df = pd.DataFrame()
-player_stat_df = atoi_model_inference(projection_year, player_stat_df, atoi_model_data, True, True)
+player_stat_df = atoi_model_inference(projection_year, player_stat_df, atoi_model_data, True, False)
 player_stat_df = goal_model_inference(projection_year, player_stat_df, goal_model, True, False)
 player_stat_df = a1_model_inference(projection_year, player_stat_df, a1_model, True, False)
 player_stat_df = a2_model_inference(projection_year, player_stat_df, a2_model, True, False)
@@ -513,8 +650,6 @@ team_stat_df = ga_model_inference(projection_year, team_stat_df, ga_model, True,
 # print(team_stat_df)
 
 # Simulate season
-simulate_season()
+simulate_season(projection_year, True)
 
 print(f"Runtime: {time.time()-start_time:.3f} seconds")
-
-### Need to fix duplicate name issue (Sebastian Aho, etc. Stems from skater_bios.csv)
