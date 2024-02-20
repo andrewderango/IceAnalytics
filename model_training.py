@@ -17,14 +17,14 @@ def aggregate_skater_training_data(projection_year):
         if file[-15:] != 'skater_data.csv':
             files.remove(file) # Remove files like .DS_Store or other unexpected files
 
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combinations = [files[i:i+4] for i in range(len(files)-3)]
     combined_data = pd.DataFrame()
 
     for file_list in combinations:
         combined_df = None
         for index, file in enumerate(file_list):
-            df = pd.read_csv(os.path.join(file_path, file), usecols=['Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
+            df = pd.read_csv(os.path.join(file_path, file), usecols=['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
             df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
@@ -35,7 +35,7 @@ def aggregate_skater_training_data(projection_year):
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df['RCper1kChunk'] = df['Rebounds Created']/df['TOI']/2 * 1000
             df['TAper1kChunk'] = df['Takeaways']/df['TOI']/2 * 1000
-            df = df.drop(columns=['TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
+            df = df.drop(columns=['Player', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df = df.rename(columns={
                 'ATOI': f'Y-{3-index} ATOI', 
                 'GP': f'Y-{3-index} GP', 
@@ -52,10 +52,10 @@ def aggregate_skater_training_data(projection_year):
             if combined_df is None:
                 combined_df = df
             else:
-                combined_df = pd.merge(combined_df, df, on='Player', how='outer')
+                combined_df = pd.merge(combined_df, df, on='PlayerID', how='outer')
 
         last_file = file_list[-1]
-        combined_df = combined_df.merge(bios_df, on='Player', how='left')
+        combined_df = combined_df.merge(bios_df, on='PlayerID', how='left')
         combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'])
 
         # Calculate Y-0 age and season
@@ -376,7 +376,8 @@ def train_ga_model(projection_year, retrain_model, verbose):
         model.save_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
 
         return model
-    
+
     else:
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.keras'), compile=False)
+        model = xgb.Booster()
+        model.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
         return model
