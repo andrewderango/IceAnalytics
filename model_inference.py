@@ -4,9 +4,9 @@ import random
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-import tensorflow as tf
 from model_training import *
 from scraper_functions import *
+from unidecode import unidecode
         
 def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, download_file, verbose):
 
@@ -475,6 +475,7 @@ def simulate_season(projetion_year, verbose):
     metaprojection_df['Aper1kChunk'] = metaprojection_df['A1per1kChunk'] + metaprojection_df['A2per1kChunk']
     metaprojection_df['Pper1kChunk'] = metaprojection_df['Gper1kChunk'] + metaprojection_df['Aper1kChunk']
     teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
+    team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
 
     # configure skater monte carlo projection df
     monte_carlo_skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
@@ -503,10 +504,9 @@ def simulate_season(projetion_year, verbose):
 
     # simulate each game
     for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0]):
-        scoring_frequency = 0.05086743957 # average number of goals scored by both teams combined in 30 seconds of game time
-        a1_probability = 0.9438426454 # probability of a goal having a primary assistor
-        a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor
-        simulate_game(row['Home Abbreviation'], row['Visiting Abbreviation'], metaprojection_df, game_scoring_dict, monte_carlo_team_proj_df, scoring_frequency, a1_probability, a2_probability, verbose)
+        a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
+        a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
+        simulate_game(row['Home Abbreviation'], row['Home Team'], row['Visiting Abbreviation'], row['Visiting Team'], metaprojection_df, game_scoring_dict, monte_carlo_team_proj_df, team_metaproj_df, a1_probability, a2_probability, verbose)
 
     # add game scoring dict stats to monte_carlo_skater_proj_df
     scoring_df = pd.DataFrame.from_dict(game_scoring_dict, orient='index', columns=['Games Played', 'Goals', 'Primary Assists', 'Secondary Assists'])
@@ -526,16 +526,15 @@ def simulate_season(projetion_year, verbose):
     print(monte_carlo_team_proj_df.head(10))
 
 # @profile
-def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict, monte_carlo_team_proj_df, scoring_frequency, a1_probability, a2_probability, verbose):
-    ### make scoring frequency dependent on offence and defence ratings
+def simulate_game(home_team_abbrev, home_team, visiting_team_abbrev, visiting_team, metaprojection_df, game_scoring_dict, monte_carlo_team_proj_df, team_metaproj_df, a1_probability, a2_probability, verbose):
 
     # set initial score to 0-0
     home_score = 0
     visitor_score = 0
 
     # get home and visiting team rosters
-    home_team_roster = metaprojection_df[metaprojection_df['Team'] == home_team]
-    visiting_team_roster = metaprojection_df[metaprojection_df['Team'] == visiting_team]
+    home_team_roster = metaprojection_df[metaprojection_df['Team'] == home_team_abbrev]
+    visiting_team_roster = metaprojection_df[metaprojection_df['Team'] == visiting_team_abbrev]
 
     # Filter and sort the rows where position == 'D'
     home_defense = home_team_roster[home_team_roster['Position'] == 'D'].sort_values('ATOI', ascending=False).head(6)
@@ -559,11 +558,23 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
     home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
     visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000* 5/(1+a1_probability+a2_probability)
 
-    # determine scoring probability for each team
-    ### can be adjusted, may not be a direct proportion to scoring probability.
-    ### also can adjust home ice advantage prob
-    ### need to adjust scoring chunk prob for ice time
-    ### scoring freq should maybe be random.normal
+    ### tentative home ice advantage
+    home_weighted_avg *= 1.05
+    visitor_weighted_avg *= 0.95
+
+    # adjust for team defence
+    if home_team == 'Montréal Canadiens':
+        home_team = 'Montreal Canadiens'
+    elif visiting_team == 'Montréal Canadiens':
+        visiting_team = 'Montreal Canadiens'
+    if home_team == 'St. Louis Blues':
+        home_team = 'St Louis Blues'
+    elif visiting_team == 'St. Louis Blues':
+        visiting_team = 'St Louis Blues'
+    home_weighted_avg *= 1 + (team_metaproj_df[team_metaproj_df['Team'] == visiting_team]['GA/GP'].values[0] - team_metaproj_df['GA/GP'].mean())/team_metaproj_df['GA/GP'].mean()
+    visitor_weighted_avg *= 1 + (team_metaproj_df[team_metaproj_df['Team'] == home_team]['GA/GP'].values[0] - team_metaproj_df['GA/GP'].mean())/team_metaproj_df['GA/GP'].mean()
+
+    ### Different projected ATOI??
 
     # determining scorers and assisters
     home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
@@ -580,7 +591,7 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
                 scorer_id = home_scorer_ids[home_score]
                 a1_id = home_a1_ids[home_score]
                 a2_id = home_a2_ids[home_score]
-            except IndexError:
+            except IndexError: # score more than 10 goals
                 scorer_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
                 a1_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['A1per1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
                 a2_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['A2per1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
@@ -590,7 +601,7 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
                 scorer_id = visitor_scorer_ids[visitor_score]
                 a1_id = visitor_a1_ids[visitor_score]
                 a2_id = visitor_a2_ids[visitor_score]
-            except IndexError:
+            except IndexError: # score more than 10 goals
                 scorer_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
                 a1_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['A1per1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
                 a2_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['A2per1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
@@ -608,29 +619,29 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
                 game_scoring_dict[a2_id][3] += 1
 
     if home_score > visitor_score:
-        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Wins'] += 1
-        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Losses'] += 1
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team_abbrev, 'Wins'] += 1
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team_abbrev, 'Losses'] += 1
     elif home_score < visitor_score:
-        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Wins'] += 1
-        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Losses'] += 1
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team_abbrev, 'Wins'] += 1
+        monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team_abbrev, 'Losses'] += 1
     else:
         # overtime
         rng = random.uniform(0, 1)
         home_weighted_avg_ot = home_weighted_avg/(home_weighted_avg + visitor_weighted_avg)
-        if rng < home_weighted_avg: # home goal
+        if rng < home_weighted_avg_ot: # home goal
             scorer_id = home_scorer_ids[home_score]
             a1_id = home_a1_ids[home_score]
             a2_id = home_a2_ids[home_score]
             home_score += 1
-            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Wins'] += 1
-            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'OTL'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team_abbrev, 'Wins'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team_abbrev, 'OTL'] += 1
         else: # visitor goal
             scorer_id = visitor_scorer_ids[visitor_score]
             a1_id = visitor_a1_ids[visitor_score]
             a2_id = visitor_a2_ids[visitor_score]
             visitor_score += 1
-            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Wins'] += 1
-            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'OTL'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team_abbrev, 'Wins'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team_abbrev, 'OTL'] += 1
 
         game_scoring_dict[scorer_id][1] += 1
 
@@ -642,18 +653,15 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
                 game_scoring_dict[a2_id][3] += 1
 
     # add gf and ga to team monte carlo df
-    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Goals For'] += home_score
-    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Goals Against'] += visitor_score
-    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Goals For'] += visitor_score
-    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Goals Against'] += home_score
+    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team_abbrev, 'Goals For'] += home_score
+    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team_abbrev, 'Goals Against'] += visitor_score
+    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team_abbrev, 'Goals For'] += visitor_score
+    monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team_abbrev, 'Goals Against'] += home_score
 
     return game_scoring_dict
                     
     # print(home_team + ' ' + str(home_score) + '-' + str(visitor_score) + ' ' + visiting_team)
 
-### Need to add team defence to simulate_game and simulate_season
-
-global start_time
 start_time = time.time()
 projection_year = 2024
 
