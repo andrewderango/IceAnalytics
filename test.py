@@ -588,8 +588,6 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
 
     return game_scoring_dict
 
-### Need to add team defence to simulate_game and simulate_season
-
 global start_time
 start_time = time.time()
 projection_year = 2024
