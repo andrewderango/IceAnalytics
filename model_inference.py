@@ -468,7 +468,7 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
 
     return team_stat_df
 
-def simulate_season(projetion_year, verbose):
+def simulate_season(projetion_year, simulations, verbose):
     # load dfs
     schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', f'game_schedule.csv'), index_col=0)
     metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
@@ -479,8 +479,8 @@ def simulate_season(projetion_year, verbose):
 
     # configure skater monte carlo projection df
     monte_carlo_skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
-    monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.assign(Games_Played=0, Goals=0, Primary_Assists=0, Secondary_Assists=0)
-    monte_carlo_skater_proj_df.rename(columns={'Games_Played': 'Games Played', 'Primary_Assists': 'Primary Assists', 'Secondary_Assists': 'Secondary Assists'}, inplace=True)
+    monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.assign(Games_Played=0, Goals=0, Assists=0)
+    monte_carlo_skater_proj_df.rename(columns={'Games_Played': 'Games Played'}, inplace=True)
     
     # configure team monte carlo projection df
     monte_carlo_team_proj_df = teams_df[['Team Name', 'Abbreviation']].copy()
@@ -498,16 +498,6 @@ def simulate_season(projetion_year, verbose):
     schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID'])
 
     # we convert the data from the dataframe to dictionary because the lookup times are faster (O(n) vs O(1))
-
-    # create game scoring dictionary
-    game_scoring_dict = {} # {player_id: [games, goals, primary_assists, secondary_assists]}
-    for player_id in monte_carlo_skater_proj_df['PlayerID']:
-        game_scoring_dict[player_id] = [0, 0, 0, 0]
-
-    # create team scoring dictionary
-    team_scoring_dict = {} # {team_abbreviation: [wins, losses, ot_losses, goals_for, goals_against]}
-    for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
-        team_scoring_dict[team_abbreviation] = [0, 0, 0, 0, 0]
 
     # determine active rosters
     active_rosters = {}
@@ -533,37 +523,47 @@ def simulate_season(projetion_year, verbose):
         # print(team)
         defence_scores[team] = 1 + (team_metaproj_df[team_metaproj_df['Team'] == lookup_team]['GA/GP'].values[0] - avg_ga)/avg_ga
 
-    for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0]): ###
-    # for index, row in schedule_df.iterrows():
-        a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
-        a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
-        home_abbrev = row['Home Abbreviation']
-        visiting_abbrev = row['Visiting Abbreviation']
-        game_scoring_dict, team_scoring_dict = simulate_game(home_abbrev, active_rosters[home_abbrev], defence_scores[row['Home Team']], visiting_abbrev, active_rosters[visiting_abbrev], defence_scores[row['Visiting Team']], game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose)
+    for simulation in range(simulations):
+        # create game scoring dictionary
+        game_scoring_dict = {} # {player_id: [games, goals, assists]}
+        for player_id in monte_carlo_skater_proj_df['PlayerID']:
+            game_scoring_dict[player_id] = [0, 0, 0]
 
-    # add game scoring dict stats to monte_carlo_skater_proj_df
-    player_scoring_df = pd.DataFrame.from_dict(game_scoring_dict, orient='index', columns=['Games Played', 'Goals', 'Primary Assists', 'Secondary Assists'])
-    monte_carlo_skater_proj_df.set_index('PlayerID', inplace=True)
-    monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Primary Assists', 'Secondary Assists']] += player_scoring_df
-    monte_carlo_skater_proj_df.reset_index(inplace=True)
+        # create team scoring dictionary
+        team_scoring_dict = {} # {team_abbreviation: [wins, losses, ot_losses, goals_for, goals_against]}
+        for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
+            team_scoring_dict[team_abbreviation] = [0, 0, 0, 0, 0]
 
-    # add team scoring dict stats to monte_carlo_team_proj_df
-    team_scoring_df = pd.DataFrame.from_dict(team_scoring_dict, orient='index', columns=['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against'])
-    monte_carlo_team_proj_df.set_index('Abbreviation', inplace=True)
-    monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against']] += team_scoring_df
-    monte_carlo_team_proj_df.reset_index(inplace=True)
+        for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0]):
+        # for index, row in schedule_df.iterrows():
+            a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
+            a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
+            home_abbrev = row['Home Abbreviation']
+            visiting_abbrev = row['Visiting Abbreviation']
+            game_scoring_dict, team_scoring_dict = simulate_game(home_abbrev, active_rosters[home_abbrev], defence_scores[row['Home Team']], visiting_abbrev, active_rosters[visiting_abbrev], defence_scores[row['Visiting Team']], game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose)
 
-    monte_carlo_skater_proj_df['Assists'] =monte_carlo_skater_proj_df['Primary Assists'] + monte_carlo_skater_proj_df['Secondary Assists']
-    monte_carlo_skater_proj_df['Points'] = monte_carlo_skater_proj_df['Goals'] + monte_carlo_skater_proj_df['Assists']
-    monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.sort_values(by=['Points', 'Goals', 'Assists', 'Primary Assists', 'Secondary Assists'], ascending=False)
-    monte_carlo_skater_proj_df.reset_index(drop=True, inplace=True)
+        # add game scoring dict stats to monte_carlo_skater_proj_df
+        player_scoring_df = pd.DataFrame.from_dict(game_scoring_dict, orient='index', columns=['Games Played', 'Goals', 'Assists'])
+        monte_carlo_skater_proj_df.set_index('PlayerID', inplace=True)
+        monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Assists']] += player_scoring_df
+        monte_carlo_skater_proj_df.reset_index(inplace=True)
 
-    monte_carlo_team_proj_df['Points'] = monte_carlo_team_proj_df['Wins']*2 + monte_carlo_team_proj_df['OTL']
-    monte_carlo_team_proj_df = monte_carlo_team_proj_df.sort_values(by=['Points', 'Wins', 'Goals For', 'Goals Against'], ascending=False)
-    monte_carlo_team_proj_df.reset_index(drop=True, inplace=True)
+        # add team scoring dict stats to monte_carlo_team_proj_df
+        team_scoring_df = pd.DataFrame.from_dict(team_scoring_dict, orient='index', columns=['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against'])
+        monte_carlo_team_proj_df.set_index('Abbreviation', inplace=True)
+        monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against']] += team_scoring_df
+        monte_carlo_team_proj_df.reset_index(inplace=True)
 
-    print(monte_carlo_skater_proj_df.head(10))
-    print(monte_carlo_team_proj_df.head(10))
+        monte_carlo_skater_proj_df['Points'] = monte_carlo_skater_proj_df['Goals'] + monte_carlo_skater_proj_df['Assists']
+        monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.sort_values(by=['Points', 'Goals', 'Assists'], ascending=False)
+        monte_carlo_skater_proj_df.reset_index(drop=True, inplace=True)
+
+        monte_carlo_team_proj_df['Points'] = monte_carlo_team_proj_df['Wins']*2 + monte_carlo_team_proj_df['OTL']
+        monte_carlo_team_proj_df = monte_carlo_team_proj_df.sort_values(by=['Points', 'Wins', 'Goals For', 'Goals Against'], ascending=False)
+        monte_carlo_team_proj_df.reset_index(drop=True, inplace=True)
+
+        print(monte_carlo_skater_proj_df.head(10))
+        print(monte_carlo_team_proj_df.head(10))
 
 # @profile
 def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visiting_team_abbrev, visitor_active_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
@@ -582,15 +582,13 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
     home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
     visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000* 5/(1+a1_probability+a2_probability)
 
-    ### tentative home ice advantage
-    home_weighted_avg *= 1.05
-    visitor_weighted_avg *= 0.95
+    # adjust for home ice advantage ###
+    home_weighted_avg *= 1.025574015
+    visitor_weighted_avg *= 0.9744259847
 
     # adjust for team defence
     home_weighted_avg *= visitor_defence_score
     visitor_weighted_avg *= home_defence_score
-
-    ### Different projected ATOI??
 
     # determining scorers and assisters
     home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
@@ -630,7 +628,7 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
             game_scoring_dict[a1_id][2] += 1
 
             if random.uniform(0, 1) < a2_probability:
-                game_scoring_dict[a2_id][3] += 1
+                game_scoring_dict[a2_id][2] += 1
 
     if home_score > visitor_score:
         team_scoring_dict[home_team_abbrev][0] += 1
@@ -664,7 +662,7 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
             game_scoring_dict[a1_id][2] += 1
 
             if random.uniform(0, 1) < a2_probability:
-                game_scoring_dict[a2_id][3] += 1
+                game_scoring_dict[a2_id][2] += 1
 
     # add gf and ga to team scoring dict
     team_scoring_dict[home_team_abbrev][3] += home_score
@@ -715,6 +713,6 @@ team_stat_df = ga_model_inference(projection_year, team_stat_df, ga_model, True,
 # print(team_stat_df)
 
 # Simulate season
-simulate_season(projection_year, True)
+simulate_season(projection_year, 1, True)
 
 print(f"Runtime: {time.time()-start_time:.3f} seconds")
