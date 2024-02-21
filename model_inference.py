@@ -544,7 +544,11 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
         game_scoring_dict[player_id][0] += 1
     for player_id in visiting_team_roster['PlayerID']:
         game_scoring_dict[player_id][0] += 1
-    
+
+    ### might want to change to only consider top 12F+6D
+    home_weighted_avg = np.average(home_team_roster['Pper1kChunk'], weights=home_team_roster['ATOI'])/1000 * 5/3
+    visitor_weighted_avg = np.average(visiting_team_roster['Pper1kChunk'], weights=visiting_team_roster['ATOI'])/1000* 5/3
+
     # determine scoring probability for each team
     ### can be adjusted, may not be a direct proportion to scoring probability.
     ### also can adjust home ice advantage prob
@@ -552,43 +556,36 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
     ### scoring freq should maybe be random.normal
 
     # combined home_team_roster and visiting_team_roster together
-    all_players = pd.concat([home_team_roster, visiting_team_roster])
-    scorer_ids = all_players.sample(n=16, replace=True, weights='Gper1kChunk')['PlayerID'].values
-    home_a1_ids = home_team_roster.sample(n=10, replace=True, weights='A1per1kChunk')['PlayerID'].values
-    visitor_a1_ids = visiting_team_roster.sample(n=10, replace=True, weights='A1per1kChunk')['PlayerID'].values
-    home_a2_ids = home_team_roster.sample(n=10, replace=True, weights='A2per1kChunk')['PlayerID'].values
-    visitor_a2_ids = visiting_team_roster.sample(n=10, replace=True, weights='A2per1kChunk')['PlayerID'].values
-    ### doesn't need to be 16
+    home_scorer_ids = home_team_roster.sample(n=10, replace=True, weights=home_team_roster['Gper1kChunk']*home_team_roster['ATOI'])['PlayerID'].values
+    visitor_scorer_ids = visiting_team_roster.sample(n=10, replace=True, weights=visiting_team_roster['Gper1kChunk']*visiting_team_roster['ATOI'])['PlayerID'].values
+    home_a1_ids = home_team_roster.sample(n=10, replace=True, weights=home_team_roster['A1per1kChunk']*home_team_roster['ATOI'])['PlayerID'].values
+    visitor_a1_ids = visiting_team_roster.sample(n=10, replace=True, weights=visiting_team_roster['A1per1kChunk']*visiting_team_roster['ATOI'])['PlayerID'].values
+    home_a2_ids = home_team_roster.sample(n=10, replace=True, weights=home_team_roster['A2per1kChunk']*home_team_roster['ATOI'])['PlayerID'].values
+    visitor_a2_ids = visiting_team_roster.sample(n=10, replace=True, weights=visiting_team_roster['A2per1kChunk']*visiting_team_roster['ATOI'])['PlayerID'].values
 
     for chunk in range(120):
-        if random.uniform(0, 1) < scoring_frequency: ### automate
-            # print(home_team + ' ' + str(home_score) + '-' + str(visitor_score) + ' ' + visiting_team)
+        rng = random.uniform(0, 1)
+        if rng < home_weighted_avg: # home goal
+            scorer_id = home_scorer_ids[home_score]
+            a1_id = home_a1_ids[home_score]
+            a2_id = home_a2_ids[home_score]
+            home_score += 1
+        elif rng > 1 - visitor_weighted_avg: # visitor goal
+            scorer_id = visitor_scorer_ids[visitor_score]
+            a1_id = visitor_a1_ids[visitor_score]
+            a2_id = visitor_a2_ids[visitor_score]
+            visitor_score += 1
+        else:
+            continue # no goal occurs in chunk; advance to next chunk
 
-            scorer_id = scorer_ids[home_score + visitor_score - 1]
-            game_scoring_dict[scorer_id][1] += 1
+        game_scoring_dict[scorer_id][1] += 1
 
-            # check what team the scorer is on from the all_players df
-            scoring_team = all_players.loc[all_players['PlayerID'] == scorer_id, 'Team'].values[0]
+        # Assign assists
+        if random.uniform(0, 1) < a1_probability:
+            game_scoring_dict[a1_id][2] += 1
 
-            if scoring_team == home_team_abbr:
-                home_score += 1
-                a1_ids = home_a1_ids
-                a2_ids = home_a2_ids
-                a1_id = a1_ids[home_score - 1]
-                a2_id = a2_ids[home_score - 1]
-            else:
-                visitor_score += 1
-                a1_ids = visitor_a1_ids
-                a2_ids = visitor_a2_ids
-                a1_id = a1_ids[visitor_score - 1]
-                a2_id = a2_ids[visitor_score - 1]
-
-            # Assign assists
-            if random.uniform(0, 1) < a1_probability:
-                game_scoring_dict[a1_id][2] += 1
-
-                if random.uniform(0, 1) < a2_probability:
-                    game_scoring_dict[a2_id][3] += 1
+            if random.uniform(0, 1) < a2_probability:
+                game_scoring_dict[a2_id][3] += 1
 
     if home_score > visitor_score:
         monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Wins'] += 1
@@ -598,24 +595,24 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
         monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Losses'] += 1
     else:
         # overtime
-        scorer_id = scorer_ids[home_score + visitor_score - 1]
-        game_scoring_dict[scorer_id][1] += 1
-
-        # check what team the scorer is on from the all_players df
-        scoring_team = all_players.loc[all_players['PlayerID'] == scorer_id, 'Team'].values[0]
-
-        if scoring_team == home_team_abbr:
+        rng = random.uniform(0, 1)
+        home_weighted_avg_ot = home_weighted_avg/(home_weighted_avg + visitor_weighted_avg)
+        if rng < home_weighted_avg: # home goal
+            scorer_id = home_scorer_ids[home_score]
+            a1_id = home_a1_ids[home_score]
+            a2_id = home_a2_ids[home_score]
             home_score += 1
-            a1_ids = home_a1_ids
-            a2_ids = home_a2_ids
-            a1_id = a1_ids[home_score - 1]
-            a2_id = a2_ids[home_score - 1]
-        else:
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'Wins'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'OTL'] += 1
+        else: # visitor goal
+            scorer_id = visitor_scorer_ids[visitor_score]
+            a1_id = visitor_a1_ids[visitor_score]
+            a2_id = visitor_a2_ids[visitor_score]
             visitor_score += 1
-            a1_ids = visitor_a1_ids
-            a2_ids = visitor_a2_ids
-            a1_id = a1_ids[visitor_score - 1]
-            a2_id = a2_ids[visitor_score - 1]
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == visiting_team, 'Wins'] += 1
+            monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team, 'OTL'] += 1
+
+        game_scoring_dict[scorer_id][1] += 1
 
         # Assign assists
         if random.uniform(0, 1) < a1_probability:
