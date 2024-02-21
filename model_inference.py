@@ -522,6 +522,7 @@ def simulate_season(projetion_year, verbose):
     monte_carlo_team_proj_df = monte_carlo_team_proj_df.sort_values(by=['Points', 'Wins', 'Goals For', 'Goals Against'], ascending=False)
 
     print(monte_carlo_skater_proj_df.head(10))
+    print(monte_carlo_skater_proj_df[monte_carlo_skater_proj_df['Team'] == 'EDM'])
     print(monte_carlo_team_proj_df.head(10))
 
 # @profile
@@ -536,18 +537,27 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
     home_team_roster = metaprojection_df[metaprojection_df['Team'] == home_team]
     visiting_team_roster = metaprojection_df[metaprojection_df['Team'] == visiting_team]
 
-    # get home abbreviation
-    home_team_abbr = monte_carlo_team_proj_df.loc[monte_carlo_team_proj_df['Abbreviation'] == home_team].iloc[0]['Abbreviation']
+    # Filter and sort the rows where position == 'D'
+    home_defense = home_team_roster[home_team_roster['Position'] == 'D'].sort_values('ATOI', ascending=False).head(6)
+    visitor_defense = visiting_team_roster[visiting_team_roster['Position'] == 'D'].sort_values('ATOI', ascending=False).head(6)
 
-    # increment games played for each player in the current game in game scoring dict
-    for player_id in home_team_roster['PlayerID']:
+    # Filter and sort the rows where position != 'D'
+    home_offense = home_team_roster[home_team_roster['Position'] != 'D'].sort_values('ATOI', ascending=False).head(12)
+    visitor_offense = visiting_team_roster[visiting_team_roster['Position'] != 'D'].sort_values('ATOI', ascending=False).head(12)
+
+    # active roster
+    home_active_roster = pd.concat([home_defense, home_offense])
+    visitor_active_roster = pd.concat([visitor_defense, visitor_offense])
+
+    # increment games played for each player on active roster in game scoring dict
+    for player_id in home_active_roster['PlayerID']:
         game_scoring_dict[player_id][0] += 1
-    for player_id in visiting_team_roster['PlayerID']:
+    for player_id in visitor_active_roster['PlayerID']:
         game_scoring_dict[player_id][0] += 1
 
-    ### might want to change to only consider top 12F+6D
-    home_weighted_avg = np.average(home_team_roster['Pper1kChunk'], weights=home_team_roster['ATOI'])/1000 * 5/3
-    visitor_weighted_avg = np.average(visiting_team_roster['Pper1kChunk'], weights=visiting_team_roster['ATOI'])/1000* 5/3
+    # Calculate the weighted averages
+    home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
+    visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000* 5/(1+a1_probability+a2_probability)
 
     # determine scoring probability for each team
     ### can be adjusted, may not be a direct proportion to scoring probability.
@@ -555,25 +565,35 @@ def simulate_game(home_team, visiting_team, metaprojection_df, game_scoring_dict
     ### need to adjust scoring chunk prob for ice time
     ### scoring freq should maybe be random.normal
 
-    # combined home_team_roster and visiting_team_roster together
-    home_scorer_ids = home_team_roster.sample(n=10, replace=True, weights=home_team_roster['Gper1kChunk']*home_team_roster['ATOI'])['PlayerID'].values
-    visitor_scorer_ids = visiting_team_roster.sample(n=10, replace=True, weights=visiting_team_roster['Gper1kChunk']*visiting_team_roster['ATOI'])['PlayerID'].values
-    home_a1_ids = home_team_roster.sample(n=10, replace=True, weights=home_team_roster['A1per1kChunk']*home_team_roster['ATOI'])['PlayerID'].values
-    visitor_a1_ids = visiting_team_roster.sample(n=10, replace=True, weights=visiting_team_roster['A1per1kChunk']*visiting_team_roster['ATOI'])['PlayerID'].values
-    home_a2_ids = home_team_roster.sample(n=10, replace=True, weights=home_team_roster['A2per1kChunk']*home_team_roster['ATOI'])['PlayerID'].values
-    visitor_a2_ids = visiting_team_roster.sample(n=10, replace=True, weights=visiting_team_roster['A2per1kChunk']*visiting_team_roster['ATOI'])['PlayerID'].values
+    # determining scorers and assisters
+    home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_scorer_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_a1_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['A1per1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_a1_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['A1per1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_a2_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['A2per1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_a2_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['A2per1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
 
     for chunk in range(120):
         rng = random.uniform(0, 1)
         if rng < home_weighted_avg: # home goal
-            scorer_id = home_scorer_ids[home_score]
-            a1_id = home_a1_ids[home_score]
-            a2_id = home_a2_ids[home_score]
+            try:
+                scorer_id = home_scorer_ids[home_score]
+                a1_id = home_a1_ids[home_score]
+                a2_id = home_a2_ids[home_score]
+            except IndexError:
+                scorer_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
+                a1_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['A1per1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
+                a2_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['A2per1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
             home_score += 1
         elif rng > 1 - visitor_weighted_avg: # visitor goal
-            scorer_id = visitor_scorer_ids[visitor_score]
-            a1_id = visitor_a1_ids[visitor_score]
-            a2_id = visitor_a2_ids[visitor_score]
+            try:
+                scorer_id = visitor_scorer_ids[visitor_score]
+                a1_id = visitor_a1_ids[visitor_score]
+                a2_id = visitor_a2_ids[visitor_score]
+            except IndexError:
+                scorer_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
+                a1_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['A1per1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
+                a2_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['A2per1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
             visitor_score += 1
         else:
             continue # no goal occurs in chunk; advance to next chunk
