@@ -149,7 +149,7 @@ def scrape_teams(check_preexistence, verbose):
 # Scrape schedule data from NHL API
 def scrape_games(projection_year, check_preexistence, verbose):
 
-    filename = f'game_schedule.csv'
+    filename = f'{projection_year-1}-{projection_year}_game_schedule.csv'
     file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', filename))
 
     if check_preexistence == True:
