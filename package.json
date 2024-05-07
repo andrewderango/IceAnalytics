@@ -1,0 +1,11 @@
+{
+    "name": "puckprojections",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-router-dom": "^5.3.0"
+    }
+  }
+  
