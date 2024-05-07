@@ -4,6 +4,10 @@ __pycache__
 # IDE - Visual Studio Code
 .vscode/
 
+# Firebase
+.firebase/
+firebase-debug.log
+
 # Environment
 *.env
 
