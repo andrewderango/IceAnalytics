@@ -16,3 +16,4 @@ firebase-debug.log
 
 # Node.js
 node_modules/
+build/
