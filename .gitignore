@@ -1,6 +1,15 @@
-.DS_Store
+# Python
 __pycache__
-.vscode
-.env
+
+# IDE - Visual Studio Code
+.vscode/
+
+# Firebase
+.firebase/
 firebase-debug.log
-.cache
+
+# Environment
+*.env
+
+# OS - macOS
+.DS_Store
