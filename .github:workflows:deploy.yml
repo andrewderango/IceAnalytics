@@ -18,10 +18,10 @@ jobs:
         chmod +x ./dependencies.sh
         ./dependencies.sh
 
-    - name: Build
-      run: |
-        # Add your build command here. For example, if you're using npm:
-        # npm run build
+    # - name: Build
+    #   run: |
+    #     # Add your build command here. For example, if you're using npm:
+    #     # npm run build
 
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
