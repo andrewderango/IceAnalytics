@@ -1,4 +1,11 @@
-.DS_Store
+# Python
 __pycache__
-.vscode
-.env
+
+# IDE - Visual Studio Code
+.vscode/
+
+# Environment
+*.env
+
+# OS - macOS
+.DS_Store
