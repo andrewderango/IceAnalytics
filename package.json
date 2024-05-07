@@ -1,17 +1,44 @@
 {
-    "name": "puckprojections",
-    "version": "1.0.0",
-    "private": true,
-    "dependencies": {
-      "react": "^17.0.2",
-      "react-dom": "^17.0.2",
-      "react-router-dom": "^5.3.0"
+  "name": "puckprojections",
+  "version": "1.0.0",
+  "private": true,
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
     },
-    "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
-      "eject": "react-scripts eject"
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "rules": {
     }
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^9.2.0"
   }
-  
+}
