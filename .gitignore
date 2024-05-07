@@ -13,7 +13,3 @@ firebase-debug.log
 
 # OS - macOS
 .DS_Store
-
-# Node.js
-node_modules/
-build/
