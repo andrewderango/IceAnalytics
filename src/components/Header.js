@@ -17,7 +17,8 @@ function Header() {
       <h1 style={{ margin: '0' }}>PuckProjections</h1>
       <nav>
         <ul style={{ display: 'flex', gap: '10px', listStyle: 'none', margin: '0' }}>
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/games">Games</Link></li>
           <li><Link to="/players">Players</Link></li>
           <li><Link to="/teams">Teams</Link></li>
           <li><Link to="/about">About</Link></li>
