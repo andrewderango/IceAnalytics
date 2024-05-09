@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Home from './pages/Home';
+import Games from './pages/Games';
 import Players from './pages/Players';
 import Teams from './pages/Teams';
 import About from './pages/About';
@@ -12,10 +13,12 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route path="/home" component={Home} />
+        <Route path="/games" component={Games} />
         <Route path="/players" component={Players} />
         <Route path="/teams" component={Teams} />
         <Route path="/about" component={About} />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
       </Switch>
       <Footer />
     </Router>
