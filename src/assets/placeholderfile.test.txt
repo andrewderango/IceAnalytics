@@ -1,3 +1,0 @@
-This is a placeholder file to make sure the assets directory does not disappear.
-
-Images and some static components will go in this file.
