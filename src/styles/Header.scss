@@ -32,14 +32,26 @@
             margin: 0;
 
             li {
-                margin-right: 20px; // Added this line
+                margin-right: 20px;
 
                 a {
                     color: #fff;
                     text-decoration: none;
+                    position: relative;
 
-                    &:hover {
-                        border-bottom: 1px solid #fff;
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        bottom: -1px;
+                        left: 0;
+                        height: 1px;
+                        width: 0;
+                        background: #fff;
+                        transition: width 0.5s;
+                    }
+
+                    &:hover::after {
+                        width: 100%;
                     }
                 }
             }
