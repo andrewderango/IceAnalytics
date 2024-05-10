@@ -115,30 +115,26 @@ function Games() {
       <h2 className="date">Thursday, May 9, 2024</h2>
       {games.map(game => (
           <div className="game" key={game.id}>
-            <div className="team">
-              <div className="column1">
-                <img src={game.team1.logo} alt={game.team1.name} />
-                <p className="team-name">{game.team1.name}</p>
-                <p className="record">{game.team1.record}</p>
-              </div>
-              <div className="column2">
+            <div className="column1">
+              <img src={game.team1.logo} alt={game.team1.name} />
+              <p className="team-name">{game.team1.name}</p>
+              <p className="record">{game.team1.record}</p>
+            </div>
+            <div className="column2">
               <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
-                <p className="projected-goals">Projected Goals: {game.team1.projectedGoals}</p>
-              </div>
+              <p className="projected-goals">Projected Goals: {game.team1.projectedGoals}</p>
             </div>
             <div className="time">
               {game.time}
             </div>
-            <div className="team">
-              <div className="column2">
+            <div className="column2">
               <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
-                <p className="projected-goals">Projected Goals: {game.team2.projectedGoals}</p>
-              </div>
-              <div className="column1">
-                <img src={game.team2.logo} alt={game.team2.name} />
-                <p className="team-name">{game.team2.name}</p>
-                <p className="record">{game.team2.record}</p>
-              </div>
+              <p className="projected-goals">Projected Goals: {game.team2.projectedGoals}</p>
+            </div>
+            <div className="column1">
+              <img src={game.team2.logo} alt={game.team2.name} />
+              <p className="team-name">{game.team2.name}</p>
+              <p className="record">{game.team2.record}</p>
             </div>
           </div>
       ))}
