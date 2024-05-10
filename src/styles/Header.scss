@@ -11,7 +11,8 @@
     top: 0;
     width: 100%;
     box-sizing: border-box;
-    background: #212121;
+    background: rgba(34, 34, 34, 0.75);
+    backdrop-filter: blur(10px);
     z-index: 1000;
 
     .header-name {
