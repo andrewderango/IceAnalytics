@@ -122,14 +122,14 @@ function Games() {
             </div>
             <div className="column2">
               <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
-              <p className="projected-goals">Projected Goals: {game.team1.projectedGoals}</p>
+              <p className="projected-goals">Proj. Goals: {game.team1.projectedGoals.toFixed(2)}</p>
             </div>
             <div className="time">
               {game.time}
             </div>
             <div className="column2">
               <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
-              <p className="projected-goals">Projected Goals: {game.team2.projectedGoals}</p>
+              <p className="projected-goals">Proj. Goals: {game.team2.projectedGoals.toFixed(2)}</p>
             </div>
             <div className="column1">
               <img src={game.team2.logo} alt={game.team2.name} />
