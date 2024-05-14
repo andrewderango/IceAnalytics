@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
 
 .header {
+    position: relative;
     font-family: 'Michroma';
     color: #fff;
     display: flex;
@@ -64,6 +65,76 @@
                         width: 100%;
                     }
                 }
+            }
+        }
+    }
+
+    @media (max-width: 999px) {
+        .header-name {
+            font-size: 10px;
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+    
+            img {
+                width: 10%;
+            }
+    
+            h1 {
+                margin: 0 0 0 15px;
+                letter-spacing: 3px;
+                font-weight: 400;
+            }
+        }
+
+        nav {
+            button {
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 12px;
+            }
+
+            ul {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                list-style: none;
+                margin: 0;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #333;
+                padding: 10px;
+                border-radius: 5px;
+
+                li {
+                    a {
+                        color: #fff;
+                        font-size: 12px;
+                        text-decoration: none;
+                        position: relative;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -1px;
+                            left: 0;
+                            height: 1px;
+                            width: 0;
+                            background: #fff;
+                            transition: width 0.5s;
+                        }
+
+                        &:hover::after {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+            button[aria-expanded='true'] + ul {
+                display: flex;
             }
         }
     }
