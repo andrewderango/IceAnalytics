@@ -112,7 +112,7 @@ function Games() {
   return (
     <div className="games">
       <h1>Games</h1>
-      <h2 className="date">Thursday, May 9, 2024</h2>
+      <h2 className="date">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
       {games.map(game => (
           <div className="game" key={game.id}>
             <div className="column1">
