@@ -11,21 +11,23 @@
     top: 0;
     width: 100%;
     box-sizing: border-box;
-    background: #212121;
+    background: rgba(34, 34, 34, 0.75);
+    backdrop-filter: blur(10px);
     z-index: 1000;
 
     .header-name {
+        font-size: 10px;
         margin: 0 20px;
         display: flex;
         align-items: center;
 
         img {
-            margin-right: 10px;
-            width: 70px;
+            // margin-right: 10px;
+            width: 50px;
         }
 
         h1 {
-            margin: 0 0 0 10px;
+            margin: 0 0 0 15px;
             letter-spacing: 3px;
             font-weight: 400;
         }
@@ -43,6 +45,7 @@
 
                 a {
                     color: #fff;
+                    font-size: 12px;
                     text-decoration: none;
                     position: relative;
 
