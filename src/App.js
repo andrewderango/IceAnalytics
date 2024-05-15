@@ -7,6 +7,7 @@ import Teams from './pages/Teams';
 import About from './pages/About';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/teams" component={Teams} />
         <Route path="/about" component={About} />
         <Route exact path="/" render={() => <Redirect to="/home" />} />
+        <Route component={NotFound} /> {/* This will be rendered if no other Route matches */}
       </Switch>
       <Footer />
     </Router>
