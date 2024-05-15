@@ -20,7 +20,7 @@ function App() {
         <Route path="/teams" component={Teams} />
         <Route path="/about" component={About} />
         <Route exact path="/" render={() => <Redirect to="/home" />} />
-        <Route component={NotFound} /> {/* This will be rendered if no other Route matches */}
+        <Route component={NotFound} />
       </Switch>
       <Footer />
     </Router>
