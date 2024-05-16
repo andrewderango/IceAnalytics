@@ -59,12 +59,12 @@ function Header() {
           </button>
           {menuOpen && (
             <ul>
-              <li><Link to="/home">HOME</Link></li>
-              <li><Link to="/games">GAMES</Link></li>
-              <li><Link to="/players">PLAYERS</Link></li>
-              <li><Link to="/teams">TEAMS</Link></li>
-              <li><Link to="/about">ABOUT</Link></li>
-              <li><Link to="/">{width}</Link></li>
+              <li><Link to="/home" onClick={() => setMenuOpen(false)}>HOME</Link></li>
+              <li><Link to="/games" onClick={() => setMenuOpen(false)}>GAMES</Link></li>
+              <li><Link to="/players" onClick={() => setMenuOpen(false)}>PLAYERS</Link></li>
+              <li><Link to="/teams" onClick={() => setMenuOpen(false)}>TEAMS</Link></li>
+              <li><Link to="/about" onClick={() => setMenuOpen(false)}>ABOUT</Link></li>
+              <li><Link to="/" onClick={() => setMenuOpen(false)}>{width}</Link></li>
             </ul>
           )}
         </nav>
