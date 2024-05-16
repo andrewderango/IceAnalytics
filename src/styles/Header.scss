@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
 
 .header {
+    position: relative;
     font-family: 'Michroma';
     color: #fff;
     display: flex;
@@ -41,7 +42,7 @@
             margin: 0;
 
             li {
-                margin-right: 20px;
+                margin: 0 10px 0 10px;
 
                 a {
                     color: #fff;
@@ -64,6 +65,79 @@
                         width: 100%;
                     }
                 }
+            }
+        }
+    }
+
+    @media (max-width: 999px) {
+        .header-name {
+            font-size: 10px;
+            margin: 0 1%;
+            display: flex;
+            align-items: center;
+    
+            img {
+                // width: 12%;
+                width: 40px;
+            }
+    
+            h1 {
+                margin: 0 0 0 15px;
+                letter-spacing: 2px;
+                font-weight: 400;
+                font-size: 12px;
+            }
+        }
+
+        nav {
+            button {
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 12px;
+            }
+
+            ul {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                list-style: none;
+                margin: 0;
+                position: absolute;
+                top: 100%;
+                right: 10px;
+                background: #333;
+                padding: 10px;
+                border-radius: 5px;
+                text-align: right;
+
+                li {
+                    a {
+                        color: #fff;
+                        font-size: 12px;
+                        text-decoration: none;
+                        position: relative;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -1px;
+                            left: 0;
+                            height: 1px;
+                            width: 0;
+                            background: #fff;
+                            transition: width 0.5s;
+                        }
+
+                        &:hover::after {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+            button[aria-expanded='true'] + ul {
+                display: flex;
             }
         }
     }
