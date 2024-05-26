@@ -1,0 +1,126 @@
+.players {
+    color: #fff;
+    font-family: 'Helvetica', sans-serif;
+    margin: 0 auto; // centers the content horizontally
+    padding: 0 20px; // adds 20px padding to the sides
+    
+    h1 {
+        font-size: 2em;
+        margin-top: 2em;
+        margin-bottom: 0.5em;
+        text-align: center;
+    }
+    
+    h2 {
+        font-size: 1.2em;
+        margin-bottom: 2em;
+        text-align: center;
+        font-weight: 100;
+    }
+    
+    p {
+        font-size: 1.0em;
+        margin-bottom: 2em;
+        text-align: center;
+    }
+
+    .filter-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .select-container { /* Add this block */
+        display: flex;
+        gap: 10px;
+    }
+
+    select {
+        margin-top: 10px;
+        width: 150px;
+        height: 35px;
+        padding: 10px;
+        border: 0px;
+        color: #fff;
+        appearance: none;
+        background: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 140 140" width="25" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M35 55l35 35 35-35z"/></svg>') no-repeat;
+        background-color: #333;
+        background-position: calc(100% - 10px);
+    }
+
+    input[type="text"] {
+        width: 25%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #333;
+        border-radius: 4px;
+        background-color: #111;
+        color: #fff;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #333;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        
+        thead {
+            tr {
+                border-bottom: 1px solid #444;
+            }
+            
+            th {
+                padding: 1em;
+                text-align: left;
+                font-size: 1.2em;
+                background-color: #222; // changes the background color of the header cells
+                color: #fff; // changes the text color of the header cells
+                text-align: center;
+            }
+        }
+        
+        tbody {
+            tr {
+                &:nth-child(even) {
+                    background-color: #444;
+                }
+            }
+            
+            td {
+                padding: 1em;
+                font-size: 1em;
+            }
+        }
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    position: relative;
+    width: max-content;
+    margin: 0 auto;
+    
+    thead, tbody {
+        th, td {
+            text-align: center;
+        }
+    }
+}
+
+table thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+table tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    // border-right: 1px solid #666;
+}

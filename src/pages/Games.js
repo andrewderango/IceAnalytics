@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Games.scss';
+import { GridLoader } from 'react-spinners';
 
 function Games() {
   const [games, setGames] = useState([]);
   const [width, setWidth] = useState(window.innerWidth);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -126,7 +128,16 @@ function Games() {
     ];
 
     setGames(sampleData);
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <GridLoader color="#666666" loading={loading} size={25} />
+      </div>
+    );
+  }
 
   return (
     <div className="games">
