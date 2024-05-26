@@ -110,3 +110,11 @@
         margin: 5px 0 -5px 0;
     }
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding-top: 20%;
+}

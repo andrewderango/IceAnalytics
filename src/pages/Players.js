@@ -256,11 +256,11 @@ function Players() {
       <div class="container">
         <div class="tabs">
           <input type="radio" id="radio-1" name="tabs"/>
-          <label class="tab" for="radio-1">Remaining</label>
-          <input type="radio" id="radio-2" name="tabs" />
-          <label class="tab" for="radio-2">Total</label>
-          <input type="radio" id="radio-3" name="tabs" />
-          <label class="tab" for="radio-3">Current</label>
+          <label class="tab" for="radio-1" title="Projected stats for remaining games only">Remaining</label>
+          <input type="radio" id="radio-2" name="tabs"/>
+          <label class="tab" for="radio-2" title="Projected end-of-season stats">Total</label>
+          <input type="radio" id="radio-3" name="tabs"/>
+          <label class="tab" for="radio-3" title="Current player statistics">Current</label>
           <span class="glider"></span>
         </div>
       </div>
