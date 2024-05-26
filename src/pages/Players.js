@@ -252,7 +252,7 @@ function Players() {
   return (
     <div className="players">
       <h1>Players</h1>
-      <h2>Last updated May 15, 2024.</h2>
+      <h2>Last updated May 15, 2024</h2>
       <div class="container">
         <div class="tabs">
           <input type="radio" id="radio-1" name="tabs"/>
