@@ -253,17 +253,6 @@ function Players() {
     <div className="players">
       <h1>Players</h1>
       <h2>Last updated May 15, 2024</h2>
-      <div class="container">
-        <div class="tabs">
-          <input type="radio" id="radio-1" name="tabs"/>
-          <label class="tab" for="radio-1" title="Projected stats for remaining games only">Remaining</label>
-          <input type="radio" id="radio-2" name="tabs"/>
-          <label class="tab" for="radio-2" title="Projected end-of-season stats">Total</label>
-          <input type="radio" id="radio-3" name="tabs"/>
-          <label class="tab" for="radio-3" title="Current player statistics">Current</label>
-          <span class="glider"></span>
-        </div>
-      </div>
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
