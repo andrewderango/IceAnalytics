@@ -4,11 +4,16 @@ import { useTable } from 'react-table';
 import '../styles/Players.scss';
 
 function Players() {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [teamFilter, setTeamFilter] = React.useState('');
+  const [posFilter, setPosFilter] = React.useState('');
+
   const data = React.useMemo(
     () => [
       {
         name: 'Nikita Kucherov',
         team: 'TBL',
+        position: 'RW',
         games: 81,
         goals: 44,
         assists: 100,
@@ -17,6 +22,7 @@ function Players() {
       {
         name: 'Nathan MacKinnon',
         team: 'COL',
+        position: 'C',
         games: 82,
         goals: 51,
         assists: 89,
@@ -25,6 +31,7 @@ function Players() {
       {
         name: 'Connor McDavid',
         team: 'EDM',
+        position: 'C',
         games: 76,
         goals: 32,
         assists: 100,
@@ -33,6 +40,7 @@ function Players() {
       {
         name: 'Artemi Panarin',
         team: 'NYR',
+        position: 'LW',
         games: 82,
         goals: 49,
         assists: 71,
@@ -41,6 +49,7 @@ function Players() {
       {
         name: 'David Pastrnak',
         team: 'BOS',
+        position: 'RW',
         games: 82,
         goals: 47,
         assists: 63,
@@ -49,6 +58,7 @@ function Players() {
       {
         name: 'Leon Draisaitl',
         team: 'EDM',
+        position: 'C',
         games: 80,
         goals: 50,
         assists: 60,
@@ -57,6 +67,7 @@ function Players() {
       {
         name: 'Auston Matthews',
         team: 'TOR',
+        position: 'C',
         games: 82,
         goals: 60,
         assists: 50,
@@ -65,6 +76,7 @@ function Players() {
       {
         name: 'Patrick Kane',
         team: 'CHI',
+        position: 'RW',
         games: 81,
         goals: 40,
         assists: 65,
@@ -73,6 +85,7 @@ function Players() {
       {
         name: 'Brad Marchand',
         team: 'BOS',
+        position: 'LW',
         games: 82,
         goals: 45,
         assists: 55,
@@ -81,6 +94,7 @@ function Players() {
       {
         name: 'Mikko Rantanen',
         team: 'COL',
+        position: 'RW',
         games: 80,
         goals: 39,
         assists: 60,
@@ -89,6 +103,7 @@ function Players() {
       {
         name: 'Jack Eichel',
         team: 'VGK',
+        position: 'C',
         games: 79,
         goals: 37,
         assists: 61,
@@ -97,6 +112,7 @@ function Players() {
       {
         name: 'Johnny Gaudreau',
         team: 'CBJ',
+        position: 'LW',
         games: 82,
         goals: 36,
         assists: 62,
@@ -105,6 +121,7 @@ function Players() {
       {
         name: 'Steven Stamkos',
         team: 'TBL',
+        position: 'C',
         games: 80,
         goals: 44,
         assists: 52,
@@ -113,6 +130,7 @@ function Players() {
       {
         name: 'Jonathan Huberdeau',
         team: 'CGY',
+        position: 'LW',
         games: 82,
         goals: 31,
         assists: 64,
@@ -121,6 +139,7 @@ function Players() {
       {
         name: 'Alexander Ovechkin',
         team: 'WSH',
+        position: 'LW',
         games: 78,
         goals: 50,
         assists: 44,
@@ -129,6 +148,7 @@ function Players() {
       {
         name: 'Sidney Crosby',
         team: 'PIT',
+        position: 'C',
         games: 82,
         goals: 34,
         assists: 60,
@@ -137,6 +157,7 @@ function Players() {
       {
         name: 'Mika Zibanejad',
         team: 'NYR',
+        position: 'C',
         games: 81,
         goals: 35,
         assists: 58,
@@ -145,6 +166,7 @@ function Players() {
       {
         name: 'Kirill Kaprizov',
         team: 'MIN',
+        position: 'LW',
         games: 77,
         goals: 42,
         assists: 49,
@@ -153,6 +175,7 @@ function Players() {
       {
         name: 'Sebastian Aho',
         team: 'CAR',
+        position: 'C',
         games: 80,
         goals: 33,
         assists: 57,
@@ -161,6 +184,7 @@ function Players() {
       {
         name: 'Mark Scheifele',
         team: 'WPG',
+        position: 'C',
         games: 81,
         goals: 38,
         assists: 52,
@@ -169,6 +193,7 @@ function Players() {
       {
         name: 'Elias Pettersson',
         team: 'VAN',
+        position: 'C',
         games: 82,
         goals: 32,
         assists: 57,
@@ -177,6 +202,7 @@ function Players() {
       {
         name: 'Brayden Point',
         team: 'TBL',
+        position: 'C',
         games: 80,
         goals: 41,
         assists: 47,
@@ -185,6 +211,7 @@ function Players() {
       {
         name: 'Matthew Tkachuk',
         team: 'FLA',
+        position: 'LW',
         games: 80,
         goals: 30,
         assists: 58,
@@ -193,20 +220,21 @@ function Players() {
       {
         name: 'Timo Meier',
         team: 'NJD',
+        position: 'RW',
         games: 78,
         goals: 35,
         assists: 50,
         points: 85,
       },
       {
-        name: 'Teuvo Teravainen',
-        team: 'CAR',
+        name: 'Cale Makar',
+        team: 'COL',
+        position: 'D',
         games: 82,
         goals: 28,
         assists: 57,
         points: 85,
       },
-      // More players here...
     ],
     []
   );
@@ -215,11 +243,15 @@ function Players() {
     () => [
       {
         Header: 'Name',
-        accessor: 'name', // accessor is the "key" in the data
+        accessor: 'name',
       },
       {
         Header: 'Team',
         accessor: 'team',
+      },
+      {
+        Header: 'Position',
+        accessor: 'position',
       },
       {
         Header: 'Games',
@@ -249,10 +281,44 @@ function Players() {
     prepareRow,
   } = useTable({ columns, data });
 
+  const filteredRows = rows.filter(row => {
+    return row.values.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (teamFilter ? row.values.team === teamFilter : true) &&
+      (posFilter ? row.values.position === posFilter : true);
+  });
+
+  // Get unique teams for the dropdown
+  const teams = [...new Set(rows.map(row => row.values.team))].sort();
+
+  // Get unique positions for the dropdown
+  const pos = [...new Set(rows.map(row => row.values.position))].sort();
+
   return (
     <div className="players">
       <h1>Players</h1>
       <h2>Last updated May 15, 2024</h2>
+      <div className="filter-container">
+        <div className="select-container"> {/* Add this line */}
+          <select value={teamFilter} onChange={e => setTeamFilter(e.target.value)}>
+            <option value="">All Teams</option>
+            {teams.map(team => (
+              <option key={team} value={team}>{team}</option>
+            ))}
+          </select>
+          <select value={posFilter} onChange={e => setPosFilter(e.target.value)}>
+            <option value="">All Positions</option>
+            {pos.map(pos => (
+              <option key={pos} value={pos}>{pos}</option>
+            ))}
+          </select>
+        </div> {/* Add this line */}
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          placeholder="Search players..."
+        />
+      </div>
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
@@ -265,7 +331,7 @@ function Players() {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {filteredRows.map(row => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>

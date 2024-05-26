@@ -23,6 +23,40 @@
         margin-bottom: 2em;
         text-align: center;
     }
+
+    .filter-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .select-container { /* Add this block */
+        display: flex;
+        gap: 10px;
+    }
+
+    select {
+        margin-top: 10px;
+        width: 150px;
+        height: 35px;
+        padding: 10px;
+        border: 0px;
+        color: #fff;
+        appearance: none;
+        background: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 140 140" width="25" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M35 55l35 35 35-35z"/></svg>') no-repeat;
+        background-color: #333;
+        background-position: calc(100% - 10px);
+    }
+
+    input[type="text"] {
+        width: 25%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #333;
+        border-radius: 4px;
+        background-color: #111;
+        color: #fff;
+    }
     
     table {
         width: 100%;
