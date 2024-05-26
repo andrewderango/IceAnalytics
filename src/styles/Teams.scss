@@ -57,6 +57,9 @@
                 &:nth-child(even) {
                     background-color: #444;
                 }
+                &:hover {
+                    background-color: #555;
+                }
             }
             
             td {
