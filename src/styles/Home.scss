@@ -1,9 +1,46 @@
-// @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+@font-face {
+    font-family: 'Sweet Sans Pro';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+  
+.home {
 
-// .home {
-//     body {
-//     font-family: 'Inter', sans-serif;
-//     background-color: #121212;
-//     color: #fff;
-//     }
-// }
+    .text-container {
+        position: absolute;
+        top: 35%;
+        left: 100px;
+
+        h1 {
+            font-family: 'Sweet Sans Pro', sans-serif;
+            font-size: 4em;
+            font-weight: 900;
+            color: #fff;
+
+        }
+
+        .underline {
+            width: 25%;
+            height: 3px;
+            background-color: gold;
+            margin-top: -35px;
+        }
+
+        p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.266em;
+            font-weight: 100;
+            color: gold;
+            margin-top: 35px;
+        }
+    }
+
+    .headshot {
+        height: 75%;
+        position: absolute;
+        right: 0;
+        top: 15%;
+        transform: scaleX(-1);
+    }
+}
