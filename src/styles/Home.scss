@@ -1,8 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 @font-face {
-    font-family: 'Sweet Sans Pro';
+    font-family: 'Sweet Sans Pro Heavy';
     src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
         url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Regular';
+    src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
 }
   
 body, html {
@@ -11,23 +21,26 @@ body, html {
 
 .home {
 
+    .landing-section {
+        min-height: 100vh;
+    }
+
     .text-container {
         position: absolute;
         top: 35%;
         left: 100px;
 
         h1 {
-            font-family: 'Sweet Sans Pro', sans-serif;
+            font-family: 'Sweet Sans Pro Heavy', sans-serif;
             font-size: 4em;
             font-weight: 900;
             color: #fff;
-
         }
 
         .underline {
             width: 25%;
             height: 3px;
-            background-color: gold;
+            background-color: goldenrod;
             margin-top: -35px;
         }
 
@@ -35,7 +48,7 @@ body, html {
             font-family: 'Playfair Display', serif;
             font-size: 1.266em;
             font-weight: 100;
-            color: gold;
+            color: goldenrod;
             margin-top: 35px;
         }
     }
@@ -46,6 +59,105 @@ body, html {
         right: 0;
         top: 15%;
         opacity: 0;
+    }
+
+    .about-section {
+        clear: both;
+        background-color: #222;
+        padding: 50px 200px 75px 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        h2 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            font-family: 'Sweet Sans Pro Heavy', sans-serif;
+            color: goldenrod;
+        }
+
+        .underline {
+            width: 25%;
+            height: 1px;
+            background-color: #666;
+            margin-top: 0px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.25em;
+            line-height: 1.5em;
+            margin-bottom: 2em;
+            color: #999;
+            font-family: 'Sweet Sans Pro Thin';
+        }
+
+        button {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 30px;
+            background: #222;
+            overflow: hidden;
+            cursor: pointer;
+            color: goldenrod;
+            font-family: 'Sweet Sans Pro Thin', sans-serif;
+            font-weight: 100;
+            font-size: 1em;
+            border: 1px solid goldenrod;
+          }
+          
+          button:after {
+            content: " ";
+            width: 0%;
+            height: 100%;
+            background: goldenrod;
+            position: absolute;
+            transition: all 0.4s ease-in-out;
+            right: 0;
+          }
+          
+          button:hover::after {
+            right: auto;
+            left: 0;
+            width: 100%;
+          }
+          
+          button span {
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            padding: 18px 40px;
+            color: goldenrod;
+            font-size: 1.125em;
+            font-weight: 700;
+            letter-spacing: 0.0em;
+            z-index: 20;
+            transition: all 0.3s ease-in-out;
+          }
+          
+          button:hover span {
+            color: black;
+            animation: scaleUp 0.3s ease-in-out;
+          }
+          
+          @keyframes scaleUp {
+            0% {
+              transform: scale(1);
+            }
+          
+            50% {
+              transform: scale(0.95);
+            }
+          
+            100% {
+              transform: scale(1);
+            }
+          }
+          
+
     }
 }
 
@@ -58,6 +170,10 @@ body, html {
         transform: translateX(0);
         opacity: 1;
     }
+}
+
+.slide-in-h1 {
+    animation: slideInLeft 1s ease-out;
 }
 
 @keyframes slideInRight {
@@ -91,7 +207,7 @@ body, html {
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
-    animation: slideIn 1s ease-out 3s forwards, bounce 2s infinite 5s;
+    animation: slideIn 1s ease-out 1s forwards, bounce 2s infinite 3s;
     z-index: 1000;
 }
 
