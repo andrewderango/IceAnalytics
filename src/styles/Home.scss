@@ -229,7 +229,31 @@ body, html {
     }
 }
 
+@keyframes reveal {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}
+
+.reveal {
+    position: relative;
+    overflow: hidden;
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background: #222;
+        animation: reveal 1s forwards;
+    }
+}
+
 // temp
 .scroll-down-text {
-    margin-top: 5000px;
+    margin-top: 2000px;
 }

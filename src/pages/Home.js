@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/Home.scss';
 import headshot from '../assets/images/headshot6.png';
 
 
 function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const aboutSectionRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -19,6 +21,31 @@ function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          const textElements = entry.target.querySelectorAll('h2, p');
+          textElements.forEach(element => element.classList.add('reveal'));
+          setHasAnimated(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    );
+    if (aboutSectionRef.current) {
+      observer.observe(aboutSectionRef.current);
+    }
+    return () => {
+      if (aboutSectionRef.current) {
+        observer.unobserve(aboutSectionRef.current);
+      }
+    };
+  }, [hasAnimated]);
+
   return (
     <div className="home">
       <div className="landing-section">
@@ -30,7 +57,7 @@ function Home() {
         <img src={headshot} alt="Headshot" className="headshot slide-in-right" />
         {!isScrolled && <div id="scroll-down-arrow"></div>}
       </div>
-      <div className="about-section">
+      <div className="about-section" ref={aboutSectionRef}>
         <h2>ABOUT PUCKPROJECTIONS</h2>
         <div className="underline"></div>
         <p>PuckProjections is a free and open-source NHL simulation engine used to deliver cutting-edge projections and analytics. The platform harnesses the power of ensemble machine learning and Monte Carlo simulations to provide comprehensive insights into NHL games, players, and teams.</p>
