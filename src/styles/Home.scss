@@ -34,7 +34,7 @@ body, html {
         h1 {
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
             // font-size: 64px; // 4em
-            font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 16px));
+            font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 37.4px));
             font-weight: 900;
             color: #fff;
         }
@@ -43,13 +43,14 @@ body, html {
             width: 25%;
             height: 3px;
             background-color: goldenrod;
-            margin-top: -35px;
+            // margin-top: -35px;
+            margin-top: calc(-0.0646732*(100vw - 75vh) + 19.4581px)
         }
 
         p {
             font-family: 'Roboto', serif;
-            font-size: 1.28em;
-            // font-size: calc(max(0.033*(100vw - 75vh) - 6.70583px, 12px));
+            // font-size: 1.28em;
+            font-size: calc(max(0.028*(100vw - 75vh) - 2px, 12px));
             font-weight: 500;
             color: goldenrod;
             margin-top: 35px;
