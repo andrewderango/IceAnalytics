@@ -6,7 +6,11 @@ import headshot from '../assets/images/headshot6.png';
 function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const aboutSectionRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const [aboutHasAnimated, setAboutHasAnimated] = useState(false);
+  const widgetRef1 = useRef(null);
+  const widgetRef2 = useRef(null);
+  const widgetRef3 = useRef(null);
+  // const [widgetHasAnimated, setWidgetHasAnimated] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -24,10 +28,10 @@ function Home() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry.isIntersecting && !aboutHasAnimated) {
           const textElements = entry.target.querySelectorAll('h2, p');
           textElements.forEach(element => element.classList.add('reveal'));
-          setHasAnimated(true);
+          setAboutHasAnimated(true);
         }
       },
       {
@@ -44,7 +48,44 @@ function Home() {
         observer.unobserve(aboutSectionRef.current);
       }
     };
-  }, [hasAnimated]);
+  }, [aboutHasAnimated]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('slide-up');
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    );
+    if (widgetRef1.current) {
+      observer.observe(widgetRef1.current);
+    }
+    if (widgetRef2.current) {
+      observer.observe(widgetRef2.current);
+    }
+    if (widgetRef3.current) {
+      observer.observe(widgetRef3.current);
+    }
+    return () => {
+      if (widgetRef1.current) {
+        observer.unobserve(widgetRef1.current);
+      }
+      if (widgetRef2.current) {
+        observer.unobserve(widgetRef2.current);
+      }
+      if (widgetRef3.current) {
+        observer.unobserve(widgetRef3.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="home">
@@ -69,7 +110,7 @@ function Home() {
       <div className="pages-section">
         <h2>FEATURES</h2>
         <div className="widgets">
-          <div className="widget">
+          <div className="widget widget1" ref={widgetRef1}>
             <i className="icon games-icon"></i>
             <hr className="underline" />
             <h3>Games</h3>
@@ -78,16 +119,16 @@ function Home() {
               <span>VIEW GAMES</span>
             </button>
           </div>
-          <div className="widget">
+          <div className="widget widget2" ref={widgetRef2}>
             <i className="icon players-icon"></i>
             <hr className="underline" />
             <h3>Players</h3>
-            <p>Dive into statistic projections probabilities for your favourite players.</p>
+            <p>Dive into statistic projections and probabilities for your favourite players.</p>
             <button onClick={() => window.location.href='/players'}>
               <span>VIEW PLAYERS</span>
             </button>
           </div>
-          <div className="widget">
+          <div className="widget widget3" ref={widgetRef3}>
             <i className="icon teams-icon"></i>
             <hr className="underline" />
             <h3>Teams</h3>

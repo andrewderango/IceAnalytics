@@ -191,6 +191,7 @@ body, html {
     }
 
     .widget {
+        opacity: 0;
         width: 30%;
         background: #222;
         color: goldenrod;
@@ -199,6 +200,7 @@ body, html {
         border-radius: 10px;
         transition: all 0.3s ease;
         border: 2px transparent solid;
+        // animation: slideUp 1s ease-out forwards;
     }
 
     .widget:hover {
@@ -375,4 +377,32 @@ body, html {
         background: #222;
         animation: reveal 1s forwards;
     }
+}
+
+@keyframes slideUp {
+    0% {
+        // transform: translateY(100%);
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideUp 1s ease-out forwards;
+}
+
+.widget1 {
+    animation-delay: 0.5s;
+}
+
+.widget2 {
+    animation-delay: 1s;
+}
+
+.widget3 {
+    animation-delay: 1.5s;
 }
