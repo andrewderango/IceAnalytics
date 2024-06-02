@@ -115,27 +115,21 @@ function Home() {
             <hr className="underline" />
             <h3>Games</h3>
             <p>Explore win probabilities and expected goal spreads for upcoming games.</p>
-            <button onClick={() => window.location.href='/games'}>
-              <span>VIEW GAMES</span>
-            </button>
+            <button onClick={() => window.location.href='/games'}>VIEW GAMES</button>
           </div>
           <div className="widget widget2" ref={widgetRef2}>
             <i className="icon players-icon"></i>
             <hr className="underline" />
             <h3>Players</h3>
             <p>Dive into statistic projections and probabilities for your favourite players.</p>
-            <button onClick={() => window.location.href='/players'}>
-              <span>VIEW PLAYERS</span>
-            </button>
+            <button onClick={() => window.location.href='/players'}>VIEW PLAYERS</button>
           </div>
           <div className="widget widget3" ref={widgetRef3}>
             <i className="icon teams-icon"></i>
             <hr className="underline" />
             <h3>Teams</h3>
             <p>Get the latest on team performances, playoff probabilties, and Cup odds.</p>
-            <button onClick={() => window.location.href='/teams'}>
-              <span>VIEW TEAMS</span>
-            </button>
+            <button onClick={() => window.location.href='/teams'}>VIEW TEAMS</button>
           </div>
         </div>
       </div>
