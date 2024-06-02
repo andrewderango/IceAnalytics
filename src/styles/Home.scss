@@ -156,8 +156,120 @@ body, html {
               transform: scale(1);
             }
           }
-          
+    }
 
+    .pages-section {
+        clear: both;
+        background-color: #f1e6d1;
+        padding: 50px 200px 75px 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        h2 {
+            font-size: 3em;
+            margin-bottom: 1em;
+            font-family: 'Sweet Sans Pro Heavy', sans-serif;
+            color: black;
+        }
+
+        p {
+            font-size: 1.25em;
+            line-height: 1.5em;
+            margin-bottom: 2em;
+            color: #666;
+            font-family: 'Sweet Sans Pro Thin';
+        }
+    }
+
+    .widgets {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .widget {
+        width: 30%;
+        background: #222;
+        color: goldenrod;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 10px;
+    }
+
+    .widget h3 {
+        font-size: 2em;
+        margin-bottom: 0.5em;
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        text-transform: uppercase;
+    }
+
+    .widget p {
+        font-size: 1.25em;
+        line-height: 1.5em;
+        margin-bottom: 2em;
+        color: #999;
+        font-family: 'Sweet Sans Pro Thin';
+    }
+
+    .widget button {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        background: goldenrod;
+        overflow: hidden;
+        cursor: pointer;
+        color: #222;
+        font-family: 'Sweet Sans Pro Thin', sans-serif;
+        font-weight: 100;
+        font-size: 1em;
+        border: 1px solid goldenrod;
+    }
+
+    .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin: 35px auto 20px;
+    }
+
+    .games-icon {
+        // background-image: url('https://i.pinimg.com/564x/93/0c/4d/930c4db27526738ee87e320e68a731c9.jpg');
+        background-image: url('../assets/images/faceoff.png');
+        background-size: cover;
+        background-position: center;
+        height: 50px;
+        width: 65px;
+        // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
+        filter: invert(100%) brightness(45%);
+    }
+
+    .players-icon {
+        // background-image: url('https://icons.veryicon.com/png/o/sport/sports-events-1/sports-ice-hockey.png');
+        background-image: url('../assets/images/player.png');
+        background-size: cover;
+        // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
+        filter: invert(100%) brightness(45%);
+    }
+
+    .teams-icon {
+        // background-image: url('https://cdn-icons-png.flaticon.com/512/3823/3823988.png');
+        background-image: url('../assets/images/stanley-cup.png');
+        background-size: cover;
+        // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
+        filter: invert(100%) brightness(45%);
+    }
+
+    .underline {
+        width: 50%;
+        height: 1px;
+        background-color: #444;
+        margin-bottom: 10px;
+        border: none;
     }
 }
 
@@ -251,9 +363,4 @@ body, html {
         background: #222;
         animation: reveal 1s forwards;
     }
-}
-
-// temp
-.scroll-down-text {
-    margin-top: 2000px;
 }

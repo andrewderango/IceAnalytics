@@ -66,7 +66,38 @@ function Home() {
         </button>
         {/* <button onClick={() => window.open('https://github.com/andrewderango/NHL-Simulation-Engine', '_blank')}>View Source Code</button> */}
       </div>
-      <div className="scroll-down-text">Scroll down</div> {/* temp */}
+      <div className="pages-section">
+        <h2>FEATURES</h2>
+        <div className="widgets">
+          <div className="widget">
+            <i className="icon games-icon"></i>
+            <hr className="underline" />
+            <h3>Games</h3>
+            <p>Explore win probabilities and expected goal spreads for upcoming games.</p>
+            <button onClick={() => window.location.href='/games'}>
+              <span>VIEW GAMES</span>
+            </button>
+          </div>
+          <div className="widget">
+            <i className="icon players-icon"></i>
+            <hr className="underline" />
+            <h3>Players</h3>
+            <p>Dive into statistic projections probabilities for your favourite players.</p>
+            <button onClick={() => window.location.href='/players'}>
+              <span>VIEW PLAYERS</span>
+            </button>
+          </div>
+          <div className="widget">
+            <i className="icon teams-icon"></i>
+            <hr className="underline" />
+            <h3>Teams</h3>
+            <p>Get the latest on team performances, playoff probabilties, and Cup odds.</p>
+            <button onClick={() => window.location.href='/teams'}>
+              <span>VIEW TEAMS</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
