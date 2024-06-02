@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+// @font-face {
+//     font-family: 'Sweet Sans Pro Thin';
+//     src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+//         url('../assets/fonts/SweetSansProThin.woff') format('woff');
+// }
+
+.footer {
+    background-color: #000;
+    color: #888;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer p {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    font-size: 1em;
+}
+
+.footer a {
+    color: #666;
+    text-decoration: none;
+}
+
+.small-text {
+    font-size: 0.8em !important;
+    margin: 10px !important;
+}
