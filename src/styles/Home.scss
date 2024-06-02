@@ -201,6 +201,50 @@ body, html {
             border: 2px transparent solid;
             // animation: slideUp 1s ease-out forwards;
         }
+
+        .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            margin: 35px auto 20px;
+        }
+    
+        .games-icon {
+            // background-image: url('https://i.pinimg.com/564x/93/0c/4d/930c4db27526738ee87e320e68a731c9.jpg');
+            background-image: url('../assets/images/faceoff.png');
+            background-size: cover;
+            background-position: center;
+            height: 50px;
+            width: 65px;
+            // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
+            filter: invert(100%) brightness(45%);
+        }
+    
+        .players-icon {
+            // background-image: url('https://icons.veryicon.com/png/o/sport/sports-events-1/sports-ice-hockey.png');
+            background-image: url('../assets/images/player.png');
+            background-size: cover;
+            // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
+            filter: invert(100%) brightness(45%);
+        }
+    
+        .teams-icon {
+            // background-image: url('https://cdn-icons-png.flaticon.com/512/3823/3823988.png');
+            background-image: url('../assets/images/stanley-cup.png');
+            background-size: cover;
+            // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
+            filter: invert(100%) brightness(45%);
+        }
+    
+        .underline {
+            width: 50%;
+            height: 1px;
+            background-color: #444;
+            margin-bottom: 10px;
+            border: none;
+        }
     }
 
     .widget:hover {
@@ -221,70 +265,34 @@ body, html {
     .widget p {
         font-size: 1.25em;
         line-height: 1.5em;
-        margin-bottom: 2em;
+        margin-bottom: 1.5em;
         color: #999;
         font-family: 'Sweet Sans Pro Thin';
     }
 
     .widget button {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 30px;
-        background: goldenrod;
-        overflow: hidden;
+        padding: 17px 40px;
+        border-radius: 50px;
         cursor: pointer;
-        color: #222;
-        font-family: 'Sweet Sans Pro Thin', sans-serif;
-        font-weight: 100;
-        font-size: 1em;
-        border: 1px solid goldenrod;
-    }
-
-    .icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50px;
-        height: 50px;
-        margin: 35px auto 20px;
-    }
-
-    .games-icon {
-        // background-image: url('https://i.pinimg.com/564x/93/0c/4d/930c4db27526738ee87e320e68a731c9.jpg');
-        background-image: url('../assets/images/faceoff.png');
-        background-size: cover;
-        background-position: center;
-        height: 50px;
-        width: 65px;
-        // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
-        filter: invert(100%) brightness(45%);
-    }
-
-    .players-icon {
-        // background-image: url('https://icons.veryicon.com/png/o/sport/sports-events-1/sports-ice-hockey.png');
-        background-image: url('../assets/images/player.png');
-        background-size: cover;
-        // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
-        filter: invert(100%) brightness(45%);
-    }
-
-    .teams-icon {
-        // background-image: url('https://cdn-icons-png.flaticon.com/512/3823/3823988.png');
-        background-image: url('../assets/images/stanley-cup.png');
-        background-size: cover;
-        // filter: invert(74%) sepia(94%) saturate(589%) hue-rotate(346deg) brightness(90%) contrast(89%);
-        filter: invert(100%) brightness(45%);
-    }
-
-    .underline {
-        width: 50%;
-        height: 1px;
-        background-color: #444;
-        margin-bottom: 10px;
         border: none;
-    }
+        background-color: #666;
+        text-transform: uppercase;
+        font-size: 15px;
+        transition: all 0.5s ease;
+        font-family: 'Sweet Sans Pro Thin';
+      }
+      
+      .widget button:hover {
+        letter-spacing: 1px;
+        background-color: goldenrod;
+        color: #222;
+        font-weight: 900;
+      }
+      
+      .widget button:active {
+        transform: translateY(1px);
+        transition: 100ms;
+      }
 }
 
 @keyframes slideInLeft {
