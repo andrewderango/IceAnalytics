@@ -33,8 +33,8 @@ body, html {
 
         h1 {
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
-            font-size: 64px; // 4em
-            // font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 16px));
+            // font-size: 64px; // 4em
+            font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 16px));
             font-weight: 900;
             color: #fff;
         }
