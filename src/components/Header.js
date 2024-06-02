@@ -5,11 +5,16 @@ import logo from '../assets/images/logo.svg';
 
 function Header() {
   const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    };
+  
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -49,7 +54,7 @@ function Header() {
             <li><Link to="/players">PLAYERS</Link></li>
             <li><Link to="/teams">TEAMS</Link></li>
             <li><Link to="/about">ABOUT</Link></li>
-            <li><Link to="/">{width}</Link></li>
+            <li><Link to="/">{width}x{height}</Link></li>
           </ul>
         </nav>
       ) : (
@@ -64,7 +69,7 @@ function Header() {
               <li><Link to="/players" onClick={() => setMenuOpen(false)}>PLAYERS</Link></li>
               <li><Link to="/teams" onClick={() => setMenuOpen(false)}>TEAMS</Link></li>
               <li><Link to="/about" onClick={() => setMenuOpen(false)}>ABOUT</Link></li>
-              <li><Link to="/" onClick={() => setMenuOpen(false)}>{width}</Link></li>
+              <li><Link to="/" onClick={() => setMenuOpen(false)}>{width}x{height}</Link></li>
             </ul>
           )}
         </nav>
