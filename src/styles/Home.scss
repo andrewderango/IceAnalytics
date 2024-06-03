@@ -23,7 +23,7 @@ body, html {
 .home {
 
     .landing-section {
-        min-height: 100vh;
+        min-height: min(100vh, 70vw);
     }
 
     .text-container {
@@ -31,10 +31,35 @@ body, html {
         top: 35%;
         left: min(100px, 7%);
 
+        @media (min-height: 1000px) and (max-width: 1300px) {
+            top: 30%;
+        }
+        @media (min-height: 1300px) and (max-width: 1300px) {
+            top: 25%;
+        }
+        @media (max-height: 800px) and (min-width: 2000px) {
+            top: 25%;
+        }
+        @media (max-height: 600px) and (min-width: 1500px) {
+            top: 20%;
+        }
+        @media (max-height: 500px) and (min-width: 1000px) {
+            top: 25%;
+        }
+        @media (max-height: 400px) and (min-width: 1000px) {
+            top: 15%;
+        }
+        @media (max-height: 400px) and (min-width: 1500px) {
+            top: 0%;
+        }
+        @media (max-height: 400px) and (min-width: 2000px) {
+            top: -10%;
+        }
+
         h1 {
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
-            font-size: 64px; // 4em
-            // font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 16px));
+            // font-size: 64px; // 4em
+            font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 42px));
             font-weight: 900;
             color: #fff;
         }
@@ -43,13 +68,14 @@ body, html {
             width: 25%;
             height: 3px;
             background-color: goldenrod;
-            margin-top: -35px;
+            // margin-top: -35px;
+            margin-top: calc(-0.0646732*(100vw - 75vh) + 19.4581px)
         }
 
         p {
             font-family: 'Roboto', serif;
-            font-size: 1.28em;
-            // font-size: calc(max(0.033*(100vw - 75vh) - 6.70583px, 12px));
+            // font-size: 1.28em;
+            font-size: calc(max(0.028*(100vw - 75vh) - 2px, 13.5px));
             font-weight: 500;
             color: goldenrod;
             margin-top: 35px;
@@ -58,23 +84,29 @@ body, html {
 
     .headshot {
         height: 75%;
+        max-height: 50vw;
         position: absolute;
         right: 0;
         top: 15%;
         opacity: 0;
+
+        @media (max-height: 500px) {
+            top: calc(6.5% + 55px);
+        }
     }
 
     .about-section {
         clear: both;
         background-color: #222;
-        padding: 50px 200px 75px 200px;
+        // padding: 50px 200px 75px 200px;
+        padding: calc(50/1440 * 100vw) calc(100/1440 * 100vw) calc(75/1440 * 100vw) calc(100/1440 * 100vw);
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
 
         h2 {
-            font-size: 3em;
+            font-size: calc(48/1440 * 100vw);
             margin-bottom: 0.5em;
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
             color: goldenrod;
@@ -89,7 +121,7 @@ body, html {
         }
 
         p {
-            font-size: 1.25em;
+            font-size: calc(20/1440 * 100vw);
             line-height: 1.5em;
             margin-bottom: 2em;
             color: #999;
@@ -101,14 +133,14 @@ body, html {
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 30px;
+            border-radius: calc(30/1440 * 100vw);
             background: #222;
             overflow: hidden;
             cursor: pointer;
             color: goldenrod;
             font-family: 'Sweet Sans Pro Thin', sans-serif;
             font-weight: 100;
-            font-size: 1em;
+            font-size: calc(16/1440 * 100vw);
             border: 1px solid goldenrod;
           }
           
@@ -132,7 +164,8 @@ body, html {
             text-align: center;
             text-decoration: none;
             width: 100%;
-            padding: 18px 40px;
+            // padding: 18px 40px;
+            padding: calc(18/1440 * 100vw) calc(40/1440 * 100vw);
             color: goldenrod;
             font-size: 1.125em;
             font-weight: 700;
@@ -165,14 +198,15 @@ body, html {
         clear: both;
         // background-color: #f1e6d1;
         background-color: #111;
-        padding: 50px 100px 75px 100px;
+        // padding: 50px 100px 75px 100px;
+        padding: calc(50/1440 * 100vw) calc(100/1440 * 100vw) calc(75/1440 * 100vw) calc(100/1440 * 100vw);
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
 
         h2 {
-            font-size: 3em;
+            font-size: calc(48/1440 * 100vw);
             margin-bottom: 1em;
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
             // color: black;
@@ -180,7 +214,7 @@ body, html {
         }
 
         p {
-            font-size: 1.25em;
+            font-size: 20px;
             line-height: 1.5em;
             margin-bottom: 2em;
             color: #666;
@@ -197,7 +231,8 @@ body, html {
             width: 30%;
             background: #222;
             color: goldenrod;
-            padding: 20px;
+            // padding: 20px;
+            padding: calc(20/1440 * 100vw);
             box-sizing: border-box;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -215,13 +250,15 @@ body, html {
             }
     
             h3 {
-                font-size: 2em;
+                // font-size: 32px;
+                font-size: calc(32/1440 * 100vw);
                 margin-bottom: 0.5em;
                 text-transform: uppercase;
             }
     
             p {
-                font-size: 1.25em;
+                // font-size: 20px;
+                font-size: calc(20/1440 * 100vw);
                 line-height: 1.5em;
                 margin-bottom: 1.5em;
                 color: #999;
@@ -229,13 +266,15 @@ body, html {
             }
     
             button {
-                padding: 17px 40px;
+                // padding: 17px 40px;
+                padding: calc(17/1440 * 100vw) calc(40/1440 * 100vw);
                 border-radius: 50px;
                 cursor: pointer;
                 border: none;
                 background-color: #666;
                 text-transform: uppercase;
-                font-size: 15px;
+                // font-size: 15px;
+                font-size: calc(15/1440 * 100vw);
                 transition: all 0.5s ease;
                 font-family: 'Sweet Sans Pro Thin';
     
@@ -256,8 +295,8 @@ body, html {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 50px;
-                height: 50px;
+                width: calc(50/1440 * 100vw);
+                height: calc(50/1440 * 100vw);
                 margin: 35px auto 20px;
             }
     
@@ -268,8 +307,8 @@ body, html {
     
             .games-icon {
                 background-image: url('../assets/images/faceoff.png');
-                height: 50px;
-                width: 65px;
+                height: calc(50/1440 * 100vw);
+                width: calc(58/1440 * 100vw);
             }
     
             .players-icon {
