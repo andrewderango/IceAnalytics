@@ -24,6 +24,13 @@ body, html {
 
     .landing-section {
         min-height: min(100vh, 70vw);
+
+        @media (max-width: 1000px) {
+            min-height: 100vh;
+        }
+        @media (max-width: 499px) {
+            min-height: 80vh;
+        }
     }
 
     .text-container {
@@ -55,6 +62,12 @@ body, html {
         @media (max-height: 400px) and (min-width: 2000px) {
             top: -10%;
         }
+        @media (max-width: 1000px) {
+            text-align: center;
+            left: 0;
+            right: 0;
+            top: 12%;
+        }
 
         h1 {
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
@@ -62,14 +75,23 @@ body, html {
             font-size: calc(max(0.0879218*(100vw - 75vh) - 6.70583px, 42px));
             font-weight: 900;
             color: #fff;
+
+            @media (max-width: 1000px) {
+                font-size: calc(28/390 * 100vw);
+            }
         }
 
         .underline {
             width: 25%;
             height: 3px;
             background-color: goldenrod;
-            // margin-top: -35px;
-            margin-top: calc(-0.0646732*(100vw - 75vh) + 19.4581px)
+            margin-top: calc(-0.0646732*(100vw - 75vh) + 19.4581px);
+
+            @media (max-width: 1000px) {
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: -2%;
+            }
         }
 
         p {
@@ -79,6 +101,12 @@ body, html {
             font-weight: 500;
             color: goldenrod;
             margin-top: 35px;
+
+            @media (max-width: 1000px) {
+                font-size: calc(20/390 * 100vw);
+                font-weight: 300;
+                margin-top: 6%;
+            }
         }
     }
 
@@ -92,6 +120,23 @@ body, html {
 
         @media (max-height: 500px) {
             top: calc(6.5% + 55px);
+        }
+
+        @media (max-width: 1000px) {
+            max-height: none;
+            height: 40%;
+            // top: 45%;
+            top: calc(88.9841% - 294px);
+            transform: translate(-50%, 0%) !important;
+            left: 50%;
+            right: auto;
+        }
+
+        @media (max-width: 1000px) and (min-width: 500px) and (max-height: 800px) {
+            top: max(calc(88.9841% - 294px), 60%);
+        }
+        @media (max-width: 1000px) and (min-width: 700px) and (max-height: 650px) {
+            top: max(calc(88.9841% - 294px), 400px);
         }
     }
 
@@ -110,6 +155,10 @@ body, html {
             margin-bottom: 0.5em;
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
             color: goldenrod;
+
+            @media (max-width: 1000px) {
+                font-size: calc(28/390 * 100vw);
+            }
         }
 
         .underline {
@@ -126,6 +175,10 @@ body, html {
             margin-bottom: 2em;
             color: #999;
             font-family: 'Sweet Sans Pro Thin';
+
+            @media (max-width: 1000px) {
+                font-size: calc(16/390 * 100vw);
+            }
         }
 
         button {
@@ -142,6 +195,12 @@ body, html {
             font-weight: 100;
             font-size: calc(16/1440 * 100vw);
             border: 1px solid goldenrod;
+
+            @media (max-width: 1000px) {
+                font-size: calc(12/390 * 100vw);
+                border-radius: 50px;
+                padding: 2% 6%;
+            }
           }
           
           button:after {
@@ -211,6 +270,12 @@ body, html {
             font-family: 'Sweet Sans Pro Heavy', sans-serif;
             // color: black;
             color: goldenrod;
+
+            @media (max-width: 1000px) {
+                font-size: calc(28/390 * 100vw);
+                border-radius: 50px;
+                padding: 2% 6%;
+            }
         }
 
         p {
@@ -224,6 +289,11 @@ body, html {
         .widgets {
             display: flex;
             justify-content: space-between;
+
+            @media (max-width: 1000px) {
+                flex-direction: column;
+                align-items: center;
+            }
         }
 
         .widget {
@@ -237,6 +307,11 @@ body, html {
             border-radius: 10px;
             transition: all 0.3s ease;
             border: 2px transparent solid;
+
+            @media (max-width: 1000px) {
+                width: 80%;
+                margin-bottom: 20px;
+            }
     
             &:hover {
                 background: #333;
@@ -254,6 +329,12 @@ body, html {
                 font-size: calc(32/1440 * 100vw);
                 margin-bottom: 0.5em;
                 text-transform: uppercase;
+
+                @media (max-width: 1000px) {
+                    font-size: calc(22/390 * 100vw);
+                    border-radius: 50px;
+                    padding: 2% 6%;
+                }
             }
     
             p {
@@ -263,6 +344,10 @@ body, html {
                 margin-bottom: 1.5em;
                 color: #999;
                 font-family: 'Sweet Sans Pro Thin';
+
+                @media (max-width: 1000px) {
+                    font-size: calc(16/390 * 100vw);
+                }
             }
     
             button {
@@ -289,6 +374,15 @@ body, html {
                     transform: translateY(1px);
                     transition: 100ms;
                 }
+
+                @media (max-width: 1000px) {
+                    font-size: calc(16/390 * 100vw);
+                    border-radius: 50px;
+                    padding: 2% 6%;
+                    margin-bottom: 20px;
+                    color: goldenrod;
+                    background-color: #393939;
+                }
             }
     
             .icon {
@@ -298,6 +392,11 @@ body, html {
                 width: calc(50/1440 * 100vw);
                 height: calc(50/1440 * 100vw);
                 margin: 35px auto 20px;
+
+                @media (max-width: 1000px) {
+                    height: calc(50/390 * 100vw);
+                    width: calc(50/390 * 100vw);
+                }
             }
     
             .games-icon, .players-icon, .teams-icon {
@@ -309,6 +408,11 @@ body, html {
                 background-image: url('../assets/images/faceoff.png');
                 height: calc(50/1440 * 100vw);
                 width: calc(58/1440 * 100vw);
+
+                @media (max-width: 1000px) {
+                    height: calc(50/390 * 100vw);
+                    width: calc(58/390 * 100vw);
+                }
             }
     
             .players-icon {
@@ -436,16 +540,28 @@ body, html {
 
 .slide-up {
     animation: slideUp 1s ease-out forwards;
+    @media (max-width: 1000px) {
+        animation: slideUp 0.5s ease-out forwards;
+    }
 }
 
 .widget1 {
     animation-delay: 0.5s;
+    @media (max-width: 1000px) {
+        animation-delay: 0.25s;
+    }
 }
 
 .widget2 {
     animation-delay: 1s;
+    @media (max-width: 1000px) {
+        animation-delay: 0.25s;
+    }
 }
 
 .widget3 {
     animation-delay: 1.5s;
+    @media (max-width: 1000px) {
+        animation-delay: 0.25s;
+    }
 }
