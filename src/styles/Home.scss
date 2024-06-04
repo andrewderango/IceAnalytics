@@ -540,16 +540,28 @@ body, html {
 
 .slide-up {
     animation: slideUp 1s ease-out forwards;
+    @media (max-width: 1000px) {
+        animation: slideUp 0.5s ease-out forwards;
+    }
 }
 
 .widget1 {
     animation-delay: 0.5s;
+    @media (max-width: 1000px) {
+        animation-delay: 0.25s;
+    }
 }
 
 .widget2 {
     animation-delay: 1s;
+    @media (max-width: 1000px) {
+        animation-delay: 0.25s;
+    }
 }
 
 .widget3 {
     animation-delay: 1.5s;
+    @media (max-width: 1000px) {
+        animation-delay: 0.25s;
+    }
 }
