@@ -7,11 +7,7 @@
 
     h1 {
         margin-top: 2em;
-        margin-bottom: 0.0em;
-    
-        @media (max-width: 999px) {
-            margin-top: 1em;
-        }
+        margin-bottom: 0;
     }
     
     h2 {
@@ -22,93 +18,59 @@
     }
 }
 
+.games-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    gap: 15px 35px;
+    width: 95%;
+    justify-content: center;
+    margin-top: 40px;
+}
+
 .game {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
     margin-bottom: 1em;
-    border-radius: 20px;
+    // border-radius: 20px;
     overflow: hidden;
     background: #222222;
-    width: 1300px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
     cursor: pointer;
-
-    @media (max-width: 999px) {
-        position: relative;
-        grid-template-columns: 3fr 2fr 2fr 3fr;
-        width: 90%;
-        height: 120px;
-        margin-bottom: 0.75em;
-    }
+    height: 300px;
 }
 
 .probability {
-    font-size: 3.5em;
+    font-size: 2em; 
     font-weight: 700;
-    margin: 0em 0em;
-
-    @media (max-width: 999px) {
-        font-size: 120%;
-        margin: 0 0 5px 0;
-    }
+    margin: 0;
 }
 
 .projected-goals {
     color: #666;
-    font-size: 1.0em;
-
-    @media (max-width: 999px) {
-        font-size: 50%;
-        margin: 0 0 0 0;
-    }
+    font-size: 1em;
 }
 
-.column1 img {
-    width: 150px;
-    height: 150px;
-
-    @media (max-width: 999px) {
-        // width: 60%;
-        height: 60%;
-        width: 81px;
-        // height: 81px;
-    }
+.column img {
+    width: 150px; 
+    height: 150px; 
 }
 
 .record {
     color: #666;
-    
-    @media (max-width: 999px) {
-        font-size: 70%;
-        margin-bottom: 0;
-    }
 }
 
-.time {
-    font-size: 1.0em;
+.game-head {
+    grid-column: span 3;
+    font-size: 1em;
     color: #999;
-
-    @media (max-width: 999px) {
-        position: absolute;
-        top: 82%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 50%;
-        // margin: 0 0 -5px 0;
-    }
 }
 
 .team-name {
-    font-size: 1.5em;
+    font-size: 1.3em; 
     font-weight: 700;
-    margin: -20px 0 -5px 0;
-
-    @media (max-width: 999px) {
-        font-size: 80%;
-        margin: 5px 0 -5px 0;
-    }
+    margin: -15px 0 -5px 0; 
 }
 
 .loader {
