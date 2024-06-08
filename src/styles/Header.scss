@@ -50,6 +50,11 @@
                     text-decoration: none;
                     position: relative;
 
+                    &:hover {
+                        color: #bbb;
+                        transition: 0.25s ease;
+                    }
+
                     &::after {
                         content: '';
                         position: absolute;
@@ -57,7 +62,7 @@
                         left: 0;
                         height: 1px;
                         width: 0;
-                        background: #fff;
+                        background: #AAA;
                         transition: width 0.5s;
                     }
 
@@ -125,7 +130,7 @@
                             left: 0;
                             height: 1px;
                             width: 0;
-                            background: #fff;
+                            background: goldenrod;
                             transition: width 0.5s;
                         }
 

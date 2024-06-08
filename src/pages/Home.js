@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/Home.scss';
 import headshot from '../assets/images/headshot6.png';
 
-
 function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const aboutSectionRef = useRef(null);

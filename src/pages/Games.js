@@ -4,16 +4,16 @@ import { GridLoader } from 'react-spinners';
 
 function Games() {
   const [games, setGames] = useState([]);
-  const [width, setWidth] = useState(window.innerWidth);
+  // const [width, setWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => setWidth(window.innerWidth);
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   // Fetch the games data from an API or local data source
@@ -141,49 +141,37 @@ function Games() {
 
   return (
     <div className="games">
-      <h1>Games</h1>
-      <h2 className="date">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
-      {games.map(game => (
-          <div className="game" key={game.id}>
-            <div className="column1">
-              <img src={game.team1.logo} alt={game.team1.name} />
-              {width >= 1000 ? (
-                <p className="team-name">{game.team1.name}</p>
-              ) : (
-                <p className="team-name">{game.team1.abbrev}</p>
-              )}
-              <p className="record">{game.team1.record}</p>
-            </div>
-            <div className="column2">
-              <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
-              {width >= 1000 ? (
-                <p className="projected-goals">Proj. Goals: {game.team1.projectedGoals.toFixed(2)}</p>
-              ) : (
-                <p className="projected-goals">{game.team1.projectedGoals.toFixed(2)} Goals</p>
-              )}
-            </div>
-            <div className="time">
-              {game.time}
-            </div>
-            <div className="column2">
-              <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
-              {width >= 1000 ? (
-                <p className="projected-goals">Proj. Goals: {game.team2.projectedGoals.toFixed(2)}</p>
-              ) : (
-                <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p>
-              )}
-            </div>
-            <div className="column1">
-              <img src={game.team2.logo} alt={game.team2.name} />
-              {width >= 1000 ? (
-                <p className="team-name">{game.team2.name}</p>
-              ) : (
-                <p className="team-name">{game.team2.abbrev}</p>
-              )}
-              <p className="record">{game.team2.record}</p>
-            </div>
-          </div>
-      ))}
+        <h1>Games</h1>
+        <h2 className="date">
+            {new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            })}
+        </h2>
+        <div className="games-container">
+            {games.map(game => (
+                <div className="game" key={game.id}>
+                    <div className="game-head">
+                      <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
+                      <p className="time">{game.time}</p>
+                    </div>
+                    <div className="column-left">
+                        <img src={game.team1.logo} alt={game.team1.name} />
+                        <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
+                        {/* <p className="projected-goals">{game.team1.projectedGoals.toFixed(2)} Goals</p> */}
+                        <p className="record">{game.team1.record}</p>
+                    </div>
+                    <div className="column-right">
+                        <img src={game.team2.logo} alt={game.team2.name} />
+                        <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
+                        {/* <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p> */}
+                        <p className="record">{game.team2.record}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
     </div>
   );
 }

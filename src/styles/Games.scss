@@ -1,113 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+    font-family: 'Sweet Sans Pro Heavy';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Regular';
+    src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
+}
+
 .games {
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     h1 {
-        margin-top: 2em;
-        margin-bottom: 0.0em;
-    
-        @media (max-width: 999px) {
-            margin-top: 1em;
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        font-size: 48px;
+        margin-top: 64px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+
+        @media (max-width: 500px) {
+            font-size: 36px;
+            margin-top: 36px;
         }
     }
     
     h2 {
+        font-family: 'Sweet Sans Pro Thin', sans-serif;
         margin-top: 0.5em;
-        font-size: 1.5em;
+        font-size: 24px;
         font-weight: 100;
-        margin-bottom: 1em;
+        color: goldenrod;
+
+        @media (max-width: 500px) {
+            font-size: 20px;
+        }
+    }
+}
+
+.games-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    gap: 15px 35px;
+    width: 95%;
+    justify-content: center;
+    margin-top: 36px;
+    margin-bottom: 64px;
+    transition: 0.5s ease;
+
+    @media (max-width: 500px) {
+        grid-template-columns: repeat(auto-fit, 90%)
     }
 }
 
 .game {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
     margin-bottom: 1em;
-    border-radius: 20px;
+    // border-radius: 20px;
     overflow: hidden;
     background: #222222;
-    width: 1300px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
     cursor: pointer;
+    height: 300px;
+    border: 2px solid transparent;
 
-    @media (max-width: 999px) {
-        position: relative;
-        grid-template-columns: 3fr 2fr 2fr 3fr;
-        width: 90%;
-        height: 120px;
-        margin-bottom: 0.75em;
+    &:hover {
+        background: #333;
+        border: 2px solid goldenrod;
+        box-shadow: 0px 0px 15px rgba(218, 165, 32, 0.3);
+        transition: 0.5s ease;
     }
+
+    img {
+        width: 150px; 
+        height: 150px; 
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+}
+
+.column-left > * {
+    margin-left: 15px;
+}
+
+.column-right > * {
+    margin-right: 15px;
 }
 
 .probability {
-    font-size: 3.5em;
+    font-size: 36px; 
     font-weight: 700;
-    margin: 0em 0em;
-
-    @media (max-width: 999px) {
-        font-size: 120%;
-        margin: 0 0 5px 0;
-    }
-}
-
-.projected-goals {
-    color: #666;
-    font-size: 1.0em;
-
-    @media (max-width: 999px) {
-        font-size: 50%;
-        margin: 0 0 0 0;
-    }
-}
-
-.column1 img {
-    width: 150px;
-    height: 150px;
-
-    @media (max-width: 999px) {
-        // width: 60%;
-        height: 60%;
-        width: 81px;
-        // height: 81px;
-    }
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .record {
     color: #666;
-    
-    @media (max-width: 999px) {
-        font-size: 70%;
-        margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.game-head {
+    grid-column: span 3;
+    font-size: 1em;
+}
+
+.matchup {
+    color: #BBB;
+    margin-bottom: 10px;
+
+    @media (max-width: 500px) {
+        font-size: 15px;
     }
 }
 
 .time {
-    font-size: 1.0em;
-    color: #999;
+    color: #777;
+    margin-top: 10px;
+    margin-bottom: 0;
 
-    @media (max-width: 999px) {
-        position: absolute;
-        top: 82%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 50%;
-        // margin: 0 0 -5px 0;
-    }
-}
-
-.team-name {
-    font-size: 1.5em;
-    font-weight: 700;
-    margin: -20px 0 -5px 0;
-
-    @media (max-width: 999px) {
-        font-size: 80%;
-        margin: 5px 0 -5px 0;
+    @media (max-width: 500px) {
+        font-size: 13px;
     }
 }
 
