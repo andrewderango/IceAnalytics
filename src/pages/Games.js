@@ -4,8 +4,7 @@ import { GridLoader } from 'react-spinners';
 
 function Games() {
   const [games, setGames] = useState([]);
-  // const [width, setWidth] = useState(window.innerWidth);
-  const [setWidth] = useState(window.innerWidth); /// temp
+  const [width, setWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -158,17 +157,17 @@ function Games() {
                       <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
                       <p className="time">{game.time}</p>
                     </div>
-                    <div className="column">
+                    <div className="column-left">
                         <img src={game.team1.logo} alt={game.team1.name} />
                         <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
                         {/* <p className="projected-goals">{game.team1.projectedGoals.toFixed(2)} Goals</p> */}
                         <p className="record">{game.team1.record}</p>
                     </div>
-                    <div className="column">
+                    <div className="column-right">
                         <img src={game.team2.logo} alt={game.team2.name} />
                         <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
                         {/* <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p> */}
-                        <p className="record">{game.team2.record}</p>
+                        <p className="record">{game.team2.record}{width}</p>
                     </div>
                 </div>
             ))}
