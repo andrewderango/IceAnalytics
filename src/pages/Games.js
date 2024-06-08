@@ -154,7 +154,11 @@ function Games() {
             {games.map(game => (
                 <div className="game" key={game.id}>
                     <div className="game-head">
-                      <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
+                      {
+                        width > 500 
+                          ? <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
+                          : <p className="matchup">{game.team1.abbrev} @ {game.team2.abbrev}</p>
+                      }
                       <p className="time">{game.time}</p>
                     </div>
                     <div className="column-left">
@@ -167,7 +171,7 @@ function Games() {
                         <img src={game.team2.logo} alt={game.team2.name} />
                         <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
                         {/* <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p> */}
-                        <p className="record">{game.team2.record}{width}</p>
+                        <p className="record">{game.team2.record}</p>
                     </div>
                 </div>
             ))}
