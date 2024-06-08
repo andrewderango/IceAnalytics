@@ -161,13 +161,13 @@ function Games() {
                     <div className="column">
                         <img src={game.team1.logo} alt={game.team1.name} />
                         <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
-                        <p className="projected-goals">{game.team1.projectedGoals.toFixed(2)} Goals</p>
+                        {/* <p className="projected-goals">{game.team1.projectedGoals.toFixed(2)} Goals</p> */}
                         <p className="record">{game.team1.record}</p>
                     </div>
                     <div className="column">
                         <img src={game.team2.logo} alt={game.team2.name} />
                         <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
-                        <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p>
+                        {/* <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p> */}
                         <p className="record">{game.team2.record}</p>
                     </div>
                 </div>
