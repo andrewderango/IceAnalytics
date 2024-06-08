@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import '../styles/Header.scss';
 import logo from '../assets/images/logo.svg';
 
@@ -49,12 +49,12 @@ function Header() {
       {width >= 1000 ? (
         <nav>
           <ul>
-            <li><Link to="/home">HOME</Link></li>
-            <li><Link to="/games">GAMES</Link></li>
-            <li><Link to="/players">PLAYERS</Link></li>
-            <li><Link to="/teams">TEAMS</Link></li>
-            <li><Link to="/about">ABOUT</Link></li>
-            <li><Link to="/">{width}x{height}</Link></li>
+            <li><NavLink to="/home" activeStyle={{ color: 'goldenrod' }}>HOME</NavLink></li>
+            <li><NavLink to="/games" activeStyle={{ color: 'goldenrod' }}>GAMES</NavLink></li>
+            <li><NavLink to="/players" activeStyle={{ color: 'goldenrod' }}>PLAYERS</NavLink></li>
+            <li><NavLink to="/teams" activeStyle={{ color: 'goldenrod' }}>TEAMS</NavLink></li>
+            <li><NavLink to="/about" activeStyle={{ color: 'goldenrod' }}>ABOUT</NavLink></li>
+            <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }}>{width}x{height}</NavLink></li>
           </ul>
         </nav>
       ) : (
@@ -64,12 +64,12 @@ function Header() {
           </button>
           {menuOpen && (
             <ul>
-              <li><Link to="/home" onClick={() => setMenuOpen(false)}>HOME</Link></li>
-              <li><Link to="/games" onClick={() => setMenuOpen(false)}>GAMES</Link></li>
-              <li><Link to="/players" onClick={() => setMenuOpen(false)}>PLAYERS</Link></li>
-              <li><Link to="/teams" onClick={() => setMenuOpen(false)}>TEAMS</Link></li>
-              <li><Link to="/about" onClick={() => setMenuOpen(false)}>ABOUT</Link></li>
-              <li><Link to="/" onClick={() => setMenuOpen(false)}>{width}x{height}</Link></li>
+              <li><NavLink to="/home" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>HOME</NavLink></li>
+              <li><NavLink to="/games" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>GAMES</NavLink></li>
+              <li><NavLink to="/players" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>PLAYERS</NavLink></li>
+              <li><NavLink to="/teams" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>TEAMS</NavLink></li>
+              <li><NavLink to="/about" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>ABOUT</NavLink></li>
+              <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>{width}x{height}</NavLink></li>
             </ul>
           )}
         </nav>
