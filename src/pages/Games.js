@@ -4,16 +4,16 @@ import { GridLoader } from 'react-spinners';
 
 function Games() {
   const [games, setGames] = useState([]);
-  const [width, setWidth] = useState(window.innerWidth);
+  // const [width, setWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => setWidth(window.innerWidth);
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   // Fetch the games data from an API or local data source
@@ -154,11 +154,7 @@ function Games() {
             {games.map(game => (
                 <div className="game" key={game.id}>
                     <div className="game-head">
-                      {
-                        width > 500 
-                          ? <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
-                          : <p className="matchup">{game.team1.abbrev} @ {game.team2.abbrev}</p>
-                      }
+                      <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
                       <p className="time">{game.time}</p>
                     </div>
                     <div className="column-left">
@@ -177,7 +173,7 @@ function Games() {
             ))}
         </div>
     </div>
-);
+  );
 }
 
 export default Games;
