@@ -114,6 +114,12 @@
                 color: #fff;
                 text-align: center;
             }
+
+            th:hover {
+                // color: goldenrod;
+                background-color: #333;
+                cursor: pointer;
+            }
         }
         
         tbody {
