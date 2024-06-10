@@ -1,21 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+    font-family: 'Sweet Sans Pro Heavy';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Regular';
+    src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
+}
+
 .teams {
     color: #fff;
-    font-family: 'Helvetica', sans-serif;
-    margin: 0 auto; // centers the content horizontally
-    padding: 0 20px; // adds 20px padding to the sides
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 20px;
     
     h1 {
-        font-size: 2em;
-        margin-top: 2em;
-        margin-bottom: 0.5em;
-        text-align: center;
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        font-size: 48px;
+        margin-top: 64px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+
+        @media (max-width: 500px) {
+            font-size: 36px;
+            margin-top: 36px;
+        }
     }
     
     h2 {
-        font-size: 1.2em;
-        margin-bottom: 2em;
-        text-align: center;
+        font-family: 'Sweet Sans Pro Thin', sans-serif;
+        margin-top: 0.5em;
+        font-size: 24px;
         font-weight: 100;
+        color: goldenrod;
+
+        @media (max-width: 500px) {
+            font-size: 20px;
+        }
     }
     
     p {
@@ -28,6 +57,13 @@
         width: auto;
         height: 30px;
         object-fit: contain;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 36px;
+        margin-bottom: 64px;
     }
     
     table {
@@ -46,9 +82,15 @@
                 padding: 1em;
                 text-align: left;
                 font-size: 1.2em;
-                background-color: #222; // changes the background color of the header cells
-                color: #fff; // changes the text color of the header cells
+                background-color: #222;
+                color: #fff;
                 text-align: center;
+            }
+
+            th:hover {
+                // color: goldenrod;
+                background-color: #333;
+                cursor: pointer;
             }
         }
         
@@ -80,22 +122,5 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
         // background-color: green;
         // font-weight: 100;
-    }
-}
-
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-}
-
-table {
-    position: relative;
-    width: max-content;
-    margin: 0 auto;
-    
-    thead, tbody {
-        th, td {
-            text-align: center;
-        }
     }
 }

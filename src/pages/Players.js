@@ -287,10 +287,8 @@ function Players() {
       (posFilter ? row.values.position === posFilter : true);
   });
 
-  // Get unique teams for the dropdown
+  // Get unique teams and for the dropdown
   const teams = [...new Set(rows.map(row => row.values.team))].sort();
-
-  // Get unique positions for the dropdown
   const pos = [...new Set(rows.map(row => row.values.position))].sort();
 
   return (
@@ -298,7 +296,7 @@ function Players() {
       <h1>Players</h1>
       <h2>Last updated May 15, 2024</h2>
       <div className="filter-container">
-        <div className="select-container"> {/* Add this line */}
+        <div className="select-container">
           <select value={teamFilter} onChange={e => setTeamFilter(e.target.value)}>
             <option value="">All Teams</option>
             {teams.map(team => (
@@ -311,7 +309,7 @@ function Players() {
               <option key={pos} value={pos}>{pos}</option>
             ))}
           </select>
-        </div> {/* Add this line */}
+        </div>
         <input
           type="text"
           value={searchTerm}
