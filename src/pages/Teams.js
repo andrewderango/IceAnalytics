@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable } from 'react-table';
 // import { useTable, useSortBy } from 'react-table';
 import '../styles/Teams.scss';
@@ -209,6 +209,7 @@ function Teams() {
     ],
     []
   );
+  const [selectedColumn, setSelectedColumn] = useState(null);
 
   const columns = React.useMemo(
     () => [
@@ -220,45 +221,73 @@ function Teams() {
       {
         Header: 'Team',
         accessor: 'team',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Points',
         accessor: 'points',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'GF',
         accessor: 'goalsFor',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'GA',
         accessor: 'goalsAgainst',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Playoffs',
         accessor: 'playoffProb',
-        Cell: ({ value }) => {
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
           const color = `rgba(138, 125, 91, ${value*0.9 + 0.1})`;
-          return <div className="probability-box" style={{ backgroundColor: color }}>{(value*100).toFixed(1)}%</div>;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(value*100).toFixed(1)}%
+            </div>
+          );
         },
       },
       {
         Header: "Presidents' Trophy",
         accessor: 'presidentsTrophyProb',
-        Cell: ({ value }) => {
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
           const color = `rgba(138, 125, 91, ${value*0.9 + 0.1})`;
-          return <div className="probability-box" style={{ backgroundColor: color }}>{(value*100).toFixed(1)}%</div>;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(value*100).toFixed(1)}%
+            </div>
+          );
         },
       },
       {
         Header: 'Stanley Cup',
         accessor: 'stanleyCupProb',
-        Cell: ({ value }) => {
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
           const color = `rgba(138, 125, 91, ${value*0.9 + 0.1})`;
-          return <div className="probability-box" style={{ backgroundColor: color }}>{(value*100).toFixed(1)}%</div>;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(value*100).toFixed(1)}%
+            </div>
+          );
         },
       },
     ],
-    []
+    [selectedColumn]
   );
 
   const {
@@ -276,22 +305,36 @@ function Teams() {
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                ))}
-              </tr>
-            ))}
-          </thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => {
+                    const isSelected = column.id === selectedColumn;
+                    return (
+                      <th 
+                        {...column.getHeaderProps()} 
+                        onClick={() => setSelectedColumn(prev => prev === column.id ? null : column.id)}
+                        style={{ backgroundColor: isSelected ? 'rgba(218, 165, 32, 0.5)' : '' }}
+                      >
+                        {column.render('Header')}
+                      </th>
+                    );
+                  })}
+                </tr>
+              ))}
+            </thead>
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  ))}
+                  {row.cells.map(cell => {
+                    const isSelected = cell.column.id === selectedColumn;
+                    return (
+                      <td {...cell.getCellProps()} className={isSelected ? 'selected-column' : ''}>
+                        {cell.render('Cell')}
+                      </td>
+                    );
+                  })}
                 </tr>
               );
             })}
