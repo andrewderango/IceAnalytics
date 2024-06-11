@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+    font-family: 'Sweet Sans Pro Heavy';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Regular';
+    src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
+}
+
+.teams {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 20px;
+    
+    h1 {
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        font-size: 48px;
+        margin-top: 64px;
+        margin-bottom: 0;
+        text-transform: uppercase;
+
+        @media (max-width: 500px) {
+            font-size: 36px;
+            margin-top: 36px;
+        }
+    }
+    
+    h2 {
+        font-family: 'Sweet Sans Pro Thin', sans-serif;
+        margin-top: 0.5em;
+        font-size: 24px;
+        font-weight: 100;
+        color: goldenrod;
+
+        @media (max-width: 500px) {
+            font-size: 20px;
+        }
+    }
+    
+    p {
+        font-size: 1.0em;
+        margin-bottom: 2em;
+        text-align: center;
+    }
+
+    .team-logo {
+        width: auto;
+        height: 30px;
+        object-fit: contain;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 36px;
+        margin-bottom: 64px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #333;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        
+        thead {
+            tr {
+                border-bottom: 1px solid #444;
+            }
+            
+            th {
+                padding: 1em;
+                text-align: left;
+                font-size: 1.2em;
+                background-color: #222;
+                color: #fff;
+                text-align: center;
+            }
+
+            th:hover {
+                // color: goldenrod;
+                background-color: #333;
+                cursor: pointer;
+            }
+        }
+        
+        tbody {
+            tr {
+                &:nth-child(even) {
+                    background-color: #444;
+                }
+                &:hover {
+                    background-color: #555;
+                }
+            }
+            
+            td {
+                padding: 0.5em;
+                font-size: 1em;
+            }
+        }
+    }
+
+    .probability-box {
+        padding: 5px;
+        text-align: center;
+        // max-width: 125px;
+        // min-width: 75px;
+        width: 75px;
+        border-radius: 5px;
+        display: inline-block;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        // background-color: green;
+        // font-weight: 100;
+    }
+}
