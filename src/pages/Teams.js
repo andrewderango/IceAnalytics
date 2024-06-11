@@ -59,21 +59,41 @@ function Teams() {
       {
         Header: 'Points',
         accessor: 'points',
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
+          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
+        },
       },
       {
         Header: 'GF',
         accessor: 'goalsFor',
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
+          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
+        },
       },
       {
         Header: 'GA',
         accessor: 'goalsAgainst',
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
+          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
+        },
       },
       {
         Header: 'Playoffs',
         accessor: 'playoffProb',
-        Cell: ({ value }) => {
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
           const color = `rgba(138, 125, 91, ${value*0.9 + 0.1})`;
-          return <div className="probability-box" style={{ backgroundColor: color }}>{(value*100).toFixed(1)}%</div>;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(value*100).toFixed(1)}%
+            </div>
+          );
         },
       },
     ],
@@ -110,9 +130,14 @@ function Teams() {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  ))}
+                  {row.cells.map(cell => {
+                    const isSelected = cell.column.id === selectedColumn;
+                    return (
+                      <td {...cell.getCellProps()} className={isSelected ? 'selected-column' : ''}>
+                        {cell.render('Cell')}
+                      </td>
+                    );
+                  })}
                 </tr>
               );
             })}
