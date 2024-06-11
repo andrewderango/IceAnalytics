@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable } from 'react-table';
 // import { useTable, useSortBy } from 'react-table';
 import '../styles/Players.scss';
@@ -7,6 +7,7 @@ function Players() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [teamFilter, setTeamFilter] = React.useState('');
   const [posFilter, setPosFilter] = React.useState('');
+  const [selectedColumn, setSelectedColumn] = useState(null);
 
   const data = React.useMemo(
     () => [
@@ -248,29 +249,35 @@ function Players() {
       {
         Header: 'Team',
         accessor: 'team',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Position',
         accessor: 'position',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Games',
         accessor: 'games',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Goals',
         accessor: 'goals',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Assists',
         accessor: 'assists',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Points',
         accessor: 'points',
+        Cell: ({ cell: { value } }) => value,
       },
     ],
-    []
+    [selectedColumn]
   );
 
   const {
@@ -318,30 +325,48 @@ function Players() {
         />
       </div>
       <div className="table-container">
-        <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
-          <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+      <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
+        <thead>
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th
+                  {...column.getHeaderProps({
+                    style: {
+                      cursor: 'pointer',
+                      backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
+                    },
+                    onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
+                  })}
+                >
+                  {column.render('Header')}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {filteredRows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => (
+                  <td
+                    {...cell.getCellProps({
+                      style: {
+                        backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
+                      },
+                    })}
+                  >
+                    {cell.render('Cell')}
+                  </td>
                 ))}
               </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {filteredRows.map(row => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 }
