@@ -51,34 +51,22 @@ function Teams() {
       {
         Header: 'Team',
         accessor: 'team',
-        Cell: ({ cell: { value }, column: { id } }) => {
-          const isSelected = id === selectedColumn;
-          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
-        },
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Points',
         accessor: 'points',
-        Cell: ({ cell: { value }, column: { id } }) => {
-          const isSelected = id === selectedColumn;
-          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
-        },
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'GF',
         accessor: 'goalsFor',
-        Cell: ({ cell: { value }, column: { id } }) => {
-          const isSelected = id === selectedColumn;
-          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
-        },
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'GA',
         accessor: 'goalsAgainst',
-        Cell: ({ cell: { value }, column: { id } }) => {
-          const isSelected = id === selectedColumn;
-          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
-        },
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Playoffs',
@@ -89,7 +77,7 @@ function Teams() {
           return (
             <div 
               className={isSelected ? 'selected-column' : ''} 
-              style={{ backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
             >
               {(value*100).toFixed(1)}%
             </div>
@@ -117,11 +105,18 @@ function Teams() {
           <thead>
               {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps()} onClick={() => setSelectedColumn(column.id)}>
-                      {column.render('Header')}
-                    </th>
-                  ))}
+                  {headerGroup.headers.map(column => {
+                    const isSelected = column.id === selectedColumn;
+                    return (
+                      <th 
+                        {...column.getHeaderProps()} 
+                        onClick={() => setSelectedColumn(column.id)}
+                        style={{ backgroundColor: isSelected ? 'rgba(218, 165, 32, 0.5)' : '' }}
+                      >
+                        {column.render('Header')}
+                      </th>
+                    );
+                  })}
                 </tr>
               ))}
             </thead>
