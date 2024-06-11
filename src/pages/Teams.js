@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable } from 'react-table';
 // import { useTable, useSortBy } from 'react-table';
 import '../styles/Teams.scss';
@@ -39,6 +39,7 @@ function Teams() {
     ],
     []
   );
+  const [selectedColumn, setSelectedColumn] = useState(null);
 
   const columns = React.useMemo(
     () => [
@@ -50,6 +51,10 @@ function Teams() {
       {
         Header: 'Team',
         accessor: 'team',
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
+          return <div className={isSelected ? 'selected-column' : ''}>{value}</div>;
+        },
       },
       {
         Header: 'Points',
@@ -72,7 +77,7 @@ function Teams() {
         },
       },
     ],
-    []
+    [selectedColumn]
   );
 
   const {
@@ -90,14 +95,16 @@ function Teams() {
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                ))}
-              </tr>
-            ))}
-          </thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <th {...column.getHeaderProps()} onClick={() => setSelectedColumn(column.id)}>
+                      {column.render('Header')}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row);
