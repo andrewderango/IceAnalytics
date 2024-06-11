@@ -245,6 +245,7 @@ function Players() {
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Team',
@@ -325,48 +326,48 @@ function Players() {
         />
       </div>
       <div className="table-container">
-      <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th
-                  {...column.getHeaderProps({
-                    style: {
-                      cursor: 'pointer',
-                      backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
-                    },
-                    onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
-                  })}
-                >
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {filteredRows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => (
-                  <td
-                    {...cell.getCellProps({
+        <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th
+                    {...column.getHeaderProps({
                       style: {
-                        backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
+                        cursor: 'pointer',
+                        backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
                       },
+                      onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
                     })}
                   >
-                    {cell.render('Cell')}
-                  </td>
+                    {column.render('Header')}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {filteredRows.map(row => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => (
+                    <td
+                      {...cell.getCellProps({
+                        style: {
+                          backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
+                        },
+                      })}
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
