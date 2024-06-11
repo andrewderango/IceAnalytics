@@ -110,7 +110,7 @@ function Teams() {
                     return (
                       <th 
                         {...column.getHeaderProps()} 
-                        onClick={() => setSelectedColumn(column.id)}
+                        onClick={() => setSelectedColumn(prev => prev === column.id ? null : column.id)}
                         style={{ backgroundColor: isSelected ? 'rgba(218, 165, 32, 0.5)' : '' }}
                       >
                         {column.render('Header')}
