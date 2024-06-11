@@ -84,6 +84,38 @@ function Teams() {
           );
         },
       },
+      {
+        Header: "Presidents' Trophy",
+        accessor: 'presidentsTrophyProb',
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
+          const color = `rgba(138, 125, 91, ${value*0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(value*100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
+      {
+        Header: 'Stanley Cup',
+        accessor: 'stanleyCupProb',
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === selectedColumn;
+          const color = `rgba(138, 125, 91, ${value*0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(value*100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
     ],
     [selectedColumn]
   );
