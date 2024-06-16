@@ -97,7 +97,7 @@
     input[type="text"] {
         width: 250px;
         font-size: 14px;
-        padding: 10px 20px;
+        padding: 9.5px 20px 10.5px 35px;
         margin: 8px 0;
         box-sizing: border-box;
         border: 2px solid #333;
@@ -107,8 +107,7 @@
         background-image: url('../assets/images/search.png');
         background-repeat: no-repeat;
         background-position: 10px center;
-        background-size: 20px 20px;
-        padding-left: 40px;
+        background-size: 18px 18px;
     }
 
     .table-container {
