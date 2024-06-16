@@ -52,7 +52,11 @@ function Teams() {
       {
         Header: 'Team',
         accessor: 'team',
-        Cell: ({ cell: { value } }) => value,
+        Cell: ({ cell: { value } }) => (
+          <div style={{ minWidth: '150px' }}>
+            {value}
+          </div>
+        ),
       },
       {
         Header: 'Points',
