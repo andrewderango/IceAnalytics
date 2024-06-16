@@ -57,11 +57,28 @@
     .filter-container {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
     }
 
     .select-container {
         display: flex;
         gap: 10px;
+        flex: 1 1 auto;
+        min-width: 150px;
+    }
+
+    @media (max-width: 1000px) {
+        .select-container {
+            width: 100%;
+        }
+
+        select, input[type="text"] {
+            width: 100% !important;
+        }
+
+        .filter-container {
+            margin-bottom: 15px;
+        }
     }
 
     select {
@@ -78,14 +95,20 @@
     }
 
     input[type="text"] {
-        width: 25%;
-        padding: 12px 20px;
+        width: 250px;
+        font-size: 14px;
+        padding: 10px 20px;
         margin: 8px 0;
         box-sizing: border-box;
         border: 2px solid #333;
         border-radius: 4px;
         background-color: #111;
         color: #fff;
+        background-image: url('../assets/images/search.png');
+        background-repeat: no-repeat;
+        background-position: 10px center;
+        background-size: 20px 20px;
+        padding-left: 40px;
     }
 
     .table-container {
@@ -115,7 +138,10 @@
                         right: 0;
                         bottom: 0;
                         width: 1px;
-                        background-color: #3A3A3A;
+
+                        @media (max-width: 1000px) {
+                            background-color: #333;
+                        }
                     }
                 }
             }
@@ -149,7 +175,10 @@
                         right: 0;
                         bottom: 0;
                         width: 1px;
-                        background-color: #555;
+
+                        @media (max-width: 1000px) {
+                            background-color: #555;
+                        }
                     }
                 }
 
@@ -166,7 +195,10 @@
                             right: 0;
                             bottom: 0;
                             width: 1px;
-                            background-color: #555;
+
+                            @media (max-width: 1000px) {
+                                background-color: #555;
+                            }
                         }
                     }
                 }
@@ -184,7 +216,10 @@
                             right: 0;
                             bottom: 0;
                             width: 1px;
-                            background-color: #666;
+
+                            @media (max-width: 1000px) {
+                                background-color: #666;
+                            }
                         }
                     }
                 }

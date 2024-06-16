@@ -133,7 +133,7 @@ function Players() {
           type="text"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          placeholder="Search players..."
+          placeholder="Search Players"
         />
       </div>
       <div className="table-container">
