@@ -124,6 +124,10 @@
         
         tbody {
             tr {
+                td:first-child {
+                    background-color: #333;
+                }
+
                 &:nth-child(even) {
                     background-color: #444;
                 }
