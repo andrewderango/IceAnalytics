@@ -104,6 +104,20 @@
         thead {
             tr {
                 border-bottom: 1px solid #444;
+        
+                th:first-child {
+                    position: relative;
+        
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        width: 1px;
+                        background-color: #3A3A3A;
+                    }
+                }
             }
             
             th {
@@ -114,7 +128,7 @@
                 color: #fff;
                 text-align: center;
             }
-
+        
             th:hover {
                 // color: goldenrod;
                 background-color: #333;
@@ -126,6 +140,17 @@
             tr {
                 td:first-child {
                     background-color: #333;
+                    position: relative;
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        width: 1px;
+                        background-color: #555;
+                    }
                 }
 
                 &:nth-child(even) {
@@ -133,6 +158,16 @@
 
                     td:first-child {
                         background-color: #444;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            width: 1px;
+                            background-color: #555;
+                        }
                     }
                 }
 
@@ -141,6 +176,16 @@
 
                     td:first-child {
                         background-color: #555;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            width: 1px;
+                            background-color: #666;
+                        }
                     }
                 }
             }
