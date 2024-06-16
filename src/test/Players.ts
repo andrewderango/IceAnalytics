@@ -322,7 +322,7 @@ function Players() {
           type="text"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          placeholder="Search Players"
+          placeholder="Search players..."
         />
       </div>
       <div className="table-container">
@@ -336,15 +336,12 @@ function Players() {
                       style: {
                         cursor: 'pointer',
                         backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
-                        position: column.id === 'name' ? 'sticky' : undefined,
-                        left: column.id === 'name' ? 0 : undefined,
-                        zIndex: 1,
                       },
                       onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
                     })}
                   >
-                  {column.render('Header')}
-                </th>
+                    {column.render('Header')}
+                  </th>
                 ))}
               </tr>
             ))}
@@ -358,11 +355,7 @@ function Players() {
                     <td
                       {...cell.getCellProps({
                         style: {
-                          cusor: 'pointer',
                           backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
-                          position: cell.column.id === 'name' ? 'sticky' : undefined,
-                          left: cell.column.id === 'name' ? 0 : undefined,
-                          zIndex: 1,
                         },
                       })}
                     >

@@ -217,16 +217,11 @@ function Teams() {
         Header: 'Logo',
         accessor: 'logo',
         Cell: ({ value }) => <img src={value} alt="logo" className="team-logo" />,
-        sticky: 'left',
       },
       {
         Header: 'Team',
         accessor: 'team',
-        Cell: ({ cell: { value } }) => (
-          <div style={{ minWidth: '150px' }}>
-            {value}
-          </div>
-        ),
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Points',
@@ -308,54 +303,43 @@ function Teams() {
       <h1>Teams</h1>
       <h2>Last updated May 15, 2024</h2>
       <div className="table-container">
-      <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th
-                  {...column.getHeaderProps({
-                    style: {
-                      cursor: 'pointer',
-                      backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
-                      position: column.sticky ? 'sticky' : undefined,
-                      left: column.sticky ? 0 : undefined,
-                      zIndex: 1,
-                    },
-                    onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
+        <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
+          <thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => {
+                    const isSelected = column.id === selectedColumn;
+                    return (
+                      <th 
+                        {...column.getHeaderProps()} 
+                        onClick={() => setSelectedColumn(prev => prev === column.id ? null : column.id)}
+                        style={{ backgroundColor: isSelected ? 'rgba(218, 165, 32, 0.5)' : '' }}
+                      >
+                        {column.render('Header')}
+                      </th>
+                    );
                   })}
-                >
-                {column.render('Header')}
-              </th>
+                </tr>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-              {row.cells.map(cell => (
-                <td
-                  {...cell.getCellProps({
-                    style: {
-                      cursor: 'pointer',
-                      backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
-                      position: cell.column.sticky ? 'sticky' : undefined,
-                      left: cell.column.sticky ? 0 : undefined,
-                      zIndex: 1,
-                    },
+            </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map(row => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    const isSelected = cell.column.id === selectedColumn;
+                    return (
+                      <td {...cell.getCellProps()} className={isSelected ? 'selected-column' : ''}>
+                        {cell.render('Cell')}
+                      </td>
+                    );
                   })}
-                >
-                  {cell.render('Cell')}
-                </td>
-              ))}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );

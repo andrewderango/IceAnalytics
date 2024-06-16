@@ -95,11 +95,64 @@
         
         tbody {
             tr {
+                td:first-child {
+                    background-color: #333;
+                    position: relative;
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        width: 1px;
+
+                        @media (max-width: 1000px) {
+                            background-color: #555;
+                        }
+                    }
+                }
+
                 &:nth-child(even) {
                     background-color: #444;
+
+                    td:first-child {
+                        background-color: #444;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            width: 1px;
+
+                            @media (max-width: 1000px) {
+                                background-color: #555;
+                            }
+                        }
+                    }
                 }
+
                 &:hover {
                     background-color: #555;
+
+                    td:first-child {
+                        background-color: #555;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            width: 1px;
+
+                            @media (max-width: 1000px) {
+                                background-color: #666;
+                            }
+                        }
+                    }
                 }
             }
             
