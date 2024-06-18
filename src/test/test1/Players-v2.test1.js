@@ -1,47 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTable } from 'react-table';
-import { createClient } from '@supabase/supabase-js';
+// import { useTable, useSortBy } from 'react-table';
 import '../styles/Players.scss';
 
 function Players() {
-  const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
-  const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
-  const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [teamFilter, setTeamFilter] = useState('');
-  const [posFilter, setPosFilter] = useState('');
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [teamFilter, setTeamFilter] = React.useState('');
+  const [posFilter, setPosFilter] = React.useState('');
   const [selectedColumn, setSelectedColumn] = useState(null);
+
+  const data = React.useMemo(
+    () => [
+      {
+        name: 'Nikita Kucherov',
+        team: 'TBL',
+        position: 'RW',
+        games: 81,
+        goals: 44,
+        assists: 100,
+        points: 144,
+      },
+      {
+        name: 'Nathan MacKinnon',
+        team: 'COL',
+        position: 'C',
+        games: 82,
+        goals: 51,
+        assists: 89,
+        points: 140,
+      },
+    ],
+    []
+  );
 
   const columns = React.useMemo(
     () => [
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Team',
         accessor: 'team',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Position',
         accessor: 'position',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Games',
         accessor: 'games',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Goals',
         accessor: 'goals',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Assists',
         accessor: 'assists',
+        Cell: ({ cell: { value } }) => value,
       },
       {
         Header: 'Points',
         accessor: 'points',
+        Cell: ({ cell: { value } }) => value,
       },
     ],
     [selectedColumn]
@@ -64,23 +91,6 @@ function Players() {
   // Get unique teams and for the dropdown
   const teams = [...new Set(rows.map(row => row.values.team))].sort();
   const pos = [...new Set(rows.map(row => row.values.position))].sort();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data: players, error } = await supabase
-        .from('player-projections')
-        .select('*');
-      
-      if (error) {
-        console.error('Error fetching data:', error);
-      } else {
-        console.log('Fetched data:', players);
-        setData(players);
-      }
-    };
-  
-    fetchData();
-  }, []);
 
   return (
     <div className="players">
