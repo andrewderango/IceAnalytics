@@ -9,6 +9,9 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      REACT_APP_SUPABASE_PROJ_URL: ${{ secrets.REACT_APP_SUPABASE_PROJ_URL }}
+      REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
