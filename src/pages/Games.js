@@ -1,134 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Games.scss';
 import { GridLoader } from 'react-spinners';
+import { createClient } from '@supabase/supabase-js';
 
 function Games() {
+  const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
+  const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
-  // const [width, setWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const handleResize = () => setWidth(window.innerWidth);
-  //   window.addEventListener('resize', handleResize);
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  // Fetch the games data from an API or local data source
-  //   fetch('/api/games')
-  //     .then(response => response.json())
-  //     .then(data => setGames(data));
-  // }, []);
-
-  // Test
   useEffect(() => {
-    const sampleData = [
-      {
-        id: 1,
-        time: '7:00 PM EST',
-        team1: {
-          name: 'Pittsburgh Penguins',
-          abbrev: 'PIT',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/PIT_dark.svg',
-          record: '5-3-0 (23rd)',
-          probability: 0.683,
-          projectedGoals: 3
-        },
-        team2: {
-          name: 'Edmonton Oilers',
-          abbrev: 'EDM',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg',
-          record: '4-4-1 (27th)',
-          probability: 0.317,
-          projectedGoals: 3
-        }
-      },
-      {
-        id: 2,
-        time: '7:30 PM EST',
-        team1: {
-          name: 'Montreal Canadiens',
-          abbrev: 'MTL',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg',
-          record: '2-1-0 (31st)',
-          probability: 0.500,
-          projectedGoals: 3
-        },
-        team2: {
-          name: 'Toronto Maple Leafs',
-          abbrev: 'TOR',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg',
-          record: '7-1-5 (1st)',
-          probability: 0.500,
-          projectedGoals: 3
-        }
-      },
-      {
-        id: 2,
-        time: '8:00 PM EST',
-        team1: {
-          name: 'Boston Bruins',
-          abbrev: 'BOS',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/BOS_dark.svg',
-          record: '2-1-0 (31st)',
-          probability: 0.598,
-          projectedGoals: 3
-        },
-        team2: {
-          name: 'Minnesota Wild',
-          abbrev: 'MIN',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/MIN_dark.svg',
-          record: '7-1-5 (1st)',
-          probability: 0.402,
-          projectedGoals: 3
-        }
-      },
-      {
-        id: 2,
-        time: '9:00 PM EST',
-        team1: {
-          name: 'New York Rangers',
-          abbrev: 'NYR',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/NYR_dark.svg',
-          record: '2-1-0 (31st)',
-          probability: 0.387,
-          projectedGoals: 3
-        },
-        team2: {
-          name: 'Tampa Bay Lightning',
-          abbrev: 'TBL',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/TBL_dark.svg',
-          record: '7-1-5 (1st)',
-          probability: 0.613,
-          projectedGoals: 3
-        }
-      },
-      {
-        id: 2,
-        time: '10:00 PM EST',
-        team1: {
-          name: 'Vancouver Canucks',
-          abbrev: 'VAN',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/VAN_dark.svg',
-          record: '2-1-0 (31st)',
-          probability: 0.460,
-          projectedGoals: 3
-        },
-        team2: {
-          name: 'Florida Panthers',
-          abbrev: 'FLA',
-          logo: 'https://assets.nhle.com/logos/nhl/svg/FLA_dark.svg',
-          record: '7-1-5 (1st)',
-          probability: 0.540,
-          projectedGoals: 3
-        }
-      },
-    ];
-
-    setGames(sampleData);
-    setLoading(false);
+    const fetchData = async () => {
+      const { data: games, error } = await supabase
+        .from('game-projections')
+        .select('*');
+      
+      if (error) {
+        console.error('Error fetching data:', error);
+      } else {
+        console.log('Fetched data:', games);
+        setGames(games);
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
   }, []);
 
   if (loading) {
@@ -154,20 +51,20 @@ function Games() {
             {games.map(game => (
                 <div className="game" key={game.id}>
                     <div className="game-head">
-                      <p className="matchup">{game.team1.name} @ {game.team2.name}</p>
+                      <p className="matchup">{game.team1_name} @ {game.team2_name}</p>
                       <p className="time">{game.time}</p>
                     </div>
                     <div className="column-left">
-                        <img src={game.team1.logo} alt={game.team1.name} />
-                        <p className="probability">{(game.team1.probability*100).toFixed(1)}%</p>
-                        {/* <p className="projected-goals">{game.team1.projectedGoals.toFixed(2)} Goals</p> */}
-                        <p className="record">{game.team1.record}</p>
+                        <img src={game.team1_logo} alt={game.team1_name} />
+                        <p className="probability">{(game.team1_probability*100).toFixed(1)}%</p>
+                        {/* <p className="projected-goals">{game.team1_projectedGoals.toFixed(2)} Goals</p> */}
+                        <p className="record">{game.team1_record}</p>
                     </div>
                     <div className="column-right">
-                        <img src={game.team2.logo} alt={game.team2.name} />
-                        <p className="probability">{(game.team2.probability*100).toFixed(1)}%</p>
-                        {/* <p className="projected-goals">{game.team2.projectedGoals.toFixed(2)} Goals</p> */}
-                        <p className="record">{game.team2.record}</p>
+                        <img src={game.team2_logo} alt={game.team2_name} />
+                        <p className="probability">{(game.team2_probability*100).toFixed(1)}%</p>
+                        {/* <p className="projected-goals">{game.team2_projectedGoals.toFixed(2)} Goals</p> */}
+                        <p className="record">{game.team2_record}</p>
                     </div>
                 </div>
             ))}
