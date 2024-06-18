@@ -16,8 +16,8 @@ function Players() {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'name',
+        Header: 'Player',
+        accessor: 'player',
       },
       {
         Header: 'Team',
@@ -56,7 +56,7 @@ function Players() {
   } = useTable({ columns, data });
 
   const filteredRows = rows.filter(row => {
-    return row.values.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    return row.values.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (teamFilter ? row.values.team === teamFilter : true) &&
       (posFilter ? row.values.position === posFilter : true);
   });
@@ -119,8 +119,8 @@ function Players() {
                       style: {
                         cursor: 'pointer',
                         backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
-                        position: column.id === 'name' ? 'sticky' : undefined,
-                        left: column.id === 'name' ? 0 : undefined,
+                        position: column.id === 'player' ? 'sticky' : undefined,
+                        left: column.id === 'player' ? 0 : undefined,
                         zIndex: 1,
                       },
                       onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
@@ -143,8 +143,8 @@ function Players() {
                         style: {
                           cusor: 'pointer',
                           backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
-                          position: cell.column.id === 'name' ? 'sticky' : undefined,
-                          left: cell.column.id === 'name' ? 0 : undefined,
+                          position: cell.column.id === 'player' ? 'sticky' : undefined,
+                          left: cell.column.id === 'player' ? 0 : undefined,
                           zIndex: 1,
                         },
                       })}
