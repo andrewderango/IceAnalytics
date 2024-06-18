@@ -19,6 +19,3 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PUCK_PROJECTIONS }}
           projectId: puck-projections
-          env:
-            REACT_APP_SUPABASE_PROJ_URL: ${{ secrets.REACT_APP_SUPABASE_PROJ_URL }}
-            REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
