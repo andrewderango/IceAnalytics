@@ -21,40 +21,42 @@
 19,49,Cleveland Barons,CLE
 20,50,Detroit Falcons,DFL
 21,51,Brooklyn Americans,BRK
-22,1,New Jersey Devils,NJD
-23,56,California Golden Seals,CGS
-24,57,Toronto Arenas,TAN
-25,58,Toronto St. Patricks,TSP
-26,99,NHL,NHL
-27,17,Detroit Red Wings,DET
-28,6,Boston Bruins,BOS
-29,52,Winnipeg Jets,WPG
-30,28,San Jose Sharks,SJS
-31,5,Pittsburgh Penguins,PIT
-32,14,Tampa Bay Lightning,TBL
-33,4,Philadelphia Flyers,PHI
-34,10,Toronto Maple Leafs,TOR
-35,7,Buffalo Sabres,BUF
-36,12,Carolina Hurricanes,CAR
-37,53,Arizona Coyotes,ARI
-38,20,Calgary Flames,CGY
-39,8,Montréal Canadiens,MTL
-40,15,Washington Capitals,WSH
-41,23,Vancouver Canucks,VAN
-42,21,Colorado Avalanche,COL
-43,18,Nashville Predators,NSH
-44,24,Anaheim Ducks,ANA
-45,54,Vegas Golden Knights,VGK
-46,55,Seattle Kraken,SEA
-47,25,Dallas Stars,DAL
-48,27,Phoenix Coyotes,PHX
-49,16,Chicago Blackhawks,CHI
-50,3,New York Rangers,NYR
-51,29,Columbus Blue Jackets,CBJ
-52,13,Florida Panthers,FLA
-53,22,Edmonton Oilers,EDM
-54,30,Minnesota Wild,MIN
-55,19,St. Louis Blues,STL
-56,9,Ottawa Senators,OTT
-57,2,New York Islanders,NYI
-58,26,Los Angeles Kings,LAK
+22,56,California Golden Seals,CGS
+23,57,Toronto Arenas,TAN
+24,58,Toronto St. Patricks,TSP
+25,99,NHL,NHL
+26,17,Detroit Red Wings,DET
+27,6,Boston Bruins,BOS
+28,5,Pittsburgh Penguins,PIT
+29,14,Tampa Bay Lightning,TBL
+30,4,Philadelphia Flyers,PHI
+31,12,Carolina Hurricanes,CAR
+32,20,Calgary Flames,CGY
+33,8,Montréal Canadiens,MTL
+34,15,Washington Capitals,WSH
+35,23,Vancouver Canucks,VAN
+36,21,Colorado Avalanche,COL
+37,18,Nashville Predators,NSH
+38,24,Anaheim Ducks,ANA
+39,54,Vegas Golden Knights,VGK
+40,25,Dallas Stars,DAL
+41,27,Phoenix Coyotes,PHX
+42,16,Chicago Blackhawks,CHI
+43,3,New York Rangers,NYR
+44,13,Florida Panthers,FLA
+45,22,Edmonton Oilers,EDM
+46,30,Minnesota Wild,MIN
+47,19,St. Louis Blues,STL
+48,2,New York Islanders,NYI
+49,26,Los Angeles Kings,LAK
+50,70,To be determined,TBD
+51,7,Buffalo Sabres,BUF
+52,9,Ottawa Senators,OTT
+53,10,Toronto Maple Leafs,TOR
+54,1,New Jersey Devils,NJD
+55,52,Winnipeg Jets,WPG
+56,55,Seattle Kraken,SEA
+57,28,San Jose Sharks,SJS
+58,53,Arizona Coyotes,ARI
+59,29,Columbus Blue Jackets,CBJ
+60,59,Utah Hockey Club,UTA
