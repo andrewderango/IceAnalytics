@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 
 # Function to scrape raw historical data from Natural Stat Trick
-def scrape_historical_player_data(start_year, end_year, skaters, bios, check_preexistence, verbose):
+def scrape_historical_player_data(start_year, end_year, skaters, bios, projection_year, season_state, check_preexistence, verbose):
     for year in range(start_year, end_year+1):
         if skaters == True and bios == False:
             filename = f'{year-1}-{year}_skater_data.csv'
@@ -25,17 +25,37 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, check_pre
                     print(f'{filename} already exists in the following directory: {file_path}')
                 continue
 
-        if skaters == True and bios == False:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        elif skaters == False and bios == False:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        elif skaters == True and bios == True:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        elif skaters == False and bios == True:
-            url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-        
-        df = pd.read_html(url)[0]
-        df = df.iloc[:, 1:]
+        if projection_year != year or season_state != 'PRESEASON':
+            if skaters == True and bios == False:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == False and bios == False:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == True and bios == True:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == False and bios == True:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            df = pd.read_html(url)[0]
+            df = df.iloc[:, 1:]
+        else:
+            if skaters == True and bios == False:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == False and bios == False:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == True and bios == True:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == False and bios == True:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            df = pd.read_html(url)[0]
+            df = df.iloc[:, 1:]
+
+            if bios == False:
+                # Fill stats data with 0
+                numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
+                specific_columns = ['IPP', 'SH%', 'Faceoffs %']
+                for column in df.columns:
+                    if column in numeric_columns or column in specific_columns:
+                        df[column] = 0
+
         if verbose == True:
             print(df)
 
@@ -49,7 +69,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, check_pre
     return None
 
 # Function to scrape raw historical data from Natural Stat Trick
-def scrape_historical_team_data(start_year, end_year, check_preexistence, verbose):
+def scrape_historical_team_data(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
     for year in range(start_year, end_year+1):
         filename = f'{year-1}-{year}_team_data.csv'
         file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', filename)
@@ -60,10 +80,24 @@ def scrape_historical_team_data(start_year, end_year, check_preexistence, verbos
                     print(f'{filename} already exists in the following directory: {file_path}')
                 continue
 
-        url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
+        if projection_year != year or season_state != 'PRESEASON':
+            url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
+            df = pd.read_html(url)[0]
+            df = df.iloc[:, 1:]
+        else:
+            response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
+            data = response.json()
+            df = pd.DataFrame(data['data'])
+            team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'))
+            df = df.merge(team_data[['TeamID', 'Team Name']], left_on='homeTeamId', right_on='TeamID', how='left')
+            df = df.merge(team_data[['TeamID', 'Team Name']], left_on='visitingTeamId', right_on='TeamID', how='left')
+            df = df[df['gameType'] == 2][['Team Name_x']]
+            df.columns = ['Team']
+            df = df.drop_duplicates()
+            df = df.sort_values(by='Team')
+            df = df.reset_index(drop=True)
+            df['GP'], df['TOI'], df['W'], df['L'], df['OTL'], df['ROW'], df['Points'], df['Point %'], df['CA'], df['FA'], df['SA'], df['GF'], df['GA'], df['xGA'], df['SCA'], df['HDCA'], df['HDGA'], df['HDSV%'], df['SV%'] = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         
-        df = pd.read_html(url)[0]
-        df = df.iloc[:, 1:]
         if verbose == True:
             print(df)
 
@@ -109,9 +143,13 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
         dataframes.append(df)
         
     combined_df = pd.concat(dataframes, ignore_index=False)
+    if 'playerStripped' not in combined_df.columns:
+        combined_df['playerStripped'] = combined_df['Player'].apply(lambda x: unidecode.unidecode(x)).str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names)
     combined_df.sort_values(by=['Date of Birth', 'Last Season'], na_position='first', inplace=True)
     combined_df.drop_duplicates(subset='playerStripped', keep='last', inplace=True)
-    combined_df = combined_df[combined_df['Date of Birth'] != '-']
+    # combined_df = combined_df[combined_df['Date of Birth'] != '-']
+    combined_df['Age'] = combined_df['Age'].replace('-', 28)
+    combined_df['Date of Birth'] = combined_df['Date of Birth'].replace('-', '1993-01-01')
     combined_df = combined_df.reset_index(drop=True)
 
     export_path = os.path.dirname(file_path)
@@ -179,7 +217,7 @@ def scrape_games(projection_year, check_preexistence, verbose):
         df.to_csv(os.path.join(file_path, filename))
 
 # Add player ids from NHL API to historical skater data
-def scrape_nhlapi_data(start_year, end_year, bios, check_preexistence, verbose):
+def scrape_nhlapi_data(start_year, end_year, bios, projection_year, season_state, check_preexistence, verbose):
 
     for year in range(start_year, end_year+1):
         if bios == True:
@@ -196,7 +234,10 @@ def scrape_nhlapi_data(start_year, end_year, bios, check_preexistence, verbose):
                 if 'Headshot' in df.columns:
                     continue
 
-        response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-1}{year}/2?categories=toi&limit=9999')
+        if projection_year != year or season_state != 'PRESEASON':
+            response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-1}{year}/2?categories=toi&limit=9999')
+        else:
+            response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-2}{year-1}/2?categories=toi&limit=9999')
         data = response.json()
         df = pd.DataFrame(columns=['PlayerID', 'Player', 'Team', 'Position', 'Headshot', 'Team Logo'])
         
@@ -282,3 +323,14 @@ def handle_duplicate_names(row):
         elif row['Position'] == 'D':
             return 'colinwhiteD'
     return row['playerStripped']
+
+def get_season_state(projection_year):
+    response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
+    data = response.json()
+
+    if data['total'] == 0:
+        return 'NO SCHEDULE'
+    elif data['data'][0]['gameStateId'] == 1:
+        return 'PRESEASON'
+    else:
+        return 'REGULAR SEASON'

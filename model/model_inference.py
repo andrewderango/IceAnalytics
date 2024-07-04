@@ -145,6 +145,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
+    combined_df = combined_df.dropna(subset=['Player'])
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
@@ -434,11 +435,12 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
         else:
             combined_df = pd.merge(combined_df, df, on='Team', how='outer')
 
+    combined_df = combined_df.dropna(subset=['Y-1 GP']).fillna(0)
     try: # model was trained in this session
         predictions = ga_model.predict(combined_df[['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
     except TypeError: # model was loaded in, pre-trained
         data_dmatrix = xgb.DMatrix(combined_df[['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
-        predictions = ga_model.predict(data_dmatrix) 
+        predictions = ga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
     combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/GP'] + (82-combined_df['Y-0 GP'])/82*predictions
 
@@ -507,6 +509,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         temp_df = pd.merge(existing_team_df, monte_carlo_team_proj_df[['Team', 'Abbreviation']], on='Team', how='left')
         temp_df.loc[temp_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
         temp_df.loc[temp_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
+        temp_df.loc[temp_df['Team'] == 'Arizona Coyotes', 'Abbreviation'] = 'UTA'
         core_team_scoring_dict = temp_df.fillna(0).set_index('Abbreviation')[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against']].T.to_dict('list')
 
         # players that haven't played yet
@@ -531,6 +534,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
 
     # determine active rosters. we convert the data from the dataframe to dictionary because the lookup times are faster (O(n) vs O(1))
     active_rosters = {}
+    metaprojection_df.loc[metaprojection_df['Team'] == 'ARI', 'Team'] = 'UTA' ### temporary fix for ARI
     for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
         team_roster = metaprojection_df[metaprojection_df['Team'] == team_abbreviation]
         defense = team_roster[team_roster['Position'] == 'D'].sort_values('ATOI', ascending=False).head(6)
@@ -546,6 +550,8 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             lookup_team = 'Montreal Canadiens'
         elif team == 'St. Louis Blues':
             lookup_team = 'St Louis Blues'
+        elif team == 'Utah Hockey Club': ### temp
+            lookup_team = 'Arizona Coyotes'
         else:
             lookup_team = team
 
