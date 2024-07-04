@@ -8,16 +8,16 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, check_pre
     for year in range(start_year, end_year+1):
         if skaters == True and bios == False:
             filename = f'{year-1}-{year}_skater_data.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
         elif skaters == False and bios == False:
             filename = f'{year-1}-{year}_goalie_data.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Goaltending Data', filename)
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Goaltending Data', filename)
         elif skaters == True and bios == True:
             filename = f'{year-1}-{year}_skater_bios.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', filename)
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', filename)
         elif skaters == False and bios == True:
             filename = f'{year-1}-{year}_goalie_bios.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Goaltenders', 'Historical Goaltender Bios', filename)
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Goaltenders', 'Historical Goaltender Bios', filename)
 
         if check_preexistence == True:
             if os.path.exists(file_path):
@@ -52,7 +52,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, check_pre
 def scrape_historical_team_data(start_year, end_year, check_preexistence, verbose):
     for year in range(start_year, end_year+1):
         filename = f'{year-1}-{year}_team_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', filename)
 
         if check_preexistence == True:
             if os.path.exists(file_path):
@@ -80,10 +80,10 @@ def scrape_historical_team_data(start_year, end_year, check_preexistence, verbos
 def aggregate_player_bios(skaters, check_preexistence, verbose):
     if skaters == True:
         filename = f'skater_bios.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', filename)
     else:
         filename = f'goalie_bios.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Goaltenders', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Goaltenders', filename)
     
     if check_preexistence == True:
         if os.path.exists(file_path):
@@ -127,7 +127,7 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
 def scrape_teams(check_preexistence, verbose):
 
     filename = f'nhlapi_team_data.csv'
-    file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', filename))
+    file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', filename))
 
     if check_preexistence == True:
         if os.path.isfile(file_path):
@@ -150,7 +150,7 @@ def scrape_teams(check_preexistence, verbose):
 def scrape_games(projection_year, check_preexistence, verbose):
 
     filename = f'{projection_year-1}-{projection_year}_game_schedule.csv'
-    file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', filename))
+    file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', filename))
 
     if check_preexistence == True:
         if os.path.isfile(file_path):
@@ -161,7 +161,7 @@ def scrape_games(projection_year, check_preexistence, verbose):
 
         df = pd.DataFrame(data['data'])
         # join with team data to get team names
-        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'))
+        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'))
         df = df.merge(team_data[['TeamID', 'Team Name']], left_on='homeTeamId', right_on='TeamID', how='left')
         df = df.merge(team_data[['TeamID', 'Team Name']], left_on='visitingTeamId', right_on='TeamID', how='left')
 
@@ -184,10 +184,10 @@ def scrape_nhlapi_data(start_year, end_year, bios, check_preexistence, verbose):
     for year in range(start_year, end_year+1):
         if bios == True:
             filename = f'{year-1}-{year}_skater_bios.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', filename)
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', filename)
         elif bios == False:
             filename = f'{year-1}-{year}_skater_data.csv'
-            file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
         
         # check if the column 'Headshot' is already in the dataframe
         if check_preexistence == True:
@@ -213,9 +213,9 @@ def scrape_nhlapi_data(start_year, end_year, bios, check_preexistence, verbose):
 
         # get sim engine data historical skater data
         if bios == True:
-            historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', f'{year-1}-{year}_skater_bios.csv'), index_col=0)
+            historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', f'{year-1}-{year}_skater_bios.csv'), index_col=0)
         elif bios == False:
-            historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-1}-{year}_skater_data.csv'), index_col=0)
+            historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-1}-{year}_skater_data.csv'), index_col=0)
 
         # merge 
         try:
