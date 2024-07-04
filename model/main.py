@@ -101,4 +101,5 @@ def main_updater():
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
 
 if __name__ == "__main__":
-    main()
+    # main()
+    main_updater()
