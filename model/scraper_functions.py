@@ -162,7 +162,7 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
     return combined_df
 
 # Scrape team data from NHL API
-def scrape_teams(check_preexistence, verbose):
+def scrape_teams(projection_year, check_preexistence, verbose):
 
     filename = f'nhlapi_team_data.csv'
     file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', filename))
@@ -171,11 +171,20 @@ def scrape_teams(check_preexistence, verbose):
         if os.path.isfile(file_path):
             return
     else:
-        response = requests.get('https://api.nhle.com/stats/rest/en/team')
-        data = response.json()
+        teams_response = requests.get('https://api.nhle.com/stats/rest/en/team')
+        teams_data = teams_response.json()
+        schedule_response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
+        schedule_data = schedule_response.json()
 
-        df = pd.DataFrame(data['data'])[['id', 'fullName', 'triCode']]
+        # Get unique team ids for projection season
+        home_team_ids = [game['homeTeamId'] for game in schedule_data['data']]
+        visiting_team_ids = [game['visitingTeamId'] for game in schedule_data['data']]
+        distinct_team_ids = list(set(home_team_ids + visiting_team_ids))
+
+        # Construct teams df
+        df = pd.DataFrame(teams_data['data'])[['id', 'fullName', 'triCode']]
         df.columns = ['TeamID', 'Team Name', 'Abbreviation']
+        df['Active'] = df['TeamID'].apply(lambda x: x in distinct_team_ids)
 
         if verbose:
             print(df)

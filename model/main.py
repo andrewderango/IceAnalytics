@@ -71,7 +71,7 @@ def main_updater():
     # Scrape or fetch team data
     scrape_historical_team_data(2008, 2024, PROJECTION_YEAR, season_state, True, False)
     scrape_historical_team_data(2025, 2025, PROJECTION_YEAR, season_state, False, True)
-    scrape_teams(True, False)
+    scrape_teams(PROJECTION_YEAR, True, False)
     scrape_games(PROJECTION_YEAR, False, True)
 
     # Train models
