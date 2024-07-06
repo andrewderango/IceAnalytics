@@ -171,6 +171,9 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk']]
     combined_df = combined_df.rename(columns={'Proj. Gper1kChunk': 'Gper1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
+    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
@@ -264,6 +267,9 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
     combined_df = combined_df.rename(columns={'Proj. A1per1kChunk': 'A1per1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
     combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'].apply(lambda x: 0 if x < 0 else x)
+    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
@@ -357,6 +363,9 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
     combined_df = combined_df.rename(columns={'Proj. A2per1kChunk': 'A2per1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
     combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'].apply(lambda x: 0 if x < 0 else x)
+    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df

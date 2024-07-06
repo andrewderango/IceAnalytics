@@ -52,27 +52,27 @@ def main_updater():
     PROJECTION_YEAR = 2025
     season_state = get_season_state(PROJECTION_YEAR)
 
-    # Scrape or fetch player data
-    scrape_historical_player_data(2008, 2024, True, False, PROJECTION_YEAR, season_state, True, False)
-    scrape_historical_player_data(2008, 2024, False, False, PROJECTION_YEAR, season_state, True, False)
-    scrape_historical_player_data(2008, 2024, True, True, PROJECTION_YEAR, season_state, True, False)
-    scrape_historical_player_data(2008, 2024, False, True, PROJECTION_YEAR, season_state, True, False)
-    scrape_historical_player_data(2025, 2025, True, False, PROJECTION_YEAR, season_state, False, True)
-    scrape_historical_player_data(2025, 2025, False, False, PROJECTION_YEAR, season_state, False, True)
-    scrape_historical_player_data(2025, 2025, True, True, PROJECTION_YEAR, season_state, False, True)
-    scrape_historical_player_data(2025, 2025, False, True, PROJECTION_YEAR, season_state, False, True)
-    scrape_nhlapi_data(2008, 2024, False, PROJECTION_YEAR, season_state, True, False)
-    scrape_nhlapi_data(2008, 2024, True, PROJECTION_YEAR, season_state, True, False)
-    scrape_nhlapi_data(2025, 2025, False, PROJECTION_YEAR, season_state, False, True)
-    scrape_nhlapi_data(2025, 2025, True, PROJECTION_YEAR, season_state, False, True)
-    aggregate_player_bios(True, False, False)
-    aggregate_player_bios(False, False, False)
+    # # Scrape or fetch player data
+    # scrape_historical_player_data(2008, 2024, True, False, PROJECTION_YEAR, season_state, True, False)
+    # scrape_historical_player_data(2008, 2024, False, False, PROJECTION_YEAR, season_state, True, False)
+    # scrape_historical_player_data(2008, 2024, True, True, PROJECTION_YEAR, season_state, True, False)
+    # scrape_historical_player_data(2008, 2024, False, True, PROJECTION_YEAR, season_state, True, False)
+    # scrape_historical_player_data(2025, 2025, True, False, PROJECTION_YEAR, season_state, False, True)
+    # scrape_historical_player_data(2025, 2025, False, False, PROJECTION_YEAR, season_state, False, True)
+    # scrape_historical_player_data(2025, 2025, True, True, PROJECTION_YEAR, season_state, False, True)
+    # scrape_historical_player_data(2025, 2025, False, True, PROJECTION_YEAR, season_state, False, True)
+    # scrape_nhlapi_data(2008, 2024, False, PROJECTION_YEAR, season_state, True, False)
+    # scrape_nhlapi_data(2008, 2024, True, PROJECTION_YEAR, season_state, True, False)
+    # scrape_nhlapi_data(2025, 2025, False, PROJECTION_YEAR, season_state, False, True)
+    # scrape_nhlapi_data(2025, 2025, True, PROJECTION_YEAR, season_state, False, True)
+    # aggregate_player_bios(True, False, False)
+    # aggregate_player_bios(False, False, False)
 
-    # Scrape or fetch team data
-    scrape_historical_team_data(2008, 2024, PROJECTION_YEAR, season_state, True, False)
-    scrape_historical_team_data(2025, 2025, PROJECTION_YEAR, season_state, False, True)
-    scrape_teams(PROJECTION_YEAR, True, False)
-    scrape_games(PROJECTION_YEAR, False, True)
+    # # Scrape or fetch team data
+    # scrape_historical_team_data(2008, 2024, PROJECTION_YEAR, season_state, True, False)
+    # scrape_historical_team_data(2025, 2025, PROJECTION_YEAR, season_state, False, True)
+    # scrape_teams(PROJECTION_YEAR, True, False)
+    # scrape_games(PROJECTION_YEAR, False, True)
 
     # Train models
     atoi_model_data = train_atoi_model(PROJECTION_YEAR, False, False)
@@ -91,6 +91,9 @@ def main_updater():
     player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
     player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
+    player_stat_df = player_stat_df.reset_index(drop=True)
+    print(player_stat_df.to_string())
+    quit()
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
