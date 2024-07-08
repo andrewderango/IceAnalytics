@@ -51,8 +51,8 @@ function Players() {
     getTableProps,
     getTableBodyProps,
     headerGroups,
+    page,
     prepareRow,
-    page, // Use 'page' instead of 'rows' for pagination
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -62,18 +62,19 @@ function Players() {
     previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
-  } = useTable({ columns, data }, usePagination);
+  } = useTable(
+    { columns, data, initialState: { pageIndex: 0, pageSize: 10 } },
+    usePagination
+  );
 
-  // Corrected filtering logic to use 'data' instead of 'rows'
-  const filteredRows = data.filter(row => {
-    return row.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (teamFilter ? row.team === teamFilter : true) &&
-      (posFilter ? row.position === posFilter : true);
+  const filteredRows = page.filter(row => {
+    return row.values.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (teamFilter ? row.values.team === teamFilter : true) &&
+      (posFilter ? row.values.position === posFilter : true);
   });
 
-  // Get unique teams and positions for the dropdown, using 'filteredRows' instead of 'rows'
-  const teams = [...new Set(filteredRows.map(row => row.team))].sort();
-  const pos = [...new Set(filteredRows.map(row => row.position))].sort();
+  const teams = [...new Set(data.map(player => player.team))].sort();
+  const positions = [...new Set(data.map(player => player.position))].sort();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +107,7 @@ function Players() {
           </select>
           <select value={posFilter} onChange={e => setPosFilter(e.target.value)}>
             <option value="">All Positions</option>
-            {pos.map(pos => (
+            {positions.map(pos => (
               <option key={pos} value={pos}>{pos}</option>
             ))}
           </select>
@@ -136,14 +137,14 @@ function Players() {
                       onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
                     })}
                   >
-                  {column.render('Header')}
-                </th>
+                    {column.render('Header')}
+                  </th>
                 ))}
               </tr>
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {page.map(row => {
+            {filteredRows.map(row => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
@@ -151,7 +152,7 @@ function Players() {
                     <td
                       {...cell.getCellProps({
                         style: {
-                          cusor: 'pointer',
+                          cursor: 'pointer',
                           backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
                           position: cell.column.id === 'player' ? 'sticky' : undefined,
                           left: cell.column.id === 'player' ? 0 : undefined,
@@ -175,18 +176,18 @@ function Players() {
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
           {'<'}
         </button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>
         <span>
           Page{' '}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>
         <select
           value={pageSize}
           onChange={e => {
