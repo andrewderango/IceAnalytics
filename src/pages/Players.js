@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTable } from 'react-table';
+import { useTable, usePagination } from 'react-table';
 import { createClient } from '@supabase/supabase-js';
 import '../styles/Players.scss';
 
@@ -51,19 +51,29 @@ function Players() {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
-  } = useTable({ columns, data });
+    page, // Use 'page' instead of 'rows' for pagination
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable({ columns, data }, usePagination);
 
-  const filteredRows = rows.filter(row => {
-    return row.values.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (teamFilter ? row.values.team === teamFilter : true) &&
-      (posFilter ? row.values.position === posFilter : true);
+  // Corrected filtering logic to use 'data' instead of 'rows'
+  const filteredRows = data.filter(row => {
+    return row.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (teamFilter ? row.team === teamFilter : true) &&
+      (posFilter ? row.position === posFilter : true);
   });
 
-  // Get unique teams and for the dropdown
-  const teams = [...new Set(rows.map(row => row.values.team))].sort();
-  const pos = [...new Set(rows.map(row => row.values.position))].sort();
+  // Get unique teams and positions for the dropdown, using 'filteredRows' instead of 'rows'
+  const teams = [...new Set(filteredRows.map(row => row.team))].sort();
+  const pos = [...new Set(filteredRows.map(row => row.position))].sort();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,7 +143,7 @@ function Players() {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {filteredRows.map(row => {
+            {page.map(row => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
@@ -157,6 +167,38 @@ function Players() {
             })}
           </tbody>
         </table>
+      </div>
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {'<<'}
+        </button>
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {'<'}
+        </button>
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>
+        <span>
+          Page{' '}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{' '}
+        </span>
+        <select
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
