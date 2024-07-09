@@ -132,9 +132,13 @@ function Teams() {
   const handleSort = (columnId) => {
     setSortBy(prev => {
       if (prev.id === columnId) {
-        return { id: columnId, desc: !prev.desc };
+        return { id: null, desc: false };
       } else {
-        return { id: columnId, desc: true };
+        if (columnId === 'logo' || columnId === 'team' || columnId === 'goals_against') {
+          return { id: columnId, desc: false };
+        } else {
+          return { id: columnId, desc: true };
+        }
       }
     });
   };
