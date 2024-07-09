@@ -47,35 +47,6 @@ function Players() {
     [selectedColumn]
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable(
-    { columns, data, initialState: { pageIndex: 0, pageSize: 10 } },
-    usePagination
-  );
-
-  const filteredRows = page.filter(row => {
-    return row.values.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (teamFilter ? row.values.team === teamFilter : true) &&
-      (posFilter ? row.values.position === posFilter : true);
-  });
-
-  const teams = [...new Set(data.map(player => player.team))].sort();
-  const positions = [...new Set(data.map(player => player.position))].sort();
-
   useEffect(() => {
     const fetchData = async () => {
       const { data: players, error } = await supabase
@@ -92,6 +63,37 @@ function Players() {
   
     fetchData();
   }, []);
+
+  const filteredData = React.useMemo(() => {
+    return data.filter(row => {
+      return row.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (teamFilter ? row.team === teamFilter : true) &&
+        (posFilter ? row.position === posFilter : true);
+    });
+  }, [data, searchTerm, teamFilter, posFilter]);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable(
+    { columns, data: filteredData, initialState: { pageIndex: 0, pageSize: 10 } },
+    usePagination
+  );
+
+  const teams = [...new Set(data.map(player => player.team))].sort();
+  const positions = [...new Set(data.map(player => player.position))].sort();
 
   return (
     <div className="players">
@@ -144,7 +146,7 @@ function Players() {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {filteredRows.map(row => {
+            {page.map(row => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
