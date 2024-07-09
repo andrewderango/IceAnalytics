@@ -99,7 +99,7 @@ function Players() {
       data: filteredData,
       initialState: {
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 25,
         sortBy: sortBy.length > 0 ? sortBy : [
           { id: 'points', desc: true },
           { id: 'goals', desc: true }
@@ -209,37 +209,43 @@ function Players() {
           </tbody>
         </table>
       </div>
-      <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>
-        <select
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+      <div className="pagination-container">
+        <div className="pagination">
+          <div className="page-nav">
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {'<'}
+            </button>
+            <span>
+              Page{' '}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{' '}
+            </span>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </button>
+            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </button>
+          </div>
+          <div className="page-size">
+            <select
+              value={pageSize}
+              onChange={e => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 25, 50, 100, 250].map(size => (
+                <option key={size} value={size}>
+                  Show {size}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   );
