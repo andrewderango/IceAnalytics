@@ -16,38 +16,13 @@ function Players() {
 
   const columns = React.useMemo(
     () => [
-      {
-        Header: 'Player',
-        accessor: 'player',
-      },
-      {
-        Header: 'Team',
-        accessor: 'team',
-      },
-      {
-        Header: 'Position',
-        accessor: 'position',
-      },
-      {
-        Header: 'Games',
-        accessor: 'games',
-        sortType: 'basic',
-      },
-      {
-        Header: 'Goals',
-        accessor: 'goals',
-        sortType: 'basic',
-      },
-      {
-        Header: 'Assists',
-        accessor: 'assists',
-        sortType: 'basic',
-      },
-      {
-        Header: 'Points',
-        accessor: 'points',
-        sortType: 'basic',
-      },
+      { Header: 'Player', accessor: 'player' },
+      { Header: 'Team', accessor: 'team' },
+      { Header: 'Position', accessor: 'position' },
+      { Header: 'Games', accessor: 'games', sortType: 'basic' },
+      { Header: 'Goals', accessor: 'goals', sortType: 'basic' },
+      { Header: 'Assists', accessor: 'assists', sortType: 'basic' },
+      { Header: 'Points', accessor: 'points', sortType: 'basic' },
     ],
     [selectedColumn]
   );
@@ -57,7 +32,7 @@ function Players() {
       const { data: players, error } = await supabase
         .from('player-projections')
         .select('*');
-      
+
       if (error) {
         console.error('Error fetching data:', error);
       } else {
@@ -65,7 +40,7 @@ function Players() {
         setData(players);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -108,7 +83,7 @@ function Players() {
     },
     useSortBy,
     usePagination
-  );  
+  );
 
   const teams = [...new Set(data.map(player => player.team))].sort();
   const positions = [...new Set(data.map(player => player.position))].sort();
@@ -132,7 +107,11 @@ function Players() {
       setSortBy(sortConfig);
       setSortByState(sortConfig);
     }
-  };  
+  };
+
+  // Calculate the range of players being displayed
+  const startRow = pageIndex * pageSize + 1;
+  const endRow = Math.min(startRow + pageSize - 1, filteredData.length);
 
   return (
     <div className="players">
@@ -245,6 +224,9 @@ function Players() {
               ))}
             </select>
           </div>
+        </div>
+        <div className="pagination-info">
+          Showing players {startRow} - {endRow} out of {filteredData.length}
         </div>
       </div>
     </div>
