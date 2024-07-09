@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTable } from 'react-table';
+import { useTable, usePagination, useSortBy } from 'react-table';
 import { createClient } from '@supabase/supabase-js';
 import '../styles/Players.scss';
 
@@ -12,65 +12,27 @@ function Players() {
   const [teamFilter, setTeamFilter] = useState('');
   const [posFilter, setPosFilter] = useState('');
   const [selectedColumn, setSelectedColumn] = useState(null);
+  const [sortBy, setSortByState] = useState([]);
 
   const columns = React.useMemo(
     () => [
-      {
-        Header: 'Player',
-        accessor: 'player',
-      },
-      {
-        Header: 'Team',
-        accessor: 'team',
-      },
-      {
-        Header: 'Position',
-        accessor: 'position',
-      },
-      {
-        Header: 'Games',
-        accessor: 'games',
-      },
-      {
-        Header: 'Goals',
-        accessor: 'goals',
-      },
-      {
-        Header: 'Assists',
-        accessor: 'assists',
-      },
-      {
-        Header: 'Points',
-        accessor: 'points',
-      },
+      { Header: 'Player', accessor: 'player' },
+      { Header: 'Team', accessor: 'team' },
+      { Header: 'Position', accessor: 'position' },
+      { Header: 'Games', accessor: 'games', sortType: 'basic' },
+      { Header: 'Goals', accessor: 'goals', sortType: 'basic' },
+      { Header: 'Assists', accessor: 'assists', sortType: 'basic' },
+      { Header: 'Points', accessor: 'points', sortType: 'basic' },
     ],
     [selectedColumn]
   );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data });
-
-  const filteredRows = rows.filter(row => {
-    return row.values.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (teamFilter ? row.values.team === teamFilter : true) &&
-      (posFilter ? row.values.position === posFilter : true);
-  });
-
-  // Get unique teams and for the dropdown
-  const teams = [...new Set(rows.map(row => row.values.team))].sort();
-  const pos = [...new Set(rows.map(row => row.values.position))].sort();
 
   useEffect(() => {
     const fetchData = async () => {
       const { data: players, error } = await supabase
         .from('player-projections')
         .select('*');
-      
+
       if (error) {
         console.error('Error fetching data:', error);
       } else {
@@ -78,9 +40,78 @@ function Players() {
         setData(players);
       }
     };
-  
+
     fetchData();
   }, []);
+
+  const filteredData = React.useMemo(() => {
+    return data.filter(row => {
+      return row.player.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (teamFilter ? row.team === teamFilter : true) &&
+        (posFilter ? row.position === posFilter : true);
+    });
+  }, [data, searchTerm, teamFilter, posFilter]);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+    setSortBy,
+  } = useTable(
+    {
+      columns,
+      data: filteredData,
+      initialState: {
+        pageIndex: 0,
+        pageSize: 25,
+        sortBy: sortBy.length > 0 ? sortBy : [
+          { id: 'points', desc: true },
+          { id: 'goals', desc: true }
+        ],
+      },
+    },
+    useSortBy,
+    usePagination
+  );
+
+  const teams = [...new Set(data.map(player => player.team))].sort();
+  const positions = [...new Set(data.map(player => player.position))].sort();
+
+  const handleColumnClick = (column) => {
+    const isDescending = ['games', 'goals', 'assists', 'points'].includes(column.id);
+    if (selectedColumn === column.id) {
+      setSelectedColumn(null);
+      setSortBy([]);
+      setSortByState([
+        { id: 'points', desc: true },
+        { id: 'goals', desc: true }
+      ]);
+    } else {
+      setSelectedColumn(column.id);
+      const sortConfig = [
+        { id: column.id, desc: isDescending },
+        { id: 'points', desc: true },
+        { id: 'goals', desc: true },
+      ];
+      setSortBy(sortConfig);
+      setSortByState(sortConfig);
+    }
+  };
+
+  // Calculate the range of players being displayed
+  const startRow = pageIndex * pageSize + 1;
+  const endRow = Math.min(startRow + pageSize - 1, filteredData.length);
 
   return (
     <div className="players">
@@ -96,7 +127,7 @@ function Players() {
           </select>
           <select value={posFilter} onChange={e => setPosFilter(e.target.value)}>
             <option value="">All Positions</option>
-            {pos.map(pos => (
+            {positions.map(pos => (
               <option key={pos} value={pos}>{pos}</option>
             ))}
           </select>
@@ -115,25 +146,24 @@ function Players() {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th
-                    {...column.getHeaderProps({
-                      style: {
-                        cursor: 'pointer',
-                        backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
-                        position: column.id === 'player' ? 'sticky' : undefined,
-                        left: column.id === 'player' ? 0 : undefined,
-                        zIndex: 1,
-                      },
-                      onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
-                    })}
+                    {...column.getHeaderProps()}
+                    style={{
+                      cursor: 'pointer',
+                      backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
+                      position: column.id === 'player' ? 'sticky' : undefined,
+                      left: column.id === 'player' ? 0 : undefined,
+                      zIndex: 1,
+                    }}
+                    onClick={() => handleColumnClick(column)}
                   >
-                  {column.render('Header')}
-                </th>
+                    {column.render('Header')}
+                  </th>
                 ))}
               </tr>
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {filteredRows.map(row => {
+            {page.map(row => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
@@ -141,7 +171,7 @@ function Players() {
                     <td
                       {...cell.getCellProps({
                         style: {
-                          cusor: 'pointer',
+                          cursor: 'pointer',
                           backgroundColor: selectedColumn === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
                           position: cell.column.id === 'player' ? 'sticky' : undefined,
                           left: cell.column.id === 'player' ? 0 : undefined,
@@ -157,6 +187,47 @@ function Players() {
             })}
           </tbody>
         </table>
+      </div>
+      <div className="pagination-container">
+        <div className="pagination">
+          <div className="page-nav">
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {'<'}
+            </button>
+            <span>
+              Page{' '}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{' '}
+            </span>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </button>
+            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </button>
+          </div>
+          <div className="page-size">
+            <select
+              value={pageSize}
+              onChange={e => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 25, 50, 100, 250].map(size => (
+                <option key={size} value={size}>
+                  Show {size}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="pagination-info">
+          Showing players {startRow} - {endRow} out of {filteredData.length}
+        </div>
       </div>
     </div>
   );
