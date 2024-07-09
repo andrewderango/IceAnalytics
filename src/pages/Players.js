@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useSortBy } from 'react-table';
 import { createClient } from '@supabase/supabase-js';
 import '../styles/Players.scss';
 
@@ -12,6 +12,7 @@ function Players() {
   const [teamFilter, setTeamFilter] = useState('');
   const [posFilter, setPosFilter] = useState('');
   const [selectedColumn, setSelectedColumn] = useState(null);
+  const [sortBy, setSortByState] = useState([]);
 
   const columns = React.useMemo(
     () => [
@@ -30,18 +31,22 @@ function Players() {
       {
         Header: 'Games',
         accessor: 'games',
+        sortType: 'basic',
       },
       {
         Header: 'Goals',
         accessor: 'goals',
+        sortType: 'basic',
       },
       {
         Header: 'Assists',
         accessor: 'assists',
+        sortType: 'basic',
       },
       {
         Header: 'Points',
         accessor: 'points',
+        sortType: 'basic',
       },
     ],
     [selectedColumn]
@@ -87,13 +92,47 @@ function Players() {
     previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
+    setSortBy,
   } = useTable(
-    { columns, data: filteredData, initialState: { pageIndex: 0, pageSize: 10 } },
+    {
+      columns,
+      data: filteredData,
+      initialState: {
+        pageIndex: 0,
+        pageSize: 10,
+        sortBy: sortBy.length > 0 ? sortBy : [
+          { id: 'points', desc: true },
+          { id: 'goals', desc: true }
+        ],
+      },
+    },
+    useSortBy,
     usePagination
-  );
+  );  
 
   const teams = [...new Set(data.map(player => player.team))].sort();
   const positions = [...new Set(data.map(player => player.position))].sort();
+
+  const handleColumnClick = (column) => {
+    const isDescending = ['games', 'goals', 'assists', 'points'].includes(column.id);
+    if (selectedColumn === column.id) {
+      setSelectedColumn(null);
+      setSortBy([]);
+      setSortByState([
+        { id: 'points', desc: true },
+        { id: 'goals', desc: true }
+      ]);
+    } else {
+      setSelectedColumn(column.id);
+      const sortConfig = [
+        { id: column.id, desc: isDescending },
+        { id: 'points', desc: true },
+        { id: 'goals', desc: true },
+      ];
+      setSortBy(sortConfig);
+      setSortByState(sortConfig);
+    }
+  };  
 
   return (
     <div className="players">
@@ -128,16 +167,15 @@ function Players() {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th
-                    {...column.getHeaderProps({
-                      style: {
-                        cursor: 'pointer',
-                        backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
-                        position: column.id === 'player' ? 'sticky' : undefined,
-                        left: column.id === 'player' ? 0 : undefined,
-                        zIndex: 1,
-                      },
-                      onClick: () => setSelectedColumn(prev => prev === column.id ? null : column.id),
-                    })}
+                    {...column.getHeaderProps()}
+                    style={{
+                      cursor: 'pointer',
+                      backgroundColor: selectedColumn === column.id ? 'rgba(218, 165, 32, 0.5)' : undefined,
+                      position: column.id === 'player' ? 'sticky' : undefined,
+                      left: column.id === 'player' ? 0 : undefined,
+                      zIndex: 1,
+                    }}
+                    onClick={() => handleColumnClick(column)}
                   >
                     {column.render('Header')}
                   </th>
