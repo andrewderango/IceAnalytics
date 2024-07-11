@@ -47,17 +47,17 @@ function Teams() {
       {
         Header: 'Points',
         accessor: 'points',
-        Cell: ({ cell: { value } }) => value,
+        Cell: ({ cell: { value } }) => Math.round(value),
       },
       {
         Header: 'GF',
         accessor: 'goals_for',
-        Cell: ({ cell: { value } }) => value,
+        Cell: ({ cell: { value } }) => Math.round(value),
       },
       {
         Header: 'GA',
         accessor: 'goals_against',
-        Cell: ({ cell: { value } }) => value,
+        Cell: ({ cell: { value } }) => Math.round(value),
       },
       {
         Header: 'Playoffs',
