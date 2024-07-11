@@ -21,7 +21,9 @@ function Players() {
       },
       {
         Header: 'Team',
-        accessor: 'team',
+        accessor: 'logo',
+        Cell: ({ value }) => <img src={value} alt="logo" className="team-logo" />,
+        sticky: 'left',
       },
       {
         Header: 'Position',
@@ -34,14 +36,17 @@ function Players() {
       {
         Header: 'Goals',
         accessor: 'goals',
+        Cell: ({ value }) => Math.round(value),
       },
       {
         Header: 'Assists',
         accessor: 'assists',
+        Cell: ({ value }) => Math.round(value),
       },
       {
         Header: 'Points',
         accessor: 'points',
+        Cell: ({ value }) => Math.round(value),
       },
     ],
     [selectedColumn]

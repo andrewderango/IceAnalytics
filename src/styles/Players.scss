@@ -110,6 +110,14 @@
         background-size: 18px 18px;
     }
 
+    .team-logo {
+        width: auto;
+        height: 30px;
+        object-fit: contain;
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+
     .table-container {
         width: 100%;
         overflow-x: auto;

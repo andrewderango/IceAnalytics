@@ -394,6 +394,7 @@ def push_to_supabase(table_name, verbose=False):
         }
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
+        df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
