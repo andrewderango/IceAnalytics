@@ -61,6 +61,7 @@ def main():
     simulate_season(PROJECTION_YEAR, 10, True, True, True)
 
     # push_to_supabase("team-projections", True)
+    # push_to_supabase("player-projections", True)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
 

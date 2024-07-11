@@ -360,23 +360,40 @@ def push_to_supabase(table_name, verbose=False):
 
     if table_name == 'team-projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams', '2025_team_aggregated_projections.csv')
-    df = pd.read_csv(file_path)
-    df = df.drop(df.columns[0], axis=1)
-    rename_dict = {
-        'Abbreviation': 'abbrev',
-        'Team': 'team',
-        'Points': 'points',
-        'Wins': 'wins',
-        'Losses': 'losses',
-        'OTL': 'otl',
-        'Goals For': 'goals_for',
-        'Goals Against': 'goals_against',
-    }
-    df.rename(columns=rename_dict, inplace=True)
-    df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
-    df['playoff_prob'] = 0.50
-    df['presidents_trophy_prob'] = 0.03125
-    df['stanley_cup_prob'] = 0.03125
+        df = pd.read_csv(file_path)
+        df = df.drop(df.columns[0], axis=1)
+        rename_dict = {
+            'Abbreviation': 'abbrev',
+            'Team': 'team',
+            'Points': 'points',
+            'Wins': 'wins',
+            'Losses': 'losses',
+            'OTL': 'otl',
+            'Goals For': 'goals_for',
+            'Goals Against': 'goals_against',
+        }
+        df.rename(columns=rename_dict, inplace=True)
+        df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
+        df['playoff_prob'] = 0.50
+        df['presidents_trophy_prob'] = 0.03125
+        df['stanley_cup_prob'] = 0.03125
+    elif table_name == 'player-projections':
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', '2025_skater_aggregated_projections.csv')
+        df = pd.read_csv(file_path)
+        df = df.drop(df.columns[0], axis=1)
+        rename_dict = {
+            'PlayerID': 'player_id',
+            'Player': 'player',
+            'Position': 'position',
+            'Team': 'team',
+            'Age': 'age',
+            'Games Played': 'games',
+            'Goals': 'goals',
+            'Assists': 'assists',
+            'Points': 'points',
+        }
+        df.rename(columns=rename_dict, inplace=True)
+        df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
@@ -386,7 +403,7 @@ def push_to_supabase(table_name, verbose=False):
     delete_response = None
     insert_response = None
     try:
-        delete_response = supabase.table(table_name).delete().gt('points', 0).execute()
+        delete_response = supabase.table(table_name).delete().gt('points', -1).execute()
         insert_response = supabase.table(table_name).insert(data_to_insert).execute()
         print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
     except Exception as e:
