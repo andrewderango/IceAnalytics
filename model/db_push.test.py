@@ -1,5 +1,4 @@
 import os
-import time
 import pandas as pd
 from dotenv import load_dotenv
 from supabase import create_client, Client

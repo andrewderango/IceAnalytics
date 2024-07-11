@@ -58,7 +58,9 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(PROJECTION_YEAR, 5, True, True, True)
+    simulate_season(PROJECTION_YEAR, 10, True, True, True)
+
+    # push_to_supabase("team-projections", True)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
 
