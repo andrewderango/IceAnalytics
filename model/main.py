@@ -50,7 +50,7 @@ def main():
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
     player_stat_df = fix_teams(player_stat_df)
-    print(player_stat_df.to_string())
+    # print(player_stat_df.to_string())
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
@@ -59,7 +59,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(PROJECTION_YEAR, 10, True, True, True)
+    simulate_season(PROJECTION_YEAR, 100, True, True, True)
 
     # Push the simulation results to Supabase
     # push_to_supabase("team-projections", False)
