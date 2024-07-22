@@ -51,6 +51,10 @@ def main():
     player_stat_df = player_stat_df.reset_index(drop=True)
     # print(player_stat_df.to_string())
 
+    import check_teams as test
+    test.fix_teams(player_stat_df)
+    quit()
+
     # Make team inferences
     team_stat_df = pd.DataFrame()
     team_stat_df = ga_model_inference(PROJECTION_YEAR, team_stat_df, ga_model, True, False)
@@ -60,8 +64,9 @@ def main():
     # Simulate season
     simulate_season(PROJECTION_YEAR, 10, True, True, True)
 
-    # push_to_supabase("team-projections", True)
-    # push_to_supabase("player-projections", True)
+    # Push the simulation results to Supabase
+    # push_to_supabase("team-projections", False)
+    # push_to_supabase("player-projections", False)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
 
