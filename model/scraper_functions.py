@@ -346,6 +346,17 @@ def get_season_state(projection_year):
     else:
         return 'REGULAR SEASON'
     
+def fix_teams(player_stat_df):
+    url = "https://search.d3.nhle.com/api/v1/search/player?culture=en-us&limit=999999&q=%2A&active=true"
+    response = requests.get(url)
+    data = response.json()
+    active_players_df = pd.DataFrame(data)
+    active_players_df['playerId'] = active_players_df['playerId'].astype('int64')
+    active_players_df.rename(columns={'playerId': 'PlayerID', 'teamAbbrev': 'Team'}, inplace=True)
+    player_to_team_map = active_players_df.set_index('PlayerID')['Team'].to_dict()
+    player_stat_df['Team'] = player_stat_df['PlayerID'].map(player_to_team_map)
+    return player_stat_df
+    
 def push_to_supabase(table_name, verbose=False):
     load_dotenv()
     SUPABASE_URL = os.getenv('REACT_APP_SUPABASE_PROJ_URL')

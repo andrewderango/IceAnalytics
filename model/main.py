@@ -49,11 +49,8 @@ def main():
     player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
-    # print(player_stat_df.to_string())
-
-    import check_teams as test
-    test.fix_teams(player_stat_df)
-    quit()
+    player_stat_df = fix_teams(player_stat_df)
+    print(player_stat_df.to_string())
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
