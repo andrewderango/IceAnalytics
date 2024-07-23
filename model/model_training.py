@@ -10,13 +10,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split
 
 def aggregate_skater_training_data(projection_year):
-    file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data')
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
     for file in files:
         if file[-15:] != 'skater_data.csv':
             files.remove(file) # Remove files like .DS_Store or other unexpected files
 
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combinations = [files[i:i+4] for i in range(len(files)-3)]
     combined_data = pd.DataFrame()
 
@@ -78,7 +78,7 @@ def aggregate_skater_training_data(projection_year):
     return combined_data
 
 def aggregate_team_training_data(projection_year):
-    file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data')
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data')
     files = sorted(os.listdir(file_path))
     for file in files:
         if file[-13:] != 'team_data.csv':
@@ -139,7 +139,7 @@ def aggregate_team_training_data(projection_year):
 def train_atoi_model(projection_year, retrain_model, verbose):
 
     filename = 'atoi_model.csv'
-    file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', filename)
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', filename)
 
     if retrain_model == True:
 
@@ -242,13 +242,13 @@ def train_goal_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
+        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
 
         return model
     
     else:
-        # model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goal_model.keras'), compile=False)
+        # model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'), compile=False)
         return model
     
 def train_a1_model(projection_year, retrain_model, verbose):
@@ -287,12 +287,12 @@ def train_a1_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'))
+        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'))
 
         return model
     
     else:
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'), compile=False)
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'), compile=False)
         return model
     
 def train_a2_model(projection_year, retrain_model, verbose):
@@ -331,12 +331,12 @@ def train_a2_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'))
+        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'))
 
         return model
     
     else:
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'), compile=False)
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'), compile=False)
         return model
     
 def train_ga_model(projection_year, retrain_model, verbose):
@@ -349,7 +349,7 @@ def train_ga_model(projection_year, retrain_model, verbose):
             print(ga_train_data)
 
         # Define the feature columns
-        feature_cols = ['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']
+        feature_cols = ['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']
 
         # Separate the features and the target
         X = ga_train_data[feature_cols]
@@ -372,11 +372,11 @@ def train_ga_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
 
         return model
 
     else:
         model = xgb.Booster()
-        model.load_model(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
         return model

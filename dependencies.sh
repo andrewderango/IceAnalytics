@@ -12,3 +12,5 @@ pip install tensorflow
 pip install scikit-learn
 pip install unidecode
 pip install requests
+pip install supabase
+pip install python-dotenv
