@@ -388,7 +388,7 @@ def skater_xga_model_inference(projection_year, player_stat_df, skater_xga_model
     season_started = True
 
     for year in range(projection_year-3, projection_year+1):
-        filename = f'{year-1}-{year}_skater_data.csv'
+        filename = f'{year-1}-{year}_skater_onice_data.csv'
         file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical On-Ice Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
@@ -439,7 +439,11 @@ def skater_xga_model_inference(projection_year, player_stat_df, skater_xga_model
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
 
-    predictions = skater_xga_model.predict(combined_df[['Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 FA/60', 'Y-2 FA/60', 'Y-1 FA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'PositionBool']], verbose=verbose)
+    try: # model was trained in this session
+        predictions = skater_xga_model.predict(combined_df[['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']])
+    except TypeError: # model was loaded in, pre-trained
+        data_dmatrix = xgb.DMatrix(combined_df[['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']])
+        predictions = skater_xga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
     combined_df['Proj. xGA/60'] = combined_df['Y-0 GP']/82*combined_df['Y-0 xGA/60'] + (82-combined_df['Y-0 GP'])/82*predictions
 

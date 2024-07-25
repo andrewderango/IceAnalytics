@@ -41,8 +41,8 @@ def main():
     a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a2_model = train_a2_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     team_ga_model = train_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    skater_xga_model = train_skater_xga_model(2025, True, True)
-    skater_ga_model = train_skater_xga_model(2025, True, True)
+    skater_xga_model = train_skater_xga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    skater_ga_model = train_skater_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
 
     # Make player inferences
     player_stat_df = pd.DataFrame()
@@ -59,7 +59,8 @@ def main():
     # print(player_stat_df.to_string()) 
 
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
-    print(player_stat_df)
+    player_stat_df = player_stat_df.sort_values(by='xGA/60', ascending=False)
+    print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'xGA/60']].to_string())
     quit()
 
     # Make team inferences

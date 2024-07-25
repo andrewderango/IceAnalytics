@@ -447,7 +447,8 @@ def train_skater_xga_model(projection_year, retrain_model, verbose):
             print(train_data)
 
         # Define the feature columns
-        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60']
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'Position']
 
         # Separate the features and the target
         X = train_data[feature_cols]
@@ -457,7 +458,7 @@ def train_skater_xga_model(projection_year, retrain_model, verbose):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
         # Define the model
-        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.10, max_depth = 3, n_estimators = 50)
+        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.10, max_depth = 3, n_estimators = 60)
 
         # Train the model
         model.fit(X_train, y_train, verbose=verbose)
@@ -493,7 +494,8 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
             print(train_data)
 
         # Define the feature columns
-        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60']
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'Position']
 
         # Separate the features and the target
         X = train_data[feature_cols]
@@ -503,7 +505,7 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
         # Define the model
-        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.075, max_depth = 2, n_estimators = 40)
+        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.075, max_depth = 2, n_estimators = 55)
 
         # Train the model
         model.fit(X_train, y_train, verbose=verbose)
