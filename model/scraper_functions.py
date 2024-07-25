@@ -235,15 +235,18 @@ def scrape_games(projection_year, check_preexistence, verbose):
         df.to_csv(os.path.join(file_path, filename))
 
 # Add player ids from NHL API to historical skater data
-def scrape_nhlapi_data(start_year, end_year, bios, projection_year, season_state, check_preexistence, verbose):
+def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, season_state, check_preexistence, verbose):
 
     for year in range(start_year, end_year+1):
         if bios == True:
             filename = f'{year-1}-{year}_skater_bios.csv'
             file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', filename)
-        elif bios == False:
+        elif bios == False and on_ice == False:
             filename = f'{year-1}-{year}_skater_data.csv'
             file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        elif bios == False and on_ice == True:
+            filename = f'{year-1}-{year}_skater_onice_data.csv'
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical On-Ice Skater Data', filename)
         
         # check if the column 'Headshot' is already in the dataframe
         if check_preexistence == True:
@@ -273,14 +276,17 @@ def scrape_nhlapi_data(start_year, end_year, bios, projection_year, season_state
         # get sim engine data historical skater data
         if bios == True:
             historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'Historical Skater Bios', f'{year-1}-{year}_skater_bios.csv'), index_col=0)
-        elif bios == False:
+        elif bios == False and on_ice == False:
             historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-1}-{year}_skater_data.csv'), index_col=0)
+        elif bios == False and on_ice == True:
+            historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical On-Ice Skater Data', f'{year-1}-{year}_skater_onice_data.csv'), index_col=0)
 
         # merge 
         try:
             historical_skater_data = historical_skater_data.drop(columns=['PlayerID', 'Headshot', 'Team Logo'])
         except KeyError:
             pass
+        historical_skater_data = historical_skater_data[historical_skater_data['Player'].notna()]
         historical_skater_data['playerStripped'] = historical_skater_data['Player'].apply(lambda x: unidecode.unidecode(x)).str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names)
         df['playerStripped'] = df['Player'].apply(lambda x: unidecode.unidecode(x)).str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names)
         historical_skater_data['playerStripped'] = historical_skater_data.apply(handle_duplicate_names, axis=1)
