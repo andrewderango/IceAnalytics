@@ -3,6 +3,7 @@ import pandas as pd
 from model_training import *
 from model_inference import *
 from scraper_functions import *
+from sim_engine import *
 
 def main():
     start_time = time.time()
@@ -50,28 +51,25 @@ def main():
     player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=True, verbose=False)
     player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=True, verbose=False)
     player_stat_df = a2_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a2_model=a2_model, download_file=True, verbose=False)
+    player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
+    player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=True, verbose=False)
     player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
     player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
     player_stat_df = fix_teams(player_stat_df)
-    # player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
-    # print(player_stat_df.to_string()) 
-
-    player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
-    player_stat_df = player_stat_df.sort_values(by='xGA/60', ascending=False)
-    print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'xGA/60']].to_string())
-    quit()
+    player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
+    # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iGoals', 'iPoints', 'xGA/60', 'GA/60']].to_string())
+    # print(player_stat_df.info())
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
-    team_stat_df = ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, skater_xga_model=skater_xga_model, skater_ga_model=skater_ga_model, team_ga_model=team_ga_model, download_file=True, verbose=False)
-    team_stat_df = team_stat_df.sort_values(by='GA/GP', ascending=False)
-    print(team_stat_df.to_string())
-    quit()
+    team_stat_df = team_ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, player_stat_df=player_stat_df, team_ga_model=team_ga_model, download_file=True, verbose=False)
+    team_stat_df = team_stat_df.sort_values(by='Agg GA/GP', ascending=False)
+    # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(PROJECTION_YEAR, 100, True, True, True)
+    simulate_season(PROJECTION_YEAR, 10, True, True, True)
 
     # Push the simulation results to Supabase
     # push_to_supabase("team-projections", False)
