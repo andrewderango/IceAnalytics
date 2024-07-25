@@ -6,11 +6,14 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 
 # Function to scrape raw historical data from Natural Stat Trick
-def scrape_historical_player_data(start_year, end_year, skaters, bios, projection_year, season_state, check_preexistence, verbose):
+def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, projection_year, season_state, check_preexistence, verbose):
     for year in range(start_year, end_year+1):
-        if skaters == True and bios == False:
+        if skaters == True and bios == False and on_ice == False:
             filename = f'{year-1}-{year}_skater_data.csv'
             file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        elif skaters == True and bios == False and on_ice == True:
+            filename = f'{year-1}-{year}_skater_onice_data.csv'
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical On-Ice Skater Data', filename)
         elif skaters == False and bios == False:
             filename = f'{year-1}-{year}_goalie_data.csv'
             file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Goaltending Data', filename)
@@ -28,8 +31,10 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, projectio
                 continue
 
         if projection_year != year or season_state != 'PRESEASON':
-            if skaters == True and bios == False:
+            if skaters == True and bios == False and on_ice == False:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
+            elif skaters == True and bios == False and on_ice == True:
+                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=oi&rate=y&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == False:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == True and bios == True:
