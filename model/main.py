@@ -35,15 +35,14 @@ def main():
     # scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
     # scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
 
-    print(aggregate_skater_defence_training_data(2025))
-    quit()
-
     # Train models
     atoi_model_data = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     goal_model = train_goal_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a2_model = train_a2_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    ga_model = train_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    team_ga_model = train_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    skater_xga_model = train_skater_xga_model(2025, True, True)
+    skater_ga_model = train_skater_xga_model(2025, True, True)
 
     # Make player inferences
     player_stat_df = pd.DataFrame()
@@ -57,14 +56,15 @@ def main():
     player_stat_df = player_stat_df.reset_index(drop=True)
     player_stat_df = fix_teams(player_stat_df)
     # player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
-    # print(player_stat_df.to_string())
+    # print(player_stat_df.to_string()) 
 
-    # Make GA inferences
-    
+    player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
+    print(player_stat_df)
+    quit()
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
-    team_stat_df = ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, ga_model=ga_model, download_file=True, verbose=False)
+    team_stat_df = ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, skater_xga_model=skater_xga_model, skater_ga_model=skater_ga_model, team_ga_model=team_ga_model, download_file=True, verbose=False)
     team_stat_df = team_stat_df.sort_values(by='GA/GP', ascending=False)
     print(team_stat_df.to_string())
     quit()

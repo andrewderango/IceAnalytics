@@ -103,6 +103,7 @@ def aggregate_skater_defence_training_data(projection_year):
                 'xGA/60': f'Y-{3-index} xGA/60',
                 'On-Ice SV%': f'Y-{3-index} oiSV%'
             })
+            df = df.drop(columns=['Player', 'TOI'])
             if combined_df is None:
                 combined_df = df
             else:
@@ -434,4 +435,96 @@ def train_ga_model(projection_year, retrain_model, verbose):
     else:
         model = xgb.Booster()
         model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
+        return model
+    
+def train_skater_xga_model(projection_year, retrain_model, verbose):
+
+    if retrain_model == True:
+
+        train_data = aggregate_skater_defence_training_data(projection_year)
+        
+        if verbose:
+            print(train_data)
+
+        # Define the feature columns
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60']
+
+        # Separate the features and the target
+        X = train_data[feature_cols]
+        y = train_data['Y-0 xGA/60']
+
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # Define the model
+        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.10, max_depth = 3, n_estimators = 50)
+
+        # Train the model
+        model.fit(X_train, y_train, verbose=verbose)
+
+        # Evaluate the model on the test dataset
+        predictions_test = model.predict(X_test)
+        mse_test = mean_squared_error(y_test, predictions_test)
+        if verbose:
+            print("Test MSE: %.3f" % mse_test)
+
+        # Evaluate the model on the train dataset
+        predictions_train = model.predict(X_train)
+        mse_train = mean_squared_error(y_train, predictions_train)
+        if verbose:
+            print("Train MSE: %.3f" % mse_train)
+
+        # Save the model
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_xga_model.xgb'))
+        return model
+
+    else:
+        model = xgb.Booster()
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_xga_model.xgb'))
+        return model
+    
+def train_skater_ga_model(projection_year, retrain_model, verbose):
+
+    if retrain_model == True:
+
+        train_data = aggregate_skater_defence_training_data(projection_year)
+        
+        if verbose:
+            print(train_data)
+
+        # Define the feature columns
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60']
+
+        # Separate the features and the target
+        X = train_data[feature_cols]
+        y = train_data['Y-0 GA/60']
+
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # Define the model
+        model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.075, max_depth = 2, n_estimators = 40)
+
+        # Train the model
+        model.fit(X_train, y_train, verbose=verbose)
+
+        # Evaluate the model on the test dataset
+        predictions_test = model.predict(X_test)
+        mse_test = mean_squared_error(y_test, predictions_test)
+        if verbose:
+            print("Test MSE: %.3f" % mse_test)
+
+        # Evaluate the model on the train dataset
+        predictions_train = model.predict(X_train)
+        mse_train = mean_squared_error(y_train, predictions_train)
+        if verbose:
+            print("Train MSE: %.3f" % mse_train)
+
+        # Save the model
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_ga_model.xgb'))
+        return model
+
+    else:
+        model = xgb.Booster()
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_ga_model.xgb'))
         return model
