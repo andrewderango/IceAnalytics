@@ -199,13 +199,13 @@ def train_atoi_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        atoi_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
-            print(atoi_train_data)
+            print(train_data)
 
         # Split the data into training and testing sets
-        train_data, test_data = train_test_split(atoi_train_data, test_size=0.5, random_state=42)
+        train_data, test_data = train_test_split(train_data, test_size=0.5, random_state=42)
         train_data = train_data.dropna(subset=['Y-0 Age'])
         test_data = test_data.dropna(subset=['Y-0 Age'])
 
@@ -268,18 +268,19 @@ def train_goal_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
-            print(goal_train_data)
+            print(train_data)
 
         # Define the feature columns
-        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
         feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
-        X = goal_train_data[feature_cols]
-        y = goal_train_data['Y-0 Gper1kChunk']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 Gper1kChunk']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -313,18 +314,19 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
-            print(goal_train_data)
+            print(train_data)
 
         # Define the feature columns
-        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
         feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
-        X = goal_train_data[feature_cols]
-        y = goal_train_data['Y-0 A1per1kChunk']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 A1per1kChunk']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -357,18 +359,19 @@ def train_a2_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
-            print(goal_train_data)
+            print(train_data)
 
         # Define the feature columns
-        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
         feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
-        X = goal_train_data[feature_cols]
-        y = goal_train_data['Y-0 A2per1kChunk']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 A2per1kChunk']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -401,17 +404,17 @@ def train_ga_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        ga_train_data = aggregate_team_training_data(projection_year)
+        train_data = aggregate_team_training_data(projection_year)
         
         if verbose:
-            print(ga_train_data)
+            print(train_data)
 
         # Define the feature columns
         feature_cols = ['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']
 
         # Separate the features and the target
-        X = ga_train_data[feature_cols]
-        y = ga_train_data['Y-0 GA/GP']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 GA/GP']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
