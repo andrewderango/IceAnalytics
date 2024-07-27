@@ -55,13 +55,16 @@ def main():
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=True, verbose=False)
     player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
     player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
-    player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
-    player_stat_df = player_stat_df.reset_index(drop=True)
+    # player_stat_df = player_stat_df.sort_values(by='iG/60', ascending=False)
+    # player_stat_df = player_stat_df.reset_index(drop=True)
     player_stat_df = fix_teams(player_stat_df)
     player_stat_df['iG/60'] = player_stat_df['iGoals']/player_stat_df['ATOI']/82*60
+    player_stat_df = player_stat_df.sort_values(by='iG/60', ascending=False)
+    player_stat_df = player_stat_df.reset_index(drop=True)
     # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk', 'iGoals', 'iPoints']].to_string())
-    # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'iGoals', 'iG/60']].to_string())
+    print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'iGoals', 'iG/60']].to_string())
     # print(player_stat_df.info())
+    quit()
 
     # Make team inferences
     team_stat_df = pd.DataFrame()

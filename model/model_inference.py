@@ -164,8 +164,8 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
             combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['SampleGP'] + replacement_value*row['SampleReplaceGP']) / (row['SampleGP']+row['SampleReplaceGP']), axis=1)
 
     # create predictions
-    predictions = goal_model.predict(combined_df[features], verbose=verbose)
-    predictions = predictions.reshape(-1)
+    dmatrix = xgb.DMatrix(combined_df[features])
+    predictions = goal_model.predict(dmatrix)
     combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. Gper1kChunk', ascending=False, inplace=True)
@@ -178,8 +178,8 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk']]
     combined_df = combined_df.rename(columns={'Proj. Gper1kChunk': 'Gper1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
-    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
-    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    # player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    # player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
     player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:

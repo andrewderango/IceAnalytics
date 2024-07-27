@@ -282,33 +282,36 @@ def train_goal_model(projection_year, retrain_model, verbose):
         X = train_data[feature_cols]
         y = train_data['Y-0 Gper1kChunk']
 
-        # Split the data into training and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
         # Define the model
-        model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
-        model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
-        model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
-        model.compile(loss='mean_squared_error', optimizer='adam')
+        n_estimators = 50
+        learning_rate = 0.1
+        max_depth = 3
+        min_child_weight = 1
+        subsample = 1.0
+        colsample_bytree = 1.0
+        model = xgb.XGBRegressor(
+            objective='reg:squarederror',
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            max_depth=max_depth,
+            min_child_weight=min_child_weight,
+            subsample=subsample,
+            colsample_bytree=colsample_bytree,
+            verbosity=0
+        )
 
         # Train the model
-        model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=verbose)
-
-        # Evaluate the model
-        mse = model.evaluate(X_test, y_test, verbose=0)
-        if verbose:
-            print("MSE: %.2f" % mse)
+        model.fit(X, y)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
-
-        return model
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.json'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.xgb'))
     
     else:
-        # model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'), compile=False)
-        return model
+        model = xgb.Booster()
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.xgb'))
+    
+    return model
     
 def train_a1_model(projection_year, retrain_model, verbose):
 
