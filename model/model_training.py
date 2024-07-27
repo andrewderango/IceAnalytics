@@ -287,7 +287,7 @@ def train_goal_model(projection_year, retrain_model, verbose):
 
         # Define the model
         model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(17, input_dim=17, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
         model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
         model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
         model.compile(loss='mean_squared_error', optimizer='adam')
@@ -321,7 +321,7 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
         # Define the feature columns
         train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'Position']
         train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
@@ -333,7 +333,7 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
         # Define the model
         model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(20, input_dim=20, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
         model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
         model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
         model.compile(loss='mean_squared_error', optimizer='adam')
@@ -366,7 +366,7 @@ def train_a2_model(projection_year, retrain_model, verbose):
 
         # Define the feature columns
         train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'Position']
         train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
@@ -378,7 +378,7 @@ def train_a2_model(projection_year, retrain_model, verbose):
 
         # Define the model
         model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(20, input_dim=20, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
         model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
         model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
         model.compile(loss='mean_squared_error', optimizer='adam')
