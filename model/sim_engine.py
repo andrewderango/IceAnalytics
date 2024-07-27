@@ -7,6 +7,112 @@ from tqdm import tqdm
 from model_training import *
 from scraper_functions import *
 
+def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visiting_team_abbrev, visitor_active_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
+
+    # set initial score to 0-0
+    home_score = 0
+    visitor_score = 0
+
+    # increment games played for each player on active roster in game scoring dict
+    for player_id in home_active_roster['PlayerID']:
+        game_scoring_dict[player_id][0] += 1
+    for player_id in visitor_active_roster['PlayerID']:
+        game_scoring_dict[player_id][0] += 1
+
+    # Calculate the weighted averages
+    home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
+    visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000* 5/(1+a1_probability+a2_probability)
+
+    # adjust for home ice advantage ###
+    home_weighted_avg *= 1.025574015
+    visitor_weighted_avg *= 0.9744259847
+
+    # adjust for team defence
+    home_weighted_avg *= visitor_defence_score
+    visitor_weighted_avg *= home_defence_score
+
+    # determining scorers and assisters
+    home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_scorer_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_assist_ids = home_active_roster.sample(n=20, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_assist_ids = visitor_active_roster.sample(n=20, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+
+    for chunk in range(120):
+        rng = random.uniform(0, 1)
+        if rng < home_weighted_avg: # home goal
+            try:
+                scorer_id = home_scorer_ids[home_score]
+                a1_id = home_assist_ids[home_score]
+                a2_id = home_assist_ids[home_score + 10]
+            except IndexError: # score more than 10 goals
+                scorer_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
+                a1_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
+                a2_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
+            home_score += 1
+        elif rng > 1 - visitor_weighted_avg: # visitor goal
+            try:
+                scorer_id = visitor_scorer_ids[visitor_score]
+                a1_id = visitor_assist_ids[visitor_score]
+                a2_id = visitor_assist_ids[visitor_score + 10]
+            except IndexError: # score more than 10 goals
+                scorer_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
+                a1_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
+                a2_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
+            visitor_score += 1
+        else:
+            continue # no goal occurs in chunk; advance to next chunk
+
+        game_scoring_dict[scorer_id][1] += 1
+
+        # Assign assists
+        if random.uniform(0, 1) < a1_probability:
+            game_scoring_dict[a1_id][2] += 1
+
+            if random.uniform(0, 1) < a2_probability:
+                game_scoring_dict[a2_id][2] += 1
+
+    if home_score > visitor_score:
+        team_scoring_dict[home_team_abbrev][0] += 1
+        team_scoring_dict[visiting_team_abbrev][1] += 1
+    elif home_score < visitor_score:
+        team_scoring_dict[visiting_team_abbrev][0] += 1
+        team_scoring_dict[home_team_abbrev][1] += 1
+    else:
+        # overtime
+        rng = random.uniform(0, 1)
+        home_weighted_avg_ot = home_weighted_avg/(home_weighted_avg + visitor_weighted_avg)
+        if rng < home_weighted_avg_ot: # home goal
+            scorer_id = home_scorer_ids[home_score]
+            a1_id = home_assist_ids[home_score]
+            a2_id = home_assist_ids[home_score + 10]
+            home_score += 1
+            team_scoring_dict[home_team_abbrev][0] += 1
+            team_scoring_dict[visiting_team_abbrev][2] += 1
+        else: # visitor goal
+            scorer_id = visitor_scorer_ids[visitor_score]
+            a1_id = visitor_assist_ids[visitor_score]
+            a2_id = visitor_assist_ids[visitor_score + 10]
+            visitor_score += 1
+            team_scoring_dict[visiting_team_abbrev][0] += 1
+            team_scoring_dict[home_team_abbrev][2] += 1
+
+        game_scoring_dict[scorer_id][1] += 1
+
+        # Assign assists
+        if random.uniform(0, 1) < a1_probability:
+            game_scoring_dict[a1_id][2] += 1
+
+            if random.uniform(0, 1) < a2_probability:
+                game_scoring_dict[a2_id][2] += 1
+
+    # add gf and ga to team scoring dict
+    team_scoring_dict[home_team_abbrev][3] += home_score
+    team_scoring_dict[home_team_abbrev][4] += visitor_score
+    team_scoring_dict[visiting_team_abbrev][3] += visitor_score
+    team_scoring_dict[visiting_team_abbrev][4] += home_score
+
+    return game_scoring_dict, team_scoring_dict
+
 def simulate_season(projection_year, simulations, resume_season, download_files, verbose):
     # load dfs
     schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', f'{projection_year-1}-{projection_year}_game_schedule.csv'), index_col=0)
@@ -93,7 +199,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         else:
             lookup_team = team
 
-        defence_scores[team] = 1 + (team_metaproj_df[team_metaproj_df['Team'] == lookup_team]['GA/GP'].values[0] - avg_ga)/avg_ga
+        defence_scores[team] = 1 + (team_metaproj_df[team_metaproj_df['Team'] == lookup_team]['Normalized GA/GP'].values[0] - avg_ga)/avg_ga
 
     # create dataframe to store individual simulation results
     skater_simulations_df = pd.DataFrame(columns=['Simulation', 'PlayerID', 'Player', 'Position', 'Team', 'Age', 'Games Played', 'Goals', 'Assists', 'Points'])
@@ -208,109 +314,3 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             print(f'{projection_year}_team_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_team_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
-
-def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visiting_team_abbrev, visitor_active_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
-
-    # set initial score to 0-0
-    home_score = 0
-    visitor_score = 0
-
-    # increment games played for each player on active roster in game scoring dict
-    for player_id in home_active_roster['PlayerID']:
-        game_scoring_dict[player_id][0] += 1
-    for player_id in visitor_active_roster['PlayerID']:
-        game_scoring_dict[player_id][0] += 1
-
-    # Calculate the weighted averages
-    home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
-    visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000* 5/(1+a1_probability+a2_probability)
-
-    # adjust for home ice advantage ###
-    home_weighted_avg *= 1.025574015
-    visitor_weighted_avg *= 0.9744259847
-
-    # adjust for team defence
-    home_weighted_avg *= visitor_defence_score
-    visitor_weighted_avg *= home_defence_score
-
-    # determining scorers and assisters
-    home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
-    visitor_scorer_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
-    home_assist_ids = home_active_roster.sample(n=20, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
-    visitor_assist_ids = visitor_active_roster.sample(n=20, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
-
-    for chunk in range(120):
-        rng = random.uniform(0, 1)
-        if rng < home_weighted_avg: # home goal
-            try:
-                scorer_id = home_scorer_ids[home_score]
-                a1_id = home_assist_ids[home_score]
-                a2_id = home_assist_ids[home_score + 10]
-            except IndexError: # score more than 10 goals
-                scorer_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
-                a1_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
-                a2_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
-            home_score += 1
-        elif rng > 1 - visitor_weighted_avg: # visitor goal
-            try:
-                scorer_id = visitor_scorer_ids[visitor_score]
-                a1_id = visitor_assist_ids[visitor_score]
-                a2_id = visitor_assist_ids[visitor_score + 10]
-            except IndexError: # score more than 10 goals
-                scorer_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
-                a1_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
-                a2_id = visitor_active_roster.sample(n=1, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values[0]
-            visitor_score += 1
-        else:
-            continue # no goal occurs in chunk; advance to next chunk
-
-        game_scoring_dict[scorer_id][1] += 1
-
-        # Assign assists
-        if random.uniform(0, 1) < a1_probability:
-            game_scoring_dict[a1_id][2] += 1
-
-            if random.uniform(0, 1) < a2_probability:
-                game_scoring_dict[a2_id][2] += 1
-
-    if home_score > visitor_score:
-        team_scoring_dict[home_team_abbrev][0] += 1
-        team_scoring_dict[visiting_team_abbrev][1] += 1
-    elif home_score < visitor_score:
-        team_scoring_dict[visiting_team_abbrev][0] += 1
-        team_scoring_dict[home_team_abbrev][1] += 1
-    else:
-        # overtime
-        rng = random.uniform(0, 1)
-        home_weighted_avg_ot = home_weighted_avg/(home_weighted_avg + visitor_weighted_avg)
-        if rng < home_weighted_avg_ot: # home goal
-            scorer_id = home_scorer_ids[home_score]
-            a1_id = home_assist_ids[home_score]
-            a2_id = home_assist_ids[home_score + 10]
-            home_score += 1
-            team_scoring_dict[home_team_abbrev][0] += 1
-            team_scoring_dict[visiting_team_abbrev][2] += 1
-        else: # visitor goal
-            scorer_id = visitor_scorer_ids[visitor_score]
-            a1_id = visitor_assist_ids[visitor_score]
-            a2_id = visitor_assist_ids[visitor_score + 10]
-            visitor_score += 1
-            team_scoring_dict[visiting_team_abbrev][0] += 1
-            team_scoring_dict[home_team_abbrev][2] += 1
-
-        game_scoring_dict[scorer_id][1] += 1
-
-        # Assign assists
-        if random.uniform(0, 1) < a1_probability:
-            game_scoring_dict[a1_id][2] += 1
-
-            if random.uniform(0, 1) < a2_probability:
-                game_scoring_dict[a2_id][2] += 1
-
-    # add gf and ga to team scoring dict
-    team_scoring_dict[home_team_abbrev][3] += home_score
-    team_scoring_dict[home_team_abbrev][4] += visitor_score
-    team_scoring_dict[visiting_team_abbrev][3] += visitor_score
-    team_scoring_dict[visiting_team_abbrev][4] += home_score
-
-    return game_scoring_dict, team_scoring_dict

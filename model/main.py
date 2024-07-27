@@ -58,9 +58,12 @@ def main():
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
     player_stat_df = fix_teams(player_stat_df)
-    player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
-    # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iGoals', 'iPoints', 'xGA/60', 'GA/60']].to_string())
+    player_stat_df = player_stat_df.sort_values(by='A1per1kChunk', ascending=False)
+    player_stat_df['iG/60'] = player_stat_df['iGoals']/player_stat_df['ATOI']/82*60
+    print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk']].to_string())
+    # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'iGoals', 'iG/60']].to_string())
     # print(player_stat_df.info())
+    quit()
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
@@ -69,7 +72,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(PROJECTION_YEAR, 10, True, True, True)
+    simulate_season(PROJECTION_YEAR, 15, True, True, True)
 
     # Push the simulation results to Supabase
     # push_to_supabase("team-projections", False)
