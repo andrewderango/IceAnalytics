@@ -206,6 +206,8 @@ def train_atoi_model(projection_year, retrain_model, verbose):
 
         # Split the data into training and testing sets
         train_data, test_data = train_test_split(atoi_train_data, test_size=0.5, random_state=42)
+        train_data = train_data.dropna(subset=['Y-0 Age'])
+        test_data = test_data.dropna(subset=['Y-0 Age'])
 
         # Define the input variables and target variable
         input_vars = ['Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-0 Age']
