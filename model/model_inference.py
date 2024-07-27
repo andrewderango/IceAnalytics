@@ -257,8 +257,19 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    features = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'PositionBool']
 
-    predictions = a1_model.predict(combined_df[['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'PositionBool']], verbose=verbose)
+    # sample size control
+    combined_df['SampleGP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
+    combined_df['SampleReplaceGP'] = combined_df['SampleGP'].apply(lambda x: max(82 - x, 0))
+    qual_df = combined_df[combined_df['SampleGP'] >= 82]
+    for feature in features:
+        if feature not in ['Y-0 Age', 'PositionBool']:
+            replacement_value = qual_df[feature].mean()-qual_df[feature].std()
+            combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['SampleGP'] + replacement_value*row['SampleReplaceGP']) / (row['SampleGP']+row['SampleReplaceGP']), axis=1)
+
+    # create predictions
+    predictions = a1_model.predict(combined_df[features], verbose=verbose)
     predictions = predictions.reshape(-1)
     combined_df['Proj. A1per1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 A1per1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
 
@@ -353,8 +364,19 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    features = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'PositionBool']
 
-    predictions = a2_model.predict(combined_df[['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'PositionBool']], verbose=verbose)
+    # sample size control
+    combined_df['SampleGP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
+    combined_df['SampleReplaceGP'] = combined_df['SampleGP'].apply(lambda x: max(82 - x, 0))
+    qual_df = combined_df[combined_df['SampleGP'] >= 82]
+    for feature in features:
+        if feature not in ['Y-0 Age', 'PositionBool']:
+            replacement_value = qual_df[feature].mean()-qual_df[feature].std()
+            combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['SampleGP'] + replacement_value*row['SampleReplaceGP']) / (row['SampleGP']+row['SampleReplaceGP']), axis=1)
+
+    # create predictions
+    predictions = a2_model.predict(combined_df[features], verbose=verbose)
     predictions = predictions.reshape(-1)
     combined_df['Proj. A2per1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 A2per1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
 
@@ -678,7 +700,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     else:
         team_stat_df = pd.merge(team_stat_df, combined_df, on='Team', how='left')
 
-    SAMPLED_MU, SAMPLED_SIGMA = 3.18125, 0.426357396 ###!
+    SAMPLED_MU, SAMPLED_SIGMA = 3.110104167, 0.4139170901 ###!
     player_stat_df.rename(columns={'Team': 'Abbreviation'}, inplace=True)
     player_stat_df['pGA/60'] = player_stat_df['GA/60'] * player_stat_df['ATOI']
     player_stat_df['pxGA/60'] = player_stat_df['xGA/60'] * player_stat_df['ATOI']
