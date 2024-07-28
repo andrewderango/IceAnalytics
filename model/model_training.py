@@ -721,10 +721,10 @@ def train_a2_calibration_model(projection_year, retrain_model, position):
                 return
     
         df = pd.read_csv(file_path).iloc[:, 1:]
-        df = df.dropna(subset=['PlayerID', 'GP', 'First Assists', 'TOI'])
+        df = df.dropna(subset=['PlayerID', 'GP', 'Second Assists', 'TOI'])
         df = df[df['Position'] != 'D'] if position == 'F' else df[df['Position'] == 'D']
         df[f'Y-{projection_year-year} GP'] = df['GP']
-        df[f'Y-{projection_year-year} A2per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
+        df[f'Y-{projection_year-year} A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
         df = df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} A2per1kChunk']]
         # print(df)
 
@@ -741,5 +741,5 @@ def train_a2_calibration_model(projection_year, retrain_model, position):
     combined_df = combined_df.sort_values(by='Scaled A2per1kChunk', ascending=False)
     combined_df = combined_df.reset_index(drop=True)
     scaling = combined_df['Scaled A2per1kChunk'].to_list()
-    
+
     return scaling

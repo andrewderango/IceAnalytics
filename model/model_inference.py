@@ -737,6 +737,7 @@ def savgol_goal_calibration(projection_year, player_stat_df):
     dfc_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
 
     # Apply calibration models with sampling
+    player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False).reset_index(drop=True)
     fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_scaling)
     dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_scaling)
     fwd_scaling_array = np.array(fwd_scaling)
@@ -777,6 +778,7 @@ def savgol_a1_calibration(projection_year, player_stat_df):
     dfc_scaling = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
 
     # Apply calibration models with sampling
+    player_stat_df = player_stat_df.sort_values(by='A1per1kChunk', ascending=False).reset_index(drop=True)
     fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_scaling)
     dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_scaling)
     fwd_scaling_array = np.array(fwd_scaling)
@@ -801,7 +803,7 @@ def savgol_a1_calibration(projection_year, player_stat_df):
     # Apply Savitzky-Golay filter calibration
     player_stat_df['sDiff'] = player_stat_df['sA1per1kChunk'] - player_stat_df['A1per1kChunk']
     player_stat_df['RowNum'] = player_stat_df.index + 1
-    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (20 / (1 + np.exp(0.1 * (x - 25)))))
+    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (15 / (1 + np.exp(0.1 * (x - 25)))))
     player_stat_df['sAdj'] = player_stat_df.apply(lambda row: savgol_filter(player_stat_df['sDiff'], int(row['Savgol Window']), 2)[row.name], axis=1)
     sorted_savgol_adj = player_stat_df['sAdj'].sort_values(ascending=False).values
     player_stat_df['sAdj'] = sorted_savgol_adj
@@ -817,6 +819,7 @@ def savgol_a2_calibration(projection_year, player_stat_df):
     dfc_scaling = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
 
     # Apply calibration models with sampling
+    player_stat_df = player_stat_df.sort_values(by='A2per1kChunk', ascending=False).reset_index(drop=True)
     fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_scaling)
     dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_scaling)
     fwd_scaling_array = np.array(fwd_scaling)
@@ -841,7 +844,7 @@ def savgol_a2_calibration(projection_year, player_stat_df):
     # Apply Savitzky-Golay filter calibration
     player_stat_df['sDiff'] = player_stat_df['sA2per1kChunk'] - player_stat_df['A2per1kChunk']
     player_stat_df['RowNum'] = player_stat_df.index + 1
-    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (20 / (1 + np.exp(0.1 * (x - 25)))))
+    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (15 / (1 + np.exp(0.1 * (x - 25)))))
     player_stat_df['sAdj'] = player_stat_df.apply(lambda row: savgol_filter(player_stat_df['sDiff'], int(row['Savgol Window']), 2)[row.name], axis=1)
     sorted_savgol_adj = player_stat_df['sAdj'].sort_values(ascending=False).values
     player_stat_df['sAdj'] = sorted_savgol_adj
