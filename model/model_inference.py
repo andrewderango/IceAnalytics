@@ -752,15 +752,9 @@ def savgol_goal_calibration(projection_year, player_stat_df):
     dfc_scaling.extend(sampled_dfcs)
     fwd_scaling = sorted(fwd_scaling, reverse=True)
     dfc_scaling = sorted(dfc_scaling, reverse=True)
-    fwd_scaling.extend(sampled_fwds)
-    dfc_scaling.extend(sampled_dfcs)
-    fwd_scaling = sorted(fwd_scaling, reverse=True)
-    dfc_scaling = sorted(dfc_scaling, reverse=True)
     fwds_df = player_stat_df[player_stat_df['Position'] != 'D'].copy()
     fwds_df['sGper1kChunk'] = fwd_scaling
-    fwds_df['sGper1kChunk'] = fwd_scaling
     dfcs_df = player_stat_df[player_stat_df['Position'] == 'D'].copy()
-    dfcs_df['sGper1kChunk'] = dfc_scaling
     dfcs_df['sGper1kChunk'] = dfc_scaling
     player_stat_df = pd.concat([fwds_df, dfcs_df], axis=0)
     player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False).reset_index(drop=True)
@@ -840,6 +834,7 @@ def savgol_a2_calibration(projection_year, player_stat_df):
     dfc_scaling.extend(sampled_dfcs)
     fwd_scaling = sorted(fwd_scaling, reverse=True)
     dfc_scaling = sorted(dfc_scaling, reverse=True)
+
     fwds_df = player_stat_df[player_stat_df['Position'] != 'D'].copy()
     fwds_df['sA2per1kChunk'] = fwd_scaling
     dfcs_df = player_stat_df[player_stat_df['Position'] == 'D'].copy()
