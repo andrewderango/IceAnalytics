@@ -61,23 +61,20 @@ def main():
     player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
     player_stat_df['iA2/60'] = player_stat_df['A1per1kChunk']/500 * 60
     player_stat_df['iA1/60'] = player_stat_df['A2per1kChunk']/500 * 60
-    player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
-    player_stat_df = player_stat_df.sort_values(by='iG/60', ascending=False)
+    # player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
+    player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
     # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk', 'iGoals', 'iPoints']].to_string())
     # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iG/60', 'iA1/60', 'iA2/60', 'iP/60']].to_string())
     # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'iGoals', 'iG/60']].to_string())
     # print(player_stat_df.info())
 
-    print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'iGoals', 'iG/60']].head(20))
-    fwd_scaling_list = train_goal_calibration_model(projection_year=PROJECTION_YEAR, retrain_model=True, position='F')
-    dfc_scaling_list = train_goal_calibration_model(projection_year=PROJECTION_YEAR, retrain_model=True, position='D')
+    player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk']]
 
-    print(player_stat_df[player_stat_df['Position'] != 'D'].shape[0])
-    print(player_stat_df[player_stat_df['Position'] == 'D'].shape[0])
+    # Calibration and scaling
+    player_stat_df = savitzky_golvay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
 
-    print(len(fwd_scaling_list))
-    print(len(dfc_scaling_list))
+    print(player_stat_df)
     quit()
 
     # Make team inferences

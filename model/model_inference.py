@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from model_training import *
 from scraper_functions import *
-import joblib
+from scipy.signal import savgol_filter
         
 def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, download_file, verbose):
 
@@ -724,70 +724,36 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
 
     return team_stat_df
 
-def train_goal_calibration_model(projection_year, retrain_model, position):
+def savitzky_golvay_calibration(projection_year, player_stat_df):
+    fwd_goal_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
+    dfc_goal_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+    fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_goal_scaling)
+    dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_goal_scaling)
+    fwd_goal_scaling_array = np.array(fwd_goal_scaling)
+    dfc_goal_scaling_array = np.array(dfc_goal_scaling)
+    fwd_threshold = np.mean(fwd_goal_scaling_array) + np.std(fwd_goal_scaling_array)/2
+    dfc_threshold = np.mean(dfc_goal_scaling_array) + np.std(dfc_goal_scaling_array)/2
+    threshold_fwds = fwd_goal_scaling_array[fwd_goal_scaling < fwd_threshold]
+    threshold_dfcs = dfc_goal_scaling_array[dfc_goal_scaling < dfc_threshold]
+    sampled_fwds = np.random.choice(threshold_fwds, size=fwd_scalers_remaining, replace=True)
+    sampled_dfcs = np.random.choice(threshold_dfcs, size=dfc_scalers_remaining, replace=True)
+    fwd_goal_scaling.extend(sampled_fwds)
+    dfc_goal_scaling.extend(sampled_dfcs)
+    fwd_goal_scaling = sorted(fwd_goal_scaling, reverse=True)
+    dfc_goal_scaling = sorted(dfc_goal_scaling, reverse=True)
+    fwds_df = player_stat_df[player_stat_df['Position'] != 'D'].copy()
+    fwds_df['sGper1kChunk'] = fwd_goal_scaling
+    dfcs_df = player_stat_df[player_stat_df['Position'] == 'D'].copy()
+    dfcs_df['sGper1kChunk'] = dfc_goal_scaling
+    player_stat_df = pd.concat([fwds_df, dfcs_df], axis=0)
+    player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False).reset_index(drop=True)
+    player_stat_df['sDiff'] = player_stat_df['sGper1kChunk'] - player_stat_df['Gper1kChunk']
+    player_stat_df['RowNum'] = player_stat_df.index + 1
+    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (20 / (1 + np.exp(0.1 * (x - 25)))))
+    player_stat_df['sAdj'] = player_stat_df.apply(lambda row: savgol_filter(player_stat_df['sDiff'], int(row['Savgol Window']), 2)[row.name], axis=1)
+    sorted_savgol_adj = player_stat_df['sAdj'].sort_values(ascending=False).values
+    player_stat_df['sAdj'] = sorted_savgol_adj
+    player_stat_df['Gper1kChunk'] = player_stat_df['Gper1kChunk'] + player_stat_df['sAdj']
+    player_stat_df = player_stat_df.drop(columns=['sGper1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
 
-    if retrain_model:
-        # Train model
-        train_data = aggregate_skater_offence_training_data(projection_year)
-        if position == 'F':
-            train_data = train_data[train_data['Position'] != 'D']
-        elif position == 'D':
-            train_data = train_data[train_data['Position'] == 'D']
-        else:
-            raise ValueError(f"Invalid position argument: {position}. Must be either 'F' or 'D'.")
-        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk']
-        train_data = train_data.dropna(subset=feature_cols)
-        X = train_data[feature_cols]
-        y = train_data['Y-0 Gper1kChunk']
-        model = LinearRegression(fit_intercept=False)
-        model.fit(X, y)
-        model.coef_ = model.coef_ / model.coef_.sum()
-
-        # Save the model
-        if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
-        else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
-        joblib.dump(model, model_path)
-    
-    else:
-        # Load model
-        if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
-        else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
-        model = joblib.load(model_path)
-
-    # Get data from past 3 years
-    combined_df = pd.DataFrame()
-    for year in range(projection_year-3, projection_year):
-        filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
-        if not os.path.exists(file_path):
-            if year != projection_year:
-                print(f'{filename} does not exist in the following directory: {file_path}')
-                return
-    
-        df = pd.read_csv(file_path).iloc[:, 1:]
-        df = df.dropna(subset=['PlayerID', 'GP', 'Goals', 'TOI'])
-        df = df[df['Position'] != 'D'] if position == 'F' else df[df['Position'] == 'D']
-        df[f'Y-{projection_year-year} GP'] = df['GP']
-        df[f'Y-{projection_year-year} Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
-        df = df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} Gper1kChunk']]
-        print(df)
-
-        if combined_df is None or combined_df.empty:
-            combined_df = df
-        else:
-            combined_df = pd.merge(combined_df, df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} Gper1kChunk']], on=['PlayerID', 'Player'], how='outer')
-
-    # Generate scaling
-    combined_df = combined_df.fillna(0)
-    combined_df['GP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
-    combined_df = combined_df[combined_df['GP'] >= 82]
-    combined_df['Scaled Gper1kChunk'] = (model.coef_[0]*combined_df['Y-3 Gper1kChunk']*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 Gper1kChunk']*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 Gper1kChunk']*combined_df['Y-1 GP']) / (model.coef_[0]*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 GP'])
-    combined_df = combined_df.sort_values(by='Scaled Gper1kChunk', ascending=False)
-    combined_df = combined_df.reset_index(drop=True)
-    scaling_list = combined_df['Scaled Gper1kChunk'].to_list()
-    
-    return scaling_list
+    return player_stat_df
