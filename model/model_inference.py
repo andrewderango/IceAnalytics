@@ -725,35 +725,128 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     return team_stat_df
 
 def savitzky_golvay_calibration(projection_year, player_stat_df):
-    fwd_goal_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
-    dfc_goal_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
-    fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_goal_scaling)
-    dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_goal_scaling)
-    fwd_goal_scaling_array = np.array(fwd_goal_scaling)
-    dfc_goal_scaling_array = np.array(dfc_goal_scaling)
-    fwd_threshold = np.mean(fwd_goal_scaling_array) + np.std(fwd_goal_scaling_array)/2
-    dfc_threshold = np.mean(dfc_goal_scaling_array) + np.std(dfc_goal_scaling_array)/2
-    threshold_fwds = fwd_goal_scaling_array[fwd_goal_scaling < fwd_threshold]
-    threshold_dfcs = dfc_goal_scaling_array[dfc_goal_scaling < dfc_threshold]
+    player_stat_df = savgol_goal_calibration(projection_year, player_stat_df)
+    player_stat_df = savgol_a1_calibration(projection_year, player_stat_df)
+    player_stat_df = savgol_a2_calibration(projection_year, player_stat_df)
+
+    return player_stat_df
+
+def savgol_goal_calibration(projection_year, player_stat_df):
+    # Train calibration models
+    fwd_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
+    dfc_scaling = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+
+    # Apply calibration models with sampling
+    fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_scaling)
+    dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_scaling)
+    fwd_scaling_array = np.array(fwd_scaling)
+    dfc_scaling_array = np.array(dfc_scaling)
+    fwd_threshold = np.mean(fwd_scaling_array) + np.std(fwd_scaling_array)/2
+    dfc_threshold = np.mean(dfc_scaling_array) + np.std(dfc_scaling_array)/2
+    threshold_fwds = fwd_scaling_array[fwd_scaling < fwd_threshold]
+    threshold_dfcs = dfc_scaling_array[dfc_scaling < dfc_threshold]
     sampled_fwds = np.random.choice(threshold_fwds, size=fwd_scalers_remaining, replace=True)
     sampled_dfcs = np.random.choice(threshold_dfcs, size=dfc_scalers_remaining, replace=True)
-    fwd_goal_scaling.extend(sampled_fwds)
-    dfc_goal_scaling.extend(sampled_dfcs)
-    fwd_goal_scaling = sorted(fwd_goal_scaling, reverse=True)
-    dfc_goal_scaling = sorted(dfc_goal_scaling, reverse=True)
+    fwd_scaling.extend(sampled_fwds)
+    dfc_scaling.extend(sampled_dfcs)
+    fwd_scaling = sorted(fwd_scaling, reverse=True)
+    dfc_scaling = sorted(dfc_scaling, reverse=True)
     fwds_df = player_stat_df[player_stat_df['Position'] != 'D'].copy()
-    fwds_df['sGper1kChunk'] = fwd_goal_scaling
+    fwds_df['sGper1kChunk'] = fwd_scaling
     dfcs_df = player_stat_df[player_stat_df['Position'] == 'D'].copy()
-    dfcs_df['sGper1kChunk'] = dfc_goal_scaling
+    dfcs_df['sGper1kChunk'] = dfc_scaling
     player_stat_df = pd.concat([fwds_df, dfcs_df], axis=0)
     player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False).reset_index(drop=True)
+
+    # Apply Savitzky-Golay filter calibration
     player_stat_df['sDiff'] = player_stat_df['sGper1kChunk'] - player_stat_df['Gper1kChunk']
     player_stat_df['RowNum'] = player_stat_df.index + 1
     player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (20 / (1 + np.exp(0.1 * (x - 25)))))
     player_stat_df['sAdj'] = player_stat_df.apply(lambda row: savgol_filter(player_stat_df['sDiff'], int(row['Savgol Window']), 2)[row.name], axis=1)
     sorted_savgol_adj = player_stat_df['sAdj'].sort_values(ascending=False).values
     player_stat_df['sAdj'] = sorted_savgol_adj
-    player_stat_df['Gper1kChunk'] = player_stat_df['Gper1kChunk'] + player_stat_df['sAdj']
-    player_stat_df = player_stat_df.drop(columns=['sGper1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
+    player_stat_df['SavgolGper1kChunk'] = player_stat_df.apply(lambda row: row['Gper1kChunk'] if (row['Gper1kChunk'] + row['sAdj']) < 1 else (row['Gper1kChunk'] + row['sAdj']), axis=1)
+    player_stat_df = player_stat_df.drop(columns=['Gper1kChunk', 'sGper1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
+    player_stat_df = player_stat_df.rename(columns={'SavgolGper1kChunk': 'Gper1kChunk'})
+
+    return player_stat_df
+
+def savgol_a1_calibration(projection_year, player_stat_df):
+    # Train calibration models
+    fwd_scaling = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
+    dfc_scaling = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+
+    # Apply calibration models with sampling
+    fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_scaling)
+    dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_scaling)
+    fwd_scaling_array = np.array(fwd_scaling)
+    dfc_scaling_array = np.array(dfc_scaling)
+    fwd_threshold = np.mean(fwd_scaling_array) + np.std(fwd_scaling_array)/2
+    dfc_threshold = np.mean(dfc_scaling_array) + np.std(dfc_scaling_array)/2
+    threshold_fwds = fwd_scaling_array[fwd_scaling < fwd_threshold]
+    threshold_dfcs = dfc_scaling_array[dfc_scaling < dfc_threshold]
+    sampled_fwds = np.random.choice(threshold_fwds, size=fwd_scalers_remaining, replace=True)
+    sampled_dfcs = np.random.choice(threshold_dfcs, size=dfc_scalers_remaining, replace=True)
+    fwd_scaling.extend(sampled_fwds)
+    dfc_scaling.extend(sampled_dfcs)
+    fwd_scaling = sorted(fwd_scaling, reverse=True)
+    dfc_scaling = sorted(dfc_scaling, reverse=True)
+    fwds_df = player_stat_df[player_stat_df['Position'] != 'D'].copy()
+    fwds_df['sA1per1kChunk'] = fwd_scaling
+    dfcs_df = player_stat_df[player_stat_df['Position'] == 'D'].copy()
+    dfcs_df['sA1per1kChunk'] = dfc_scaling
+    player_stat_df = pd.concat([fwds_df, dfcs_df], axis=0)
+    player_stat_df = player_stat_df.sort_values(by='A1per1kChunk', ascending=False).reset_index(drop=True)
+
+    # Apply Savitzky-Golay filter calibration
+    player_stat_df['sDiff'] = player_stat_df['sA1per1kChunk'] - player_stat_df['A1per1kChunk']
+    player_stat_df['RowNum'] = player_stat_df.index + 1
+    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (20 / (1 + np.exp(0.1 * (x - 25)))))
+    player_stat_df['sAdj'] = player_stat_df.apply(lambda row: savgol_filter(player_stat_df['sDiff'], int(row['Savgol Window']), 2)[row.name], axis=1)
+    sorted_savgol_adj = player_stat_df['sAdj'].sort_values(ascending=False).values
+    player_stat_df['sAdj'] = sorted_savgol_adj
+    player_stat_df['SavgolA1per1kChunk'] = player_stat_df.apply(lambda row: row['A1per1kChunk'] if (row['A1per1kChunk'] + row['sAdj']) < 1 else (row['A1per1kChunk'] + row['sAdj']), axis=1)
+    player_stat_df = player_stat_df.drop(columns=['A1per1kChunk', 'sA1per1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
+    player_stat_df = player_stat_df.rename(columns={'SavgolA1per1kChunk': 'A1per1kChunk'})
+
+    return player_stat_df
+
+def savgol_a2_calibration(projection_year, player_stat_df):
+    # Train calibration models
+    fwd_scaling = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
+    dfc_scaling = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+
+    # Apply calibration models with sampling
+    fwd_scalers_remaining = player_stat_df[player_stat_df['Position'] != 'D'].shape[0] - len(fwd_scaling)
+    dfc_scalers_remaining = player_stat_df[player_stat_df['Position'] == 'D'].shape[0] - len(dfc_scaling)
+    fwd_scaling_array = np.array(fwd_scaling)
+    dfc_scaling_array = np.array(dfc_scaling)
+    fwd_threshold = np.mean(fwd_scaling_array) + np.std(fwd_scaling_array)/2
+    dfc_threshold = np.mean(dfc_scaling_array) + np.std(dfc_scaling_array)/2
+    threshold_fwds = fwd_scaling_array[fwd_scaling < fwd_threshold]
+    threshold_dfcs = dfc_scaling_array[dfc_scaling < dfc_threshold]
+    sampled_fwds = np.random.choice(threshold_fwds, size=fwd_scalers_remaining, replace=True)
+    sampled_dfcs = np.random.choice(threshold_dfcs, size=dfc_scalers_remaining, replace=True)
+    fwd_scaling.extend(sampled_fwds)
+    dfc_scaling.extend(sampled_dfcs)
+    fwd_scaling = sorted(fwd_scaling, reverse=True)
+    dfc_scaling = sorted(dfc_scaling, reverse=True)
+    fwds_df = player_stat_df[player_stat_df['Position'] != 'D'].copy()
+    fwds_df['sA2per1kChunk'] = fwd_scaling
+    dfcs_df = player_stat_df[player_stat_df['Position'] == 'D'].copy()
+    dfcs_df['sA2per1kChunk'] = dfc_scaling
+    player_stat_df = pd.concat([fwds_df, dfcs_df], axis=0)
+    player_stat_df = player_stat_df.sort_values(by='A2per1kChunk', ascending=False).reset_index(drop=True)
+
+    # Apply Savitzky-Golay filter calibration
+    player_stat_df['sDiff'] = player_stat_df['sA2per1kChunk'] - player_stat_df['A2per1kChunk']
+    player_stat_df['RowNum'] = player_stat_df.index + 1
+    player_stat_df['Savgol Window'] = player_stat_df['RowNum'].apply(lambda x: 25 - (20 / (1 + np.exp(0.1 * (x - 25)))))
+    player_stat_df['sAdj'] = player_stat_df.apply(lambda row: savgol_filter(player_stat_df['sDiff'], int(row['Savgol Window']), 2)[row.name], axis=1)
+    sorted_savgol_adj = player_stat_df['sAdj'].sort_values(ascending=False).values
+    player_stat_df['sAdj'] = sorted_savgol_adj
+    player_stat_df['SavgolA2per1kChunk'] = player_stat_df.apply(lambda row: row['A2per1kChunk'] if (row['A2per1kChunk'] + row['sAdj']) < 1 else (row['A2per1kChunk'] + row['sAdj']), axis=1)
+    player_stat_df = player_stat_df.drop(columns=['A2per1kChunk', 'sA2per1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
+    player_stat_df = player_stat_df.rename(columns={'SavgolA2per1kChunk': 'A2per1kChunk'})
 
     return player_stat_df
