@@ -182,6 +182,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     # player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
     # player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
     player_stat_df = player_stat_df.reset_index(drop=True)
+    player_stat_df = fix_teams(player_stat_df)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df

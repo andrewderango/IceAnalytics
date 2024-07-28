@@ -32,14 +32,14 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
     visitor_weighted_avg *= home_defence_score
 
     # determining scorers and assisters
-    home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
-    visitor_scorer_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
-    home_assist_ids = home_active_roster.sample(n=20, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
-    visitor_assist_ids = visitor_active_roster.sample(n=20, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_scorer_ids = home_active_roster.sample(n=11, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_scorer_ids = visitor_active_roster.sample(n=11, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_assist_ids = home_active_roster.sample(n=22, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_assist_ids = visitor_active_roster.sample(n=22, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
 
     for chunk in range(120):
         rng = random.uniform(0, 1)
-        if rng < home_weighted_avg: # home goal
+        if rng < home_weighted_avg and home_score <= 10: # home goal
             try:
                 scorer_id = home_scorer_ids[home_score]
                 a1_id = home_assist_ids[home_score]
@@ -49,7 +49,7 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
                 a1_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
                 a2_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
             home_score += 1
-        elif rng > 1 - visitor_weighted_avg: # visitor goal
+        elif rng > 1 - visitor_weighted_avg and visitor_score <= 10: # visitor goal
             try:
                 scorer_id = visitor_scorer_ids[visitor_score]
                 a1_id = visitor_assist_ids[visitor_score]

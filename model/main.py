@@ -54,7 +54,6 @@ def main():
     player_stat_df = savitzky_golvay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=True, verbose=False)
-    player_stat_df = fix_teams(player_stat_df)
     # player_stat_df['Pper1kChunk'] = player_stat_df['Gper1kChunk'] + player_stat_df['A1per1kChunk'] + player_stat_df['A2per1kChunk']
     player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
     player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
@@ -75,11 +74,11 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(PROJECTION_YEAR, 23, True, True, True)
+    simulate_season(projection_year=PROJECTION_YEAR, simulations=100, resume_season=True, download_files=True, verbose=True)
 
     # Push the simulation results to Supabase
-    # push_to_supabase("team-projections", False)
-    # push_to_supabase("player-projections", False)
+    # push_to_supabase(table_name="team-projections", verbose=False)
+    # push_to_supabase(table_name="player-projections", verbose=False)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
 
