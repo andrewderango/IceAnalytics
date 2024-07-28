@@ -24,6 +24,7 @@ def aggregate_skater_offence_training_data(projection_year):
     for file_list in combinations:
         combined_df = None
         for index, file in enumerate(file_list):
+            # Read in and compute rate stats
             df = pd.read_csv(os.path.join(file_path, file), usecols=['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
@@ -35,6 +36,12 @@ def aggregate_skater_offence_training_data(projection_year):
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df['RCper1kChunk'] = df['Rebounds Created']/df['TOI']/2 * 1000
             df['TAper1kChunk'] = df['Takeaways']/df['TOI']/2 * 1000
+
+            # Set columns to NaN if GP is less than 30
+            columns_to_nan = ['ATOI', 'Gper1kChunk', 'xGper1kChunk', 'SHper1kChunk', 'iCFper1kChunk', 'RAper1kChunk', 'A1per1kChunk', 'A2per1kChunk', 'RCper1kChunk', 'TAper1kChunk']
+            df.loc[df['GP'] < 30, columns_to_nan] = float('nan')
+
+            # Add year index to column names
             df = df.drop(columns=['Player', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df = df.rename(columns={
                 'ATOI': f'Y-{3-index} ATOI', 
@@ -68,7 +75,8 @@ def aggregate_skater_offence_training_data(projection_year):
         combined_data = pd.concat([combined_data, combined_df], ignore_index=True)
 
     # Data cleaning
-    combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 30) & (combined_data['Y-2 GP'] >= 30) & (combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
+    # combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 30) & (combined_data['Y-2 GP'] >= 30) & (combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
+    combined_data = combined_data.loc[(combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
     combined_data = combined_data[combined_data['Y-0'] != projection_year]
     # combined_data.sort_values(by='Y-0 ATOI', ascending=False, inplace=True)
     combined_data.sort_values(by=['Player', 'Y-0'], ascending=[True, False], inplace=True)
@@ -201,6 +209,7 @@ def train_atoi_model(projection_year, retrain_model, verbose):
     if retrain_model == True:
 
         train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
             print(train_data)
@@ -456,8 +465,8 @@ def train_skater_xga_model(projection_year, retrain_model, verbose):
             print(train_data)
 
         # Define the feature columns
-        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'Position']
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']
 
         # Separate the features and the target
         X = train_data[feature_cols]
@@ -503,8 +512,8 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
             print(train_data)
 
         # Define the feature columns
-        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'Position']
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']
 
         # Separate the features and the target
         X = train_data[feature_cols]
