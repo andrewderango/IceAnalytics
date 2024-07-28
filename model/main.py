@@ -51,16 +51,21 @@ def main():
     player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=True, verbose=False)
     player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=True, verbose=False)
     player_stat_df = a2_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a2_model=a2_model, download_file=True, verbose=False)
+    player_stat_df = savitzky_golvay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=True, verbose=False)
+    player_stat_df = fix_teams(player_stat_df)
+    # player_stat_df['Pper1kChunk'] = player_stat_df['Gper1kChunk'] + player_stat_df['A1per1kChunk'] + player_stat_df['A2per1kChunk']
+    player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
+    player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
+    player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
+    player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
     player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
     player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
-    player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
-    player_stat_df = player_stat_df.reset_index(drop=True)
-    player_stat_df = fix_teams(player_stat_df)
-    player_stat_df['iG/60'] = player_stat_df['iGoals']/player_stat_df['ATOI']/82*60
-    # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk', 'iGoals', 'iPoints']].to_string())
-    # print(player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'iGoals', 'iG/60']].to_string())
+    # player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk']]
+    # player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
+    # player_stat_df = player_stat_df.reset_index(drop=True)
+    # print(player_stat_df.to_string())
     # print(player_stat_df.info())
 
     # Make team inferences
@@ -70,7 +75,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(PROJECTION_YEAR, 15, True, True, True)
+    simulate_season(PROJECTION_YEAR, 23, True, True, True)
 
     # Push the simulation results to Supabase
     # push_to_supabase("team-projections", False)
