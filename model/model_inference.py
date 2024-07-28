@@ -156,17 +156,20 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     features = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'PositionBool']
 
     # sample size control
-    combined_df['SampleGP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
-    combined_df['SampleReplaceGP'] = combined_df['SampleGP'].apply(lambda x: max(82 - x, 0))
-    qual_df = combined_df[combined_df['SampleGP'] >= 82]
-    for feature in features:
-        if feature not in ['Y-0 Age', 'PositionBool']:
-            replacement_value = qual_df[feature].mean()-qual_df[feature].std()
-            combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['SampleGP'] + replacement_value*row['SampleReplaceGP']) / (row['SampleGP']+row['SampleReplaceGP']), axis=1)
+    # y3_cols_to_nan = [col for col in combined_df.columns if col.startswith('Y-3') and col != 'Y-3 GP']
+    # y2_cols_to_nan = [col for col in combined_df.columns if col.startswith('Y-2') and col != 'Y-2 GP']
+    # combined_df.loc[combined_df['Y-3 GP'] < 30, y3_cols_to_nan] = float('nan')
+    # combined_df.loc[combined_df['Y-2 GP'] < 30, y2_cols_to_nan] = float('nan')
+    y1_cols_to_impute = [col for col in combined_df.columns if col.startswith('Y-1') and col != 'Y-1 GP']
+    imputation_qual_df = combined_df[combined_df['Y-1 GP'] >= 70]
+    combined_df['SampleReplaceGP'] = combined_df['Y-1 GP'].apply(lambda x: max(50 - x, 0))
+    for feature in y1_cols_to_impute:
+        replacement_value = imputation_qual_df[feature].mean()-imputation_qual_df[feature].std()
+        combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
 
     # create predictions
-    dmatrix = xgb.DMatrix(combined_df[features].values) ###
-    predictions = goal_model.predict(dmatrix) ###
+    dmatrix = xgb.DMatrix(combined_df[features].values)
+    predictions = goal_model.predict(dmatrix)
     combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. Gper1kChunk', ascending=False, inplace=True)
@@ -262,13 +265,16 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
     features = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'PositionBool']
 
     # sample size control
-    combined_df['SampleGP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
-    combined_df['SampleReplaceGP'] = combined_df['SampleGP'].apply(lambda x: max(82 - x, 0))
-    qual_df = combined_df[combined_df['SampleGP'] >= 82]
-    for feature in features:
-        if feature not in ['Y-0 Age', 'PositionBool']:
-            replacement_value = qual_df[feature].mean()-qual_df[feature].std()
-            combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['SampleGP'] + replacement_value*row['SampleReplaceGP']) / (row['SampleGP']+row['SampleReplaceGP']), axis=1)
+    # y3_cols_to_nan = [col for col in combined_df.columns if col.startswith('Y-3') and col != 'Y-3 GP']
+    # y2_cols_to_nan = [col for col in combined_df.columns if col.startswith('Y-2') and col != 'Y-2 GP']
+    # combined_df.loc[combined_df['Y-3 GP'] < 30, y3_cols_to_nan] = float('nan')
+    # combined_df.loc[combined_df['Y-2 GP'] < 30, y2_cols_to_nan] = float('nan')
+    y1_cols_to_impute = [col for col in combined_df.columns if col.startswith('Y-1') and col != 'Y-1 GP']
+    imputation_qual_df = combined_df[combined_df['Y-1 GP'] >= 70]
+    combined_df['SampleReplaceGP'] = combined_df['Y-1 GP'].apply(lambda x: max(50 - x, 0))
+    for feature in y1_cols_to_impute:
+        replacement_value = imputation_qual_df[feature].mean()-imputation_qual_df[feature].std()
+        combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
 
     # create predictions
     predictions = a1_model.predict(combined_df[features], verbose=verbose)
@@ -369,13 +375,16 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
     features = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'PositionBool']
 
     # sample size control
-    combined_df['SampleGP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
-    combined_df['SampleReplaceGP'] = combined_df['SampleGP'].apply(lambda x: max(82 - x, 0))
-    qual_df = combined_df[combined_df['SampleGP'] >= 82]
-    for feature in features:
-        if feature not in ['Y-0 Age', 'PositionBool']:
-            replacement_value = qual_df[feature].mean()-qual_df[feature].std()
-            combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['SampleGP'] + replacement_value*row['SampleReplaceGP']) / (row['SampleGP']+row['SampleReplaceGP']), axis=1)
+    # y3_cols_to_nan = [col for col in combined_df.columns if col.startswith('Y-3') and col != 'Y-3 GP']
+    # y2_cols_to_nan = [col for col in combined_df.columns if col.startswith('Y-2') and col != 'Y-2 GP']
+    # combined_df.loc[combined_df['Y-3 GP'] < 30, y3_cols_to_nan] = float('nan')
+    # combined_df.loc[combined_df['Y-2 GP'] < 30, y2_cols_to_nan] = float('nan')
+    y1_cols_to_impute = [col for col in combined_df.columns if col.startswith('Y-1') and col != 'Y-1 GP']
+    imputation_qual_df = combined_df[combined_df['Y-1 GP'] >= 70]
+    combined_df['SampleReplaceGP'] = combined_df['Y-1 GP'].apply(lambda x: max(50 - x, 0))
+    for feature in y1_cols_to_impute:
+        replacement_value = imputation_qual_df[feature].mean()-imputation_qual_df[feature].std()
+        combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
 
     # create predictions
     predictions = a2_model.predict(combined_df[features], verbose=verbose)
