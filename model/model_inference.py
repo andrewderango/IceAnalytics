@@ -746,6 +746,7 @@ def savgol_goal_calibration(projection_year, player_stat_df):
     fwd_scaling, fwd_model = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
     dfc_scaling, dfc_model = train_goal_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
 
+    # Generate goal inferences and update player_stat_df
     player_stat_df = generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, dfc_model)
 
     # Apply calibration models with sampling
@@ -786,8 +787,11 @@ def savgol_goal_calibration(projection_year, player_stat_df):
 
 def savgol_a1_calibration(projection_year, player_stat_df):
     # Train calibration models
-    fwd_scaling = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
-    dfc_scaling = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+    fwd_scaling, fwd_model = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
+    dfc_scaling, dfc_model = train_a1_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+
+    # Generate goal inferences and update player_stat_df
+    player_stat_df = generate_savgol_a1_inferences(projection_year, player_stat_df, fwd_model, dfc_model)
 
     # Apply calibration models with sampling
     player_stat_df = player_stat_df.sort_values(by='A1per1kChunk', ascending=False).reset_index(drop=True)
@@ -827,8 +831,11 @@ def savgol_a1_calibration(projection_year, player_stat_df):
 
 def savgol_a2_calibration(projection_year, player_stat_df):
     # Train calibration models
-    fwd_scaling = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
-    dfc_scaling = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+    fwd_scaling, fwd_model = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='F')
+    dfc_scaling, dfc_model = train_a2_calibration_model(projection_year=projection_year, retrain_model=False, position='D')
+
+    # Generate goal inferences and update player_stat_df
+    player_stat_df = generate_savgol_a2_inferences(projection_year, player_stat_df, fwd_model, dfc_model)
 
     # Apply calibration models with sampling
     player_stat_df = player_stat_df.sort_values(by='A2per1kChunk', ascending=False).reset_index(drop=True)
@@ -884,11 +891,11 @@ def generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, 
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts']]
+            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG']]
             df['ATOI'] = df['TOI']/df['GP']
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
             df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
-            df = df.drop(columns=['TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts'])
+            df = df.drop(columns=['TOI', 'Goals', 'ixG'])
             df = df.rename(columns={
                 'ATOI': f'Y-{projection_year-year} ATOI', 
                 'GP': f'Y-{projection_year-year} GP', 
@@ -920,7 +927,7 @@ def generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, 
     combined_df = combined_df.fillna(0)
     young_combined_df = combined_df[combined_df['Y-0 Age'] <= 22].copy()
     young_combined_df['PositionFD'] = young_combined_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
-    features = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-0 Age', 'PositionBool']
+    features = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'PositionBool']
 
     # sample size control
     y1_cols_to_impute = [col for col in features if col.startswith('Y-1') and col != 'Y-1 GP']
@@ -959,6 +966,7 @@ def generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, 
     train_data['Y-1 BlendGoals'] = train_data.apply(lambda row: row['Y-1 Gper1kChunk']*0.5 + row['Y-1 xGper1kChunk']*0.5 if row['PositionFD'] == 'F' else row['Y-1 Gper1kChunk']*0.2 + row['Y-1 xGper1kChunk']*0.8, axis=1)
     train_data['Y-0 BlendGoals'] = train_data.apply(lambda row: row['Y-0 Gper1kChunk']*0.5 + row['Y-0 xGper1kChunk']*0.5 if row['PositionFD'] == 'F' else row['Y-0 Gper1kChunk']*0.2 + row['Y-0 xGper1kChunk']*0.8, axis=1)
     train_data['BlendDiff'] = train_data['Y-0 BlendGoals'] - train_data['Y-1 BlendGoals']
+    train_data['BlendDiff'] = train_data['BlendDiff'].apply(lambda x: x if x >= 0 else 0)
     train_data = train_data[['Player', 'PositionFD', 'Y-0', 'Y-0 Age', 'Y-1 BlendGoals', 'Y-0 BlendGoals', 'BlendDiff']]
     young_adj_df = train_data[['PositionFD', 'Y-0 Age', 'BlendDiff']].groupby(['PositionFD', 'Y-0 Age']).mean().reset_index()
     young_adj_df['AdjBlend'] = young_adj_df.apply(lambda row: young_adj_df.loc[(young_adj_df['PositionFD'] == row['PositionFD']) & (young_adj_df['Y-0 Age'] != row['Y-0 Age']), 'BlendDiff'].values[0]*0.25 + row['BlendDiff']*0.75 if row['Y-0 Age'] == 20 else row['BlendDiff'], axis=1)
@@ -978,5 +986,219 @@ def generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, 
     # merge inferences into player_stat_df
     merged_df = pd.merge(player_stat_df, young_combined_df[['PlayerID', 'Gper1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated'))
     player_stat_df['Gper1kChunk'] = merged_df['Gper1kChunk_updated'].combine_first(merged_df['Gper1kChunk'])
+
+    return player_stat_df
+
+def generate_savgol_a1_inferences(projection_year, player_stat_df, fwd_model, dfc_model):
+
+    combined_df = pd.DataFrame()
+    season_started = True
+
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'First Assists', 'Second Assists']]
+            df['ATOI'] = df['TOI']/df['GP']
+            df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
+            df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
+            df = df.drop(columns=['TOI', 'First Assists', 'Second Assists'])
+            df = df.rename(columns={
+                'ATOI': f'Y-{projection_year-year} ATOI', 
+                'GP': f'Y-{projection_year-year} GP', 
+                'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk',
+                'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk'
+            })
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['PlayerID', 'Player']]
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} ATOI'] = 0
+            df[f'Y-{projection_year-year} A1per1kChunk'] = 0
+            df[f'Y-{projection_year-year} A2per1kChunk'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+
+    # Calculate projection age
+    combined_df = combined_df.dropna(subset=['Player'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+    combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
+    combined_df = combined_df.drop(columns=['Date of Birth'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.reset_index(drop=True)
+    combined_df = combined_df.fillna(0)
+    young_combined_df = combined_df[combined_df['Y-0 Age'] <= 22].copy()
+    young_combined_df['PositionFD'] = young_combined_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    features = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-0 Age', 'PositionBool']
+
+    # sample size control
+    y1_cols_to_impute = [col for col in features if col.startswith('Y-1') and col != 'Y-1 GP']
+    imputation_qual_df = combined_df[combined_df['Y-1 GP'] >= 70]
+    young_combined_df['SampleReplaceGP'] = young_combined_df['Y-1 GP'].apply(lambda x: max(50 - x, 0))
+    for feature in y1_cols_to_impute:
+        replacement_value = imputation_qual_df[feature].mean()-imputation_qual_df[feature].std()
+        young_combined_df[feature] = young_combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
+
+    # create savgol-based inferences
+    fwd_young_combined_df = young_combined_df[young_combined_df['PositionFD'] == 'F'].copy()
+    dfc_young_combined_df = young_combined_df[young_combined_df['PositionFD'] == 'D'].copy()
+    fwd_young_combined_df['Pre-Adj A1per1kChunk'] = (
+        young_combined_df['Y-3 A1per1kChunk']*young_combined_df['Y-3 GP']*fwd_model.coef_[0] + 
+        young_combined_df['Y-2 A1per1kChunk']*young_combined_df['Y-2 GP']*fwd_model.coef_[1] + 
+        young_combined_df['Y-1 A1per1kChunk']*young_combined_df['Y-1 GP']*fwd_model.coef_[2]
+    ) / (young_combined_df['Y-3 GP']*fwd_model.coef_[0] + young_combined_df['Y-2 GP']*fwd_model.coef_[1] + young_combined_df['Y-1 GP']*fwd_model.coef_[2])
+    dfc_young_combined_df['Pre-Adj A2per1kChunk'] = (
+        young_combined_df['Y-3 A1per1kChunk']*young_combined_df['Y-3 GP']*dfc_model.coef_[0] + 
+        young_combined_df['Y-2 A1per1kChunk']*young_combined_df['Y-2 GP']*dfc_model.coef_[1] +
+        young_combined_df['Y-1 A1per1kChunk']*young_combined_df['Y-1 GP']*dfc_model.coef_[2]
+    ) / (young_combined_df['Y-3 GP']*dfc_model.coef_[0] + young_combined_df['Y-2 GP']*dfc_model.coef_[1] + young_combined_df['Y-1 GP']*dfc_model.coef_[2])
+    young_combined_df = pd.concat([fwd_young_combined_df, dfc_young_combined_df])
+
+    # create adjustments
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data[train_data['Y-0 Age'] <= 21]
+    train_data = train_data[train_data['Y-1 GP'] >= 50]
+    train_data['PositionFD'] = train_data['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    train_data['A1per1kChunkDiff'] = train_data['Y-0 A1per1kChunk'] - train_data['Y-1 A1per1kChunk']
+    train_data['A1per1kChunkDiff'] = train_data['A1per1kChunkDiff'].apply(lambda x: x if x >= 0 else 0)
+    train_data = train_data[['Player', 'PositionFD', 'Y-0', 'Y-0 Age', 'Y-1 A1per1kChunk', 'Y-0 A1per1kChunk', 'A1per1kChunkDiff']]
+    young_adj_df = train_data[['PositionFD', 'Y-0 Age', 'A1per1kChunkDiff']].groupby(['PositionFD', 'Y-0 Age']).mean().reset_index()
+    young_adj_df['Adjustment'] = young_adj_df.apply(lambda row: young_adj_df.loc[(young_adj_df['PositionFD'] == row['PositionFD']) & (young_adj_df['Y-0 Age'] != row['Y-0 Age']), 'A1per1kChunkDiff'].values[0]*0.25 + row['A1per1kChunkDiff']*0.75 if row['Y-0 Age'] == 20 else row['A1per1kChunkDiff'], axis=1)
+    young_adj_df = young_adj_df[['PositionFD', 'Y-0 Age', 'Adjustment']]
+    df_age22 = young_adj_df[young_adj_df['Y-0 Age'] == 21].copy()
+    df_age22['Y-0 Age'] = 22
+    young_adj_df = pd.concat([young_adj_df, df_age22])
+
+    # join in adjustments
+    young_combined_df['PositionFD'] = young_combined_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    young_combined_df = young_combined_df.merge(young_adj_df, on=['PositionFD', 'Y-0 Age'], how='left')
+    young_combined_df['Adj A1per1kChunk'] = young_combined_df['Pre-Adj A1per1kChunk'] + young_combined_df['Adjustment']
+    young_combined_df['Proj. A1per1kChunk'] = young_combined_df['Y-0 GP']/82*young_combined_df['Y-0 A1per1kChunk'] + (82-young_combined_df['Y-0 GP'])/82*young_combined_df['Adj A1per1kChunk']
+    young_combined_df = young_combined_df[['PlayerID', 'Player', 'Proj. A1per1kChunk']]
+    young_combined_df = young_combined_df.rename(columns={'Proj. A1per1kChunk': 'A1per1kChunk'})
+
+    # merge inferences into player_stat_df
+    merged_df = pd.merge(player_stat_df, young_combined_df[['PlayerID', 'A1per1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated'))
+    player_stat_df['A1per1kChunk'] = merged_df['A1per1kChunk_updated'].combine_first(merged_df['A1per1kChunk'])
+
+    return player_stat_df
+
+def generate_savgol_a2_inferences(projection_year, player_stat_df, fwd_model, dfc_model):
+
+    combined_df = pd.DataFrame()
+    season_started = True
+
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'First Assists', 'Second Assists']]
+            df['ATOI'] = df['TOI']/df['GP']
+            df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
+            df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
+            df = df.drop(columns=['TOI', 'First Assists', 'Second Assists'])
+            df = df.rename(columns={
+                'ATOI': f'Y-{projection_year-year} ATOI', 
+                'GP': f'Y-{projection_year-year} GP', 
+                'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk',
+                'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk'
+            })
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['PlayerID', 'Player']]
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} ATOI'] = 0
+            df[f'Y-{projection_year-year} A1per1kChunk'] = 0
+            df[f'Y-{projection_year-year} A2per1kChunk'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+
+    # Calculate projection age
+    combined_df = combined_df.dropna(subset=['Player'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+    combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
+    combined_df = combined_df.drop(columns=['Date of Birth'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.reset_index(drop=True)
+    combined_df = combined_df.fillna(0)
+    young_combined_df = combined_df[combined_df['Y-0 Age'] <= 22].copy()
+    young_combined_df['PositionFD'] = young_combined_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    features = ['Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'PositionBool']
+
+    # sample size control
+    y1_cols_to_impute = [col for col in features if col.startswith('Y-1') and col != 'Y-1 GP']
+    imputation_qual_df = combined_df[combined_df['Y-1 GP'] >= 70]
+    young_combined_df['SampleReplaceGP'] = young_combined_df['Y-1 GP'].apply(lambda x: max(50 - x, 0))
+    for feature in y1_cols_to_impute:
+        replacement_value = imputation_qual_df[feature].mean()-imputation_qual_df[feature].std()
+        young_combined_df[feature] = young_combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
+
+    # create savgol-based inferences
+    fwd_young_combined_df = young_combined_df[young_combined_df['PositionFD'] == 'F'].copy()
+    dfc_young_combined_df = young_combined_df[young_combined_df['PositionFD'] == 'D'].copy()
+    fwd_young_combined_df['Pre-Adj A2per1kChunk'] = (
+        young_combined_df['Y-3 A2per1kChunk']*young_combined_df['Y-3 GP']*fwd_model.coef_[0] + 
+        young_combined_df['Y-2 A2per1kChunk']*young_combined_df['Y-2 GP']*fwd_model.coef_[1] + 
+        young_combined_df['Y-1 A2per1kChunk']*young_combined_df['Y-1 GP']*fwd_model.coef_[2]
+    ) / (young_combined_df['Y-3 GP']*fwd_model.coef_[0] + young_combined_df['Y-2 GP']*fwd_model.coef_[1] + young_combined_df['Y-1 GP']*fwd_model.coef_[2])
+    dfc_young_combined_df['Pre-Adj A2per1kChunk'] = (
+        young_combined_df['Y-3 A2per1kChunk']*young_combined_df['Y-3 GP']*dfc_model.coef_[0] + 
+        young_combined_df['Y-2 A2per1kChunk']*young_combined_df['Y-2 GP']*dfc_model.coef_[1] +
+        young_combined_df['Y-1 A2per1kChunk']*young_combined_df['Y-1 GP']*dfc_model.coef_[2]
+    ) / (young_combined_df['Y-3 GP']*dfc_model.coef_[0] + young_combined_df['Y-2 GP']*dfc_model.coef_[1] + young_combined_df['Y-1 GP']*dfc_model.coef_[2])
+    young_combined_df = pd.concat([fwd_young_combined_df, dfc_young_combined_df])
+
+    # create adjustments
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data[train_data['Y-0 Age'] <= 21]
+    train_data = train_data[train_data['Y-1 GP'] >= 50]
+    train_data['PositionFD'] = train_data['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    train_data['A2per1kChunkDiff'] = train_data['Y-0 A2per1kChunk'] - train_data['Y-1 A2per1kChunk']
+    train_data['A2per1kChunkDiff'] = train_data['A2per1kChunkDiff'].apply(lambda x: x if x >= 0 else 0)
+    train_data = train_data[['Player', 'PositionFD', 'Y-0', 'Y-0 Age', 'Y-1 A2per1kChunk', 'Y-0 A2per1kChunk', 'A2per1kChunkDiff']]
+    young_adj_df = train_data[['PositionFD', 'Y-0 Age', 'A2per1kChunkDiff']].groupby(['PositionFD', 'Y-0 Age']).mean().reset_index()
+    young_adj_df['Adjustment'] = young_adj_df.apply(lambda row: young_adj_df.loc[(young_adj_df['PositionFD'] == row['PositionFD']) & (young_adj_df['Y-0 Age'] != row['Y-0 Age']), 'A2per1kChunkDiff'].values[0]*0.25 + row['A2per1kChunkDiff']*0.75 if row['Y-0 Age'] == 20 else row['A2per1kChunkDiff'], axis=1)
+    young_adj_df = young_adj_df[['PositionFD', 'Y-0 Age', 'Adjustment']]
+    df_age22 = young_adj_df[young_adj_df['Y-0 Age'] == 21].copy()
+    df_age22['Y-0 Age'] = 22
+    young_adj_df = pd.concat([young_adj_df, df_age22])
+
+    # join in adjustments
+    young_combined_df['PositionFD'] = young_combined_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    young_combined_df = young_combined_df.merge(young_adj_df, on=['PositionFD', 'Y-0 Age'], how='left')
+    young_combined_df['Adj A2per1kChunk'] = young_combined_df['Pre-Adj A2per1kChunk'] + young_combined_df['Adjustment']
+    young_combined_df['Proj. A2per1kChunk'] = young_combined_df['Y-0 GP']/82*young_combined_df['Y-0 A2per1kChunk'] + (82-young_combined_df['Y-0 GP'])/82*young_combined_df['Adj A2per1kChunk']
+    young_combined_df = young_combined_df[['PlayerID', 'Player', 'Proj. A2per1kChunk']]
+    young_combined_df = young_combined_df.rename(columns={'Proj. A2per1kChunk': 'A2per1kChunk'})
+
+    # merge inferences into player_stat_df
+    merged_df = pd.merge(player_stat_df, young_combined_df[['PlayerID', 'A2per1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated'))
+    player_stat_df['A2per1kChunk'] = merged_df['A2per1kChunk_updated'].combine_first(merged_df['A2per1kChunk'])
 
     return player_stat_df

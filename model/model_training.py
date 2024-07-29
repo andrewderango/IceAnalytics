@@ -689,7 +689,7 @@ def train_a1_calibration_model(projection_year, retrain_model, position):
     combined_df = combined_df.reset_index(drop=True)
     scaling = combined_df['Scaled A1per1kChunk'].to_list()
     
-    return scaling
+    return scaling, model
 
 def train_a2_calibration_model(projection_year, retrain_model, position):
 
@@ -758,4 +758,4 @@ def train_a2_calibration_model(projection_year, retrain_model, position):
     combined_df = combined_df.reset_index(drop=True)
     scaling = combined_df['Scaled A2per1kChunk'].to_list()
 
-    return scaling
+    return scaling, model
