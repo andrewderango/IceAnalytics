@@ -64,8 +64,12 @@ def main():
     player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iG/60', 'iA1/60', 'iA2/60', 'iGoals', 'iPoints']]
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
-    print(player_stat_df.to_string())
+    # print(player_stat_df.to_string())
     # print(player_stat_df.info())
+
+    # print(player_stat_df[player_stat_df['Age'] <= 21].to_string())
+    print(player_stat_df.to_string())
+    quit()
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
