@@ -934,6 +934,7 @@ def savitzky_golvay_calibration(projection_year, player_stat_df):
     player_stat_df = savgol_goal_calibration(projection_year, player_stat_df)
     player_stat_df = savgol_a1_calibration(projection_year, player_stat_df)
     player_stat_df = savgol_a2_calibration(projection_year, player_stat_df)
+    player_stat_df = gp_inference_calibration(projection_year, player_stat_df)
 
     return player_stat_df
 
@@ -1068,13 +1069,27 @@ def savgol_a2_calibration(projection_year, player_stat_df):
     player_stat_df = player_stat_df.drop(columns=['A2per1kChunk', 'sA2per1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
     player_stat_df = player_stat_df.rename(columns={'SavgolA2per1kChunk': 'A2per1kChunk'})
 
+    return player_stat_df
+
+def gp_inference_calibration(projection_year, player_stat_df):
     # Apply savgol-Pbased GP recalibration
     player_stat_df['PosFD'] = player_stat_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
     player_stat_df['Pts'] = (player_stat_df['Gper1kChunk'] + player_stat_df['A1per1kChunk'] + player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI']
     player_stat_df['pPts'] = player_stat_df.groupby('PosFD')['Pts'].rank(pct=True)
     player_stat_df['GPprb'] = player_stat_df['GPprb']*0.327618 + player_stat_df['pPts']*0.672382
     player_stat_df = player_stat_df.drop(columns=['PosFD', 'Pts', 'pPts'])
-    return player_stat_df
+
+    # Phase in current season
+    y0_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))[['PlayerID', 'Player', 'GP']]
+    y0_skater_data = y0_skater_data.dropna()
+    y0_gp_max = y0_skater_data['GP'].max()
+    player_stat_df = pd.merge(player_stat_df, y0_skater_data, on=['PlayerID', 'Player'], how='outer')
+    player_stat_df['GPprbPrime'] = player_stat_df['GP']*y0_gp_max/82 + player_stat_df['GPprb']*(82-player_stat_df['GP'])/82
+    player_stat_df['GPprbPrime'] = player_stat_df['GPprbPrime'].fillna(player_stat_df['GPprb'])
+    player_stat_df['GPprbPrime'] = player_stat_df['GPprb'].fillna(player_stat_df['GP'] / 82)
+    player_stat_df = player_stat_df.dropna(subset=['GP'])
+    player_stat_df = player_stat_df.drop(columns=['GP', 'GPprb'])
+    player_stat_df = player_stat_df.rename(columns={'GPprbPrime': 'GPprb'})
 
     return player_stat_df
 
