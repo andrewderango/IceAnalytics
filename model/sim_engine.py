@@ -193,7 +193,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
     metaprojection_df.loc[metaprojection_df['Team'] == 'ARI', 'Team'] = 'UTA' ### temporary fix for ARI
     for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
         team_roster = metaprojection_df[metaprojection_df['Team'] == team_abbreviation]
-        team_roster['PosFD'] = team_roster['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+        team_roster.loc[:, 'PosFD'] = team_roster['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
         team_rosters[team_abbreviation] = team_roster
 
     # compute team defence scores

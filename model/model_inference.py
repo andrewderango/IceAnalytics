@@ -1076,7 +1076,7 @@ def gp_inference_calibration(projection_year, player_stat_df):
     player_stat_df['PosFD'] = player_stat_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
     player_stat_df['Pts'] = (player_stat_df['Gper1kChunk'] + player_stat_df['A1per1kChunk'] + player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI']
     player_stat_df['pPts'] = player_stat_df.groupby('PosFD')['Pts'].rank(pct=True)
-    player_stat_df['GPprb'] = player_stat_df['GPprb']*0.327618 + player_stat_df['pPts']*0.672382
+    player_stat_df['GPprb'] = player_stat_df['GPprb']*0.227618 + player_stat_df['pPts']*0.772382
     player_stat_df = player_stat_df.drop(columns=['PosFD', 'Pts', 'pPts'])
 
     # Phase in current season
