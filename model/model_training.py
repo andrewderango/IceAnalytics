@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import xgboost as xgb
 import tensorflow as tf
+from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures, MinMaxScaler
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split
 
 def aggregate_skater_offence_training_data(projection_year):
@@ -274,7 +274,6 @@ def train_atoi_model(projection_year, retrain_model, verbose):
             print(f'{filename} does not exist in the following directory: {file_path}')
             return None
         
-### Fix 2013, 2020, 2021 (etc) for less GP
 def train_gp_model(projection_year, retrain_model, verbose):
     p24_gp_model = train_p24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
     u24_gp_model = train_u24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
@@ -290,9 +289,8 @@ def train_p24_gp_model(projection_year, retrain_model, verbose):
         train_data = aggregate_skater_offence_training_data(projection_year)
         train_data = train_data.loc[(train_data['Y-3 GP'] >= 20) & (train_data['Y-2 GP'] >= 20) & (train_data['Y-1 GP'] >= 20) & (train_data['Y-0 GP'] >= 20)]
         feature_cols = ['Y-3 GP', 'Y-2 GP', 'Y-1 GP']
-        # train_data = train_data.dropna(subset=feature_cols)
-        X = train_data[feature_cols]
-        y = train_data['Y-0 GP']
+        X = MinMaxScaler().fit_transform(train_data[feature_cols])
+        y = MinMaxScaler().fit_transform(train_data['Y-0 GP'].values.reshape(-1, 1)).flatten()
         model = LinearRegression(fit_intercept=False)
         model.fit(X, y)
         model.coef_ = model.coef_ / model.coef_.sum()
@@ -309,19 +307,24 @@ def train_p24_gp_model(projection_year, retrain_model, verbose):
 def train_u24_gp_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'u24_gp_model.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'u24_gp_model.joblib')
 
     if retrain_model:
         # Train model
         train_data = aggregate_skater_offence_training_data(projection_year)
-        train_data = train_data.loc[(train_data['Y-3 GP'] >= 20) & (train_data['Y-2 GP'] >= 20) & (train_data['Y-1 GP'] >= 20) & (train_data['Y-0 GP'] >= 20)]
-        feature_cols = ['Y-3 GP', 'Y-2 GP', 'Y-1 GP']
-        # train_data = train_data.dropna(subset=feature_cols)
-        X = train_data[feature_cols]
-        y = train_data['Y-0 GP']
-        model = LinearRegression(fit_intercept=False)
+        train_data = train_data.loc[(train_data['Y-1 GP'] >= 10) & (train_data['Y-0 GP'] >= 10)]
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Y-1 P/GP'] = (train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']) / 500 * train_data['Y-1 ATOI']
+        train_data['Y-1 Points'] = (train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']) / 500 * train_data['Y-1 ATOI'] * train_data['Y-1 GP']
+        feature_cols = ['Y-1 GP', 'Y-1 ATOI', 'Y-1 Points']
+        boolean_feature = 'PositionBool'
+        train_data = train_data.dropna(subset=feature_cols + [boolean_feature])
+        train_data = train_data[train_data['Y-0 Age'] < 24]
+        scaled_features = MinMaxScaler().fit_transform(train_data[feature_cols])
+        X = np.hstack((scaled_features, train_data[[boolean_feature]].values))
+        y = MinMaxScaler().fit_transform(train_data['Y-0 GP'].values.reshape(-1, 1)).flatten()
+        model = SVR(kernel='linear', gamma='scale', C=1.0, epsilon=0.1)
         model.fit(X, y)
-        model.coef_ = model.coef_ / model.coef_.sum()
 
         # Save the model
         joblib.dump(model, model_path)

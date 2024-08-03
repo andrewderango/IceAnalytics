@@ -1,4 +1,5 @@
 import os
+import random
 import numpy as np
 import pandas as pd
 from model_training import *
@@ -93,8 +94,53 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
     return player_stat_df
 
 def gp_model_inference(projection_year, player_stat_df, gp_model_data, download_file, verbose):
-    player_stat_df = p24_gp_model_inference(projection_year, player_stat_df, gp_model_data[0], download_file, verbose)
-    player_stat_df = u24_gp_model_inference(projection_year, player_stat_df, gp_model_data[1], download_file, verbose)
+    player_stat_df = player_stat_df[player_stat_df['PlayerID'] != 0.0]
+    player_stat_df = p24_gp_model_inference(projection_year, player_stat_df, gp_model_data[0], verbose)
+    player_stat_df = u24_gp_model_inference(projection_year, player_stat_df, gp_model_data[1], verbose)
+    player_stat_df['GP_Score'] = player_stat_df['P24_GP_Score'].combine_first(player_stat_df['U24_GP_Score'])
+    player_stat_df = player_stat_df.drop(columns=['P24_GP_Score', 'U24_GP_Score'])
+    player_stat_df = player_stat_df.sort_values(by=['GP_Score', 'ATOI'], ascending=[False, False])
+    player_stat_df = player_stat_df.reset_index(drop=True)
+
+    # Define file paths
+    y1_prev_skater_data_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-2}-{projection_year-1}_skater_data.csv')
+    y2_prev_skater_data_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-3}-{projection_year-2}_skater_data.csv')
+    y3_prev_skater_data_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-4}-{projection_year-3}_skater_data.csv')
+
+    # Read the CSV files
+    y1_gp_scaling = pd.read_csv(y1_prev_skater_data_path)['GP'].to_list()
+    y2_gp_scaling = pd.read_csv(y2_prev_skater_data_path)['GP'].to_list()
+    y3_gp_scaling = pd.read_csv(y3_prev_skater_data_path)['GP'].to_list()
+
+    # Remove nulls
+    y1_gp_scaling = [x for x in y1_gp_scaling if str(x) != 'nan']
+    y2_gp_scaling = [x for x in y2_gp_scaling if str(x) != 'nan']
+    y3_gp_scaling = [x for x in y3_gp_scaling if str(x) != 'nan']
+
+    # Fill the missing rows with random samples
+    if len(y1_gp_scaling) >= len(player_stat_df):
+        y1_gp_scaling = y1_gp_scaling[:len(player_stat_df)]
+    else:
+        y1_gp_scaling.extend(random.choices(y1_gp_scaling, k=len(player_stat_df)-len(y1_gp_scaling)))
+    if len(y2_gp_scaling) >= len(player_stat_df):
+        y2_gp_scaling = y2_gp_scaling[:len(player_stat_df)]
+    else:
+        y2_gp_scaling.extend(random.choices(y2_gp_scaling, k=len(player_stat_df)-len(y2_gp_scaling)))
+    if len(y3_gp_scaling) >= len(player_stat_df):
+        y3_gp_scaling = y3_gp_scaling[:len(player_stat_df)]
+    else:
+        y3_gp_scaling.extend(random.choices(y3_gp_scaling, k=len(player_stat_df)-len(y3_gp_scaling)))
+
+    # Sort lists descending
+    y1_gp_scaling.sort(reverse=True)
+    y2_gp_scaling.sort(reverse=True)
+    y3_gp_scaling.sort(reverse=True)
+
+    # Combine them by averaging
+    player_stat_df['GPprb'] = [(y1_gp_scaling[i] + y2_gp_scaling[i] + y3_gp_scaling[i]) / 3 for i in range(len(player_stat_df))]
+    player_stat_df['GPprb'] = player_stat_df['GPprb'] / 82
+    player_stat_df['GPprb'] = player_stat_df['GPprb'].apply(lambda x: min(x, 0.958))
+    player_stat_df = player_stat_df.drop(columns=['GP_Score'])
 
     if download_file:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
@@ -106,7 +152,7 @@ def gp_model_inference(projection_year, player_stat_df, gp_model_data, download_
 
     return player_stat_df
 
-def p24_gp_model_inference(projection_year, player_stat_df, model, download_file, verbose):
+def p24_gp_model_inference(projection_year, player_stat_df, model, verbose):
 
     combined_df = pd.DataFrame()
     season_started = True
@@ -146,16 +192,93 @@ def p24_gp_model_inference(projection_year, player_stat_df, model, download_file
     combined_df = combined_df.fillna(0)
 
     # Inference GP using model
-    combined_df['Proj. GP'] = model.predict(combined_df[['Y-3 GP', 'Y-2 GP', 'Y-1 GP']])
-    combined_df.sort_values(by='Proj. GP', ascending=False, inplace=True)
+    features = ['Y-3 GP', 'Y-2 GP', 'Y-1 GP']
+    combined_df['P24_GP_Score'] = model.predict(MinMaxScaler().fit_transform(combined_df[features]))
+    combined_df['P24_GP_Score'] = MinMaxScaler().fit_transform(combined_df[['P24_GP_Score']])
+    combined_df.sort_values(by='P24_GP_Score', ascending=False, inplace=True)
     combined_df = combined_df.reset_index(drop=True)
 
     if verbose:
         print()
         print(combined_df)
 
-    combined_df = combined_df[['PlayerID', 'Player', 'Proj. GP']]
-    combined_df = combined_df.rename(columns={'Proj. GP': 'P24_GP'})
+    combined_df = combined_df[['PlayerID', 'Player', 'P24_GP_Score']]
+    player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
+
+    if player_stat_df is None or player_stat_df.empty:
+        player_stat_df = combined_df
+    else:
+        player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
+
+    return player_stat_df
+
+def u24_gp_model_inference(projection_year, player_stat_df, model, verbose):
+
+    combined_df = pd.DataFrame()
+    season_started = True
+
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists']]
+            df['ATOI'] = df['TOI']/df['GP']
+            df['Points'] = df['Goals'] + df['First Assists'] + df['Second Assists']
+            df['P/GP'] = (df['Goals']+df['First Assists']+df['Second Assists'])/df['GP']
+            df = df.drop(columns=['TOI', 'Goals', 'First Assists', 'Second Assists'])
+            df = df.rename(columns={
+                'ATOI': f'Y-{projection_year-year} ATOI', 
+                'GP': f'Y-{projection_year-year} GP', 
+                'Points': f'Y-{projection_year-year} Points',
+                'P/GP': f'Y-{projection_year-year} P/GP',
+            })
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['PlayerID', 'Player']]
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} ATOI'] = 0
+            df[f'Y-{projection_year-year} Points'] = 0
+            df[f'Y-{projection_year-year} P/GP'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+
+    # Calculate projection age
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+    combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
+    combined_df = combined_df.drop(columns=['Date of Birth'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df[combined_df['Y-0 Age'] < 24]
+    combined_df = combined_df.fillna(0)
+
+    # Inference GP using model
+    features = ['Y-1 GP', 'Y-1 ATOI', 'Y-1 Points']
+    boolean_feature = 'PositionBool'
+    combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    scaled_features = MinMaxScaler().fit_transform(combined_df[features])
+    combined_features = np.hstack((scaled_features, combined_df[[boolean_feature]].values))
+    combined_df['U24_GP_Score'] = model.predict(combined_features)
+    combined_df['U24_GP_Score'] = MinMaxScaler().fit_transform(combined_df[['U24_GP_Score']])
+    combined_df.sort_values(by='U24_GP_Score', ascending=False, inplace=True)
+    combined_df = combined_df.reset_index(drop=True)
+
+    if verbose:
+        print()
+        print(combined_df)
+
+    combined_df = combined_df[['PlayerID', 'Player', 'U24_GP_Score']]
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
 
     if player_stat_df is None or player_stat_df.empty:
@@ -944,6 +1067,14 @@ def savgol_a2_calibration(projection_year, player_stat_df):
     player_stat_df['SavgolA2per1kChunk'] = player_stat_df.apply(lambda row: row['A2per1kChunk'] if (row['A2per1kChunk'] + row['sAdj']) < 1 else (row['A2per1kChunk'] + row['sAdj']), axis=1)
     player_stat_df = player_stat_df.drop(columns=['A2per1kChunk', 'sA2per1kChunk', 'RowNum', 'Savgol Window', 'sDiff', 'sAdj'])
     player_stat_df = player_stat_df.rename(columns={'SavgolA2per1kChunk': 'A2per1kChunk'})
+
+    # Apply savgol-Pbased GP recalibration
+    player_stat_df['PosFD'] = player_stat_df['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+    player_stat_df['Pts'] = (player_stat_df['Gper1kChunk'] + player_stat_df['A1per1kChunk'] + player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI']
+    player_stat_df['pPts'] = player_stat_df.groupby('PosFD')['Pts'].rank(pct=True)
+    player_stat_df['GPprb'] = player_stat_df['GPprb']*0.327618 + player_stat_df['pPts']*0.672382
+    player_stat_df = player_stat_df.drop(columns=['PosFD', 'Pts', 'pPts'])
+    return player_stat_df
 
     return player_stat_df
 

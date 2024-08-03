@@ -38,7 +38,7 @@ def main():
 
     # Train models
     atoi_model_data = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    gp_model_data = train_gp_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=True)
+    gp_model_data = train_gp_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     goal_model = train_goal_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a2_model = train_a2_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
@@ -56,12 +56,12 @@ def main():
     player_stat_df = savitzky_golvay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=True, verbose=False)
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=True, verbose=False)
-    player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
-    player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
-    player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
-    player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
-    player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
-    player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
+    # player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
+    # player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
+    # player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
+    # player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
+    # player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
+    # player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
     # player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk']]
     # player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iG/60', 'iA1/60', 'iA2/60', 'iGoals', 'iPoints']]
     # player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
