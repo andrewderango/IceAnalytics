@@ -273,6 +273,64 @@ def train_atoi_model(projection_year, retrain_model, verbose):
         else:
             print(f'{filename} does not exist in the following directory: {file_path}')
             return None
+        
+### Fix 2013, 2020, 2021 (etc) for less GP
+def train_gp_model(projection_year, retrain_model, verbose):
+    p24_gp_model = train_p24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
+    u24_gp_model = train_u24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
+    return [p24_gp_model, u24_gp_model]
+
+def train_p24_gp_model(projection_year, retrain_model, verbose):
+
+    # Define the model path for saving and loading
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'p24_gp_model.pkl')
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 20) & (train_data['Y-2 GP'] >= 20) & (train_data['Y-1 GP'] >= 20) & (train_data['Y-0 GP'] >= 20)]
+        feature_cols = ['Y-3 GP', 'Y-2 GP', 'Y-1 GP']
+        # train_data = train_data.dropna(subset=feature_cols)
+        X = train_data[feature_cols]
+        y = train_data['Y-0 GP']
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X, y)
+        model.coef_ = model.coef_ / model.coef_.sum()
+
+        # Save the model
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        model = joblib.load(model_path)
+
+    return model
+
+def train_u24_gp_model(projection_year, retrain_model, verbose):
+
+    # Define the model path for saving and loading
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'u24_gp_model.pkl')
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 20) & (train_data['Y-2 GP'] >= 20) & (train_data['Y-1 GP'] >= 20) & (train_data['Y-0 GP'] >= 20)]
+        feature_cols = ['Y-3 GP', 'Y-2 GP', 'Y-1 GP']
+        # train_data = train_data.dropna(subset=feature_cols)
+        X = train_data[feature_cols]
+        y = train_data['Y-0 GP']
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X, y)
+        model.coef_ = model.coef_ / model.coef_.sum()
+
+        # Save the model
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        model = joblib.load(model_path)
+
+    return model
 
 def train_goal_model(projection_year, retrain_model, verbose):
 
