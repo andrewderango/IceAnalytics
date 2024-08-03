@@ -76,7 +76,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(projection_year=PROJECTION_YEAR, simulations=100, resume_season=True, download_files=True, verbose=True)
+    simulate_season(projection_year=PROJECTION_YEAR, simulations=10, resume_season=True, download_files=True, verbose=True)
 
     # Push the simulation results to Supabase
     # push_to_supabase(table_name="team-projections", verbose=False)

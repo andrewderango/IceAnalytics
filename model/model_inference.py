@@ -878,9 +878,9 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
 
     combined_df = combined_df.dropna(subset=['Y-1 GP']).fillna(0)
     try: # model was trained in this session
-        predictions = team_ga_model.predict(combined_df[['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
+        predictions = team_ga_model.predict(combined_df[['Y-2 FA/GP', 'Y-1 FA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-2 SV%', 'Y-1 SV%', 'Y-2 P%', 'Y-1 P%']])
     except TypeError: # model was loaded in, pre-trained
-        data_dmatrix = xgb.DMatrix(combined_df[['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
+        data_dmatrix = xgb.DMatrix(combined_df[['Y-2 FA/GP', 'Y-1 FA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-2 SV%', 'Y-1 SV%', 'Y-2 P%', 'Y-1 P%']])
         predictions = team_ga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
     combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/GP'] + (82-combined_df['Y-0 GP'])/82*predictions
