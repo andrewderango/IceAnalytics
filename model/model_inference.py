@@ -6,7 +6,7 @@ from model_training import *
 from scraper_functions import *
 from scipy.signal import savgol_filter
 
-def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, download_file, verbose):
+def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_file, verbose):
 
     combined_df = pd.DataFrame()
     season_started = True
@@ -48,7 +48,9 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
 
-    # Edit atoi_model_data to phase in the current season (Y-0) based on its progression into the season
+    # Mofify model coefficients to phase in the current season (Y-0) based on its progression into the season
+    atoi_model_data = list(atoi_model.coef_)
+    atoi_model_data.append(atoi_model.intercept_)
     max_gp = combined_df['Y-0 GP'].max()
     atoi_model_data = np.insert(atoi_model_data, 3, atoi_model_data[2])
     atoi_model_data[0] = (0 - atoi_model_data[0])*max_gp/82 + atoi_model_data[0]
@@ -364,8 +366,12 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
         combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
 
     # create predictions
-    dmatrix = xgb.DMatrix(combined_df[features].values)
-    predictions = goal_model.predict(dmatrix)
+    try:
+        dmatrix = xgb.DMatrix(combined_df[features].values)
+        predictions = goal_model.predict(dmatrix)
+    except TypeError:
+        data = combined_df[features].values
+        predictions = goal_model.predict(data)
     combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. Gper1kChunk', ascending=False, inplace=True)

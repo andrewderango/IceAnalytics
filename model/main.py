@@ -37,7 +37,7 @@ def main():
     # scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
 
     # Train models
-    atoi_model_data = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    atoi_model = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     gp_model_data = train_gp_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     goal_model = train_goal_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
@@ -48,7 +48,7 @@ def main():
 
     # Make player inferences
     player_stat_df = pd.DataFrame()
-    player_stat_df = atoi_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, atoi_model_data=atoi_model_data, download_file=True, verbose=False)
+    player_stat_df = atoi_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, atoi_model=atoi_model, download_file=True, verbose=False)
     player_stat_df = gp_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, gp_model_data=gp_model_data, download_file=True, verbose=False)
     player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=True, verbose=False)
     player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=True, verbose=False)
