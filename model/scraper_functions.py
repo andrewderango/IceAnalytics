@@ -32,14 +32,19 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
 
         if projection_year != year or season_state != 'PRESEASON':
             if skaters == True and bios == False and on_ice == False:
+                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == True and bios == False and on_ice == True:
+                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=oi&rate=y&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=oi&rate=y&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == False:
+                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == True and bios == True:
+                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
+                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             df = pd.read_html(url)[0]
             df = df.iloc[:, 1:]
@@ -75,7 +80,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
         if verbose:
             print(f'{filename} has been downloaded to the following directory: {export_path}')
 
-    return None
+    return
 
 # Function to scrape raw historical data from Natural Stat Trick
 def scrape_historical_team_data(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
@@ -117,7 +122,7 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
         if verbose:
             print(f'{filename} has been downloaded to the following directory: {export_path}')
 
-    return None
+    return
 
 # Function to aggregate historical player bios for all players in the Sim Engine database
 def aggregate_player_bios(skaters, check_preexistence, verbose):
@@ -256,6 +261,7 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
                     continue
 
         if projection_year != year or season_state != 'PRESEASON':
+            ### response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/20102011/2?categories=toi&limit=9999')
             response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-1}{year}/2?categories=toi&limit=9999')
         else:
             response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-2}{year-1}/2?categories=toi&limit=9999')
@@ -303,6 +309,7 @@ def replace_names(s):
     name_replacement_dict = {
         'mike': 'michael',
         'matthew': 'matt',
+        'mathew': 'matt',
         'christopher': 'chris',
         'evgenii': 'evgeny',
         'alexander': 'alex',
@@ -320,10 +327,15 @@ def replace_names(s):
         'jjmoser': 'janismoser',
         'cameron': 'cam',
         'zacharyhayes': 'zackhayes',
+        'zacharysanford': 'zachsanford',
         'sammy': 'samuel',
         'benoitoliviergroulx': 'bogroulx',
         'tommy': 'thomas',
         'alexey': 'alexei',
+        'mitchell': 'mitch',
+        'joshua': 'josh',
+        'nate': 'nathan',
+        'john(jack)roslovic': 'jackroslovic',
     }
 
     for original, replacement in name_replacement_dict.items():

@@ -23,6 +23,8 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
     
         if season_started == True:
             df = pd.read_csv(file_path)
+            ### print(year)
+            ### pprint(df)
             df = df[['PlayerID', 'Player', 'GP', 'TOI']]
             df['ATOI'] = df['TOI']/df['GP']
             df = df.drop(columns=['TOI'])
@@ -38,6 +40,8 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
         else:
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
+    ### print(combined_df)
+
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
@@ -47,6 +51,9 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
     combined_df = combined_df.dropna(subset=['Y-1 GP'])
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
+
+    ### print(combined_df)
+    ### quit()
 
     # Mofify model coefficients to phase in the current season (Y-0) based on its progression into the season
     atoi_model_data = list(atoi_model.coef_)
