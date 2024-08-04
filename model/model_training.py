@@ -203,8 +203,8 @@ def aggregate_team_training_data(projection_year):
 
 def train_atoi_model(projection_year, retrain_model, verbose):
 
-    filename = 'atoi_model.csv'
-    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', filename)
+    # Define the model path for saving and loading
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'atoi_model.pkl')
 
     if retrain_model == True:
 
@@ -250,29 +250,16 @@ def train_atoi_model(projection_year, retrain_model, verbose):
 
             print("Linear Regression Intercept:\t", model.intercept_)
 
-        # Save the model coefficients and intercept
-        coef_df = pd.DataFrame(model.coef_, index=input_vars, columns=['Coefficient'])
-        coef_df.index.name = 'Label'
-        coef_df.loc['Intercept'] = model.intercept_
-
-        export_path = os.path.dirname(file_path)
-        if not os.path.exists(export_path):
-            os.makedirs(export_path)
-        coef_df.to_csv(os.path.join(export_path, filename), index=True)
+        # Save the model
+        joblib.dump(model, model_path)
         if verbose:
-            print(f'{filename} has been downloaded to the following directory: {export_path}')
-
-        return np.append(model.coef_, model.intercept_)
+            print(f'atoi_model.pkl has been downloaded with the following directory: {model_path}')
     
     else:
-        if os.path.exists(file_path):
-            coef_df = pd.read_csv(file_path, index_col=0)
-            if verbose:
-                print(coef_df)
-            return coef_df['Coefficient'].values
-        else:
-            print(f'{filename} does not exist in the following directory: {file_path}')
-            return None
+        # Load model
+        model = joblib.load(model_path)
+
+    return model
         
 def train_gp_model(projection_year, retrain_model, verbose):
     p24_gp_model = train_p24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
