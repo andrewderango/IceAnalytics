@@ -366,8 +366,12 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
         combined_df[feature] = combined_df.apply(lambda row: (row[feature]*row['Y-1 GP'] + replacement_value*row['SampleReplaceGP']) / (row['Y-1 GP']+row['SampleReplaceGP']), axis=1)
 
     # create predictions
-    dmatrix = xgb.DMatrix(combined_df[features].values)
-    predictions = goal_model.predict(dmatrix)
+    try:
+        dmatrix = xgb.DMatrix(combined_df[features].values)
+        predictions = goal_model.predict(dmatrix)
+    except TypeError:
+        data = combined_df[features].values
+        predictions = goal_model.predict(data)
     combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. Gper1kChunk', ascending=False, inplace=True)
