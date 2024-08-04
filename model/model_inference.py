@@ -14,7 +14,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -29,7 +29,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
             df = df.drop(columns=['TOI'])
             df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP'})
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} ATOI'] = 0
             df[f'Y-{projection_year-year} GP'] = 0
@@ -40,7 +40,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -85,7 +85,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model_data, downl
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -101,7 +101,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -129,7 +129,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
                 'RAper1kChunk': f'Y-{projection_year-year} RAper1kChunk'
             })
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} ATOI'] = 0
@@ -145,7 +145,8 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    combined_df = combined_df.dropna(subset=['Player'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -170,6 +171,9 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk']]
     combined_df = combined_df.rename(columns={'Proj. Gper1kChunk': 'Gper1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
+    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
@@ -177,7 +181,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -193,7 +197,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -221,7 +225,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
                 'TAper1kChunk': f'Y-{projection_year-year} TAper1kChunk'
             })
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} ATOI'] = 0
@@ -237,7 +241,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -263,6 +267,9 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
     combined_df = combined_df.rename(columns={'Proj. A1per1kChunk': 'A1per1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
     combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'].apply(lambda x: 0 if x < 0 else x)
+    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
@@ -270,7 +277,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -286,7 +293,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -314,7 +321,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
                 'TAper1kChunk': f'Y-{projection_year-year} TAper1kChunk'
             })
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} ATOI'] = 0
@@ -330,7 +337,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -356,6 +363,9 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
     combined_df = combined_df.rename(columns={'Proj. A2per1kChunk': 'A2per1kChunk'})
     player_stat_df = player_stat_df.drop_duplicates(subset='PlayerID', keep='last')
     combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'].apply(lambda x: 0 if x < 0 else x)
+    player_stat_df = player_stat_df[player_stat_df['Player'] != 0]
+    player_stat_df['PlayerID'] = player_stat_df['PlayerID'].astype(int)
+    player_stat_df = player_stat_df.reset_index(drop=True)
 
     if player_stat_df is None or player_stat_df.empty:
         player_stat_df = combined_df
@@ -363,7 +373,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -379,7 +389,7 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_team_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -414,7 +424,7 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
                 'SV%': f'Y-{projection_year-year} SV%'
             })
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', f'{year-2}-{year-1}_team_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', f'{year-2}-{year-1}_team_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} P%'] = 0
@@ -434,11 +444,12 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
         else:
             combined_df = pd.merge(combined_df, df, on='Team', how='outer')
 
+    combined_df = combined_df.dropna(subset=['Y-1 GP']).fillna(0)
     try: # model was trained in this session
-        predictions = ga_model.predict(combined_df[['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
+        predictions = ga_model.predict(combined_df[['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
     except TypeError: # model was loaded in, pre-trained
-        data_dmatrix = xgb.DMatrix(combined_df[['Y-3 P%', 'Y-2 P%', 'Y-1 P%', 'Y-3 CA/GP', 'Y-2 CA/GP', 'Y-1 CA/GP', 'Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 SHA/GP', 'Y-2 SHA/GP', 'Y-1 SHA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SCA/GP', 'Y-2 SCA/GP', 'Y-1 SCA/GP', 'Y-3 HDCA/GP', 'Y-2 HDCA/GP', 'Y-1 HDCA/GP', 'Y-3 HDGA/GP', 'Y-2 HDGA/GP', 'Y-1 HDGA/GP', 'Y-3 HDSV%', 'Y-2 HDSV%', 'Y-1 HDSV%', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
-        predictions = ga_model.predict(data_dmatrix) 
+        data_dmatrix = xgb.DMatrix(combined_df[['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']])
+        predictions = ga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
     combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/GP'] + (82-combined_df['Y-0 GP'])/82*predictions
 
@@ -458,7 +469,7 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
         team_stat_df = pd.merge(team_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         team_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_team_projections.csv'), index=True)
@@ -469,16 +480,16 @@ def ga_model_inference(projection_year, team_stat_df, ga_model, download_file, v
 
 def simulate_season(projection_year, simulations, resume_season, download_files, verbose):
     # load dfs
-    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', f'{projection_year-1}-{projection_year}_game_schedule.csv'), index_col=0)
-    metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
+    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', f'{projection_year-1}-{projection_year}_game_schedule.csv'), index_col=0)
+    metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
     metaprojection_df['Aper1kChunk'] = metaprojection_df['A1per1kChunk'] + metaprojection_df['A2per1kChunk']
     metaprojection_df['Pper1kChunk'] = metaprojection_df['Gper1kChunk'] + metaprojection_df['Aper1kChunk']
-    teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
-    team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
+    teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
+    team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
     if resume_season == True:
-        existing_skater_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))
+        existing_skater_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))
         existing_skater_df['Assists'] = existing_skater_df['First Assists'] + existing_skater_df['Second Assists']
-        existing_team_df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Historical Team Data', f'{projection_year-1}-{projection_year}_team_data.csv'))
+        existing_team_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', f'{projection_year-1}-{projection_year}_team_data.csv'))
         existing_team_df = existing_team_df.rename(columns={'W': 'Wins', 'L': 'Losses', 'GA': 'Goals Against', 'GF': 'Goals For'})
 
     # configure skater monte carlo projection df
@@ -507,6 +518,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         temp_df = pd.merge(existing_team_df, monte_carlo_team_proj_df[['Team', 'Abbreviation']], on='Team', how='left')
         temp_df.loc[temp_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
         temp_df.loc[temp_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
+        temp_df.loc[temp_df['Team'] == 'Arizona Coyotes', 'Abbreviation'] = 'UTA'
         core_team_scoring_dict = temp_df.fillna(0).set_index('Abbreviation')[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against']].T.to_dict('list')
 
         # players that haven't played yet
@@ -531,6 +543,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
 
     # determine active rosters. we convert the data from the dataframe to dictionary because the lookup times are faster (O(n) vs O(1))
     active_rosters = {}
+    metaprojection_df.loc[metaprojection_df['Team'] == 'ARI', 'Team'] = 'UTA' ### temporary fix for ARI
     for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
         team_roster = metaprojection_df[metaprojection_df['Team'] == team_abbreviation]
         defense = team_roster[team_roster['Position'] == 'D'].sort_values('ATOI', ascending=False).head(6)
@@ -546,6 +559,8 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             lookup_team = 'Montreal Canadiens'
         elif team == 'St. Louis Blues':
             lookup_team = 'St Louis Blues'
+        elif team == 'Utah Hockey Club': ### temp
+            lookup_team = 'Arizona Coyotes'
         else:
             lookup_team = team
 
@@ -614,7 +629,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
     team_simulations_df = team_simulations_df.set_index(['Simulation', 'Abbreviation', 'Team'])
     
     if download_files:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         skater_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_monte_carlo_projections.csv'), index=True)
@@ -623,7 +638,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_monte_carlo_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         team_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_team_monte_carlo_projections.csv'), index=True)
@@ -647,7 +662,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
     print(team_aggregated_df)
 
     if download_files:
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         skater_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_aggregated_projections.csv'), index=True)
@@ -656,7 +671,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-        export_path = os.path.join(os.path.dirname(__file__), 'Sim Engine Data', 'Projections', 'Teams')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         team_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_team_aggregated_projections.csv'), index=True)
@@ -665,7 +680,6 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_team_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-# @profile
 def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visiting_team_abbrev, visitor_active_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
 
     # set initial score to 0-0
