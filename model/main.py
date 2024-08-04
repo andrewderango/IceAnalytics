@@ -50,11 +50,6 @@ def main():
     # Make player inferences
     player_stat_df = pd.DataFrame()
     player_stat_df = atoi_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, atoi_model=atoi_model, download_file=True, verbose=False)
-    player_stat_df = player_stat_df.sort_values(by='ATOI', ascending=False)
-    player_stat_df = player_stat_df.reset_index(drop=True)
-    # print(player_stat_df.to_string())
-    print(player_stat_df)
-    quit()
     player_stat_df = gp_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, gp_model_data=gp_model_data, download_file=True, verbose=False)
     player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=True, verbose=False)
     player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=True, verbose=False)

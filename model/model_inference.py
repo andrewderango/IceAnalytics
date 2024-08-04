@@ -23,8 +23,6 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            ### print(year)
-            ### pprint(df)
             df = df[['PlayerID', 'Player', 'GP', 'TOI']]
             df['ATOI'] = df['TOI']/df['GP']
             df = df.drop(columns=['TOI'])
@@ -40,20 +38,15 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
         else:
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
-    ### print(combined_df)
-
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP', 'Y-0 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
-
-    ### print(combined_df)
-    ### quit()
 
     # Mofify model coefficients to phase in the current season (Y-0) based on its progression into the season
     atoi_model_data = list(atoi_model.coef_)
@@ -73,6 +66,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
     combined_df['Weight'] = combined_df['Y-3 GP']*atoi_model_data[0] + combined_df['Y-2 GP']*atoi_model_data[1] + combined_df['Y-1 GP']*atoi_model_data[2] + combined_df['Y-0 GP']*atoi_model_data[3]
     combined_df['Score'] = combined_df['Y-3 Score'] + combined_df['Y-2 Score'] + combined_df['Y-1 Score'] + combined_df['Y-0 Score'] + combined_df['Age Score']
     combined_df['Proj. ATOI'] = combined_df['Score']/combined_df['Weight']
+    combined_df['Proj. ATOI'] = combined_df['Proj. ATOI'].apply(lambda x: max(min(x, 30), 2))
 
     combined_df = combined_df.drop(columns=['Y-3 Score', 'Y-2 Score', 'Y-1 Score', 'Y-0 Score', 'Age Score', 'Weight', 'Score'])
     combined_df.sort_values(by='Proj. ATOI', ascending=False, inplace=True)
@@ -196,7 +190,7 @@ def p24_gp_model_inference(projection_year, player_stat_df, model, verbose):
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df[combined_df['Y-0 Age'] >= 24]
     combined_df = combined_df.fillna(0)
 
@@ -206,6 +200,12 @@ def p24_gp_model_inference(projection_year, player_stat_df, model, verbose):
     combined_df['P24_GP_Score'] = MinMaxScaler().fit_transform(combined_df[['P24_GP_Score']])
     combined_df.sort_values(by='P24_GP_Score', ascending=False, inplace=True)
     combined_df = combined_df.reset_index(drop=True)
+
+    # Phase in current season
+    max_gp = min(82, combined_df['Y-0 GP'].max())
+    combined_df['P24_GP_Score_Current'] = combined_df['Y-0 GP'].rank(pct=True)
+    combined_df['P24_GP_Score'] = combined_df['P24_GP_Score_Current']*max_gp/82 + combined_df['P24_GP_Score']*(1-max_gp/82)
+    combined_df = combined_df.drop(columns=['P24_GP_Score_Current'])
 
     if verbose:
         print()
@@ -268,7 +268,7 @@ def u24_gp_model_inference(projection_year, player_stat_df, model, verbose):
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df[combined_df['Y-0 Age'] < 24]
     combined_df = combined_df.fillna(0)
 
@@ -282,6 +282,12 @@ def u24_gp_model_inference(projection_year, player_stat_df, model, verbose):
     combined_df['U24_GP_Score'] = MinMaxScaler().fit_transform(combined_df[['U24_GP_Score']])
     combined_df.sort_values(by='U24_GP_Score', ascending=False, inplace=True)
     combined_df = combined_df.reset_index(drop=True)
+
+    # Phase in current season
+    max_gp = min(82, combined_df['Y-0 GP'].max())
+    combined_df['U24_GP_Score_Current'] = combined_df['Y-0 GP'].rank(pct=True)
+    combined_df['U24_GP_Score'] = combined_df['U24_GP_Score_Current']*max_gp/82 + combined_df['U24_GP_Score']*(1-max_gp/82)
+    combined_df = combined_df.drop(columns=['U24_GP_Score_Current'])
 
     if verbose:
         print()
@@ -354,7 +360,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
@@ -467,7 +473,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
@@ -577,7 +583,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
@@ -683,7 +689,7 @@ def skater_xga_model_inference(projection_year, player_stat_df, skater_xga_model
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
@@ -781,7 +787,7 @@ def skater_ga_model_inference(projection_year, player_stat_df, skater_ga_model, 
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
@@ -1154,7 +1160,7 @@ def generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, 
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     young_combined_df = combined_df[combined_df['Y-0 Age'] <= 22].copy()
@@ -1269,7 +1275,7 @@ def generate_savgol_a1_inferences(projection_year, player_stat_df, fwd_model, df
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     young_combined_df = combined_df[combined_df['Y-0 Age'] <= 22].copy()
@@ -1376,7 +1382,7 @@ def generate_savgol_a2_inferences(projection_year, player_stat_df, fwd_model, df
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
-    combined_df = combined_df.dropna(subset=['Y-1 GP'])
+    combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'], how='all')
     combined_df = combined_df.reset_index(drop=True)
     combined_df = combined_df.fillna(0)
     young_combined_df = combined_df[combined_df['Y-0 Age'] <= 22].copy()
