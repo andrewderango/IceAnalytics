@@ -1,33 +1,33 @@
 ,Abbreviation,Team,Wins,Losses,OTL,Points,Goals For,Goals Against
-1,CAR,Carolina Hurricanes,56.5,20.6,4.9,117.9,281.1,181.8
-2,FLA,Florida Panthers,52.5,24.3,5.2,110.2,294.8,221.5
-3,DAL,Dallas Stars,52.2,24.4,5.4,109.8,307.2,235.7
-4,COL,Colorado Avalanche,49.8,27.3,4.9,104.5,333.3,281.9
-5,NSH,Nashville Predators,49.3,27.1,5.6,104.2,302.6,252.7
-6,NYR,New York Rangers,48.1,28.3,5.6,101.8,291.9,244.6
-7,WPG,Winnipeg Jets,47.7,28.4,5.9,101.3,279.0,234.5
-8,EDM,Edmonton Oilers,47.6,29.1,5.3,100.5,326.9,281.9
-9,BOS,Boston Bruins,46.6,28.5,6.9,100.1,268.8,237.7
-10,PIT,Pittsburgh Penguins,47.1,30.6,4.3,98.5,285.4,246.2
-11,SEA,Seattle Kraken,44.8,29.3,7.9,97.5,267.3,237.0
-12,TOR,Toronto Maple Leafs,45.5,30.4,6.1,97.1,290.7,271.5
-13,TBL,Tampa Bay Lightning,42.8,32.9,6.3,91.9,286.0,274.4
-14,VGK,Vegas Golden Knights,42.2,32.8,7.0,91.4,287.6,278.5
-15,LAK,Los Angeles Kings,42.1,32.8,7.1,91.3,273.2,261.5
-16,NJD,New Jersey Devils,42.1,33.5,6.4,90.6,296.9,280.5
-17,VAN,Vancouver Canucks,41.6,34.3,6.1,89.3,297.2,294.2
-18,MIN,Minnesota Wild,41.1,33.8,7.1,89.3,262.7,259.9
-19,NYI,New York Islanders,40.3,33.0,8.7,89.3,258.9,255.0
-20,BUF,Buffalo Sabres,40.6,33.7,7.7,88.9,265.5,265.7
-21,PHI,Philadelphia Flyers,39.1,36.2,6.7,84.9,252.4,265.4
-22,DET,Detroit Red Wings,39.1,37.1,5.8,84.0,276.4,291.1
-23,WSH,Washington Capitals,35.5,39.9,6.6,77.6,262.7,293.2
-24,STL,St. Louis Blues,34.6,42.0,5.4,74.6,282.1,324.4
-25,UTA,Utah Hockey Club,34.0,41.5,6.5,74.5,274.6,324.6
-26,CGY,Calgary Flames,32.2,43.3,6.5,70.9,261.6,316.8
-27,CBJ,Columbus Blue Jackets,30.8,43.5,7.7,69.3,250.6,318.2
-28,OTT,Ottawa Senators,31.4,45.3,5.3,68.1,271.8,341.9
-29,CHI,Chicago Blackhawks,30.6,44.5,6.9,68.1,233.9,302.1
-30,MTL,Montréal Canadiens,28.8,46.3,6.9,64.5,251.2,325.2
-31,SJS,San Jose Sharks,28.2,46.6,7.2,63.6,209.3,286.6
-32,ANA,Anaheim Ducks,27.2,48.0,6.8,61.2,238.7,336.1
+1,CAR,Carolina Hurricanes,57.2,19.7,5.1,119.5,279.2,179.1
+2,FLA,Florida Panthers,53.6,22.6,5.8,113.0,295.9,217.7
+3,DAL,Dallas Stars,50.9,25.2,5.9,107.7,305.0,230.3
+4,EDM,Edmonton Oilers,49.0,28.1,4.9,102.9,327.4,280.4
+5,NSH,Nashville Predators,48.6,28.3,5.1,102.3,302.5,254.3
+6,NJD,New Jersey Devils,48.5,28.2,5.3,102.3,304.4,268.5
+7,WPG,Winnipeg Jets,47.8,28.7,5.5,101.1,278.9,238.7
+8,NYR,New York Rangers,46.6,29.4,6.0,99.2,291.0,252.8
+9,PIT,Pittsburgh Penguins,45.9,28.8,7.3,99.1,282.8,253.0
+10,COL,Colorado Avalanche,47.0,30.1,4.9,98.9,323.0,283.1
+11,VAN,Vancouver Canucks,47.0,31.2,3.8,97.8,309.6,275.9
+12,VGK,Vegas Golden Knights,45.3,30.9,5.8,96.4,293.9,276.5
+13,BOS,Boston Bruins,45.3,30.9,5.8,96.4,267.3,242.6
+14,TBL,Tampa Bay Lightning,45.0,31.0,6.0,96.0,285.8,255.4
+15,LAK,Los Angeles Kings,42.6,32.5,6.9,92.1,263.4,257.3
+16,SEA,Seattle Kraken,42.9,33.3,5.8,91.6,259.4,251.1
+17,NYI,New York Islanders,40.9,32.5,8.6,90.4,264.5,261.0
+18,MIN,Minnesota Wild,40.8,33.8,7.4,89.0,255.6,253.7
+19,TOR,Toronto Maple Leafs,41.5,34.6,5.9,88.9,293.2,285.9
+20,DET,Detroit Red Wings,39.6,36.0,6.4,85.6,283.5,294.3
+21,BUF,Buffalo Sabres,38.5,35.5,8.0,85.0,263.2,274.4
+22,WSH,Washington Capitals,36.3,39.3,6.4,79.0,254.9,283.3
+23,PHI,Philadelphia Flyers,35.3,38.3,8.4,79.0,243.9,270.8
+24,STL,St. Louis Blues,35.5,39.3,7.2,78.2,276.4,318.7
+25,CGY,Calgary Flames,33.5,41.0,7.5,74.5,267.0,310.7
+26,CHI,Chicago Blackhawks,32.3,43.1,6.6,71.2,245.3,294.8
+27,UTA,Utah Hockey Club,30.9,44.6,6.5,68.3,281.1,340.3
+28,SJS,San Jose Sharks,30.8,45.2,6.0,67.6,216.5,286.1
+29,OTT,Ottawa Senators,29.2,46.2,6.6,65.0,274.2,346.8
+30,CBJ,Columbus Blue Jackets,28.7,46.0,7.3,64.7,247.1,322.1
+31,MTL,Montréal Canadiens,28.7,46.8,6.5,63.9,239.2,319.9
+32,ANA,Anaheim Ducks,26.3,48.8,6.9,59.5,243.6,339.2
