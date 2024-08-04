@@ -8,8 +8,7 @@ from sim_engine import *
 def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
-    # season_state = get_season_state(PROJECTION_YEAR)
-    season_state = 'REGULAR SEASON'
+    season_state = get_season_state(PROJECTION_YEAR)
 
     # # Scrape or fetch player data
     # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
@@ -25,7 +24,7 @@ def main():
     # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
     # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
     # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     # aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
