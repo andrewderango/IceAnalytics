@@ -40,6 +40,7 @@ function Players() {
       {
         Header: 'Games',
         accessor: 'games',
+        Cell: ({ value }) => Math.round(value),
       },
       {
         Header: 'Goals',
