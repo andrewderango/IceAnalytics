@@ -300,14 +300,6 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
         historical_skater_data.drop(columns=['Player', 'Position', 'Team'], inplace=True)
         combined_df = pd.merge(df, historical_skater_data, on='playerStripped', how='outer')
 
-        print(df)
-        print(df[df['playerStripped'].str.contains('marner')])
-        print(historical_skater_data)
-        print(historical_skater_data[historical_skater_data['playerStripped'].str.contains('marner')])
-        print(combined_df)
-        print(combined_df[combined_df['Player'] == 'Mitch Marner'])
-        quit()
-
         export_path = os.path.dirname(file_path)
         combined_df.to_csv(os.path.join(export_path, filename))
         if verbose:

@@ -24,7 +24,7 @@ def main():
     # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
     # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
     # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     # aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
@@ -76,7 +76,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(projection_year=PROJECTION_YEAR, simulations=10, resume_season=True, download_files=True, verbose=True)
+    simulate_season(projection_year=PROJECTION_YEAR, simulations=50, resume_season=True, download_files=True, verbose=True)
 
     # Push the simulation results to Supabase
     # push_to_supabase(table_name="team-projections", verbose=False)

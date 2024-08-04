@@ -38,10 +38,6 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
         else:
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
-    print(combined_df)    
-    print(combined_df[combined_df['Player'].isin(['Mitch Marner', 'Auston Matthews'])])
-    quit()
-
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
