@@ -7,6 +7,8 @@ import tensorflow as tf
 from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures, MinMaxScaler
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
 
 def aggregate_skater_offence_training_data(projection_year):
     file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data')
@@ -204,43 +206,54 @@ def train_atoi_model(projection_year, retrain_model, verbose):
     # Define the model path for saving and loading
     model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'atoi_model.pkl')
 
-    if retrain_model:
-        # Aggregate and filter the training data
+    if retrain_model == True:
+
         train_data = aggregate_skater_offence_training_data(projection_year)
         train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
-        train_data = train_data.dropna(subset=['Y-0 Age'])
-
+        
         if verbose:
             print(train_data)
 
-        # Create and define polynomial features and target variable
-        poly = PolynomialFeatures(3, include_bias=False)
-        train_data[['Y-0 Age', 'Y-0 Age^2', 'Y-0 Age^3']] = poly.fit_transform(train_data[['Y-0 Age']])
-        features = ['Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-0 Age', 'Y-0 Age^2', 'Y-0 Age^3']
+        # Split the data into training and testing sets
+        train_data, test_data = train_test_split(train_data, test_size=0.5, random_state=42)
+        train_data = train_data.dropna(subset=['Y-0 Age'])
+        test_data = test_data.dropna(subset=['Y-0 Age'])
+
+        # Define the input variables and target variable
+        input_vars = ['Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-0 Age']
         target_var = 'Y-0 ATOI'
 
-        # Define X and y
-        X = train_data[features]
-        y = train_data[target_var]
+        # Create polynomial features for 'Y-0 Age'
+        poly = PolynomialFeatures(3, include_bias=False)
+        train_data[['Y-0 Age', 'Y-0 Age^2', 'Y-0 Age^3']] = poly.fit_transform(train_data[['Y-0 Age']])
+        test_data[['Y-0 Age', 'Y-0 Age^2', 'Y-0 Age^3']] = poly.transform(test_data[['Y-0 Age']])
 
-        # Create and train the Linear Regression model
+        # Update the input variables to include the polynomial features
+        input_vars = ['Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-0 Age', 'Y-0 Age^2', 'Y-0 Age^3']
+
+        # Create the Linear Regression model
         model = LinearRegression()
-        model.fit(X, y)
+
+        # Train the Linear Regression model
+        model.fit(train_data[input_vars], train_data[target_var])
 
         if verbose:
+            # Make predictions on the test data
+            predictions = model.predict(test_data[input_vars])
+
             print("ATOI model linear coefficients:")
-            for i in range(len(features)):
-                print(features[i], '\t', model.coef_[i])
+            for i in range(len(input_vars)):
+                print(input_vars[i], '\t', model.coef_[i])
 
             print("Linear Regression Intercept:\t", model.intercept_)
 
         # Save the model
         joblib.dump(model, model_path)
         if verbose:
-            print(f'atoi_model.pkl has been saved to: {model_path}')
+            print(f'atoi_model.pkl has been downloaded with the following directory: {model_path}')
     
     else:
-        # Load the model
+        # Load model
         model = joblib.load(model_path)
 
     return model
@@ -375,6 +388,9 @@ def train_a1_model(projection_year, retrain_model, verbose):
         X = train_data[feature_cols]
         y = train_data['Y-0 A1per1kChunk']
 
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
         # Define the model
         model = tf.keras.models.Sequential()
         model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
@@ -383,7 +399,12 @@ def train_a1_model(projection_year, retrain_model, verbose):
         model.compile(loss='mean_squared_error', optimizer='adam')
 
         # Train the model
-        model.fit(X, y, epochs=100, batch_size=5, verbose=verbose)
+        model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=verbose)
+
+        # Evaluate the model
+        mse = model.evaluate(X_test, y_test, verbose=0)
+        if verbose:
+            print("MSE: %.2f" % mse)
 
         # Save the model
         model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'))
@@ -413,6 +434,9 @@ def train_a2_model(projection_year, retrain_model, verbose):
         X = train_data[feature_cols]
         y = train_data['Y-0 A2per1kChunk']
 
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
         # Define the model
         model = tf.keras.models.Sequential()
         model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
@@ -421,7 +445,12 @@ def train_a2_model(projection_year, retrain_model, verbose):
         model.compile(loss='mean_squared_error', optimizer='adam')
 
         # Train the model
-        model.fit(X, y, epochs=100, batch_size=5, verbose=verbose)
+        model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=verbose)
+
+        # Evaluate the model
+        mse = model.evaluate(X_test, y_test, verbose=0)
+        if verbose:
+            print("MSE: %.2f" % mse)
 
         # Save the model
         model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'))
@@ -448,12 +477,21 @@ def train_ga_model(projection_year, retrain_model, verbose):
         X = train_data[feature_cols]
         y = train_data['Y-0 GA/GP']
 
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
         # Define the model
         model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.1,
                         max_depth = 5, n_estimators = 100)
 
         # Train the model
-        model.fit(X, y, verbose=verbose)
+        model.fit(X_train, y_train, verbose=verbose)
+
+        # Evaluate the model
+        predictions = model.predict(X_test)
+        mse = mean_squared_error(y_test, predictions)
+        if verbose:
+            print("MSE: %.2f" % mse)
 
         # Save the model
         model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
@@ -483,11 +521,26 @@ def train_skater_xga_model(projection_year, retrain_model, verbose):
         X = train_data[feature_cols]
         y = train_data['Y-0 xGA/60']
 
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
         # Define the model
         model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.10, max_depth = 3, n_estimators = 60)
 
         # Train the model
-        model.fit(X, y, verbose=verbose)
+        model.fit(X_train, y_train, verbose=verbose)
+
+        # Evaluate the model on the test dataset
+        predictions_test = model.predict(X_test)
+        mse_test = mean_squared_error(y_test, predictions_test)
+        if verbose:
+            print("Test MSE: %.3f" % mse_test)
+
+        # Evaluate the model on the train dataset
+        predictions_train = model.predict(X_train)
+        mse_train = mean_squared_error(y_train, predictions_train)
+        if verbose:
+            print("Train MSE: %.3f" % mse_train)
 
         # Save the model
         model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_xga_model.xgb'))
@@ -516,11 +569,26 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
         X = train_data[feature_cols]
         y = train_data['Y-0 GA/60']
 
+        # Split the data into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
         # Define the model
         model = xgb.XGBRegressor(objective ='reg:squarederror', learning_rate = 0.075, max_depth = 2, n_estimators = 55)
 
         # Train the model
-        model.fit(X, y, verbose=verbose)
+        model.fit(X_train, y_train, verbose=verbose)
+
+        # Evaluate the model on the test dataset
+        predictions_test = model.predict(X_test)
+        mse_test = mean_squared_error(y_test, predictions_test)
+        if verbose:
+            print("Test MSE: %.3f" % mse_test)
+
+        # Evaluate the model on the train dataset
+        predictions_train = model.predict(X_train)
+        mse_train = mean_squared_error(y_train, predictions_train)
+        if verbose:
+            print("Train MSE: %.3f" % mse_train)
 
         # Save the model
         model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_ga_model.xgb'))
