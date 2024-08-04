@@ -10,53 +10,64 @@ def main():
     season_state = get_season_state(PROJECTION_YEAR)
 
     # # Scrape or fetch player data
-    # scrape_historical_player_data(2008, 2024, True, False, PROJECTION_YEAR, season_state, True, False)
-    # scrape_historical_player_data(2008, 2024, False, False, PROJECTION_YEAR, season_state, True, False)
-    # scrape_historical_player_data(2008, 2024, True, True, PROJECTION_YEAR, season_state, True, False)
-    # scrape_historical_player_data(2008, 2024, False, True, PROJECTION_YEAR, season_state, True, False)
-    # scrape_historical_player_data(2025, 2025, True, False, PROJECTION_YEAR, season_state, False, True)
-    # scrape_historical_player_data(2025, 2025, False, False, PROJECTION_YEAR, season_state, False, True)
-    # scrape_historical_player_data(2025, 2025, True, True, PROJECTION_YEAR, season_state, False, True)
-    # scrape_historical_player_data(2025, 2025, False, True, PROJECTION_YEAR, season_state, False, True)
-    # scrape_nhlapi_data(2008, 2024, False, PROJECTION_YEAR, season_state, True, False)
-    # scrape_nhlapi_data(2008, 2024, True, PROJECTION_YEAR, season_state, True, False)
-    # scrape_nhlapi_data(2025, 2025, False, PROJECTION_YEAR, season_state, False, True)
-    # scrape_nhlapi_data(2025, 2025, True, PROJECTION_YEAR, season_state, False, True)
-    # aggregate_player_bios(True, False, False)
-    # aggregate_player_bios(False, False, False)
+    # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=False, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=False, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_historical_player_data(start_year=2025, end_year=2025, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_historical_player_data(start_year=2025, end_year=2025, skaters=True, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_historical_player_data(start_year=2025, end_year=2025, skaters=False, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_historical_player_data(start_year=2025, end_year=2025, skaters=True, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_historical_player_data(start_year=2025, end_year=2025, skaters=False, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_nhlapi_data(start_year=2008, end_year=2024, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_nhlapi_data(start_year=2025, end_year=2025, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
+    # aggregate_player_bios(skaters=False, check_preexistence=False, verbose=False)
 
     # # Scrape or fetch team data
-    # scrape_historical_team_data(2008, 2024, PROJECTION_YEAR, season_state, True, False)
-    # scrape_historical_team_data(2025, 2025, PROJECTION_YEAR, season_state, False, True)
-    # scrape_teams(PROJECTION_YEAR, True, False)
-    # scrape_games(PROJECTION_YEAR, False, True)
+    # scrape_historical_team_data(start_year=2008, end_year=2024, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_historical_team_data(start_year=2025, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
+    # scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
+
+    print(aggregate_skater_defence_training_data(2025))
+    quit()
 
     # Train models
-    atoi_model_data = train_atoi_model(PROJECTION_YEAR, False, False)
-    goal_model = train_goal_model(PROJECTION_YEAR, False, False)
-    a1_model = train_a1_model(PROJECTION_YEAR, False, False)
-    a2_model = train_a2_model(PROJECTION_YEAR, False, False)
-    ga_model = train_ga_model(PROJECTION_YEAR, False, False)
+    atoi_model_data = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    goal_model = train_goal_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    a2_model = train_a2_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    ga_model = train_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
 
     # Make player inferences
     player_stat_df = pd.DataFrame()
-    player_stat_df = atoi_model_inference(PROJECTION_YEAR, player_stat_df, atoi_model_data, True, False)
-    player_stat_df = goal_model_inference(PROJECTION_YEAR, player_stat_df, goal_model, True, False)
-    player_stat_df = a1_model_inference(PROJECTION_YEAR, player_stat_df, a1_model, True, False)
-    player_stat_df = a2_model_inference(PROJECTION_YEAR, player_stat_df, a2_model, True, False)
-    # player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
+    player_stat_df = atoi_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, atoi_model_data=atoi_model_data, download_file=True, verbose=False)
+    player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=True, verbose=False)
+    player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=True, verbose=False)
+    player_stat_df = a2_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a2_model=a2_model, download_file=True, verbose=False)
     player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
     player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
     player_stat_df = fix_teams(player_stat_df)
+    # player_stat_df = player_stat_df.sort_values(by='Gper1kChunk', ascending=False)
     # print(player_stat_df.to_string())
+
+    # Make GA inferences
+    
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
-    team_stat_df = ga_model_inference(PROJECTION_YEAR, team_stat_df, ga_model, True, False)
+    team_stat_df = ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, ga_model=ga_model, download_file=True, verbose=False)
     team_stat_df = team_stat_df.sort_values(by='GA/GP', ascending=False)
-    # print(team_stat_df.to_string())
+    print(team_stat_df.to_string())
+    quit()
 
     # Simulate season
     simulate_season(PROJECTION_YEAR, 100, True, True, True)

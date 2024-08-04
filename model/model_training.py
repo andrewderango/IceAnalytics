@@ -9,7 +9,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split
 
-def aggregate_skater_training_data(projection_year):
+def aggregate_skater_offence_training_data(projection_year):
     file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
     for file in files:
@@ -68,6 +68,61 @@ def aggregate_skater_training_data(projection_year):
 
     # Data cleaning
     combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 30) & (combined_data['Y-2 GP'] >= 30) & (combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
+    combined_data = combined_data[combined_data['Y-0'] != projection_year]
+    # combined_data.sort_values(by='Y-0 ATOI', ascending=False, inplace=True)
+    combined_data.sort_values(by=['Player', 'Y-0'], ascending=[True, False], inplace=True)
+    combined_data = combined_data.reset_index(drop=True)
+    # print(combined_data.to_string())
+    # print(combined_data)
+
+    return combined_data
+
+def aggregate_skater_defence_training_data(projection_year):
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical On-Ice Skater Data')
+    files = sorted(os.listdir(file_path))
+    for file in files:
+        if file[-15:] != 'skater_data.csv':
+            files.remove(file) # Remove files like .DS_Store or other unexpected files
+
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    combinations = [files[i:i+4] for i in range(len(files)-3)]
+    combined_data = pd.DataFrame()
+
+    for file_list in combinations:
+        combined_df = None
+        for index, file in enumerate(file_list):
+            df = pd.read_csv(os.path.join(file_path, file), usecols=['PlayerID', 'Player', 'GP', 'TOI', 'CA/60', 'FA/60', 'SA/60', 'GA/60', 'xGA/60', 'On-Ice SV%'])
+            df['ATOI'] = df['TOI']/df['GP']
+            df = df.rename(columns={
+                'ATOI': f'Y-{3-index} ATOI', 
+                'GP': f'Y-{3-index} GP', 
+                'CA/60': f'Y-{3-index} CA/60',
+                'FA/60': f'Y-{3-index} FA/60',
+                'SA/60': f'Y-{3-index} SA/60',
+                'GA/60': f'Y-{3-index} GA/60',
+                'xGA/60': f'Y-{3-index} xGA/60',
+                'On-Ice SV%': f'Y-{3-index} oiSV%'
+            })
+            if combined_df is None:
+                combined_df = df
+            else:
+                combined_df = pd.merge(combined_df, df, on='PlayerID', how='outer')
+
+        last_file = file_list[-1]
+        combined_df = combined_df.merge(bios_df, on='PlayerID', how='left')
+        combined_df = combined_df.dropna(subset=['Y-0 GP', 'Y-1 GP'])
+
+        # Calculate Y-0 age and season
+        year = int(last_file.split('_')[0].split('-')[1])
+        combined_df['Y-0'] = year
+        combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+        combined_df['Y-0 Age'] = combined_df['Y-0'] - combined_df['Date of Birth'].dt.year
+        combined_df = combined_df.drop(columns=['Date of Birth'])
+
+        combined_data = pd.concat([combined_data, combined_df], ignore_index=True)
+
+    # Data cleaning
+    combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 35) & (combined_data['Y-2 GP'] >= 35) & (combined_data['Y-1 GP'] >= 35) & (combined_data['Y-0 GP'] >= 35)]
     combined_data = combined_data[combined_data['Y-0'] != projection_year]
     # combined_data.sort_values(by='Y-0 ATOI', ascending=False, inplace=True)
     combined_data.sort_values(by=['Player', 'Y-0'], ascending=[True, False], inplace=True)
@@ -143,7 +198,7 @@ def train_atoi_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        atoi_train_data = aggregate_skater_training_data(projection_year)
+        atoi_train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
             print(atoi_train_data)
@@ -210,7 +265,7 @@ def train_goal_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_training_data(projection_year)
+        goal_train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
             print(goal_train_data)
@@ -255,7 +310,7 @@ def train_a1_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_training_data(projection_year)
+        goal_train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
             print(goal_train_data)
@@ -299,7 +354,7 @@ def train_a2_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_training_data(projection_year)
+        goal_train_data = aggregate_skater_offence_training_data(projection_year)
         
         if verbose:
             print(goal_train_data)
