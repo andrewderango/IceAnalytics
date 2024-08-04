@@ -1,12 +1,13 @@
 import os
+import joblib
 import numpy as np
 import pandas as pd
 import xgboost as xgb
 import tensorflow as tf
+from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures, MinMaxScaler
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split
 
 def aggregate_skater_offence_training_data(projection_year):
@@ -23,6 +24,7 @@ def aggregate_skater_offence_training_data(projection_year):
     for file_list in combinations:
         combined_df = None
         for index, file in enumerate(file_list):
+            # Read in and compute rate stats
             df = pd.read_csv(os.path.join(file_path, file), usecols=['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
@@ -34,6 +36,12 @@ def aggregate_skater_offence_training_data(projection_year):
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df['RCper1kChunk'] = df['Rebounds Created']/df['TOI']/2 * 1000
             df['TAper1kChunk'] = df['Takeaways']/df['TOI']/2 * 1000
+
+            # # Set columns to NaN if GP is less than 30
+            # columns_to_nan = ['ATOI', 'Gper1kChunk', 'xGper1kChunk', 'SHper1kChunk', 'iCFper1kChunk', 'RAper1kChunk', 'A1per1kChunk', 'A2per1kChunk', 'RCper1kChunk', 'TAper1kChunk']
+            # df.loc[df['GP'] < 30, columns_to_nan] = float('nan')
+
+            # Add year index to column names
             df = df.drop(columns=['Player', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts', 'First Assists', 'Second Assists', 'Rebounds Created', 'Takeaways'])
             df = df.rename(columns={
                 'ATOI': f'Y-{3-index} ATOI', 
@@ -67,7 +75,8 @@ def aggregate_skater_offence_training_data(projection_year):
         combined_data = pd.concat([combined_data, combined_df], ignore_index=True)
 
     # Data cleaning
-    combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 30) & (combined_data['Y-2 GP'] >= 30) & (combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
+    # combined_data = combined_data.loc[(combined_data['Y-3 GP'] >= 30) & (combined_data['Y-2 GP'] >= 30) & (combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
+    combined_data = combined_data.loc[(combined_data['Y-1 GP'] >= 30) & (combined_data['Y-0 GP'] >= 30)]
     combined_data = combined_data[combined_data['Y-0'] != projection_year]
     # combined_data.sort_values(by='Y-0 ATOI', ascending=False, inplace=True)
     combined_data.sort_values(by=['Player', 'Y-0'], ascending=[True, False], inplace=True)
@@ -199,13 +208,16 @@ def train_atoi_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        atoi_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
-            print(atoi_train_data)
+            print(train_data)
 
         # Split the data into training and testing sets
-        train_data, test_data = train_test_split(atoi_train_data, test_size=0.5, random_state=42)
+        train_data, test_data = train_test_split(train_data, test_size=0.5, random_state=42)
+        train_data = train_data.dropna(subset=['Y-0 Age'])
+        test_data = test_data.dropna(subset=['Y-0 Age'])
 
         # Define the input variables and target variable
         input_vars = ['Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-0 Age']
@@ -261,75 +273,143 @@ def train_atoi_model(projection_year, retrain_model, verbose):
         else:
             print(f'{filename} does not exist in the following directory: {file_path}')
             return None
+        
+def train_gp_model(projection_year, retrain_model, verbose):
+    p24_gp_model = train_p24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
+    u24_gp_model = train_u24_gp_model(projection_year=projection_year, retrain_model=retrain_model, verbose=verbose)
+    return [p24_gp_model, u24_gp_model]
+
+def train_p24_gp_model(projection_year, retrain_model, verbose):
+
+    # Define the model path for saving and loading
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'p24_gp_model.pkl')
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 20) & (train_data['Y-2 GP'] >= 20) & (train_data['Y-1 GP'] >= 20) & (train_data['Y-0 GP'] >= 20)]
+        feature_cols = ['Y-3 GP', 'Y-2 GP', 'Y-1 GP']
+        X = MinMaxScaler().fit_transform(train_data[feature_cols])
+        y = MinMaxScaler().fit_transform(train_data['Y-0 GP'].values.reshape(-1, 1)).flatten()
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X, y)
+        model.coef_ = model.coef_ / model.coef_.sum()
+
+        # Save the model
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        model = joblib.load(model_path)
+
+    return model
+
+def train_u24_gp_model(projection_year, retrain_model, verbose):
+
+    # Define the model path for saving and loading
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'u24_gp_model.joblib')
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-1 GP'] >= 10) & (train_data['Y-0 GP'] >= 10)]
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Y-1 P/GP'] = (train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']) / 500 * train_data['Y-1 ATOI']
+        train_data['Y-1 Points'] = (train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']) / 500 * train_data['Y-1 ATOI'] * train_data['Y-1 GP']
+        feature_cols = ['Y-1 GP', 'Y-1 ATOI', 'Y-1 Points']
+        boolean_feature = 'PositionBool'
+        train_data = train_data.dropna(subset=feature_cols + [boolean_feature])
+        train_data = train_data[train_data['Y-0 Age'] < 24]
+        scaled_features = MinMaxScaler().fit_transform(train_data[feature_cols])
+        X = np.hstack((scaled_features, train_data[[boolean_feature]].values))
+        y = MinMaxScaler().fit_transform(train_data['Y-0 GP'].values.reshape(-1, 1)).flatten()
+        model = SVR(kernel='linear', gamma='scale', C=1.0, epsilon=0.1)
+        model.fit(X, y)
+
+        # Save the model
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        model = joblib.load(model_path)
+
+    return model
 
 def train_goal_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
-            print(goal_train_data)
+            print(train_data)
 
         # Define the feature columns
-        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
         feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
-        X = goal_train_data[feature_cols]
-        y = goal_train_data['Y-0 Gper1kChunk']
-
-        # Split the data into training and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        X = train_data[feature_cols]
+        y = train_data['Y-0 Gper1kChunk']
 
         # Define the model
-        model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(17, input_dim=17, kernel_initializer='normal', activation='relu'))
-        model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
-        model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
-        model.compile(loss='mean_squared_error', optimizer='adam')
+        n_estimators = 50
+        learning_rate = 0.1
+        max_depth = 3
+        min_child_weight = 1
+        subsample = 1.0
+        colsample_bytree = 1.0
+        model = xgb.XGBRegressor(
+            objective='reg:squarederror',
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            max_depth=max_depth,
+            min_child_weight=min_child_weight,
+            subsample=subsample,
+            colsample_bytree=colsample_bytree,
+            verbosity=0
+        )
 
         # Train the model
-        model.fit(X_train, y_train, epochs=100, batch_size=5, verbose=verbose)
-
-        # Evaluate the model
-        mse = model.evaluate(X_test, y_test, verbose=0)
-        if verbose:
-            print("MSE: %.2f" % mse)
+        model.fit(X, y)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
-
-        return model
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.json'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.xgb'))
     
     else:
-        # model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'))
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.keras'), compile=False)
-        return model
+        model = xgb.Booster()
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.xgb'))
+    
+    return model
     
 def train_a1_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
-            print(goal_train_data)
+            print(train_data)
 
         # Define the feature columns
-        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'Position']
+        train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
-        X = goal_train_data[feature_cols]
-        y = goal_train_data['Y-0 A1per1kChunk']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 A1per1kChunk']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
         # Define the model
         model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(20, input_dim=20, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
         model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
         model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
         model.compile(loss='mean_squared_error', optimizer='adam')
@@ -355,25 +435,27 @@ def train_a2_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        goal_train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
-            print(goal_train_data)
+            print(train_data)
 
         # Define the feature columns
-        goal_train_data['Position'] = goal_train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-3 TAper1kChunk', 'Y-2 TAper1kChunk', 'Y-1 TAper1kChunk', 'Y-0 Age', 'Position']
+        train_data = train_data.dropna(subset=feature_cols)
 
         # Separate the features and the target
-        X = goal_train_data[feature_cols]
-        y = goal_train_data['Y-0 A2per1kChunk']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 A2per1kChunk']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
         # Define the model
         model = tf.keras.models.Sequential()
-        model.add(tf.keras.layers.Dense(20, input_dim=20, kernel_initializer='normal', activation='relu'))
+        model.add(tf.keras.layers.Dense(len(feature_cols), input_dim=len(feature_cols), kernel_initializer='normal', activation='relu'))
         model.add(tf.keras.layers.Dense(10, kernel_initializer='normal'))
         model.add(tf.keras.layers.Dense(1, kernel_initializer='normal'))
         model.compile(loss='mean_squared_error', optimizer='adam')
@@ -399,17 +481,17 @@ def train_ga_model(projection_year, retrain_model, verbose):
 
     if retrain_model == True:
 
-        ga_train_data = aggregate_team_training_data(projection_year)
+        train_data = aggregate_team_training_data(projection_year)
         
         if verbose:
-            print(ga_train_data)
+            print(train_data)
 
         # Define the feature columns
-        feature_cols = ['Y-3 FA/GP', 'Y-2 FA/GP', 'Y-1 FA/GP', 'Y-3 GA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-3 xGA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-3 SV%', 'Y-2 SV%', 'Y-1 SV%']
+        feature_cols = ['Y-2 FA/GP', 'Y-1 FA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-2 SV%', 'Y-1 SV%', 'Y-2 P%', 'Y-1 P%']
 
         # Separate the features and the target
-        X = ga_train_data[feature_cols]
-        y = ga_train_data['Y-0 GA/GP']
+        X = train_data[feature_cols]
+        y = train_data['Y-0 GA/GP']
 
         # Split the data into training and test sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -442,13 +524,14 @@ def train_skater_xga_model(projection_year, retrain_model, verbose):
     if retrain_model == True:
 
         train_data = aggregate_skater_defence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
             print(train_data)
 
         # Define the feature columns
-        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'Position']
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']
 
         # Separate the features and the target
         X = train_data[feature_cols]
@@ -489,13 +572,14 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
     if retrain_model == True:
 
         train_data = aggregate_skater_defence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
         
         if verbose:
             print(train_data)
 
         # Define the feature columns
-        train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'Position']
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        feature_cols = ['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']
 
         # Separate the features and the target
         X = train_data[feature_cols]
@@ -530,3 +614,209 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
         model = xgb.Booster()
         model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_ga_model.xgb'))
         return model
+    
+def train_goal_calibration_model(projection_year, retrain_model, position):
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+        if position == 'F':
+            train_data = train_data[train_data['Position'] != 'D']
+        elif position == 'D':
+            train_data = train_data[train_data['Position'] == 'D']
+        else:
+            raise ValueError(f"Invalid position argument: {position}. Must be either 'F' or 'D'.")
+        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk']
+        train_data = train_data.dropna(subset=feature_cols)
+        X = train_data[feature_cols]
+        y = train_data['Y-0 Gper1kChunk']
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X, y)
+        model.coef_ = model.coef_ / model.coef_.sum()
+
+        # Save the model
+        if position == 'F':
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
+        else:
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        if position == 'F':
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
+        else:
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
+        model = joblib.load(model_path)
+
+    # Get data from past 3 years
+    combined_df = pd.DataFrame()
+    for year in range(projection_year-3, projection_year):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year != projection_year:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        df = pd.read_csv(file_path).iloc[:, 1:]
+        df = df.dropna(subset=['PlayerID', 'GP', 'Goals', 'TOI'])
+        df = df[df['Position'] != 'D'] if position == 'F' else df[df['Position'] == 'D']
+        df[f'Y-{projection_year-year} GP'] = df['GP']
+        df[f'Y-{projection_year-year} Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
+        df = df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} Gper1kChunk']]
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} Gper1kChunk']], on=['PlayerID', 'Player'], how='outer')
+
+    # Generate scaling
+    combined_df = combined_df.fillna(0)
+    combined_df['GP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
+    combined_df = combined_df[combined_df['GP'] >= 82]
+    combined_df['Scaled Gper1kChunk'] = (model.coef_[0]*combined_df['Y-3 Gper1kChunk']*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 Gper1kChunk']*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 Gper1kChunk']*combined_df['Y-1 GP']) / (model.coef_[0]*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 GP'])
+    combined_df = combined_df.sort_values(by='Scaled Gper1kChunk', ascending=False)
+    combined_df = combined_df.reset_index(drop=True)
+    scaling = combined_df['Scaled Gper1kChunk'].to_list()
+    
+    return scaling, model
+
+def train_a1_calibration_model(projection_year, retrain_model, position):
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+        if position == 'F':
+            train_data = train_data[train_data['Position'] != 'D']
+        elif position == 'D':
+            train_data = train_data[train_data['Position'] == 'D']
+        else:
+            raise ValueError(f"Invalid position argument: {position}. Must be either 'F' or 'D'.")
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk']
+        train_data = train_data.dropna(subset=feature_cols)
+        X = train_data[feature_cols]
+        y = train_data['Y-0 A1per1kChunk']
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X, y)
+        model.coef_ = model.coef_ / model.coef_.sum()
+
+        # Save the model
+        if position == 'F':
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a1_calibration_model.pkl')
+        else:
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a1_calibration_model.pkl')
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        if position == 'F':
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a1_calibration_model.pkl')
+        else:
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a1_calibration_model.pkl')
+        model = joblib.load(model_path)
+
+    # Get data from past 3 years
+    combined_df = pd.DataFrame()
+    for year in range(projection_year-3, projection_year):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year != projection_year:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        df = pd.read_csv(file_path).iloc[:, 1:]
+        df = df.dropna(subset=['PlayerID', 'GP', 'First Assists', 'TOI'])
+        df = df[df['Position'] != 'D'] if position == 'F' else df[df['Position'] == 'D']
+        df[f'Y-{projection_year-year} GP'] = df['GP']
+        df[f'Y-{projection_year-year} A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
+        df = df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} A1per1kChunk']]
+        # print(df)
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} A1per1kChunk']], on=['PlayerID', 'Player'], how='outer')
+
+    # Generate scaling
+    combined_df = combined_df.fillna(0)
+    combined_df['GP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
+    combined_df = combined_df[combined_df['GP'] >= 82]
+    combined_df['Scaled A1per1kChunk'] = (model.coef_[0]*combined_df['Y-3 A1per1kChunk']*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 A1per1kChunk']*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 A1per1kChunk']*combined_df['Y-1 GP']) / (model.coef_[0]*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 GP'])
+    combined_df = combined_df.sort_values(by='Scaled A1per1kChunk', ascending=False)
+    combined_df = combined_df.reset_index(drop=True)
+    scaling = combined_df['Scaled A1per1kChunk'].to_list()
+    
+    return scaling, model
+
+def train_a2_calibration_model(projection_year, retrain_model, position):
+
+    if retrain_model:
+        # Train model
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+        if position == 'F':
+            train_data = train_data[train_data['Position'] != 'D']
+        elif position == 'D':
+            train_data = train_data[train_data['Position'] == 'D']
+        else:
+            raise ValueError(f"Invalid position argument: {position}. Must be either 'F' or 'D'.")
+        feature_cols = ['Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk']
+        train_data = train_data.dropna(subset=feature_cols)
+        X = train_data[feature_cols]
+        y = train_data['Y-0 A2per1kChunk']
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X, y)
+        model.coef_ = model.coef_ / model.coef_.sum()
+
+        # Save the model
+        if position == 'F':
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a2_calibration_model.pkl')
+        else:
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a2_calibration_model.pkl')
+        joblib.dump(model, model_path)
+    
+    else:
+        # Load model
+        if position == 'F':
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a2_calibration_model.pkl')
+        else:
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a2_calibration_model.pkl')
+        model = joblib.load(model_path)
+
+    # Get data from past 3 years
+    combined_df = pd.DataFrame()
+    for year in range(projection_year-3, projection_year):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year != projection_year:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        df = pd.read_csv(file_path).iloc[:, 1:]
+        df = df.dropna(subset=['PlayerID', 'GP', 'Second Assists', 'TOI'])
+        df = df[df['Position'] != 'D'] if position == 'F' else df[df['Position'] == 'D']
+        df[f'Y-{projection_year-year} GP'] = df['GP']
+        df[f'Y-{projection_year-year} A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
+        df = df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} A2per1kChunk']]
+        # print(df)
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df[['PlayerID', 'Player', f'Y-{projection_year-year} GP', f'Y-{projection_year-year} A2per1kChunk']], on=['PlayerID', 'Player'], how='outer')
+
+    # Generate scaling
+    combined_df = combined_df.fillna(0)
+    combined_df['GP'] = combined_df['Y-3 GP'] + combined_df['Y-2 GP'] + combined_df['Y-1 GP']
+    combined_df = combined_df[combined_df['GP'] >= 82]
+    combined_df['Scaled A2per1kChunk'] = (model.coef_[0]*combined_df['Y-3 A2per1kChunk']*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 A2per1kChunk']*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 A2per1kChunk']*combined_df['Y-1 GP']) / (model.coef_[0]*combined_df['Y-3 GP'] + model.coef_[1]*combined_df['Y-2 GP'] + model.coef_[2]*combined_df['Y-1 GP'])
+    combined_df = combined_df.sort_values(by='Scaled A2per1kChunk', ascending=False)
+    combined_df = combined_df.reset_index(drop=True)
+    scaling = combined_df['Scaled A2per1kChunk'].to_list()
+
+    return scaling, model

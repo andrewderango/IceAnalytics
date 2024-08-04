@@ -7,7 +7,19 @@ from tqdm import tqdm
 from model_training import *
 from scraper_functions import *
 
-def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visiting_team_abbrev, visitor_active_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
+def simulate_game(home_team_abbrev, home_roster, home_defence_score, visiting_team_abbrev, visitor_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
+
+    # determine active rosters
+    home_fwds = home_roster[home_roster['PosFD'] == 'F']
+    home_dfcs = home_roster[home_roster['PosFD'] == 'D']
+    selected_forwards = home_fwds.sample(n=12, weights=home_fwds['GPprb'], replace=False)
+    selected_defensemen = home_dfcs.sample(n=6, weights=home_dfcs['GPprb'], replace=False)
+    home_active_roster = pd.concat([selected_forwards, selected_defensemen])
+    visitor_fwds = visitor_roster[visitor_roster['PosFD'] == 'F']
+    visitor_dfcs = visitor_roster[visitor_roster['PosFD'] == 'D']
+    selected_forwards = visitor_fwds.sample(n=12, weights=visitor_fwds['GPprb'], replace=False)
+    selected_defensemen = visitor_dfcs.sample(n=6, weights=visitor_dfcs['GPprb'], replace=False)
+    visitor_active_roster = pd.concat([selected_forwards, selected_defensemen])
 
     # set initial score to 0-0
     home_score = 0
@@ -32,14 +44,14 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
     visitor_weighted_avg *= home_defence_score
 
     # determining scorers and assisters
-    home_scorer_ids = home_active_roster.sample(n=10, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
-    visitor_scorer_ids = visitor_active_roster.sample(n=10, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
-    home_assist_ids = home_active_roster.sample(n=20, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
-    visitor_assist_ids = visitor_active_roster.sample(n=20, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_scorer_ids = home_active_roster.sample(n=11, replace=True, weights=home_active_roster['Gper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_scorer_ids = visitor_active_roster.sample(n=11, replace=True, weights=visitor_active_roster['Gper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
+    home_assist_ids = home_active_roster.sample(n=22, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values
+    visitor_assist_ids = visitor_active_roster.sample(n=22, replace=True, weights=visitor_active_roster['Aper1kChunk']*visitor_active_roster['ATOI'])['PlayerID'].values
 
     for chunk in range(120):
         rng = random.uniform(0, 1)
-        if rng < home_weighted_avg: # home goal
+        if rng < home_weighted_avg and home_score <= 10: # home goal
             try:
                 scorer_id = home_scorer_ids[home_score]
                 a1_id = home_assist_ids[home_score]
@@ -49,7 +61,7 @@ def simulate_game(home_team_abbrev, home_active_roster, home_defence_score, visi
                 a1_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
                 a2_id = home_active_roster.sample(n=1, replace=True, weights=home_active_roster['Aper1kChunk']*home_active_roster['ATOI'])['PlayerID'].values[0]
             home_score += 1
-        elif rng > 1 - visitor_weighted_avg: # visitor goal
+        elif rng > 1 - visitor_weighted_avg and visitor_score <= 10: # visitor goal
             try:
                 scorer_id = visitor_scorer_ids[visitor_score]
                 a1_id = visitor_assist_ids[visitor_score]
@@ -177,14 +189,12 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             core_team_scoring_dict[team_abbreviation] = [0, 0, 0, 0, 0]
 
     # determine active rosters. we convert the data from the dataframe to dictionary because the lookup times are faster (O(n) vs O(1))
-    active_rosters = {}
+    team_rosters = {}
     metaprojection_df.loc[metaprojection_df['Team'] == 'ARI', 'Team'] = 'UTA' ### temporary fix for ARI
     for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
-        team_roster = metaprojection_df[metaprojection_df['Team'] == team_abbreviation]
-        defense = team_roster[team_roster['Position'] == 'D'].sort_values('ATOI', ascending=False).head(6)
-        offense = team_roster[team_roster['Position'] != 'D'].sort_values('ATOI', ascending=False).head(12)
-        active_roster = pd.concat([offense, defense])
-        active_rosters[team_abbreviation] = active_roster
+        team_roster = metaprojection_df[metaprojection_df['Team'] == team_abbreviation].copy()
+        team_roster['PosFD'] = team_roster['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
+        team_rosters[team_abbreviation] = team_roster
 
     # compute team defence scores
     defence_scores = {}
@@ -221,7 +231,8 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
             home_abbrev = row['Home Abbreviation']
             visiting_abbrev = row['Visiting Abbreviation']
-            game_scoring_dict, team_scoring_dict = simulate_game(home_abbrev, active_rosters[home_abbrev], defence_scores[row['Home Team']], visiting_abbrev, active_rosters[visiting_abbrev], defence_scores[row['Visiting Team']], game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose)
+
+            game_scoring_dict, team_scoring_dict = simulate_game(home_abbrev, team_rosters[home_abbrev], defence_scores[row['Home Team']], visiting_abbrev, team_rosters[visiting_abbrev], defence_scores[row['Visiting Team']], game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose)
 
         # add game scoring dict stats to monte_carlo_skater_proj_df
         player_scoring_df = pd.DataFrame.from_dict(game_scoring_dict, orient='index', columns=['Games Played', 'Goals', 'Assists'])
