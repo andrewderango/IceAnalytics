@@ -16,13 +16,47 @@ function Players() {
 
   const columns = React.useMemo(
     () => [
-      { Header: 'Player', accessor: 'player' },
-      { Header: 'Team', accessor: 'team' },
-      { Header: 'Position', accessor: 'position' },
-      { Header: 'Games', accessor: 'games', sortType: 'basic' },
-      { Header: 'Goals', accessor: 'goals', sortType: 'basic' },
-      { Header: 'Assists', accessor: 'assists', sortType: 'basic' },
-      { Header: 'Points', accessor: 'points', sortType: 'basic' },
+//       { Header: 'Player', accessor: 'player' },
+//       { Header: 'Team', accessor: 'team' },
+//       { Header: 'Position', accessor: 'position' },
+//       { Header: 'Games', accessor: 'games', sortType: 'basic' },
+//       { Header: 'Goals', accessor: 'goals', sortType: 'basic' },
+//       { Header: 'Assists', accessor: 'assists', sortType: 'basic' },
+//       { Header: 'Points', accessor: 'points', sortType: 'basic' },
+      {
+        Header: 'Player',
+        accessor: 'player',
+      },
+      {
+        Header: 'Team',
+        accessor: 'logo',
+        Cell: ({ value }) => <img src={value} alt="logo" className="team-logo" />,
+        sticky: 'left',
+      },
+      {
+        Header: 'Position',
+        accessor: 'position',
+      },
+      {
+        Header: 'Games',
+        accessor: 'games',
+        Cell: ({ value }) => Math.round(value),
+      },
+      {
+        Header: 'Goals',
+        accessor: 'goals',
+        Cell: ({ value }) => Math.round(value),
+      },
+      {
+        Header: 'Assists',
+        accessor: 'assists',
+        Cell: ({ value }) => Math.round(value),
+      },
+      {
+        Header: 'Points',
+        accessor: 'points',
+        Cell: ({ value }) => Math.round(value),
+      },
     ],
     [selectedColumn]
   );
