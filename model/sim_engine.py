@@ -161,7 +161,7 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
 
     if resume_season == True:
         # move stats from current season to game_scoring_dict and team_scoring_dict
-        core_game_scoring_dict = existing_skater_df.fillna(0).set_index('PlayerID')[['GP', 'Goals', 'Assists']].T.to_dict('list')
+        core_game_scoring_dict = existing_skater_df.dropna(subset=['PlayerID']).fillna(0).set_index('PlayerID')[['GP', 'Goals', 'Assists']].T.to_dict('list')
         temp_df = pd.merge(existing_team_df, monte_carlo_team_proj_df[['Team', 'Abbreviation']], on='Team', how='left')
         temp_df.loc[temp_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
         temp_df.loc[temp_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
