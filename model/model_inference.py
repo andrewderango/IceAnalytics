@@ -876,7 +876,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
             })
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', f'{year-2}-{year-1}_team_data.csv')) # copy last season df
-            df = df[['PlayerID', 'Player']]
+            df = df[['Team']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} P%'] = 0
             df[f'Y-{projection_year-year} CA/GP'] = 0
