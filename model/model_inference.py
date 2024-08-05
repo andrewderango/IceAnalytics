@@ -949,6 +949,93 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
 
     return team_stat_df
 
+def display_inferences(projection_year, player_stat_df, inference_state, download_file, verbose):
+
+    # Create a stable instance of the player_stat_df for downloading
+    if download_file:
+        stable_player_stat_df = player_stat_df.copy()
+
+    # Load the existing stats
+    existing_stats = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists', 'Total Assists']]
+    gp_remain = 82 - existing_stats.sort_values(by='GP', ascending=False).iloc[29]['GP']
+    if verbose:
+        print(f'GP remaining: {gp_remain}')
+
+    # Modify the inferences based on the inference state
+    if inference_state.upper() in ['TOTAL', 'TOTAL_82']:
+        # Show the inferences for the full season (GP-weighted average of current and projected stats)
+        existing_stats['ATOI_cur'] = existing_stats['TOI']/existing_stats['GP']
+        existing_stats['Gper1kChunk_cur'] = existing_stats['Goals']/existing_stats['TOI']*500
+        existing_stats['A1per1kChunk_cur'] = existing_stats['First Assists']/existing_stats['TOI']*500
+        existing_stats['A2per1kChunk_cur'] = existing_stats['Second Assists']/existing_stats['TOI']*500
+        existing_stats[['ATOI_cur', 'Gper1kChunk_cur', 'A1per1kChunk_cur', 'A2per1kChunk_cur']] = existing_stats[['ATOI_cur', 'Gper1kChunk_cur', 'A1per1kChunk_cur', 'A2per1kChunk_cur']].fillna(0)
+        existing_stats = existing_stats.drop(columns=['Player'])
+        player_stat_df = player_stat_df.merge(existing_stats, on=['PlayerID'], how='outer')
+        player_stat_df['ATOI'] = (player_stat_df['ATOI_cur']*player_stat_df['GP'] + player_stat_df['ATOI']*gp_remain) / (player_stat_df['GP'] + gp_remain)
+        player_stat_df['Gper1kChunk'] = (player_stat_df['Gper1kChunk_cur']*player_stat_df['GP'] + player_stat_df['Gper1kChunk']*gp_remain) / (player_stat_df['GP'] + gp_remain)
+        player_stat_df['A1per1kChunk'] = (player_stat_df['A1per1kChunk_cur']*player_stat_df['GP'] + player_stat_df['A1per1kChunk']*gp_remain) / (player_stat_df['GP'] + gp_remain)
+        player_stat_df['A2per1kChunk'] = (player_stat_df['A2per1kChunk_cur']*player_stat_df['GP'] + player_stat_df['A2per1kChunk']*gp_remain) / (player_stat_df['GP'] + gp_remain)
+        player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
+        player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
+        player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
+        player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
+        player_stat_df[['ATOI', 'iG/60', 'iA1/60', 'iA2/60']] = player_stat_df[['ATOI', 'iG/60', 'iA1/60', 'iA2/60']].fillna(0)
+        if inference_state.upper() == 'TOTAL':
+            player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * (gp_remain+player_stat_df['GP'])
+            player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * (gp_remain+player_stat_df['GP'])
+        elif inference_state.upper() == 'TOTAL_82':
+            player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
+            player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
+    elif inference_state.upper() == 'REMAIN':
+        # Show the inferences for the remaining games (GP estimation)
+        player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
+        player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
+        player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
+        player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
+        player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * gp_remain
+        player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * gp_remain
+    elif inference_state.upper() == 'REMAIN_82':
+        # Show the inferences for the remaining games, prorated to a full 82 game season
+        player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
+        player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
+        player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
+        player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
+        player_stat_df['iGoals'] = player_stat_df['Gper1kChunk']/500 * player_stat_df['ATOI'] * 82
+        player_stat_df['iPoints'] = (player_stat_df['Gper1kChunk']+player_stat_df['A1per1kChunk']+player_stat_df['A2per1kChunk'])/500 * player_stat_df['ATOI'] * 82
+    elif inference_state.upper() == 'EXISTING':
+        # Show the existing stats
+        player_stat_df = player_stat_df[['PlayerID', 'Position', 'Team', 'Age']]
+        player_stat_df = player_stat_df.merge(existing_stats, on=['PlayerID'], how='right')
+        player_stat_df['ATOI'] = player_stat_df['TOI']/player_stat_df['GP']
+        player_stat_df['Gper1kChunk'] = player_stat_df['Goals']/player_stat_df['TOI']*500
+        player_stat_df['A1per1kChunk'] = player_stat_df['First Assists']/player_stat_df['TOI']*500
+        player_stat_df['A2per1kChunk'] = player_stat_df['Second Assists']/player_stat_df['TOI']*500
+        player_stat_df['iG/60'] = player_stat_df['Gper1kChunk']/500 * 60
+        player_stat_df['iA1/60'] = player_stat_df['A1per1kChunk']/500 * 60
+        player_stat_df['iA2/60'] = player_stat_df['A2per1kChunk']/500 * 60
+        player_stat_df['iP/60'] = player_stat_df['iG/60'] + player_stat_df['iA1/60'] + player_stat_df['iA2/60']
+        player_stat_df['iGoals'] = player_stat_df['Goals']
+        player_stat_df['iPoints'] = player_stat_df['Total Assists'] + player_stat_df['Goals']
+        player_stat_df[['ATOI', 'iG/60', 'iA1/60', 'iA2/60']] = player_stat_df[['ATOI', 'iG/60', 'iA1/60', 'iA2/60']].fillna(0)
+    else:
+        raise ValueError(f"Invalid inference state '{inference_state}'. Please select an inference state in ('TOTAL', 'REMAING', 'REMAINING_82', 'EXISTING').")
+    
+    # player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk']]
+    player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iG/60', 'iA1/60', 'iA2/60', 'iGoals', 'iPoints']]
+    player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
+    player_stat_df = player_stat_df.reset_index(drop=True)
+    # print(player_stat_df.to_string())
+    print(player_stat_df.head(50))
+    # print(player_stat_df.info())
+
+    if download_file:
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        stable_player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_skater_metaprojections.csv has been downloaded to the following directory: {export_path}')
+
 def savitzky_golvay_calibration(projection_year, player_stat_df):
     player_stat_df = savgol_goal_calibration(projection_year, player_stat_df)
     player_stat_df = savgol_a1_calibration(projection_year, player_stat_df)
