@@ -451,14 +451,14 @@ def push_to_supabase(table_name, verbose=False):
             'Overtime': 'overtime_prob',
         }
         df.rename(columns=rename_dict, inplace=True)
-        df['time_str'] = df['time'].apply(lambda x: x[:5])
+        df['time_str'] = pd.to_datetime(df['time'].astype(str)).dt.strftime('%I:%M %p').astype(str)
+        df['time_str'] = df['time_str'].apply(lambda x: x[1:] if x.startswith('0') else x)
         df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
         df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
         df['home_record'] = '0-0-0'
         df['visitor_record'] = '0-0-0'
         df['home_rank'] = '1st'
         df['visitor_rank'] = '1st'
-        print(df.info())
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
