@@ -382,7 +382,7 @@ def fix_teams(player_stat_df):
     player_stat_df['Team'] = player_stat_df['PlayerID'].map(player_to_team_map)
     return player_stat_df
     
-def push_to_supabase(table_name, verbose=False):
+def push_to_supabase(table_name, year, verbose=False):
     load_dotenv()
     SUPABASE_URL = os.getenv('REACT_APP_SUPABASE_PROJ_URL')
     SUPABASE_KEY = os.getenv('REACT_APP_SUPABASE_ANON_KEY')
@@ -395,7 +395,7 @@ def push_to_supabase(table_name, verbose=False):
         session = supabase.auth.sign_in_with_password({"email": os.getenv('SUPABASE_EMAIL'), "password": os.getenv('SUPABASE_PASSWORD')})
 
     if table_name == 'team-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams', '2025_team_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams', f'{year}_team_aggregated_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -414,7 +414,7 @@ def push_to_supabase(table_name, verbose=False):
         df['presidents_trophy_prob'] = 0.03125
         df['stanley_cup_prob'] = 0.03125
     elif table_name == 'player-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', '2025_skater_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', f'{year}_skater_aggregated_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -431,6 +431,45 @@ def push_to_supabase(table_name, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
+    elif table_name == 'game-projections':
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games', f'{year}_game_aggregated_projections.csv')
+        df = pd.read_csv(file_path)
+        df = df.drop(df.columns[0], axis=1)
+        rename_dict = {
+            'GameID': 'game_id',
+            'DatetimeEST': 'datetime',
+            'Date': 'date',
+            'TimeEST': 'time',
+            'Home Team': 'home_name',
+            'Home Abbreviation': 'home_abbrev',
+            'Home Score': 'home_score',
+            'Home Win': 'home_prob',
+            'Visiting Team': 'visitor_name',
+            'Visiting Abbreviation': 'visitor_abbrev',
+            'Visiting Score': 'visitor_score',
+            'Visitor Win': 'visitor_prob',
+            'Overtime': 'overtime_prob',
+        }
+        df.rename(columns=rename_dict, inplace=True)
+        df['time_str'] = pd.to_datetime(df['time'].astype(str)).dt.strftime('%I:%M %p').astype(str)
+        df['time_str'] = df['time_str'].apply(lambda x: x[1:] if x.startswith('0') else x)
+        df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
+        df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
+
+        # Add team records and ranks
+        standings_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', f'{year-1}-{year}_team_data.csv'))
+        standings_df = standings_df.drop(standings_df.columns[0], axis=1)
+        standings_df['record'] = standings_df['W'].astype(str) + '-' + standings_df['L'].astype(str) + '-' + standings_df['OTL'].astype(str)
+        standings_df['rank'] = standings_df.groupby('Point %')['Point %'].rank(ascending=False, method='min')
+        standings_df['rank'] = standings_df.groupby(['Point %', 'Points'])['rank'].rank(ascending=False, method='min').astype(int)
+        standings_df['rank'] = standings_df.groupby(['Point %', 'Points', 'ROW'])['rank'].rank(ascending=False, method='min').astype(int)
+        standings_df['rank'] = standings_df['rank'].apply(lambda x: f"{x}{'th' if 10 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th')}")
+        df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='home_name', right_on='Team', how='left')
+        df = df.rename(columns={'record': 'home_record', 'rank': 'home_rank'})
+        df = df.drop(columns=['Team'])
+        df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
+        df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
+        df = df.drop(columns=['Team'])
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
@@ -443,8 +482,13 @@ def push_to_supabase(table_name, verbose=False):
         delete_response = supabase.table(table_name).delete().gt('points', -1).execute()
         insert_response = supabase.table(table_name).insert(data_to_insert).execute()
         print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    except:
+        try:
+            delete_response = supabase.table(table_name).delete().gt('game_id', -1).execute()
+            insert_response = supabase.table(table_name).insert(data_to_insert).execute()
+            print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
     supabase.auth.sign_out()
     return delete_response, insert_response

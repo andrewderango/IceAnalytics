@@ -56,7 +56,7 @@ def main():
     player_stat_df = savitzky_golvay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=False, verbose=False)
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=False, verbose=False)
-    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, inference_state='TOTAL', download_file=True, verbose=True)
+    # display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, inference_state='TOTAL', download_file=True, verbose=True)
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
@@ -65,7 +65,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
-    simulate_season(projection_year=PROJECTION_YEAR, simulations=50, resume_season=True, download_files=True, verbose=True)
+    simulate_season(projection_year=PROJECTION_YEAR, simulations=97, resume_season=True, download_files=True, verbose=True)
 
     # Push the simulation results to Supabase
     # push_to_supabase(table_name="team-projections", verbose=False)
