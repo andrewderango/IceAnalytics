@@ -7,7 +7,7 @@ from tqdm import tqdm
 from model_training import *
 from scraper_functions import *
 
-def simulate_game(home_team_abbrev, home_roster, home_defence_score, visiting_team_abbrev, visitor_roster, visitor_defence_score, game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose):
+def simulate_game(gameid, home_team_abbrev, home_roster, home_defence_score, visiting_team_abbrev, visitor_roster, visitor_defence_score, player_scoring_dict, team_scoring_dict, game_scoring_dict, a1_probability, a2_probability, verbose):
 
     # determine active rosters
     home_fwds = home_roster[home_roster['PosFD'] == 'F']
@@ -27,9 +27,9 @@ def simulate_game(home_team_abbrev, home_roster, home_defence_score, visiting_te
 
     # increment games played for each player on active roster in game scoring dict
     for player_id in home_active_roster['PlayerID']:
-        game_scoring_dict[player_id][0] += 1
+        player_scoring_dict[player_id][0] += 1
     for player_id in visitor_active_roster['PlayerID']:
-        game_scoring_dict[player_id][0] += 1
+        player_scoring_dict[player_id][0] += 1
 
     # Calculate the weighted averages
     home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
@@ -74,21 +74,23 @@ def simulate_game(home_team_abbrev, home_roster, home_defence_score, visiting_te
         else:
             continue # no goal occurs in chunk; advance to next chunk
 
-        game_scoring_dict[scorer_id][1] += 1
+        player_scoring_dict[scorer_id][1] += 1
 
         # Assign assists
         if random.uniform(0, 1) < a1_probability:
-            game_scoring_dict[a1_id][2] += 1
+            player_scoring_dict[a1_id][2] += 1
 
             if random.uniform(0, 1) < a2_probability:
-                game_scoring_dict[a2_id][2] += 1
+                player_scoring_dict[a2_id][2] += 1
 
     if home_score > visitor_score:
         team_scoring_dict[home_team_abbrev][0] += 1
         team_scoring_dict[visiting_team_abbrev][1] += 1
+        game_scoring_dict[gameid][2] = 0
     elif home_score < visitor_score:
         team_scoring_dict[visiting_team_abbrev][0] += 1
         team_scoring_dict[home_team_abbrev][1] += 1
+        game_scoring_dict[gameid][2] = 0
     else:
         # overtime
         rng = random.uniform(0, 1)
@@ -108,14 +110,16 @@ def simulate_game(home_team_abbrev, home_roster, home_defence_score, visiting_te
             team_scoring_dict[visiting_team_abbrev][0] += 1
             team_scoring_dict[home_team_abbrev][2] += 1
 
-        game_scoring_dict[scorer_id][1] += 1
+        player_scoring_dict[scorer_id][1] += 1
 
         # Assign assists
         if random.uniform(0, 1) < a1_probability:
-            game_scoring_dict[a1_id][2] += 1
+            player_scoring_dict[a1_id][2] += 1
 
             if random.uniform(0, 1) < a2_probability:
-                game_scoring_dict[a2_id][2] += 1
+                player_scoring_dict[a2_id][2] += 1
+
+        game_scoring_dict[gameid][2] = 1
 
     # add gf and ga to team scoring dict
     team_scoring_dict[home_team_abbrev][3] += home_score
@@ -123,11 +127,18 @@ def simulate_game(home_team_abbrev, home_roster, home_defence_score, visiting_te
     team_scoring_dict[visiting_team_abbrev][3] += visitor_score
     team_scoring_dict[visiting_team_abbrev][4] += home_score
 
-    return game_scoring_dict, team_scoring_dict
+    # add score to game scoring dict
+    game_scoring_dict[gameid][0] = home_score
+    game_scoring_dict[gameid][1] = visitor_score
+
+    return player_scoring_dict, team_scoring_dict, game_scoring_dict
 
 def simulate_season(projection_year, simulations, resume_season, download_files, verbose):
     # load dfs
     schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', f'{projection_year-1}-{projection_year}_game_schedule.csv'), index_col=0)
+    schedule_df['Home Win'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else row['Home Score'] > row['Visiting Score'], axis=1)
+    schedule_df['Visitor Win'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else row['Home Score'] < row['Visiting Score'], axis=1)
+    schedule_df['Overtime'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else (True if row['Period'] > 3 else False), axis=1)
     metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
     metaprojection_df['Aper1kChunk'] = metaprojection_df['A1per1kChunk'] + metaprojection_df['A2per1kChunk']
     metaprojection_df['Pper1kChunk'] = metaprojection_df['Gper1kChunk'] + metaprojection_df['Aper1kChunk']
@@ -138,6 +149,14 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         existing_skater_df['Assists'] = existing_skater_df['First Assists'] + existing_skater_df['Second Assists']
         existing_team_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', f'{projection_year-1}-{projection_year}_team_data.csv'))
         existing_team_df = existing_team_df.rename(columns={'W': 'Wins', 'L': 'Losses', 'GA': 'Goals Against', 'GF': 'Goals For'})
+
+    # add team abbreviations to schedule
+    schedule_df = schedule_df.merge(teams_df, left_on='Home Team', right_on='Team Name', how='left')
+    schedule_df = schedule_df.rename(columns={'Abbreviation': 'Home Abbreviation'})
+    schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID'])
+    schedule_df = schedule_df.merge(teams_df, left_on='Visiting Team', right_on='Team Name', how='left')
+    schedule_df = schedule_df.rename(columns={'Abbreviation': 'Visiting Abbreviation'})
+    schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID', 'Active_x', 'Active_y'])
 
     # configure skater monte carlo projection df
     monte_carlo_skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
@@ -151,27 +170,32 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
     monte_carlo_team_proj_df = monte_carlo_team_proj_df.assign(Wins=0, Losses=0, OTL=0, Goals_For=0, Goals_Against=0)
     monte_carlo_team_proj_df.rename(columns={'Team Name': 'Team', 'Goals_For': 'Goals For', 'Goals_Against': 'Goals Against'}, inplace=True)
 
-    # add team abbreviations to schedule
-    schedule_df = schedule_df.merge(teams_df, left_on='Home Team', right_on='Team Name', how='left')
-    schedule_df = schedule_df.rename(columns={'Abbreviation': 'Home Abbreviation'})
-    schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID'])
-    schedule_df = schedule_df.merge(teams_df, left_on='Visiting Team', right_on='Team Name', how='left')
-    schedule_df = schedule_df.rename(columns={'Abbreviation': 'Visiting Abbreviation'})
-    schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID'])
+    # configure games monte carlo projection df
+    monte_carlo_game_proj_df = schedule_df[['GameID', 'Time (EST)', 'Home Team', 'Home Abbreviation', 'Home Score', 'Visiting Team', 'Visiting Abbreviation', 'Visiting Score']].copy()
+    monte_carlo_game_proj_df = monte_carlo_game_proj_df.assign(
+        Date = pd.to_datetime(monte_carlo_game_proj_df['Time (EST)']).dt.date, 
+        TimeEST = pd.to_datetime(monte_carlo_game_proj_df['Time (EST)']).dt.time, 
+        Home_Win = 0,
+        Visitor_Win = 0,
+        Overtime = 0
+    )
+    monte_carlo_game_proj_df.rename(columns={'Home_Win': 'Home Win', 'Visitor_Win': 'Visitor Win', 'Time (EST)': 'DatetimeEST'}, inplace=True)
+    monte_carlo_game_proj_df = monte_carlo_game_proj_df[['GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation', 'Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime']]
 
     if resume_season == True:
-        # move stats from current season to game_scoring_dict and team_scoring_dict
-        core_game_scoring_dict = existing_skater_df.dropna(subset=['PlayerID']).fillna(0).set_index('PlayerID')[['GP', 'Goals', 'Assists']].T.to_dict('list')
+        # move stats from current season to player_scoring_dict and team_scoring_dict
+        core_player_scoring_dict = existing_skater_df.dropna(subset=['PlayerID']).fillna(0).set_index('PlayerID')[['GP', 'Goals', 'Assists']].T.to_dict('list')
         temp_df = pd.merge(existing_team_df, monte_carlo_team_proj_df[['Team', 'Abbreviation']], on='Team', how='left')
         temp_df.loc[temp_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
         temp_df.loc[temp_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
         temp_df.loc[temp_df['Team'] == 'Arizona Coyotes', 'Abbreviation'] = 'UTA'
         core_team_scoring_dict = temp_df.fillna(0).set_index('Abbreviation')[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against']].T.to_dict('list')
+        core_game_scoring_dict = schedule_df.fillna(0).set_index('GameID')[['Home Score', 'Visiting Score', 'Overtime']].T.to_dict('list')
 
         # players that haven't played yet
         for player_id in monte_carlo_skater_proj_df['PlayerID']:
-            if player_id not in core_game_scoring_dict:
-                core_game_scoring_dict[player_id] = [0, 0, 0]
+            if player_id not in core_player_scoring_dict:
+                core_player_scoring_dict[player_id] = [0, 0, 0]
 
         # teams that haven't played yet
         for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
@@ -179,9 +203,9 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
                 core_team_scoring_dict[team_abbreviation] = [0, 0, 0, 0, 0]
     else:
         # create game scoring dictionary
-        core_game_scoring_dict = {} # {player_id: [games, goals, assists]}
+        core_player_scoring_dict = {} # {player_id: [games, goals, assists]}
         for player_id in monte_carlo_skater_proj_df['PlayerID']:
-            core_game_scoring_dict[player_id] = [0, 0, 0]
+            core_player_scoring_dict[player_id] = [0, 0, 0]
 
         # create team scoring dictionary
         core_team_scoring_dict = {} # {team_abbreviation: [wins, losses, ot_losses, goals_for, goals_against]}
@@ -214,13 +238,14 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
     # create dataframe to store individual simulation results
     skater_simulations_df = pd.DataFrame(columns=['Simulation', 'PlayerID', 'Player', 'Position', 'Team', 'Age', 'Games Played', 'Goals', 'Assists', 'Points'])
     team_simulations_df = pd.DataFrame(columns=['Simulation', 'Abbreviation', 'Team', 'Wins', 'Losses', 'OTL', 'Points', 'Goals For', 'Goals Against'])
+    game_simulations_df = pd.DataFrame(columns=['Simulation', 'GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation', 'Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime'])
 
     # run simulations
     for simulation in tqdm(range(simulations)):
-    # for simulation in range(simulations):
         # initialize stat storing dictionaries
-        game_scoring_dict = copy.deepcopy(core_game_scoring_dict)
+        player_scoring_dict = copy.deepcopy(core_player_scoring_dict)
         team_scoring_dict = copy.deepcopy(core_team_scoring_dict)
+        game_scoring_dict = copy.deepcopy(core_game_scoring_dict)
 
         # for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0]):
         for index, row in schedule_df.iterrows():
@@ -229,13 +254,14 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         
             a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
             a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
+            gameid = row['GameID']
             home_abbrev = row['Home Abbreviation']
             visiting_abbrev = row['Visiting Abbreviation']
 
-            game_scoring_dict, team_scoring_dict = simulate_game(home_abbrev, team_rosters[home_abbrev], defence_scores[row['Home Team']], visiting_abbrev, team_rosters[visiting_abbrev], defence_scores[row['Visiting Team']], game_scoring_dict, team_scoring_dict, a1_probability, a2_probability, verbose)
+            player_scoring_dict, team_scoring_dict, game_scoring_dict = simulate_game(gameid, home_abbrev, team_rosters[home_abbrev], defence_scores[row['Home Team']], visiting_abbrev, team_rosters[visiting_abbrev], defence_scores[row['Visiting Team']], player_scoring_dict, team_scoring_dict, game_scoring_dict, a1_probability, a2_probability, verbose)
 
-        # add game scoring dict stats to monte_carlo_skater_proj_df
-        player_scoring_df = pd.DataFrame.from_dict(game_scoring_dict, orient='index', columns=['Games Played', 'Goals', 'Assists'])
+        # add player scoring dict stats to monte_carlo_skater_proj_df
+        player_scoring_df = pd.DataFrame.from_dict(player_scoring_dict, orient='index', columns=['Games Played', 'Goals', 'Assists'])
         monte_carlo_skater_proj_df.set_index('PlayerID', inplace=True)
         monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Assists']] = player_scoring_df
         monte_carlo_skater_proj_df.reset_index(inplace=True)
@@ -246,33 +272,49 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against']] = team_scoring_df
         monte_carlo_team_proj_df.reset_index(inplace=True)
 
+        # add game scoring dict stats to monte_carlo_team_proj_df
+        game_scoring_df = pd.DataFrame.from_dict(game_scoring_dict, orient='index', columns=['Home Score', 'Visiting Score', 'Overtime'])
+        monte_carlo_game_proj_df.set_index('GameID', inplace=True)
+        monte_carlo_game_proj_df[['Home Score', 'Visiting Score', 'Overtime']] = game_scoring_df
+        monte_carlo_game_proj_df.reset_index(inplace=True)
+
+        # calculate points for skaters, sort
         monte_carlo_skater_proj_df['Points'] = monte_carlo_skater_proj_df['Goals'] + monte_carlo_skater_proj_df['Assists']
         monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.sort_values(by=['Points', 'Goals', 'Assists'], ascending=False)
         monte_carlo_skater_proj_df.reset_index(drop=True, inplace=True)
         monte_carlo_skater_proj_df.index += 1
 
+        # calculate points for teams, sort
         monte_carlo_team_proj_df['Points'] = monte_carlo_team_proj_df['Wins']*2 + monte_carlo_team_proj_df['OTL']
         monte_carlo_team_proj_df = monte_carlo_team_proj_df.sort_values(by=['Points', 'Wins', 'Goals For', 'Goals Against'], ascending=False)
         monte_carlo_team_proj_df.reset_index(drop=True, inplace=True)
         monte_carlo_team_proj_df.index += 1
 
+        # calculate win/loss for games
+        monte_carlo_game_proj_df['Home Win'] = monte_carlo_game_proj_df.apply(lambda row: 1 if row['Home Score'] > row['Visiting Score'] else 0, axis=1)
+        monte_carlo_game_proj_df['Visitor Win'] = monte_carlo_game_proj_df.apply(lambda row: 1 if row['Home Score'] < row['Visiting Score'] else 0, axis=1)
+
         if resume_season == True:
             monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Assists', 'Points']] = monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Assists', 'Points']].astype(int)
             monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against', 'Points']] = monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against', 'Points']].astype(int)
+            monte_carlo_game_proj_df[['Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime']] = monte_carlo_game_proj_df[['Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime']].astype(int)
 
         # print results from an individual simulation
         # print(monte_carlo_skater_proj_df.head(10))
         # print(monte_carlo_team_proj_df.head(10))
+        # print(monte_carlo_game_proj_df.head(10))
 
         # store results from an individual simulation
         monte_carlo_skater_proj_df['Simulation'] = simulation + 1
         skater_simulations_df = pd.concat([skater_simulations_df, monte_carlo_skater_proj_df])
         monte_carlo_team_proj_df['Simulation'] = simulation + 1
         team_simulations_df = pd.concat([team_simulations_df, monte_carlo_team_proj_df])
+        monte_carlo_game_proj_df['Simulation'] = simulation + 1
+        game_simulations_df = pd.concat([game_simulations_df, monte_carlo_game_proj_df])
     
     skater_simulations_df = skater_simulations_df.set_index(['Simulation', 'PlayerID', 'Player', 'Position', 'Team', 'Age'])
-    # print(skater_simulations_df)
     team_simulations_df = team_simulations_df.set_index(['Simulation', 'Abbreviation', 'Team'])
+    game_simulations_df = game_simulations_df.set_index(['Simulation', 'GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation'])
     
     if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
@@ -293,6 +335,15 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_team_monte_carlo_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        game_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_game_monte_carlo_projections.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_game_monte_carlo_projections.csv has been downloaded to the following directory: {export_path}')
+            file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_game_monte_carlo_projections.csv'))/1000000
+            print(f'\tFile size: {file_size} MB')
+
     skater_aggregated_df = skater_simulations_df.groupby(level=[1, 2, 3, 4, 5]).mean()
     skater_aggregated_df = skater_aggregated_df.reset_index()
     skater_aggregated_df = skater_aggregated_df.sort_values(by=['Points', 'Goals', 'Assists'], ascending=False)
@@ -306,6 +357,11 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
     team_aggregated_df = team_aggregated_df.reset_index(drop=True)
     team_aggregated_df.index += 1
     print(team_aggregated_df)
+
+    game_aggregated_df = game_simulations_df.groupby(level=[1, 2, 3, 4, 5, 6, 7, 8]).mean()
+    game_aggregated_df = game_aggregated_df.reset_index()
+    game_aggregated_df.index += 1
+    print(game_aggregated_df)
 
     if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
@@ -324,4 +380,13 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
         if verbose:
             print(f'{projection_year}_team_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_team_aggregated_projections.csv'))/1000000
+            print(f'\tFile size: {file_size} MB')
+
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        game_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_game_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
+            file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
