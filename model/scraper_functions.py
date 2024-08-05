@@ -431,6 +431,34 @@ def push_to_supabase(table_name, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
+    elif table_name == 'game-projections':
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games', '2025_game_aggregated_projections.csv')
+        df = pd.read_csv(file_path)
+        df = df.drop(df.columns[0], axis=1)
+        rename_dict = {
+            'GameID': 'game_id',
+            'DatetimeEST': 'datetime',
+            'Date': 'date',
+            'TimeEST': 'time',
+            'Home Team': 'home_name',
+            'Home Abbreviation': 'home_abbrev',
+            'Home Score': 'home_score',
+            'Home Win': 'home_prob',
+            'Visiting Team': 'visitor_name',
+            'Visiting Abbreviation': 'visitor_abbrev',
+            'Visiting Score': 'visitor_score',
+            'Visitor Win': 'visitor_prob',
+            'Overtime': 'overtime_prob',
+        }
+        df.rename(columns=rename_dict, inplace=True)
+        df['time_str'] = df['time'].apply(lambda x: x[:5])
+        df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
+        df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
+        df['home_record'] = '0-0-0'
+        df['visitor_record'] = '0-0-0'
+        df['home_rank'] = '1st'
+        df['visitor_rank'] = '1st'
+        print(df.info())
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
@@ -443,8 +471,13 @@ def push_to_supabase(table_name, verbose=False):
         delete_response = supabase.table(table_name).delete().gt('points', -1).execute()
         insert_response = supabase.table(table_name).insert(data_to_insert).execute()
         print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    except:
+        try:
+            delete_response = supabase.table(table_name).delete().gt('game_id', -1).execute()
+            insert_response = supabase.table(table_name).insert(data_to_insert).execute()
+            print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
     supabase.auth.sign_out()
     return delete_response, insert_response
