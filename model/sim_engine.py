@@ -6,6 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 from model_training import *
 from scraper_functions import *
+from scipy.stats import poisson
 
 def simulate_game(gameid, home_team_abbrev, home_roster, home_defence_score, visiting_team_abbrev, visitor_roster, visitor_defence_score, player_scoring_dict, team_scoring_dict, game_scoring_dict, a1_probability, a2_probability, verbose):
 
@@ -33,7 +34,7 @@ def simulate_game(gameid, home_team_abbrev, home_roster, home_defence_score, vis
 
     # Calculate the weighted averages
     home_weighted_avg = np.average(home_active_roster['Pper1kChunk'], weights=home_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
-    visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000* 5/(1+a1_probability+a2_probability)
+    visitor_weighted_avg = np.average(visitor_active_roster['Pper1kChunk'], weights=visitor_active_roster['ATOI'])/1000 * 5/(1+a1_probability+a2_probability)
 
     # adjust for home ice advantage ###
     home_weighted_avg *= 1.025574015
@@ -133,7 +134,7 @@ def simulate_game(gameid, home_team_abbrev, home_roster, home_defence_score, vis
 
     return player_scoring_dict, team_scoring_dict, game_scoring_dict
 
-def simulate_season(projection_year, simulations, resume_season, download_files, verbose):
+def simulate_season(projection_year, projection_strategy, simulations, resume_season, download_files, verbose):
     # load dfs
     schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', f'{projection_year-1}-{projection_year}_game_schedule.csv'), index_col=0)
     schedule_df['Home Win'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else row['Home Score'] > row['Visiting Score'], axis=1)
@@ -235,13 +236,26 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
 
         defence_scores[team] = 1 + (team_metaproj_df[team_metaproj_df['Team'] == lookup_team]['Normalized GA/GP'].values[0] - avg_ga)/avg_ga
 
+    a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
+    a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
+
+    # check projection strategy
+    if projection_strategy.upper() == 'MONTE CARLO':
+        pass
+    elif projection_strategy.upper() in ['INFERENCE', 'INFERENCE_ONLY']:
+        generate_game_inferences(projection_year, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_files=True, verbose=False)
+        if projection_strategy.upper() == 'INFERENCE_ONLY':
+            return
+    else:
+        raise ValueError(f"Invalid projection strategy '{type}'. Please choose either 'MONTE CARLO' or 'INFERENCE'.")
+
     # create dataframe to store individual simulation results
     skater_simulations_df = pd.DataFrame(columns=['Simulation', 'PlayerID', 'Player', 'Position', 'Team', 'Age', 'Games Played', 'Goals', 'Assists', 'Points'])
     team_simulations_df = pd.DataFrame(columns=['Simulation', 'Abbreviation', 'Team', 'Wins', 'Losses', 'OTL', 'Points', 'Goals For', 'Goals Against'])
     game_simulations_df = pd.DataFrame(columns=['Simulation', 'GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation', 'Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime'])
 
     # run simulations
-    for simulation in tqdm(range(simulations)):
+    for simulation in tqdm(range(simulations), desc='Simulating Seasons'):
         # initialize stat storing dictionaries
         player_scoring_dict = copy.deepcopy(core_player_scoring_dict)
         team_scoring_dict = copy.deepcopy(core_team_scoring_dict)
@@ -252,8 +266,6 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             if resume_season == True and row['Game State'] == 7:
                 continue
         
-            a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
-            a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
             gameid = row['GameID']
             home_abbrev = row['Home Abbreviation']
             visiting_abbrev = row['Visiting Abbreviation']
@@ -382,6 +394,76 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_team_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
+        if projection_strategy.upper() == 'MONTE CARLO':
+            export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
+            if not os.path.exists(export_path):
+                os.makedirs(export_path)
+            game_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'), index=True)
+            if verbose:
+                print(f'{projection_year}_game_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
+                file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'))/1000000
+                print(f'\tFile size: {file_size} MB')
+
+def generate_game_inferences(projection_year, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_files, verbose=False):
+
+    # configure games game_aggregated_df
+    game_aggregated_df = schedule_df[['GameID', 'Time (EST)', 'Home Team', 'Home Abbreviation', 'Home Score', 'Visiting Team', 'Visiting Abbreviation', 'Visiting Score']].copy()
+    game_aggregated_df = game_aggregated_df.assign(
+        Date = pd.to_datetime(game_aggregated_df['Time (EST)']).dt.date, 
+        TimeEST = pd.to_datetime(game_aggregated_df['Time (EST)']).dt.time, 
+        Home_Win = 0,
+        Visitor_Win = 0,
+        Overtime = 0
+    )
+    game_aggregated_df.rename(columns={'Home_Win': 'Home Win', 'Visitor_Win': 'Visitor Win', 'Time (EST)': 'DatetimeEST'}, inplace=True)
+    game_aggregated_df = game_aggregated_df[['GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation', 'Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime']]
+
+    # initialize lists to store results
+    home_score_list = []
+    visitor_score_list = []
+    home_prob_list = []
+    visitor_prob_list = []
+    overtime_list = []
+
+    # loop through each game
+    # for index, row in game_aggregated_df.iterrows():
+    for index, row in tqdm(game_aggregated_df.iterrows(), total=game_aggregated_df.shape[0], desc="Generating Game Inferences"):
+        # fetch rosters
+        home_roster = team_rosters[row['Home Abbreviation']]
+        visitor_roster = team_rosters[row['Visiting Abbreviation']]
+
+        # Calculate the weighted averages
+        home_weighted_avg = np.average(home_roster['Pper1kChunk'], weights=home_roster['ATOI']*home_roster['GPprb'])/1000 * 5/(1+a1_probability+a2_probability)
+        visitor_weighted_avg = np.average(visitor_roster['Pper1kChunk'], weights=visitor_roster['ATOI']*visitor_roster['GPprb'])/1000 * 5/(1+a1_probability+a2_probability)
+
+        # adjust for home ice advantage ###
+        home_weighted_avg *= 1.025574015
+        visitor_weighted_avg *= 0.9744259847
+
+        # adjust for team defence
+        home_weighted_avg *= defence_scores[row['Visiting Team']]
+        visitor_weighted_avg *= defence_scores[row['Home Team']]
+
+        # determine expected goals and probabilities
+        home_score, visitor_score, home_prob, visitor_prob, overtime = compute_poisson_probabilities(home_weighted_avg, visitor_weighted_avg)
+
+        # save results to dataframe
+        home_score_list.append(home_score)
+        visitor_score_list.append(visitor_score)
+        home_prob_list.append(home_prob)
+        visitor_prob_list.append(visitor_prob)
+        overtime_list.append(overtime)
+
+        if verbose:
+            print(index+1, row['GameID'], row['Home Abbreviation'], row['Visiting Abbreviation'], home_score, visitor_score, home_prob, visitor_prob, overtime)
+
+    game_aggregated_df['Home Score'] = home_score_list
+    game_aggregated_df['Visiting Score'] = visitor_score_list
+    game_aggregated_df['Home Win'] = home_prob_list
+    game_aggregated_df['Visitor Win'] = visitor_prob_list
+    game_aggregated_df['Overtime'] = overtime_list
+
+    if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
@@ -390,3 +472,31 @@ def simulate_season(projection_year, simulations, resume_season, download_files,
             print(f'{projection_year}_game_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
+
+# function to compute poisson probabilities of winning and overtime
+def compute_poisson_probabilities(home_weighted_avg, visitor_weighted_avg, chunks=120, max_goals=10):
+    home_score = home_weighted_avg * chunks
+    visitor_score = visitor_weighted_avg * chunks
+    home_prob, visitor_prob, overtime = 0, 0, 0
+
+    for home_goals in range(max_goals):
+        for visitor_goals in range(max_goals):
+            prob_goals_home = poisson.pmf(home_goals, home_score)
+            prob_goals_visitor = poisson.pmf(visitor_goals, visitor_score)
+
+            if home_goals > visitor_goals:
+                home_prob += prob_goals_home * prob_goals_visitor
+            elif home_goals < visitor_goals:
+                visitor_prob += prob_goals_home * prob_goals_visitor
+            else:
+                overtime += prob_goals_home * prob_goals_visitor
+
+    # normalize
+    home_prob /= (home_prob + visitor_prob)
+    visitor_prob /= (visitor_prob - home_prob*visitor_prob/(home_prob-1))
+
+    # scale
+    home_prob = 1/2+(home_prob-0.5)*0.83543279
+    visitor_prob = 1/2+(visitor_prob-0.5)*0.83543279
+
+    return home_score, visitor_score, home_prob, visitor_prob, overtime
