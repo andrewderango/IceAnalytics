@@ -9,13 +9,15 @@ function Games() {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const date = new Date().toISOString().split('T')[0];
+  const date = '2024-10-10';
 
   useEffect(() => {
     const fetchData = async () => {
       const { data: games, error } = await supabase
         .from('game-projections')
         .select('*')
-        .eq('date', '2024-10-10');
+        .eq('date', date);
       
       if (error) {
         console.error('Error fetching data:', error);
@@ -27,7 +29,7 @@ function Games() {
     };
 
     fetchData();
-}, []);
+  }, [date]);
 
   if (loading) {
     return (
@@ -41,7 +43,7 @@ function Games() {
     <div className="games">
         <h1>Games</h1>
         <h2 className="date">
-            {new Date().toLocaleDateString('en-US', { 
+            {new Date(new Date(date).setDate(new Date(date).getDate() + 1)).toLocaleDateString('en-US', { 
                 weekday: 'long', 
                 year: 'numeric', 
                 month: 'long', 
