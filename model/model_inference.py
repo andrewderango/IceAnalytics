@@ -2,8 +2,10 @@ import os
 import random
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 from model_training import *
 from scraper_functions import *
+from sklearn.utils import resample
 from scipy.signal import savgol_filter
 
 def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_file, verbose):
@@ -1527,3 +1529,56 @@ def generate_savgol_a2_inferences(projection_year, player_stat_df, fwd_model, df
     player_stat_df['A2per1kChunk'] = merged_df['A2per1kChunk_updated'].combine_first(merged_df['A2per1kChunk'])
 
     return player_stat_df
+
+def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
+
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
+
+    if retrain_model:
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.dropna(subset=['Y-0 Age'])
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Y-3 Pper1kChunk'] = train_data['Y-3 Gper1kChunk'] + train_data['Y-3 A1per1kChunk'] + train_data['Y-3 A2per1kChunk']
+        train_data['Y-2 Pper1kChunk'] = train_data['Y-2 Gper1kChunk'] + train_data['Y-2 A1per1kChunk'] + train_data['Y-2 A2per1kChunk']
+        train_data['Y-1 Pper1kChunk'] = train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']
+
+        features = ['Y-3 ATOI', 'Y-3 GP', 'Y-3 Pper1kChunk', 'Y-2 ATOI', 'Y-2 GP', 'Y-2 Pper1kChunk', 'Y-1 ATOI', 'Y-1 GP', 'Y-1 Pper1kChunk', 'Y-0 Age', 'PositionBool']
+        target_var = 'Y-0 ATOI'
+
+        # Define X and y
+        X = train_data[features]
+        y = train_data[target_var]
+
+        # Hyperparameters for XGBoost
+        params = {
+            'colsample_bytree': 0.6,
+            'learning_rate': 0.1,
+            'max_depth': 3,
+            'n_estimators': 100,
+            'reg_alpha': 0,
+            'reg_lambda': 1,
+            'subsample': 0.8,
+            'objective': 'reg:squarederror'  # Assuming regression problem; adjust if classification
+        }
+
+        # Loop through the bootstrap samples, training new samples and storing in models list
+        models = []
+        bootstrap_samples = 500
+        for i in tqdm(range(bootstrap_samples), desc="Bootstrapping ATOI"):
+            X_sample, y_sample = resample(X, y, random_state=i)
+            model = xgb.XGBRegressor(**params)
+            model.fit(X_sample, y_sample)
+            models.append(model)
+
+        # Download models
+        models_dict = {f'model_{i}': model for i, model in enumerate(models)}
+        joblib.dump(models_dict, model_path)
+
+    else:
+        models_dict = joblib.load(model_path)
+        models = [models_dict[model] for model in models_dict]
+        bootstrap_samples = len(models)
+
+    print(len(models))
+
+    return

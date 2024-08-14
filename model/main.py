@@ -58,6 +58,12 @@ def main():
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=False, verbose=False)
     # display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, inference_state='TOTAL', download_file=True, verbose=True)
 
+    # Bootstrap player inferences
+    bootstrap_df = pd.DataFrame()
+    bootstrap_df = bootstrap_atoi_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=True, download_file=True, verbose=False)
+    print(bootstrap_df)
+    quit()
+
     # Make team inferences
     team_stat_df = pd.DataFrame()
     team_stat_df = team_ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, player_stat_df=player_stat_df, team_ga_model=team_ga_model, download_file=True, verbose=False)
