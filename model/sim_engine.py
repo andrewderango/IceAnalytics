@@ -495,8 +495,8 @@ def compute_poisson_probabilities(home_weighted_avg, visitor_weighted_avg, chunk
     home_prob /= (home_prob + visitor_prob)
     visitor_prob /= (visitor_prob - home_prob*visitor_prob/(home_prob-1))
 
-    # scale
-    home_prob = 1/2+(home_prob-0.5)*0.83543279
-    visitor_prob = 1/2+(visitor_prob-0.5)*0.83543279
+    # scale ###
+    home_prob = 1/2+(home_prob-0.5)*0.7803342
+    visitor_prob = 1/2+(visitor_prob-0.5)*0.7803342
 
     return home_score, visitor_score, home_prob, visitor_prob, overtime
