@@ -60,7 +60,7 @@ def main():
 
     # Bootstrap player inferences
     bootstrap_df = pd.DataFrame()
-    bootstrap_df = bootstrap_atoi_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=True, download_file=True, verbose=False)
+    bootstrap_df = bootstrap_atoi_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     print(bootstrap_df)
     quit()
 

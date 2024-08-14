@@ -1534,6 +1534,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
 
+    # Retrain model if specified
     if retrain_model:
         train_data = aggregate_skater_offence_training_data(projection_year)
         train_data = train_data.dropna(subset=['Y-0 Age'])
@@ -1579,6 +1580,78 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         models = [models_dict[model] for model in models_dict]
         bootstrap_samples = len(models)
 
-    print(len(models))
+    # Generate bootstrap inferences
+    combined_df = pd.DataFrame()
+    season_started = True
 
-    return
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists']]
+            df['ATOI'] = df['TOI']/df['GP']
+            df['Pper1kChunk'] = (df['Goals'] + df['First Assists'] + df['Second Assists'])/df['TOI']/2 * 1000
+            df[['ATOI', 'GP', 'Pper1kChunk']] = df[['ATOI', 'GP', 'Pper1kChunk']].fillna(0)
+            df = df.drop(columns=['TOI', 'Goals', 'First Assists', 'Second Assists'])
+            df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP', 'Pper1kChunk': f'Y-{projection_year-year} Pper1kChunk'})
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['PlayerID', 'Player']]
+            df[f'Y-{projection_year-year} ATOI'] = 0
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} Pper1kChunk'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+
+    # Calculate projection age
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+    combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
+    combined_df = combined_df.drop(columns=['Date of Birth'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP', 'Y-0 GP'], how='all')
+    combined_df = combined_df.reset_index(drop=True)
+    combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
+
+    # Generate predictions
+    features = ['Y-3 ATOI', 'Y-3 GP', 'Y-3 Pper1kChunk', 'Y-2 ATOI', 'Y-2 GP', 'Y-2 Pper1kChunk', 'Y-1 ATOI', 'Y-1 GP', 'Y-1 Pper1kChunk', 'Y-0 Age', 'PositionBool']
+    X_pred = combined_df[features]
+    predictions = np.zeros((len(combined_df), bootstrap_samples))
+    for i, model in enumerate(models):
+        predictions[:, i] = model.predict(X_pred)
+    std_devs = np.std(predictions, axis=1)
+
+    # Merge inferences into bootstrap_df
+    if bootstrap_df is None or bootstrap_df.empty:
+        combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
+        bootstrap_df = combined_df[['PlayerID', 'Player', 'Team', 'Position', 'Age']].copy()
+        bootstrap_df['Age'] = bootstrap_df['Age'] - 1
+        bootstrap_df['ATOI'] = std_devs
+    else:
+        bootstrap_df = pd.merge(bootstrap_df, combined_df[['PlayerID', 'ATOI']], on='PlayerID', how='left')
+        bootstrap_df['ATOI'] = bootstrap_df['ATOI'].combine_first(bootstrap_df['ATOI_updated'])
+
+    if verbose:
+        print(f'Bootstrapped ATOI inferences for {projection_year} have been generated')
+        print(bootstrap_df)
+
+    if download_file:
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_skater_bootstraps.csv has been downloaded to the following directory: {export_path}')
+
+    return bootstrap_df
