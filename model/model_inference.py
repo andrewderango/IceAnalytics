@@ -1,4 +1,5 @@
 import os
+import json
 import random
 import numpy as np
 import pandas as pd
@@ -7,6 +8,7 @@ from model_training import *
 from scraper_functions import *
 from sklearn.utils import resample
 from scipy.signal import savgol_filter
+from sklearn.model_selection import train_test_split
 
 def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_file, verbose):
 
@@ -1659,6 +1661,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'gp_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'discrepancy_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -1669,7 +1672,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         train_data['Y-2 Points'] = (train_data['Y-2 Gper1kChunk'] + train_data['Y-2 A1per1kChunk'] + train_data['Y-2 A2per1kChunk'])/1000*2 * train_data['Y-3 GP'] * train_data['Y-3 ATOI']
         train_data['Y-1 Points'] = (train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk'])/1000*2 * train_data['Y-3 GP'] * train_data['Y-3 ATOI']
 
-        features = ['Y-3 ATOI', 'Y-3 GP', 'Y-3 Points', 'Y-2 ATOI', 'Y-2 GP', 'Y-2 Points', 'Y-1 ATOI', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
+        features = ['Y-3 GP', 'Y-3 Points', 'Y-2 GP', 'Y-2 Points', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
         target_var = 'Y-0 GP'
 
         # Define X and y
@@ -1682,26 +1685,44 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             'learning_rate': 0.1,
             'max_depth': 3,
             'n_estimators': 100,
-            'reg_alpha': 0,
-            'reg_lambda': 1,
+            'reg_alpha': 0.0,
+            'reg_lambda': 1.0,
             'subsample': 0.8,
             'objective': 'reg:squarederror'
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models = []
+        models, discrepancies = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping GP"):
-            X_sample, y_sample = resample(X, y, random_state=i)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
+            X_sample, y_sample = resample(X_train, y_train, random_state=i)
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
+            y_test_pred = model.predict(X_test)
+            errors = y_test - y_test_pred
+            discrepancies.extend(errors)
             models.append(model)
+        discrepancy_variance = np.var(discrepancies)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
+        # Modify discrepancies json
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+        json_data['GP'] = discrepancy_variance
+        with open(json_path, 'w') as f:
+            json.dump(json_data, f)
+
     else:
+        # Load discrepancy variance
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+        discrepancy_variance = json_data['GP']
+
+        # Load models
         models_dict = joblib.load(model_path)
         models = [models_dict[model] for model in models_dict]
         bootstrap_samples = len(models)
@@ -1722,14 +1743,11 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Total Points']]
-            df['ATOI'] = df['TOI']/df['GP']
-            df = df.drop(columns=['TOI'])
-            df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP', 'Total Points': f'Y-{projection_year-year} Points'})
+            df = df[['PlayerID', 'Player', 'GP', 'Total Points']]
+            df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'Total Points': f'Y-{projection_year-year} Points'})
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
-            df[f'Y-{projection_year-year} ATOI'] = 0
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} Points'] = 0
 
@@ -1749,20 +1767,22 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
 
     # Generate predictions
-    features = ['Y-3 ATOI', 'Y-3 GP', 'Y-3 Points', 'Y-2 ATOI', 'Y-2 GP', 'Y-2 Points', 'Y-1 ATOI', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
+    features = ['Y-3 GP', 'Y-3 Points', 'Y-2 GP', 'Y-2 Points', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
     X_pred = combined_df[features]
     predictions = np.zeros((len(combined_df), bootstrap_samples))
     for i, model in enumerate(models):
         predictions[:, i] = model.predict(X_pred)
-    std_devs = np.std(predictions, axis=1)
-    combined_df['GP'] = std_devs
+    bootstrap_variances = np.var(predictions, axis=1)
+    bootstrap_variances *= discrepancy_variance/np.mean(bootstrap_variances)
+    bootstrap_stdevs = np.sqrt(bootstrap_variances)
+    combined_df['GP'] = bootstrap_stdevs
 
-    # Merge inferences into bootstrap_df
+    # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
         bootstrap_df = combined_df[['PlayerID', 'Player', 'Team', 'Position', 'Age']].copy()
         bootstrap_df['Age'] = bootstrap_df['Age'] - 1
-        bootstrap_df['GP'] = std_devs
+        bootstrap_df['GP'] = bootstrap_variances
     else:
         bootstrap_df = pd.merge(bootstrap_df, combined_df[['PlayerID', 'GP']], on='PlayerID', how='left')
 
