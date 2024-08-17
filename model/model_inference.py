@@ -1535,6 +1535,7 @@ def generate_savgol_a2_inferences(projection_year, player_stat_df, fwd_model, df
 def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -1565,19 +1566,37 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models = []
+        models, discrepancies = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping ATOI"):
-            X_sample, y_sample = resample(X, y, random_state=i)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
+            X_sample, y_sample = resample(X_train, y_train, random_state=i)
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
+            y_test_pred = model.predict(X_test)
+            errors = y_test - y_test_pred
+            discrepancies.extend(errors)
             models.append(model)
+        residual_variance = np.var(discrepancies)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
+        # Modify discrepancies json
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+        json_data['ATOI'] = residual_variance
+        with open(json_path, 'w') as f:
+            json.dump(json_data, f)
+
     else:
+        # Load residual variance
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+        residual_variance = json_data['ATOI']
+
+        # Load models
         models_dict = joblib.load(model_path)
         models = [models_dict[model] for model in models_dict]
         bootstrap_samples = len(models)
@@ -1632,15 +1651,17 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
     predictions = np.zeros((len(combined_df), bootstrap_samples))
     for i, model in enumerate(models):
         predictions[:, i] = model.predict(X_pred)
-    std_devs = np.std(predictions, axis=1)
-    combined_df['ATOI'] = std_devs
+    bootstrap_variances = np.var(predictions, axis=1)
+    bootstrap_variances *= residual_variance/np.mean(bootstrap_variances)
+    bootstrap_stdevs = np.sqrt(bootstrap_variances)
+    combined_df['ATOI'] = bootstrap_stdevs
 
-    # Merge inferences into bootstrap_df
+    # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
         bootstrap_df = combined_df[['PlayerID', 'Player', 'Team', 'Position', 'Age']].copy()
         bootstrap_df['Age'] = bootstrap_df['Age'] - 1
-        bootstrap_df['ATOI'] = std_devs
+        bootstrap_df['ATOI'] = bootstrap_variances
     else:
         bootstrap_df = pd.merge(bootstrap_df, combined_df[['PlayerID', 'ATOI']], on='PlayerID', how='left')
 
@@ -1661,7 +1682,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'gp_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'discrepancy_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -1703,7 +1724,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             errors = y_test - y_test_pred
             discrepancies.extend(errors)
             models.append(model)
-        discrepancy_variance = np.var(discrepancies)
+        residual_variance = np.var(discrepancies)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
@@ -1712,15 +1733,15 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Modify discrepancies json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['GP'] = discrepancy_variance
+        json_data['GP'] = residual_variance
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
     else:
-        # Load discrepancy variance
+        # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        discrepancy_variance = json_data['GP']
+        residual_variance = json_data['GP']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -1773,7 +1794,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     for i, model in enumerate(models):
         predictions[:, i] = model.predict(X_pred)
     bootstrap_variances = np.var(predictions, axis=1)
-    bootstrap_variances *= discrepancy_variance/np.mean(bootstrap_variances)
+    bootstrap_variances *= residual_variance/np.mean(bootstrap_variances)
     bootstrap_stdevs = np.sqrt(bootstrap_variances)
     combined_df['GP'] = bootstrap_stdevs
 
