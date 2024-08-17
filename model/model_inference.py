@@ -1559,8 +1559,8 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             'learning_rate': 0.1,
             'max_depth': 3,
             'n_estimators': 100,
-            'reg_alpha': 0,
-            'reg_lambda': 1,
+            'reg_alpha': 0.0,
+            'reg_lambda': 1.0,
             'subsample': 0.8,
             'objective': 'reg:squarederror'
         }
@@ -1689,9 +1689,6 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         train_data = aggregate_skater_offence_training_data(projection_year)
         train_data = train_data.dropna(subset=['Y-0 Age'])
         train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
-        train_data['Y-3 Points'] = (train_data['Y-3 Gper1kChunk'] + train_data['Y-3 A1per1kChunk'] + train_data['Y-3 A2per1kChunk'])/1000*2 * train_data['Y-3 GP'] * train_data['Y-3 ATOI']
-        train_data['Y-2 Points'] = (train_data['Y-2 Gper1kChunk'] + train_data['Y-2 A1per1kChunk'] + train_data['Y-2 A2per1kChunk'])/1000*2 * train_data['Y-3 GP'] * train_data['Y-3 ATOI']
-        train_data['Y-1 Points'] = (train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk'])/1000*2 * train_data['Y-3 GP'] * train_data['Y-3 ATOI']
 
         features = ['Y-3 GP', 'Y-3 Points', 'Y-2 GP', 'Y-2 Points', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
         target_var = 'Y-0 GP'
@@ -1809,6 +1806,152 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
     if verbose:
         print(f'Bootstrapped GP inferences for {projection_year} have been generated')
+        print(bootstrap_df)
+
+    if download_file:
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
+        if verbose:
+            print(f'{projection_year}_skater_bootstraps.csv has been downloaded to the following directory: {export_path}')
+
+    return bootstrap_df
+
+def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
+
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'goal_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+
+    # Retrain model if specified
+    if retrain_model:
+        train_data = aggregate_skater_offence_training_data(projection_year)
+        train_data = train_data.dropna(subset=['Y-0 Age'])
+        train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+
+        features = ['Y-3 GP', 'Y-3 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 GP', 'Y-2 Gper1kChunk', 'Y-2 xGper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 GP', 'Y-1 Gper1kChunk', 'Y-1 xGper1kChunk', 'Y-1 SHper1kChunk', 'Y-0 Age', 'PositionBool']
+        target_var = 'Y-0 Gper1kChunk'
+
+        # Define X and y
+        X = train_data[features]
+        y = train_data[target_var]
+
+        # Hyperparameters for XGBoost
+        params = {
+            'colsample_bytree': 0.6,
+            'learning_rate': 0.1,
+            'max_depth': 3,
+            'n_estimators': 150,
+            'reg_alpha': 0.0,
+            'reg_lambda': 1.0,
+            'subsample': 0.8,
+            'objective': 'reg:squarederror'
+        }
+
+        # Loop through the bootstrap samples, training new samples and storing in models list
+        models, discrepancies = [], []
+        bootstrap_samples = 500
+        for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Goals"):
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
+            X_sample, y_sample = resample(X_train, y_train, random_state=i)
+            model = xgb.XGBRegressor(**params)
+            model.fit(X_sample, y_sample)
+            y_test_pred = model.predict(X_test)
+            errors = y_test - y_test_pred
+            discrepancies.extend(errors)
+            models.append(model)
+        residual_variance = np.var(discrepancies)
+
+        # Download models
+        models_dict = {f'model_{i}': model for i, model in enumerate(models)}
+        joblib.dump(models_dict, model_path)
+
+        # Modify discrepancies json
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+        json_data['Gper1kChunk'] = residual_variance
+        with open(json_path, 'w') as f:
+            json.dump(json_data, f)
+
+    else:
+        # Load residual variance
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
+        residual_variance = json_data['Gper1kChunk']
+
+        # Load models
+        models_dict = joblib.load(model_path)
+        models = [models_dict[model] for model in models_dict]
+        bootstrap_samples = len(models)
+
+    # Generate bootstrap inferences
+    combined_df = pd.DataFrame()
+    season_started = True
+
+    for year in range(projection_year-3, projection_year+1):
+        filename = f'{year-1}-{year}_skater_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        if not os.path.exists(file_path):
+            if year == projection_year:
+                season_started = False
+            else:
+                print(f'{filename} does not exist in the following directory: {file_path}')
+                return
+    
+        if season_started == True:
+            df = pd.read_csv(file_path)
+            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots']]
+            df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
+            df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
+            df['SHper1kChunk'] = df['Shots']/df['TOI']/2 * 1000
+            df[['Gper1kChunk', 'xGper1kChunk', 'SHper1kChunk']] = df[['Gper1kChunk', 'xGper1kChunk', 'SHper1kChunk']].fillna(0)
+            df = df.drop(columns=['TOI', 'Goals', 'ixG', 'Shots'])
+            df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'Gper1kChunk': f'Y-{projection_year-year} Gper1kChunk', 'xGper1kChunk': f'Y-{projection_year-year} xGper1kChunk', 'SHper1kChunk': f'Y-{projection_year-year} SHper1kChunk'})
+        else:
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = df[['PlayerID', 'Player']]
+            df[f'Y-{projection_year-year} GP'] = 0
+            df[f'Y-{projection_year-year} Gper1kChunk'] = 0
+            df[f'Y-{projection_year-year} xGper1kChunk'] = 0
+            df[f'Y-{projection_year-year} SHper1kChunk'] = 0
+
+        if combined_df is None or combined_df.empty:
+            combined_df = df
+        else:
+            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+
+    # Calculate projection age
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
+    combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
+    combined_df = combined_df.drop(columns=['Date of Birth'])
+    combined_df = combined_df.dropna(subset=['Y-1 GP', 'Y-0 GP'], how='all')
+    combined_df = combined_df.reset_index(drop=True)
+    combined_df['PositionBool'] = combined_df['Position'].apply(lambda x: 0 if x == 'D' else 1)
+
+    # Generate predictions
+    features = ['Y-3 GP', 'Y-3 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 GP', 'Y-2 Gper1kChunk', 'Y-2 xGper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 GP', 'Y-1 Gper1kChunk', 'Y-1 xGper1kChunk', 'Y-1 SHper1kChunk', 'Y-0 Age', 'PositionBool']
+    X_pred = combined_df[features]
+    predictions = np.zeros((len(combined_df), bootstrap_samples))
+    for i, model in enumerate(models):
+        predictions[:, i] = model.predict(X_pred)
+    bootstrap_variances = np.var(predictions, axis=1)
+    bootstrap_variances *= residual_variance/np.mean(bootstrap_variances)
+    bootstrap_stdevs = np.sqrt(bootstrap_variances)
+    combined_df['Gper1kChunk'] = bootstrap_stdevs
+
+    # Merge adjusted variance inferences into bootstrap_df
+    if bootstrap_df is None or bootstrap_df.empty:
+        combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
+        bootstrap_df = combined_df[['PlayerID', 'Player', 'Team', 'Position', 'Age']].copy()
+        bootstrap_df['Age'] = bootstrap_df['Age'] - 1
+        bootstrap_df['Gper1kChunk'] = bootstrap_variances
+    else:
+        bootstrap_df = pd.merge(bootstrap_df, combined_df[['PlayerID', 'Gper1kChunk']], on='PlayerID', how='left')
+
+    if verbose:
+        print(f'Bootstrapped Gper1kChunk inferences for {projection_year} have been generated')
         print(bootstrap_df)
 
     if download_file:
