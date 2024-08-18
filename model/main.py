@@ -78,8 +78,9 @@ def main():
     simulate_season(projection_year=PROJECTION_YEAR, projection_strategy='INFERENCE', simulations=97, resume_season=True, download_files=True, verbose=False)
 
     # Push the simulation results to Supabase
-    # push_to_supabase(table_name="team-projections", verbose=False)
-    # push_to_supabase(table_name="player-projections", verbose=False)
+    # push_to_supabase(table_name="team-projections", projection_year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="player-projections", projection_year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="game-projections", projection_year=PROJECTION_YEAR, verbose=True)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
 

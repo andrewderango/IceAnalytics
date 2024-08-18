@@ -395,7 +395,7 @@ def push_to_supabase(table_name, year, verbose=False):
         session = supabase.auth.sign_in_with_password({"email": os.getenv('SUPABASE_EMAIL'), "password": os.getenv('SUPABASE_PASSWORD')})
 
     if table_name == 'team-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams', f'{year}_team_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Teams', f'{year}_team_aggregated_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -414,7 +414,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['presidents_trophy_prob'] = 0.03125
         df['stanley_cup_prob'] = 0.03125
     elif table_name == 'player-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', f'{year}_skater_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Skaters', f'{year}_skater_aggregated_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -432,7 +432,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
     elif table_name == 'game-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games', f'{year}_game_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Games', f'{year}_game_aggregated_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {

@@ -91,7 +91,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -150,7 +150,7 @@ def gp_model_inference(projection_year, player_stat_df, gp_model_data, download_
     player_stat_df = player_stat_df.drop(columns=['GP_Score'])
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -412,7 +412,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -522,7 +522,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -632,7 +632,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
         player_stat_df = pd.merge(player_stat_df, combined_df, on=['PlayerID', 'Player'], how='left')
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -730,7 +730,7 @@ def skater_xga_model_inference(projection_year, player_stat_df, skater_xga_model
         player_stat_df = player_stat_df.rename(columns={'Player_x': 'Player'})
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -828,7 +828,7 @@ def skater_ga_model_inference(projection_year, player_stat_df, skater_ga_model, 
         player_stat_df = player_stat_df.rename(columns={'Player_x': 'Player'})
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)
@@ -944,7 +944,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     team_stat_df.drop(columns=['z_score'], inplace=True)
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         team_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_team_projections.csv'), index=True)
@@ -1033,7 +1033,7 @@ def display_inferences(projection_year, player_stat_df, inference_state, downloa
     # print(player_stat_df.info())
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         stable_player_stat_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_metaprojections.csv'), index=True)

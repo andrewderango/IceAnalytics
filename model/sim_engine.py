@@ -140,11 +140,11 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     schedule_df['Home Win'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else row['Home Score'] > row['Visiting Score'], axis=1)
     schedule_df['Visitor Win'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else row['Home Score'] < row['Visiting Score'], axis=1)
     schedule_df['Overtime'] = schedule_df.apply(lambda row: None if row['Game State'] == 1 else (True if row['Period'] > 3 else False), axis=1)
-    metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
+    metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
     metaprojection_df['Aper1kChunk'] = metaprojection_df['A1per1kChunk'] + metaprojection_df['A2per1kChunk']
     metaprojection_df['Pper1kChunk'] = metaprojection_df['Gper1kChunk'] + metaprojection_df['Aper1kChunk']
     teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
-    team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
+    team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
     if resume_season == True:
         existing_skater_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))
         existing_skater_df['Assists'] = existing_skater_df['First Assists'] + existing_skater_df['Second Assists']
@@ -329,7 +329,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     game_simulations_df = game_simulations_df.set_index(['Simulation', 'GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation'])
     
     if download_files:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         skater_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_monte_carlo_projections.csv'), index=True)
@@ -338,7 +338,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_monte_carlo_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         team_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_team_monte_carlo_projections.csv'), index=True)
@@ -347,7 +347,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_team_monte_carlo_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Games')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         game_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_game_monte_carlo_projections.csv'), index=True)
@@ -376,7 +376,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     print(game_aggregated_df)
 
     if download_files:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         skater_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_aggregated_projections.csv'), index=True)
@@ -385,7 +385,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_aggregated_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Teams')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         team_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_team_aggregated_projections.csv'), index=True)
@@ -395,7 +395,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
             print(f'\tFile size: {file_size} MB')
 
         if projection_strategy.upper() == 'MONTE CARLO':
-            export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
+            export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Games')
             if not os.path.exists(export_path):
                 os.makedirs(export_path)
             game_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'), index=True)
@@ -464,7 +464,7 @@ def generate_game_inferences(projection_year, schedule_df, team_rosters, defence
     game_aggregated_df['Overtime'] = overtime_list
 
     if download_files:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', 'Games')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Games')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         game_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'), index=True)
