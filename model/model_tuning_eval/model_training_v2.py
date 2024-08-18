@@ -204,7 +204,7 @@ def aggregate_team_training_data(projection_year):
 def train_atoi_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'atoi_model.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'atoi_model.pkl')
 
     if retrain_model == True:
 
@@ -266,7 +266,7 @@ def train_gp_model(projection_year, retrain_model, verbose):
 def train_p24_gp_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'p24_gp_model.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'p24_gp_model.pkl')
 
     if retrain_model:
         # Train model
@@ -291,7 +291,7 @@ def train_p24_gp_model(projection_year, retrain_model, verbose):
 def train_u24_gp_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'u24_gp_model.joblib')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'u24_gp_model.joblib')
 
     if retrain_model:
         # Train model
@@ -360,12 +360,12 @@ def train_goal_model(projection_year, retrain_model, verbose):
         model.fit(X, y)
 
         # Save the model
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.json'))
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.xgb'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'goal_model.json'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'goal_model.xgb'))
     
     else:
         model = xgb.Booster()
-        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goal_model.xgb'))
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'goal_model.xgb'))
     
     return model
     

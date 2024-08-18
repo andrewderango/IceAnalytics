@@ -64,7 +64,7 @@ def main():
     bootstrap_df = bootstrap_gp_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_goal_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a1_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=True, download_file=True, verbose=False)
+    bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     print(bootstrap_df.to_string())
     quit()
 
