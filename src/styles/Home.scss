@@ -98,9 +98,9 @@ body, html {
         }
 
         p {
-            font-family: 'Roboto', serif;
+            font-family: 'Roboto', sans-serif;
             // font-size: 1.28em;
-            font-size: calc(max(0.028*(100vw - 75vh) - 2px, 13.5px));
+            font-size: calc(max(0.0293*(100vw - 75vh) - 2px, 14.1px));
             font-weight: 500;
             color: goldenrod;
             margin-top: 35px;
