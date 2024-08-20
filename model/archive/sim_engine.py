@@ -426,6 +426,7 @@ def generate_game_inferences(projection_year, schedule_df, team_rosters, defence
     overtime_list = []
 
     # loop through each game
+    # for index, row in game_aggregated_df.iterrows():
     for index, row in tqdm(game_aggregated_df.iterrows(), total=game_aggregated_df.shape[0], desc="Generating Game Inferences"):
         # fetch rosters
         home_roster = team_rosters[row['Home Abbreviation']]

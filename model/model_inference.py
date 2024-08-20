@@ -953,11 +953,15 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
 
     return team_stat_df
 
-def display_inferences(projection_year, player_stat_df, inference_state, download_file, verbose):
+def display_inferences(projection_year, player_stat_df, bootstrap_df, inference_state, download_file, verbose):
 
-    # Create a stable instance of the player_stat_df for downloading
-    if download_file:
-        stable_player_stat_df = player_stat_df.copy()
+    # Merge standard deviations into player_stat_df
+    player_stat_df = player_stat_df.copy()
+    bootstrap_df = bootstrap_df.copy()
+    bootstrap_df['GPprb'] = bootstrap_df['GP']/82
+    bootstrap_df = bootstrap_df.drop(columns=['Player', 'Team', 'Position', 'Age', 'GP'])
+    player_stat_df = player_stat_df.merge(bootstrap_df, on=['PlayerID'], how='left', suffixes=('', '_StDev'))
+    stable_player_stat_df = player_stat_df.copy()
 
     # Load the existing stats
     existing_stats = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists', 'Total Assists']]
@@ -1656,6 +1660,9 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
     bootstrap_stdevs = np.sqrt(bootstrap_variances)
     combined_df['ATOI'] = bootstrap_stdevs
 
+    # Adjust for current season progress
+    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
@@ -1794,6 +1801,9 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     bootstrap_variances *= residual_variance/np.mean(bootstrap_variances)
     bootstrap_stdevs = np.sqrt(bootstrap_variances)
     combined_df['GP'] = bootstrap_stdevs
+
+    # Adjust for current season progress
+    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -1941,6 +1951,9 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
     bootstrap_stdevs = np.sqrt(bootstrap_variances)
     combined_df['Gper1kChunk'] = bootstrap_stdevs
 
+    # Adjust for current season progress
+    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
@@ -2085,6 +2098,9 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
     bootstrap_stdevs = np.sqrt(bootstrap_variances)
     combined_df['A1per1kChunk'] = bootstrap_stdevs
 
+    # Adjust for current season progress
+    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
@@ -2228,6 +2244,9 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
     bootstrap_variances *= residual_variance/np.mean(bootstrap_variances)
     bootstrap_stdevs = np.sqrt(bootstrap_variances)
     combined_df['A2per1kChunk'] = bootstrap_stdevs
+
+    # Adjust for current season progress
+    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
