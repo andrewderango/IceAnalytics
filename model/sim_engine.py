@@ -148,6 +148,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     if resume_season == True:
         existing_skater_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))
         existing_skater_df['Assists'] = existing_skater_df['First Assists'] + existing_skater_df['Second Assists']
+        # existing_skater_df['ATOI'] = (existing_skater_df['TOI'].fillna(0) / existing_skater_df['GP'].fillna(0)).fillna(0)
         existing_team_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data', f'{projection_year-1}-{projection_year}_team_data.csv'))
         existing_team_df = existing_team_df.rename(columns={'W': 'Wins', 'L': 'Losses', 'GA': 'Goals Against', 'GF': 'Goals For'})
 
@@ -185,7 +186,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
 
     if resume_season == True:
         # move stats from current season to player_scoring_dict and team_scoring_dict
-        core_player_scoring_dict = existing_skater_df.dropna(subset=['PlayerID']).fillna(0).set_index('PlayerID')[['GP', 'Goals', 'Assists']].T.to_dict('list')
+        core_player_scoring_dict = existing_skater_df.dropna(subset=['PlayerID']).fillna(0).set_index('PlayerID')[['GP', 'TOI', 'Goals', 'Assists']].T.to_dict('list')
         temp_df = pd.merge(existing_team_df, monte_carlo_team_proj_df[['Team', 'Abbreviation']], on='Team', how='left')
         temp_df.loc[temp_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
         temp_df.loc[temp_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
@@ -196,7 +197,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
         # players that haven't played yet
         for player_id in monte_carlo_skater_proj_df['PlayerID']:
             if player_id not in core_player_scoring_dict:
-                core_player_scoring_dict[player_id] = [0, 0, 0]
+                core_player_scoring_dict[player_id] = [0, 0, 0, 0]
 
         # teams that haven't played yet
         for team_abbreviation in monte_carlo_team_proj_df['Abbreviation']:
@@ -204,9 +205,9 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
                 core_team_scoring_dict[team_abbreviation] = [0, 0, 0, 0, 0]
     else:
         # create game scoring dictionary
-        core_player_scoring_dict = {} # {player_id: [games, goals, assists]}
+        core_player_scoring_dict = {} # {player_id: [games, toi, goals, assists]}
         for player_id in monte_carlo_skater_proj_df['PlayerID']:
-            core_player_scoring_dict[player_id] = [0, 0, 0]
+            core_player_scoring_dict[player_id] = [0, 0, 0, 0]
 
         # create team scoring dictionary
         core_team_scoring_dict = {} # {team_abbreviation: [wins, losses, ot_losses, goals_for, goals_against]}
@@ -239,15 +240,17 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     a1_probability = 0.9438426454 # probability of a goal having a primary assistor ###
     a2_probability = 0.7916037451 # probability of a goal with a primary assistor also having a secondary assistor ###
 
-    # check projection strategy
-    if projection_strategy.upper() == 'MONTE CARLO':
-        pass
-    elif projection_strategy.upper() in ['INFERENCE', 'INFERENCE_ONLY']:
-        generate_game_inferences(projection_year, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_files=True, verbose=False)
-        if projection_strategy.upper() == 'INFERENCE_ONLY':
-            return
-    else:
-        raise ValueError(f"Invalid projection strategy '{type}'. Please choose either 'MONTE CARLO' or 'INFERENCE'.")
+    # # check projection strategy
+    # if projection_strategy.upper() == 'MONTE CARLO':
+    #     pass
+    # elif projection_strategy.upper() in ['INFERENCE', 'INFERENCE_ONLY']:
+    #     generate_game_inferences(projection_year, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_files=True, verbose=False)
+    #     if projection_strategy.upper() == 'INFERENCE_ONLY':
+    #         return
+    # else:
+    #     raise ValueError(f"Invalid projection strategy '{type}'. Please choose either 'MONTE CARLO' or 'INFERENCE'.")
+
+    adjust_player_inferences(projection_year, metaprojection_df, core_player_scoring_dict, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_file=False, verbose=False)
 
     # create dataframe to store individual simulation results
     skater_simulations_df = pd.DataFrame(columns=['Simulation', 'PlayerID', 'Player', 'Position', 'Team', 'Age', 'Games Played', 'Goals', 'Assists', 'Points'])
@@ -403,6 +406,100 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
                 print(f'{projection_year}_game_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
                 file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_game_aggregated_projections.csv'))/1000000
                 print(f'\tFile size: {file_size} MB')
+
+def adjust_player_inferences(projection_year, metaprojection_df, core_player_scoring_dict, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_file=False, verbose=False):    
+    # print(schedule_df)
+
+    player_scoring_dict = core_player_scoring_dict.copy()
+
+    player_inferences_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'GPprb', 'ATOI', 'Gper1kChunk', 'A1per1kChunk', 'A2per1kChunk']].copy()
+    # print(player_scoring_dict)
+
+    # # scale GP such that the sum of GPprb is 18
+    # for abbrev, team_roster in team_rosters.items():
+    #     team_gp_sum = team_roster['GPprb'].sum()
+    #     team_roster['GPprb'] = team_roster['GPprb'] * (18/team_gp_sum)
+    #     excess_sum = ((team_roster['GPprb']-1) * (team_roster['GPprb'] > 1)).sum()
+    #     while excess_sum > 1e-3:
+    #         excess_distribution = team_roster['GPprb'] * (team_roster['GPprb'] < 1)  # Only distribute to values < 1
+    #         distribution_sum = excess_distribution.sum()
+
+    #         # Avoid division by zero
+    #         if distribution_sum == 0:
+    #             break
+            
+    #         # print(excess_sum, distribution_sum)
+    #         team_roster['GPprb'] += excess_distribution/distribution_sum * excess_sum
+    #         team_roster['GPprb'] = team_roster['GPprb'].clip(upper=1)
+    #         team_roster['GPprb'] = team_roster['GPprb'] * (18/team_roster['GPprb'].sum())
+    #         excess_sum = ((team_roster['GPprb']-1) * (team_roster['GPprb'] > 1)).sum()
+
+    # # scale ATOI such that the sum of ATOI is 300
+    # for abbrev, team_roster in team_rosters.items():
+    #     team_atoi_sum = team_roster['ATOI'].sum()
+    #     team_roster['ATOI'] = team_roster['ATOI'] * (300/team_atoi_sum)
+    #     excess_sum = ((team_roster['ATOI']-1) * (team_roster['ATOI'] > 1)).sum()
+    #     while excess_sum > 0.1:
+    #         excess_distribution = team_roster['ATOI'] * (team_roster['ATOI'] < 1)  # Only distribute to values < 1
+    #         distribution_sum = excess_distribution.sum()
+
+    #         # Avoid division by zero
+    #         if distribution_sum == 0:
+    #             break
+            
+    #         # print(excess_sum, distribution_sum)
+    #         team_roster['ATOI'] += excess_distribution/distribution_sum * excess_sum
+    #         team_roster['ATOI'] = team_roster['ATOI'].clip(upper=1)
+    #         team_roster['ATOI'] = team_roster['ATOI'] * (18/team_roster['ATOI'].sum())
+    #         excess_sum = ((team_roster['ATOI']-1) * (team_roster['ATOI'] > 1)).sum()
+
+    # loop through each game
+    for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0], desc="Iterating through Games for Player Inference Adjustment"):
+        if row['Game State'] == 7:
+            continue
+
+        # fetch rosters
+        home_roster = team_rosters[row['Home Abbreviation']]
+        visitor_roster = team_rosters[row['Visiting Abbreviation']]
+
+        # calculate the weighted averages
+        home_weighted_avg = np.average(home_roster['Pper1kChunk'], weights=home_roster['ATOI']*home_roster['GPprb'])/1000 * 5/(1+a1_probability+a2_probability)
+        visitor_weighted_avg = np.average(visitor_roster['Pper1kChunk'], weights=visitor_roster['ATOI']*visitor_roster['GPprb'])/1000 * 5/(1+a1_probability+a2_probability)
+        home_scoring_dotproduct = (home_roster['Gper1kChunk'] * home_roster['ATOI'] * home_roster['GPprb']).sum()
+        visitor_scoring_dotproduct = (visitor_roster['Gper1kChunk'] * visitor_roster['ATOI'] * visitor_roster['GPprb']).sum()
+        home_assisting_dotproduct = (home_roster['Aper1kChunk'] * home_roster['ATOI'] * home_roster['GPprb']).sum()
+        visitor_assisting_dotproduct = (visitor_roster['Aper1kChunk'] * visitor_roster['ATOI'] * visitor_roster['GPprb']).sum()
+
+        # adjust for home ice advantage ###
+        home_weighted_avg *= 1.025574015
+        visitor_weighted_avg *= 0.9744259847
+
+        # adjust for team defence
+        home_weighted_avg *= defence_scores[row['Visiting Team']]
+        visitor_weighted_avg *= defence_scores[row['Home Team']]
+
+        for home_index, home_row in home_roster.iterrows():
+            player_id = home_row['PlayerID']
+            player_goal_ratio = (home_row['Gper1kChunk']*home_row['ATOI']*home_row['GPprb'])/home_scoring_dotproduct
+            player_assist_ratio = (home_row['Aper1kChunk']*home_row['ATOI']*home_row['GPprb'])/home_assisting_dotproduct * (a1_probability + a2_probability) ### 2
+            player_scoring_dict[player_id][0] += home_row['GPprb']
+            player_scoring_dict[player_id][1] += home_row['ATOI']
+            player_scoring_dict[player_id][2] += player_goal_ratio * home_weighted_avg * 121
+            player_scoring_dict[player_id][3] += player_assist_ratio * home_weighted_avg * 121
+
+        for visitor_index, visitor_row in visitor_roster.iterrows():
+            player_id = visitor_row['PlayerID']
+            player_goal_ratio = (visitor_row['Gper1kChunk']*visitor_row['ATOI']*visitor_row['GPprb'])/visitor_scoring_dotproduct
+            player_assist_ratio = (visitor_row['Aper1kChunk']*visitor_row['ATOI']*visitor_row['GPprb'])/visitor_assisting_dotproduct
+            player_scoring_dict[player_id][0] += visitor_row['GPprb']
+            player_scoring_dict[player_id][1] += visitor_row['ATOI']
+            player_scoring_dict[player_id][2] += player_goal_ratio * visitor_weighted_avg * 121
+            player_scoring_dict[player_id][3] += player_assist_ratio * visitor_weighted_avg * 121
+
+    print(player_scoring_dict)
+
+    quit()
+
 
 def generate_game_inferences(projection_year, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_files, verbose=False):
 
