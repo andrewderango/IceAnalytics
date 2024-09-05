@@ -72,11 +72,6 @@ def main():
     # team_stat_df = team_stat_df.sort_values(by='Agg GA/GP', ascending=False)
     # print(team_stat_df.to_string())
 
-    # test_df = skater_team_quality_calibration(PROJECTION_YEAR)
-    # print(test_df)
-    # print(test_df.info())
-    # quit()
-
     # Simulate season
     simulate_season(projection_year=PROJECTION_YEAR, projection_strategy='INFERENCE', simulations=1, resume_season=True, download_files=True, verbose=False)
 

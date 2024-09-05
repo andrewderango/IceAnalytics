@@ -161,9 +161,9 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID', 'Active_x', 'Active_y'])
 
     # configure skater monte carlo projection df
-    monte_carlo_skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
-    monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.assign(Games_Played=0, Goals=0, Assists=0)
-    monte_carlo_skater_proj_df.rename(columns={'Games_Played': 'Games Played'}, inplace=True)
+    skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
+    skater_proj_df = skater_proj_df.assign(Games_Played=0, Goals=0, Assists=0)
+    skater_proj_df.rename(columns={'Games_Played': 'Games Played'}, inplace=True)
     
     # configure team monte carlo projection df
     monte_carlo_team_proj_df = teams_df[['Team Name', 'Abbreviation']].copy()
@@ -195,7 +195,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
         core_game_scoring_dict = schedule_df.fillna(0).set_index('GameID')[['Home Score', 'Visiting Score', 'Overtime']].T.to_dict('list')
 
         # players that haven't played yet
-        for player_id in monte_carlo_skater_proj_df['PlayerID']:
+        for player_id in skater_proj_df['PlayerID']:
             if player_id not in core_player_scoring_dict:
                 core_player_scoring_dict[player_id] = [0, 0, 0, 0]
 
@@ -206,7 +206,7 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     else:
         # create game scoring dictionary
         core_player_scoring_dict = {} # {player_id: [games, toi, goals, assists]}
-        for player_id in monte_carlo_skater_proj_df['PlayerID']:
+        for player_id in skater_proj_df['PlayerID']:
             core_player_scoring_dict[player_id] = [0, 0, 0, 0]
 
         # create team scoring dictionary
@@ -254,19 +254,17 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
     player_scoring_dict = adjust_player_inferences(projection_year, metaprojection_df, core_player_scoring_dict, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability, download_file=False, verbose=False)
     ### print(player_scoring_dict)
 
-    # add player scoring dict stats to monte_carlo_skater_proj_df, sort by points
-    player_scoring_df = pd.DataFrame.from_dict(player_scoring_dict, orient='index', columns=['Games Played', 'TOI', 'Goals', 'Assists'])
-    monte_carlo_skater_proj_df.set_index('PlayerID', inplace=True)
-    monte_carlo_skater_proj_df[['Games Played', 'TOI', 'Goals', 'Assists']] = player_scoring_df
-    monte_carlo_skater_proj_df['Points'] = monte_carlo_skater_proj_df['Goals'] + monte_carlo_skater_proj_df['Assists']
-    monte_carlo_skater_proj_df = monte_carlo_skater_proj_df.sort_values(by=['Points', 'Goals', 'Assists'], ascending=False)
-    monte_carlo_skater_proj_df.reset_index(inplace=True)
-    monte_carlo_skater_proj_df.index += 1
+    # add player scoring dict stats to skater_proj_df, sort by points
+    indexed_player_scoring_df = pd.DataFrame.from_dict(player_scoring_dict, orient='index', columns=['Games Played', 'TOI', 'Goals', 'Assists'])
+    skater_proj_df.set_index('PlayerID', inplace=True)
+    skater_proj_df[['Games Played', 'TOI', 'Goals', 'Assists']] = indexed_player_scoring_df
+    skater_proj_df['Points'] = skater_proj_df['Goals'] + skater_proj_df['Assists']
+    skater_proj_df = skater_proj_df.sort_values(by=['Points', 'Goals', 'Assists'], ascending=False)
+    skater_proj_df.reset_index(inplace=True)
+    skater_proj_df.index += 1
 
-    print(monte_carlo_skater_proj_df)
+    print(skater_proj_df)
 
-    skater_simulations_df = monte_carlo_skater_proj_df.copy()
-    
     quit()
 
     # create dataframe to store individual simulation results ###
@@ -313,12 +311,12 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
         monte_carlo_game_proj_df['Visitor Win'] = monte_carlo_game_proj_df.apply(lambda row: 1 if row['Home Score'] < row['Visiting Score'] else 0, axis=1)
 
         if resume_season == True:
-            monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Assists', 'Points']] = monte_carlo_skater_proj_df[['Games Played', 'Goals', 'Assists', 'Points']].astype(int)
+            skater_proj_df[['Games Played', 'Goals', 'Assists', 'Points']] = skater_proj_df[['Games Played', 'Goals', 'Assists', 'Points']].astype(int)
             monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against', 'Points']] = monte_carlo_team_proj_df[['Wins', 'Losses', 'OTL', 'Goals For', 'Goals Against', 'Points']].astype(int)
             monte_carlo_game_proj_df[['Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime']] = monte_carlo_game_proj_df[['Home Score', 'Visiting Score', 'Home Win', 'Visitor Win', 'Overtime']].astype(int)
 
         # print results from an individual simulation
-        # print(monte_carlo_skater_proj_df.head(10))
+        # print(skater_proj_df.head(10))
         # print(monte_carlo_team_proj_df.head(10))
         # print(monte_carlo_game_proj_df.head(10))
 
@@ -328,20 +326,10 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
         monte_carlo_game_proj_df['Simulation'] = simulation + 1
         game_simulations_df = pd.concat([game_simulations_df, monte_carlo_game_proj_df])
     
-    skater_simulations_df = skater_simulations_df.set_index(['Simulation', 'PlayerID', 'Player', 'Position', 'Team', 'Age'])
     team_simulations_df = team_simulations_df.set_index(['Simulation', 'Abbreviation', 'Team'])
     game_simulations_df = game_simulations_df.set_index(['Simulation', 'GameID', 'DatetimeEST', 'Date', 'TimeEST', 'Home Team', 'Home Abbreviation', 'Visiting Team', 'Visiting Abbreviation'])
     
     if download_files:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
-        if not os.path.exists(export_path):
-            os.makedirs(export_path)
-        skater_simulations_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_monte_carlo_projections.csv'), index=True)
-        if verbose:
-            print(f'{projection_year}_skater_monte_carlo_projections.csv has been downloaded to the following directory: {export_path}')
-            file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_monte_carlo_projections.csv'))/1000000
-            print(f'\tFile size: {file_size} MB')
-
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Teams')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
@@ -360,13 +348,6 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
             file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_game_monte_carlo_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
-    skater_aggregated_df = skater_simulations_df.groupby(level=[1, 2, 3, 4, 5]).mean()
-    skater_aggregated_df = skater_aggregated_df.reset_index()
-    skater_aggregated_df = skater_aggregated_df.sort_values(by=['Points', 'Goals', 'Assists'], ascending=False)
-    skater_aggregated_df = skater_aggregated_df.reset_index(drop=True)
-    skater_aggregated_df.index += 1
-    print(skater_aggregated_df)
-
     team_aggregated_df = team_simulations_df.groupby(level=[1, 2]).mean()
     team_aggregated_df = team_aggregated_df.reset_index()
     team_aggregated_df = team_aggregated_df.sort_values(by=['Points', 'Wins', 'Goals For'], ascending=False)
@@ -383,10 +364,10 @@ def simulate_season(projection_year, projection_strategy, simulations, resume_se
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
-        skater_aggregated_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_aggregated_projections.csv'), index=True)
+        skater_proj_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_projections.csv'), index=True)
         if verbose:
-            print(f'{projection_year}_skater_aggregated_projections.csv has been downloaded to the following directory: {export_path}')
-            file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_aggregated_projections.csv'))/1000000
+            print(f'{projection_year}_skater_projections.csv has been downloaded to the following directory: {export_path}')
+            file_size = os.path.getsize(os.path.join(export_path, f'{projection_year}_skater_projections.csv'))/1000000
             print(f'\tFile size: {file_size} MB')
 
         export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Teams')
@@ -461,13 +442,6 @@ def adjust_player_inferences(projection_year, metaprojection_df, core_player_sco
             player_scoring_dict[player_id][1] += visitor_row['ATOI']
             player_scoring_dict[player_id][2] += ((visitor_row['Gper1kChunk'] / 1000 * 2 * visitor_row['ATOI'])*0.897806 + (player_goal_ratio * visitor_weighted_avg * 121)*0.102194) ###
             player_scoring_dict[player_id][3] += ((visitor_row['Aper1kChunk'] / 1000 * 2 * visitor_row['ATOI'])*0.897806 + (player_assist_ratio * visitor_weighted_avg * 121)*0.102194) ###
-
-    ### temp showing df
-    player_scoring_df = pd.DataFrame.from_dict(player_scoring_dict, orient='index', columns=['GP', 'TOI', 'Goals', 'Assists'])
-    player_scoring_df['P'] = player_scoring_df['Goals'] + player_scoring_df['Assists']
-    player_scoring_df.reset_index(inplace=True)
-    player_scoring_df = player_scoring_df.sort_values(by=['P', 'Goals', 'Assists'], ascending=False)
-    print(player_scoring_df)
 
     return player_scoring_dict
 
