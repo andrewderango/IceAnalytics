@@ -8,7 +8,7 @@ from sim_engine import *
 def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
-    season_state = get_season_state(PROJECTION_YEAR)
+    ### season_state = get_season_state(PROJECTION_YEAR)
 
     # # Scrape or fetch player data
     # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
@@ -73,6 +73,8 @@ def main():
     # print(team_stat_df.to_string())
 
     # Simulate season
+    ### resume season
+    ### projection strategy
     simulate_season(projection_year=PROJECTION_YEAR, projection_strategy='INFERENCE', simulations=1, resume_season=True, download_files=True, verbose=False)
 
     # Push the simulation results to Supabase
