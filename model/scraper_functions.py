@@ -32,19 +32,14 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
 
         if projection_year != year or season_state != 'PRESEASON':
             if skaters == True and bios == False and on_ice == False:
-                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=std&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == True and bios == False and on_ice == True:
-                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=oi&rate=y&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=oi&rate=y&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == False:
-                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == True and bios == True:
-                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
-                ### url = f"https://www.naturalstattrick.com/playerteams.php?fromseason=20102011&thruseason=20102011&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             df = pd.read_html(url)[0]
             df = df.iloc[:, 1:]
@@ -261,7 +256,6 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
                     continue
 
         if projection_year != year or season_state != 'PRESEASON':
-            ### response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/20102011/2?categories=toi&limit=9999')
             response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-1}{year}/2?categories=toi&limit=9999')
         else:
             response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-2}{year-1}/2?categories=toi&limit=9999')
@@ -381,7 +375,7 @@ def fix_teams(player_stat_df):
     player_to_team_map = active_players_df.set_index('PlayerID')['Team'].to_dict()
     player_stat_df['Team'] = player_stat_df['PlayerID'].map(player_to_team_map)
     return player_stat_df
-    
+
 def push_to_supabase(table_name, year, verbose=False):
     load_dotenv()
     SUPABASE_URL = os.getenv('REACT_APP_SUPABASE_PROJ_URL')
@@ -395,7 +389,7 @@ def push_to_supabase(table_name, year, verbose=False):
         session = supabase.auth.sign_in_with_password({"email": os.getenv('SUPABASE_EMAIL'), "password": os.getenv('SUPABASE_PASSWORD')})
 
     if table_name == 'team-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Teams', f'{year}_team_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Teams', f'{year}_team_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -414,7 +408,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['presidents_trophy_prob'] = 0.03125
         df['stanley_cup_prob'] = 0.03125
     elif table_name == 'player-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Skaters', f'{year}_skater_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -431,8 +425,10 @@ def push_to_supabase(table_name, year, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
+        df = df.drop(columns=['TOI'])
+        df = df.dropna(subset=['logo'])
     elif table_name == 'game-projections':
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Games', f'{year}_game_aggregated_projections.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(year), 'Games', f'{year}_game_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
         rename_dict = {
@@ -470,6 +466,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
+
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:

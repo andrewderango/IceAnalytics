@@ -3,12 +3,12 @@ import pandas as pd
 from model_training import *
 from model_inference import *
 from scraper_functions import *
-from sim_engine import *
+from projection_engine import *
 
 def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
-    season_state = get_season_state(PROJECTION_YEAR)
+    # season_state = get_season_state(PROJECTION_YEAR)
 
     # # Scrape or fetch player data
     # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
@@ -64,7 +64,7 @@ def main():
     bootstrap_df = bootstrap_goal_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a1_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True)
+    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True) ###
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
@@ -72,8 +72,8 @@ def main():
     # team_stat_df = team_stat_df.sort_values(by='Agg GA/GP', ascending=False)
     # print(team_stat_df.to_string())
 
-    # Simulate season
-    simulate_season(projection_year=PROJECTION_YEAR, projection_strategy='INFERENCE', simulations=97, resume_season=True, download_files=True, verbose=False)
+    # Run projection engine and simulate season
+    run_projection_engine(projection_year=PROJECTION_YEAR, simulations=1, download_files=True, verbose=True)
 
     # Push the simulation results to Supabase
     # push_to_supabase(table_name="team-projections", projection_year=PROJECTION_YEAR, verbose=True)
