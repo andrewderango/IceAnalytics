@@ -467,11 +467,6 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
 
-    # print(df)
-    # print(df.head(2).T)
-    # print(df.info())
-    # quit()
-
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
