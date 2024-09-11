@@ -119,7 +119,7 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
 
     return
 
-# Function to aggregate historical player bios for all players in the engine_database
+# Function to aggregate historical player bios for all players in the engine database
 def aggregate_player_bios(skaters, check_preexistence, verbose):
     if skaters == True:
         filename = f'skater_bios.csv'
@@ -273,7 +273,7 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
             })
             df = pd.concat([df, new_row], ignore_index=True)
 
-        # get engine_data historical skater data
+        # get historical skater data
         if bios == True:
             historical_skater_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'Historical Skater Bios', f'{year-1}-{year}_skater_bios.csv'), index_col=0)
         elif bios == False and on_ice == False:

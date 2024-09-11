@@ -90,7 +90,10 @@ function Home() {
     <div className="home">
       <div className="landing-section">
         <div className="text-container slide-in-left">
-          <h1 className="slide-in-h1">PUCKPROJECTIONS</h1>
+          <h1 className="slide-in-h1">
+            <span style={{ fontSize: 'larger' }}>I</span>CE
+            <span style={{ fontSize: 'larger' }}>A</span>NALYTICS
+          </h1>
           <div className="underline"></div>
           <p>Transformative NHL projections and analytics powered by deep learning</p>
         </div>
@@ -98,14 +101,17 @@ function Home() {
         {!isScrolled && <div id="scroll-down-arrow"></div>}
       </div>
       <div className="about-section" ref={aboutSectionRef}>
-        <h2>ABOUT PUCKPROJECTIONS</h2>
+        <h2> ABOUT
+          I<span style={{ fontSize: 'smaller' }}>CE</span>
+          A<span style={{ fontSize: 'smaller' }}>NALYTICS</span>
+        </h2>
         <div className="underline"></div>
-        <p>PuckProjections is an open-source NHL analytics platform that offers comprehensive projections and probabilistic insights into NHL games, players, and teams. Powered by a cutting-edge bootstrapped Monte Carlo ensemble projection engine, our framework leverages innovative models and algorithms to deliver unparalleled insights on player impact, team performance, and game outcomes.</p>
+        <p>IceAnalytics is an open-source NHL analytics platform that offers comprehensive projections and probabilistic insights into NHL games, players, and teams. Powered by a cutting-edge bootstrapped Monte Carlo ensemble projection engine, our framework leverages innovative models and algorithms to deliver unparalleled insights on player impact, team performance, and game outcomes.</p>
         {/* <p>Discover a new dimension of hockey analytics. Completely free.</p> */}
         <button onClick={() => window.location.href='/about'}>
           <span>LEARN MORE</span>
         </button>
-        {/* <button onClick={() => window.open('https://github.com/andrewderango/NHL-Simulation-Engine', '_blank')}>View Source Code</button> */}
+        {/* <button onClick={() => window.open('https://github.com/andrewderango/IceAnalytics', '_blank')}>View Source Code</button> */}
       </div>
       <div className="pages-section">
         <h2>FEATURES</h2>

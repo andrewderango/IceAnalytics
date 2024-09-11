@@ -44,7 +44,10 @@ function Header() {
     <header className="header">
       <div className="header-name">
         <img src={logo} alt="Logo" />
-        <h1>PUCKPROJECTIONS</h1>
+        <h1>
+          I<span style={{ fontSize: 'smaller' }}>CE</span>
+          A<span style={{ fontSize: 'smaller' }}>NALYTICS</span>
+        </h1>
       </div>
       {width >= 1000 ? (
         <nav>
