@@ -1,8 +1,9 @@
 import time
 import pandas as pd
+from scraper_functions import *
 from model_training import *
 from model_inference import *
-from scraper_functions import *
+from model_bootstrap import *
 from projection_engine import *
 
 def main():
@@ -64,7 +65,7 @@ def main():
     bootstrap_df = bootstrap_goal_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a1_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True) ###
+    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True)
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
