@@ -11,13 +11,13 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
 def aggregate_skater_offence_training_data(projection_year):
-    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data')
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
     for file in files:
         if file[-15:] != 'skater_data.csv':
             files.remove(file) # Remove files like .DS_Store or other unexpected files
 
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combinations = [files[i:i+4] for i in range(len(files)-3)]
     combined_data = pd.DataFrame()
 
@@ -87,13 +87,13 @@ def aggregate_skater_offence_training_data(projection_year):
     return combined_data
 
 def aggregate_skater_defence_training_data(projection_year):
-    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical On-Ice Skater Data')
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical On-Ice Skater Data')
     files = sorted(os.listdir(file_path))
     for file in files:
         if file[-15:] != 'skater_data.csv':
             files.remove(file) # Remove files like .DS_Store or other unexpected files
 
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position'])
     combinations = [files[i:i+4] for i in range(len(files)-3)]
     combined_data = pd.DataFrame()
 
@@ -143,7 +143,7 @@ def aggregate_skater_defence_training_data(projection_year):
     return combined_data
 
 def aggregate_team_training_data(projection_year):
-    file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Team Data')
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Team Data')
     files = sorted(os.listdir(file_path))
     for file in files:
         if file[-13:] != 'team_data.csv':
@@ -204,7 +204,7 @@ def aggregate_team_training_data(projection_year):
 def train_atoi_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'atoi_model.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'inference', 'atoi_model.pkl')
 
     if retrain_model == True:
 
@@ -266,7 +266,7 @@ def train_gp_model(projection_year, retrain_model, verbose):
 def train_p24_gp_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'p24_gp_model.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'inference', 'p24_gp_model.pkl')
 
     if retrain_model:
         # Train model
@@ -291,7 +291,7 @@ def train_p24_gp_model(projection_year, retrain_model, verbose):
 def train_u24_gp_model(projection_year, retrain_model, verbose):
 
     # Define the model path for saving and loading
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'u24_gp_model.joblib')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'inference', 'u24_gp_model.joblib')
 
     if retrain_model:
         # Train model
@@ -360,12 +360,12 @@ def train_goal_model(projection_year, retrain_model, verbose):
         model.fit(X, y)
 
         # Save the model
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'goal_model.json'))
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'goal_model.xgb'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'inference', 'goal_model.json'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'inference', 'goal_model.xgb'))
     
     else:
         model = xgb.Booster()
-        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'inference', 'goal_model.xgb'))
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'inference', 'goal_model.xgb'))
     
     return model
     
@@ -407,12 +407,12 @@ def train_a1_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'))
+        model.save(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'primary_assist_model.keras'))
 
         return model
     
     else:
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'primary_assist_model.keras'), compile=False)
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'primary_assist_model.keras'), compile=False)
         return model
     
 def train_a2_model(projection_year, retrain_model, verbose):
@@ -453,12 +453,12 @@ def train_a2_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'))
+        model.save(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'secondary_assist_model.keras'))
 
         return model
     
     else:
-        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'secondary_assist_model.keras'), compile=False)
+        model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'secondary_assist_model.keras'), compile=False)
         return model
     
 def train_ga_model(projection_year, retrain_model, verbose):
@@ -494,13 +494,13 @@ def train_ga_model(projection_year, retrain_model, verbose):
             print("MSE: %.2f" % mse)
 
         # Save the model
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'goals_against_model.xgb'))
 
         return model
 
     else:
         model = xgb.Booster()
-        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'goals_against_model.xgb'))
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'goals_against_model.xgb'))
         return model
     
 def train_skater_xga_model(projection_year, retrain_model, verbose):
@@ -543,12 +543,12 @@ def train_skater_xga_model(projection_year, retrain_model, verbose):
             print("Train MSE: %.3f" % mse_train)
 
         # Save the model
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_xga_model.xgb'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'skater_xga_model.xgb'))
         return model
 
     else:
         model = xgb.Booster()
-        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_xga_model.xgb'))
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'skater_xga_model.xgb'))
         return model
     
 def train_skater_ga_model(projection_year, retrain_model, verbose):
@@ -591,12 +591,12 @@ def train_skater_ga_model(projection_year, retrain_model, verbose):
             print("Train MSE: %.3f" % mse_train)
 
         # Save the model
-        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_ga_model.xgb'))
+        model.save_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'skater_ga_model.xgb'))
         return model
 
     else:
         model = xgb.Booster()
-        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'skater_ga_model.xgb'))
+        model.load_model(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'skater_ga_model.xgb'))
         return model
     
 def train_goal_calibration_model(projection_year, retrain_model, position):
@@ -621,24 +621,24 @@ def train_goal_calibration_model(projection_year, retrain_model, position):
 
         # Save the model
         if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
         else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
         joblib.dump(model, model_path)
     
     else:
         # Load model
         if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'fwd_goal_calibration_model.pkl')
         else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'dfc_goal_calibration_model.pkl')
         model = joblib.load(model_path)
 
     # Get data from past 3 years
     combined_df = pd.DataFrame()
     for year in range(projection_year-3, projection_year):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year != projection_year:
                 print(f'{filename} does not exist in the following directory: {file_path}')
@@ -689,24 +689,24 @@ def train_a1_calibration_model(projection_year, retrain_model, position):
 
         # Save the model
         if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a1_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'fwd_a1_calibration_model.pkl')
         else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a1_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'dfc_a1_calibration_model.pkl')
         joblib.dump(model, model_path)
     
     else:
         # Load model
         if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a1_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'fwd_a1_calibration_model.pkl')
         else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a1_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'dfc_a1_calibration_model.pkl')
         model = joblib.load(model_path)
 
     # Get data from past 3 years
     combined_df = pd.DataFrame()
     for year in range(projection_year-3, projection_year):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year != projection_year:
                 print(f'{filename} does not exist in the following directory: {file_path}')
@@ -758,24 +758,24 @@ def train_a2_calibration_model(projection_year, retrain_model, position):
 
         # Save the model
         if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a2_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'fwd_a2_calibration_model.pkl')
         else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a2_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'dfc_a2_calibration_model.pkl')
         joblib.dump(model, model_path)
     
     else:
         # Load model
         if position == 'F':
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'fwd_a2_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'fwd_a2_calibration_model.pkl')
         else:
-            model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'dfc_a2_calibration_model.pkl')
+            model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'dfc_a2_calibration_model.pkl')
         model = joblib.load(model_path)
 
     # Get data from past 3 years
     combined_df = pd.DataFrame()
     for year in range(projection_year-3, projection_year):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year != projection_year:
                 print(f'{filename} does not exist in the following directory: {file_path}')

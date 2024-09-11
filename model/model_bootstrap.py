@@ -10,8 +10,8 @@ from sklearn.model_selection import train_test_split
 
 def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -83,7 +83,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -100,7 +100,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             df = df.drop(columns=['TOI', 'Goals', 'First Assists', 'Second Assists'])
             df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP', 'Pper1kChunk': f'Y-{projection_year-year} Pper1kChunk'})
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} ATOI'] = 0
             df[f'Y-{projection_year-year} GP'] = 0
@@ -112,7 +112,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -149,7 +149,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         print(bootstrap_df)
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
@@ -160,8 +160,8 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 
 def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'gp_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'gp_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -230,7 +230,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -243,7 +243,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             df = df[['PlayerID', 'Player', 'GP', 'Total Points']]
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'Total Points': f'Y-{projection_year-year} Points'})
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} Points'] = 0
@@ -254,7 +254,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -291,7 +291,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         print(bootstrap_df)
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
@@ -302,8 +302,8 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
 def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'goal_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'goal_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -372,7 +372,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -390,7 +390,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
             df = df.drop(columns=['TOI', 'Goals', 'ixG', 'Shots'])
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'Gper1kChunk': f'Y-{projection_year-year} Gper1kChunk', 'xGper1kChunk': f'Y-{projection_year-year} xGper1kChunk', 'SHper1kChunk': f'Y-{projection_year-year} SHper1kChunk'})
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} Gper1kChunk'] = 0
@@ -403,7 +403,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -440,7 +440,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         print(bootstrap_df)
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
@@ -451,8 +451,8 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
 
 def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'a1_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'a1_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -521,7 +521,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -538,7 +538,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
             df = df.drop(columns=['TOI', 'First Assists', 'Second Assists'])
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk', 'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk'})
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} A1per1kChunk'] = 0
@@ -550,7 +550,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -587,7 +587,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         print(bootstrap_df)
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
@@ -598,8 +598,8 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
 def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
-    model_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'a2_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'a2_bootstrapped_models.pkl')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -668,7 +668,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
     for year in range(projection_year-3, projection_year+1):
         filename = f'{year-1}-{year}_skater_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', filename)
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', filename)
         if not os.path.exists(file_path):
             if year == projection_year:
                 season_started = False
@@ -685,7 +685,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
             df = df.drop(columns=['TOI', 'First Assists', 'Second Assists'])
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk', 'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk'})
         else:
-            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
+            df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
             df = df[['PlayerID', 'Player']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} A1per1kChunk'] = 0
@@ -697,7 +697,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
             combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
 
     # Calculate projection age
-    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
+    bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
     combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
@@ -734,7 +734,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         print(bootstrap_df)
 
     if download_file:
-        export_path = os.path.join(os.path.dirname(__file__), '..', 'Sim Engine Data', 'Projections', str(projection_year), 'Skaters')
+        export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
         if not os.path.exists(export_path):
             os.makedirs(export_path)
         bootstrap_df.to_csv(os.path.join(export_path, f'{projection_year}_skater_bootstraps.csv'), index=True)
