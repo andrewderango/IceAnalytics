@@ -105,7 +105,7 @@ function Home() {
         <button onClick={() => window.location.href='/about'}>
           <span>LEARN MORE</span>
         </button>
-        {/* <button onClick={() => window.open('https://github.com/andrewderango/NHL-Simulation-Engine', '_blank')}>View Source Code</button> */}
+        {/* <button onClick={() => window.open('https://github.com/andrewderango/IceAnalytics', '_blank')}>View Source Code</button> */}
       </div>
       <div className="pages-section">
         <h2>FEATURES</h2>
