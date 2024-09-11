@@ -92,7 +92,7 @@ function Home() {
         <div className="text-container slide-in-left">
           <h1 className="slide-in-h1">PUCKPROJECTIONS</h1>
           <div className="underline"></div>
-          <p>Transformative NHL projections and analytics powered by machine learning</p>
+          <p>Transformative NHL projections and analytics powered by deep learning</p>
         </div>
         <img src={headshot} alt="Headshot" className="headshot slide-in-right" />
         {!isScrolled && <div id="scroll-down-arrow"></div>}
@@ -100,7 +100,8 @@ function Home() {
       <div className="about-section" ref={aboutSectionRef}>
         <h2>ABOUT PUCKPROJECTIONS</h2>
         <div className="underline"></div>
-        <p>PuckProjections is a free and open-source NHL simulation engine used to deliver cutting-edge projections and analytics. The platform harnesses the power of ensemble machine learning and Monte Carlo simulations to provide comprehensive insights into NHL games, players, and teams.</p>
+        <p>PuckProjections is an open-source NHL analytics platform that offers comprehensive projections and probabilistic insights into NHL games, players, and teams. Powered by a cutting-edge bootstrapped Monte Carlo ensemble projection engine, our framework leverages innovative models and algorithms to deliver unparalleled insights on player impact, team performance, and game outcomes.</p>
+        {/* <p>Discover a new dimension of hockey analytics. Completely free.</p> */}
         <button onClick={() => window.location.href='/about'}>
           <span>LEARN MORE</span>
         </button>

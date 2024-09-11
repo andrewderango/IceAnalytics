@@ -1,0 +1,321 @@
+Simulation,Abbreviation,Team,Wins,Losses,OTL,Points,Goals For,Goals Against
+1,NYR,New York Rangers,55,23,4,114,278,226
+1,DAL,Dallas Stars,52,21,9,113,294,232
+1,CAR,Carolina Hurricanes,52,23,7,111,277,211
+1,FLA,Florida Panthers,52,24,6,110,265,198
+1,WPG,Winnipeg Jets,52,24,6,110,259,198
+1,VAN,Vancouver Canucks,50,23,9,109,279,221
+1,BOS,Boston Bruins,47,20,15,109,263,221
+1,COL,Colorado Avalanche,50,25,7,107,302,252
+1,EDM,Edmonton Oilers,49,27,6,104,292,236
+1,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+1,NSH,Nashville Predators,47,30,5,99,266,248
+1,LAK,Los Angeles Kings,44,27,11,99,254,210
+1,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+1,VGK,Vegas Golden Knights,45,29,8,98,263,243
+1,NYI,New York Islanders,39,27,16,94,245,258
+1,STL,St. Louis Blues,43,33,6,92,234,248
+1,DET,Detroit Red Wings,41,32,9,91,275,273
+1,WSH,Washington Capitals,40,31,11,91,216,252
+1,MIN,Minnesota Wild,39,33,10,88,247,260
+1,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+1,PHI,Philadelphia Flyers,38,33,11,87,231,258
+1,BUF,Buffalo Sabres,39,37,6,84,244,243
+1,NJD,New Jersey Devils,38,39,5,81,264,280
+1,CGY,Calgary Flames,38,39,5,81,253,267
+1,SEA,Seattle Kraken,34,35,13,81,214,232
+1,OTT,Ottawa Senators,37,41,4,78,250,281
+1,ARI,Arizona Coyotes,36,41,5,77,254,274
+1,MTL,Montréal Canadiens,30,36,16,76,232,281
+1,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+1,ANA,Anaheim Ducks,27,50,5,59,203,292
+1,CHI,Chicago Blackhawks,23,53,6,52,178,289
+1,SJS,San Jose Sharks,19,54,9,47,180,326
+2,NYR,New York Rangers,55,23,4,114,278,226
+2,DAL,Dallas Stars,52,21,9,113,294,232
+2,CAR,Carolina Hurricanes,52,23,7,111,277,211
+2,FLA,Florida Panthers,52,24,6,110,265,198
+2,WPG,Winnipeg Jets,52,24,6,110,259,198
+2,VAN,Vancouver Canucks,50,23,9,109,279,221
+2,BOS,Boston Bruins,47,20,15,109,263,221
+2,COL,Colorado Avalanche,50,25,7,107,302,252
+2,EDM,Edmonton Oilers,49,27,6,104,292,236
+2,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+2,NSH,Nashville Predators,47,30,5,99,266,248
+2,LAK,Los Angeles Kings,44,27,11,99,254,210
+2,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+2,VGK,Vegas Golden Knights,45,29,8,98,263,243
+2,NYI,New York Islanders,39,27,16,94,245,258
+2,STL,St. Louis Blues,43,33,6,92,234,248
+2,DET,Detroit Red Wings,41,32,9,91,275,273
+2,WSH,Washington Capitals,40,31,11,91,216,252
+2,MIN,Minnesota Wild,39,33,10,88,247,260
+2,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+2,PHI,Philadelphia Flyers,38,33,11,87,231,258
+2,BUF,Buffalo Sabres,39,37,6,84,244,243
+2,NJD,New Jersey Devils,38,39,5,81,264,280
+2,CGY,Calgary Flames,38,39,5,81,253,267
+2,SEA,Seattle Kraken,34,35,13,81,214,232
+2,OTT,Ottawa Senators,37,41,4,78,250,281
+2,ARI,Arizona Coyotes,36,41,5,77,254,274
+2,MTL,Montréal Canadiens,30,36,16,76,232,281
+2,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+2,ANA,Anaheim Ducks,27,50,5,59,203,292
+2,CHI,Chicago Blackhawks,23,53,6,52,178,289
+2,SJS,San Jose Sharks,19,54,9,47,180,326
+3,NYR,New York Rangers,55,23,4,114,278,226
+3,DAL,Dallas Stars,52,21,9,113,294,232
+3,CAR,Carolina Hurricanes,52,23,7,111,277,211
+3,FLA,Florida Panthers,52,24,6,110,265,198
+3,WPG,Winnipeg Jets,52,24,6,110,259,198
+3,VAN,Vancouver Canucks,50,23,9,109,279,221
+3,BOS,Boston Bruins,47,20,15,109,263,221
+3,COL,Colorado Avalanche,50,25,7,107,302,252
+3,EDM,Edmonton Oilers,49,27,6,104,292,236
+3,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+3,NSH,Nashville Predators,47,30,5,99,266,248
+3,LAK,Los Angeles Kings,44,27,11,99,254,210
+3,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+3,VGK,Vegas Golden Knights,45,29,8,98,263,243
+3,NYI,New York Islanders,39,27,16,94,245,258
+3,STL,St. Louis Blues,43,33,6,92,234,248
+3,DET,Detroit Red Wings,41,32,9,91,275,273
+3,WSH,Washington Capitals,40,31,11,91,216,252
+3,MIN,Minnesota Wild,39,33,10,88,247,260
+3,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+3,PHI,Philadelphia Flyers,38,33,11,87,231,258
+3,BUF,Buffalo Sabres,39,37,6,84,244,243
+3,NJD,New Jersey Devils,38,39,5,81,264,280
+3,CGY,Calgary Flames,38,39,5,81,253,267
+3,SEA,Seattle Kraken,34,35,13,81,214,232
+3,OTT,Ottawa Senators,37,41,4,78,250,281
+3,ARI,Arizona Coyotes,36,41,5,77,254,274
+3,MTL,Montréal Canadiens,30,36,16,76,232,281
+3,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+3,ANA,Anaheim Ducks,27,50,5,59,203,292
+3,CHI,Chicago Blackhawks,23,53,6,52,178,289
+3,SJS,San Jose Sharks,19,54,9,47,180,326
+4,NYR,New York Rangers,55,23,4,114,278,226
+4,DAL,Dallas Stars,52,21,9,113,294,232
+4,CAR,Carolina Hurricanes,52,23,7,111,277,211
+4,FLA,Florida Panthers,52,24,6,110,265,198
+4,WPG,Winnipeg Jets,52,24,6,110,259,198
+4,VAN,Vancouver Canucks,50,23,9,109,279,221
+4,BOS,Boston Bruins,47,20,15,109,263,221
+4,COL,Colorado Avalanche,50,25,7,107,302,252
+4,EDM,Edmonton Oilers,49,27,6,104,292,236
+4,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+4,NSH,Nashville Predators,47,30,5,99,266,248
+4,LAK,Los Angeles Kings,44,27,11,99,254,210
+4,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+4,VGK,Vegas Golden Knights,45,29,8,98,263,243
+4,NYI,New York Islanders,39,27,16,94,245,258
+4,STL,St. Louis Blues,43,33,6,92,234,248
+4,DET,Detroit Red Wings,41,32,9,91,275,273
+4,WSH,Washington Capitals,40,31,11,91,216,252
+4,MIN,Minnesota Wild,39,33,10,88,247,260
+4,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+4,PHI,Philadelphia Flyers,38,33,11,87,231,258
+4,BUF,Buffalo Sabres,39,37,6,84,244,243
+4,NJD,New Jersey Devils,38,39,5,81,264,280
+4,CGY,Calgary Flames,38,39,5,81,253,267
+4,SEA,Seattle Kraken,34,35,13,81,214,232
+4,OTT,Ottawa Senators,37,41,4,78,250,281
+4,ARI,Arizona Coyotes,36,41,5,77,254,274
+4,MTL,Montréal Canadiens,30,36,16,76,232,281
+4,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+4,ANA,Anaheim Ducks,27,50,5,59,203,292
+4,CHI,Chicago Blackhawks,23,53,6,52,178,289
+4,SJS,San Jose Sharks,19,54,9,47,180,326
+5,NYR,New York Rangers,55,23,4,114,278,226
+5,DAL,Dallas Stars,52,21,9,113,294,232
+5,CAR,Carolina Hurricanes,52,23,7,111,277,211
+5,FLA,Florida Panthers,52,24,6,110,265,198
+5,WPG,Winnipeg Jets,52,24,6,110,259,198
+5,VAN,Vancouver Canucks,50,23,9,109,279,221
+5,BOS,Boston Bruins,47,20,15,109,263,221
+5,COL,Colorado Avalanche,50,25,7,107,302,252
+5,EDM,Edmonton Oilers,49,27,6,104,292,236
+5,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+5,NSH,Nashville Predators,47,30,5,99,266,248
+5,LAK,Los Angeles Kings,44,27,11,99,254,210
+5,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+5,VGK,Vegas Golden Knights,45,29,8,98,263,243
+5,NYI,New York Islanders,39,27,16,94,245,258
+5,STL,St. Louis Blues,43,33,6,92,234,248
+5,DET,Detroit Red Wings,41,32,9,91,275,273
+5,WSH,Washington Capitals,40,31,11,91,216,252
+5,MIN,Minnesota Wild,39,33,10,88,247,260
+5,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+5,PHI,Philadelphia Flyers,38,33,11,87,231,258
+5,BUF,Buffalo Sabres,39,37,6,84,244,243
+5,NJD,New Jersey Devils,38,39,5,81,264,280
+5,CGY,Calgary Flames,38,39,5,81,253,267
+5,SEA,Seattle Kraken,34,35,13,81,214,232
+5,OTT,Ottawa Senators,37,41,4,78,250,281
+5,ARI,Arizona Coyotes,36,41,5,77,254,274
+5,MTL,Montréal Canadiens,30,36,16,76,232,281
+5,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+5,ANA,Anaheim Ducks,27,50,5,59,203,292
+5,CHI,Chicago Blackhawks,23,53,6,52,178,289
+5,SJS,San Jose Sharks,19,54,9,47,180,326
+6,NYR,New York Rangers,55,23,4,114,278,226
+6,DAL,Dallas Stars,52,21,9,113,294,232
+6,CAR,Carolina Hurricanes,52,23,7,111,277,211
+6,FLA,Florida Panthers,52,24,6,110,265,198
+6,WPG,Winnipeg Jets,52,24,6,110,259,198
+6,VAN,Vancouver Canucks,50,23,9,109,279,221
+6,BOS,Boston Bruins,47,20,15,109,263,221
+6,COL,Colorado Avalanche,50,25,7,107,302,252
+6,EDM,Edmonton Oilers,49,27,6,104,292,236
+6,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+6,NSH,Nashville Predators,47,30,5,99,266,248
+6,LAK,Los Angeles Kings,44,27,11,99,254,210
+6,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+6,VGK,Vegas Golden Knights,45,29,8,98,263,243
+6,NYI,New York Islanders,39,27,16,94,245,258
+6,STL,St. Louis Blues,43,33,6,92,234,248
+6,DET,Detroit Red Wings,41,32,9,91,275,273
+6,WSH,Washington Capitals,40,31,11,91,216,252
+6,MIN,Minnesota Wild,39,33,10,88,247,260
+6,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+6,PHI,Philadelphia Flyers,38,33,11,87,231,258
+6,BUF,Buffalo Sabres,39,37,6,84,244,243
+6,NJD,New Jersey Devils,38,39,5,81,264,280
+6,CGY,Calgary Flames,38,39,5,81,253,267
+6,SEA,Seattle Kraken,34,35,13,81,214,232
+6,OTT,Ottawa Senators,37,41,4,78,250,281
+6,ARI,Arizona Coyotes,36,41,5,77,254,274
+6,MTL,Montréal Canadiens,30,36,16,76,232,281
+6,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+6,ANA,Anaheim Ducks,27,50,5,59,203,292
+6,CHI,Chicago Blackhawks,23,53,6,52,178,289
+6,SJS,San Jose Sharks,19,54,9,47,180,326
+7,NYR,New York Rangers,55,23,4,114,278,226
+7,DAL,Dallas Stars,52,21,9,113,294,232
+7,CAR,Carolina Hurricanes,52,23,7,111,277,211
+7,FLA,Florida Panthers,52,24,6,110,265,198
+7,WPG,Winnipeg Jets,52,24,6,110,259,198
+7,VAN,Vancouver Canucks,50,23,9,109,279,221
+7,BOS,Boston Bruins,47,20,15,109,263,221
+7,COL,Colorado Avalanche,50,25,7,107,302,252
+7,EDM,Edmonton Oilers,49,27,6,104,292,236
+7,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+7,NSH,Nashville Predators,47,30,5,99,266,248
+7,LAK,Los Angeles Kings,44,27,11,99,254,210
+7,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+7,VGK,Vegas Golden Knights,45,29,8,98,263,243
+7,NYI,New York Islanders,39,27,16,94,245,258
+7,STL,St. Louis Blues,43,33,6,92,234,248
+7,DET,Detroit Red Wings,41,32,9,91,275,273
+7,WSH,Washington Capitals,40,31,11,91,216,252
+7,MIN,Minnesota Wild,39,33,10,88,247,260
+7,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+7,PHI,Philadelphia Flyers,38,33,11,87,231,258
+7,BUF,Buffalo Sabres,39,37,6,84,244,243
+7,NJD,New Jersey Devils,38,39,5,81,264,280
+7,CGY,Calgary Flames,38,39,5,81,253,267
+7,SEA,Seattle Kraken,34,35,13,81,214,232
+7,OTT,Ottawa Senators,37,41,4,78,250,281
+7,ARI,Arizona Coyotes,36,41,5,77,254,274
+7,MTL,Montréal Canadiens,30,36,16,76,232,281
+7,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+7,ANA,Anaheim Ducks,27,50,5,59,203,292
+7,CHI,Chicago Blackhawks,23,53,6,52,178,289
+7,SJS,San Jose Sharks,19,54,9,47,180,326
+8,NYR,New York Rangers,55,23,4,114,278,226
+8,DAL,Dallas Stars,52,21,9,113,294,232
+8,CAR,Carolina Hurricanes,52,23,7,111,277,211
+8,FLA,Florida Panthers,52,24,6,110,265,198
+8,WPG,Winnipeg Jets,52,24,6,110,259,198
+8,VAN,Vancouver Canucks,50,23,9,109,279,221
+8,BOS,Boston Bruins,47,20,15,109,263,221
+8,COL,Colorado Avalanche,50,25,7,107,302,252
+8,EDM,Edmonton Oilers,49,27,6,104,292,236
+8,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+8,NSH,Nashville Predators,47,30,5,99,266,248
+8,LAK,Los Angeles Kings,44,27,11,99,254,210
+8,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+8,VGK,Vegas Golden Knights,45,29,8,98,263,243
+8,NYI,New York Islanders,39,27,16,94,245,258
+8,STL,St. Louis Blues,43,33,6,92,234,248
+8,DET,Detroit Red Wings,41,32,9,91,275,273
+8,WSH,Washington Capitals,40,31,11,91,216,252
+8,MIN,Minnesota Wild,39,33,10,88,247,260
+8,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+8,PHI,Philadelphia Flyers,38,33,11,87,231,258
+8,BUF,Buffalo Sabres,39,37,6,84,244,243
+8,NJD,New Jersey Devils,38,39,5,81,264,280
+8,CGY,Calgary Flames,38,39,5,81,253,267
+8,SEA,Seattle Kraken,34,35,13,81,214,232
+8,OTT,Ottawa Senators,37,41,4,78,250,281
+8,ARI,Arizona Coyotes,36,41,5,77,254,274
+8,MTL,Montréal Canadiens,30,36,16,76,232,281
+8,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+8,ANA,Anaheim Ducks,27,50,5,59,203,292
+8,CHI,Chicago Blackhawks,23,53,6,52,178,289
+8,SJS,San Jose Sharks,19,54,9,47,180,326
+9,NYR,New York Rangers,55,23,4,114,278,226
+9,DAL,Dallas Stars,52,21,9,113,294,232
+9,CAR,Carolina Hurricanes,52,23,7,111,277,211
+9,FLA,Florida Panthers,52,24,6,110,265,198
+9,WPG,Winnipeg Jets,52,24,6,110,259,198
+9,VAN,Vancouver Canucks,50,23,9,109,279,221
+9,BOS,Boston Bruins,47,20,15,109,263,221
+9,COL,Colorado Avalanche,50,25,7,107,302,252
+9,EDM,Edmonton Oilers,49,27,6,104,292,236
+9,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+9,NSH,Nashville Predators,47,30,5,99,266,248
+9,LAK,Los Angeles Kings,44,27,11,99,254,210
+9,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+9,VGK,Vegas Golden Knights,45,29,8,98,263,243
+9,NYI,New York Islanders,39,27,16,94,245,258
+9,STL,St. Louis Blues,43,33,6,92,234,248
+9,DET,Detroit Red Wings,41,32,9,91,275,273
+9,WSH,Washington Capitals,40,31,11,91,216,252
+9,MIN,Minnesota Wild,39,33,10,88,247,260
+9,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+9,PHI,Philadelphia Flyers,38,33,11,87,231,258
+9,BUF,Buffalo Sabres,39,37,6,84,244,243
+9,NJD,New Jersey Devils,38,39,5,81,264,280
+9,CGY,Calgary Flames,38,39,5,81,253,267
+9,SEA,Seattle Kraken,34,35,13,81,214,232
+9,OTT,Ottawa Senators,37,41,4,78,250,281
+9,ARI,Arizona Coyotes,36,41,5,77,254,274
+9,MTL,Montréal Canadiens,30,36,16,76,232,281
+9,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+9,ANA,Anaheim Ducks,27,50,5,59,203,292
+9,CHI,Chicago Blackhawks,23,53,6,52,178,289
+9,SJS,San Jose Sharks,19,54,9,47,180,326
+10,NYR,New York Rangers,55,23,4,114,278,226
+10,DAL,Dallas Stars,52,21,9,113,294,232
+10,CAR,Carolina Hurricanes,52,23,7,111,277,211
+10,FLA,Florida Panthers,52,24,6,110,265,198
+10,WPG,Winnipeg Jets,52,24,6,110,259,198
+10,VAN,Vancouver Canucks,50,23,9,109,279,221
+10,BOS,Boston Bruins,47,20,15,109,263,221
+10,COL,Colorado Avalanche,50,25,7,107,302,252
+10,EDM,Edmonton Oilers,49,27,6,104,292,236
+10,TOR,Toronto Maple Leafs,46,26,10,102,298,261
+10,NSH,Nashville Predators,47,30,5,99,266,248
+10,LAK,Los Angeles Kings,44,27,11,99,254,210
+10,TBL,Tampa Bay Lightning,45,29,8,98,288,267
+10,VGK,Vegas Golden Knights,45,29,8,98,263,243
+10,NYI,New York Islanders,39,27,16,94,245,258
+10,STL,St. Louis Blues,43,33,6,92,234,248
+10,DET,Detroit Red Wings,41,32,9,91,275,273
+10,WSH,Washington Capitals,40,31,11,91,216,252
+10,MIN,Minnesota Wild,39,33,10,88,247,260
+10,PIT,Pittsburgh Penguins,38,32,12,88,253,246
+10,PHI,Philadelphia Flyers,38,33,11,87,231,258
+10,BUF,Buffalo Sabres,39,37,6,84,244,243
+10,NJD,New Jersey Devils,38,39,5,81,264,280
+10,CGY,Calgary Flames,38,39,5,81,253,267
+10,SEA,Seattle Kraken,34,35,13,81,214,232
+10,OTT,Ottawa Senators,37,41,4,78,250,281
+10,ARI,Arizona Coyotes,36,41,5,77,254,274
+10,MTL,Montréal Canadiens,30,36,16,76,232,281
+10,CBJ,Columbus Blue Jackets,27,43,12,66,234,298
+10,ANA,Anaheim Ducks,27,50,5,59,203,292
+10,CHI,Chicago Blackhawks,23,53,6,52,178,289
+10,SJS,San Jose Sharks,19,54,9,47,180,326

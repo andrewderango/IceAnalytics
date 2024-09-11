@@ -1,0 +1,1313 @@
+,GameID,Time (EST),Game Number,Game State,Period,Home Score,Home Team,Visiting Score,Visiting Team
+0,2023020001,2023-10-10T17:30:00,1,7,3,5,Tampa Bay Lightning,3,Nashville Predators
+1,2023020002,2023-10-10T20:00:00,2,7,3,2,Pittsburgh Penguins,4,Chicago Blackhawks
+2,2023020003,2023-10-10T22:30:00,3,7,3,4,Vegas Golden Knights,1,Seattle Kraken
+3,2023020004,2023-10-11T19:00:00,4,7,3,5,Carolina Hurricanes,3,Ottawa Senators
+4,2023020005,2023-10-11T19:00:00,5,7,5,6,Toronto Maple Leafs,5,Montréal Canadiens
+5,2023020006,2023-10-11T19:30:00,6,7,3,3,Boston Bruins,1,Chicago Blackhawks
+6,2023020007,2023-10-11T22:00:00,7,7,3,5,Calgary Flames,3,Winnipeg Jets
+7,2023020008,2023-10-11T22:00:00,8,7,3,2,Los Angeles Kings,5,Colorado Avalanche
+8,2023020009,2023-10-11T22:00:00,9,7,3,8,Vancouver Canucks,1,Edmonton Oilers
+9,2023020010,2023-10-12T19:00:00,10,7,3,1,Buffalo Sabres,5,New York Rangers
+10,2023020011,2023-10-12T19:00:00,11,7,3,2,Columbus Blue Jackets,4,Philadelphia Flyers
+11,2023020012,2023-10-12T19:30:00,12,7,3,4,New Jersey Devils,3,Detroit Red Wings
+12,2023020013,2023-10-12T20:00:00,13,7,5,2,Dallas Stars,1,St. Louis Blues
+13,2023020014,2023-10-12T20:00:00,14,7,3,2,Minnesota Wild,0,Florida Panthers
+14,2023020015,2023-10-12T20:00:00,15,7,3,3,Nashville Predators,0,Seattle Kraken
+15,2023020016,2023-10-12T22:30:00,16,7,3,1,San Jose Sharks,4,Vegas Golden Knights
+16,2023020017,2023-10-13T19:00:00,17,7,5,3,New Jersey Devils,4,Arizona Coyotes
+17,2023020018,2023-10-13T19:30:00,18,7,3,0,Washington Capitals,4,Pittsburgh Penguins
+18,2023020019,2023-10-14T13:00:00,19,7,3,5,Ottawa Senators,2,Philadelphia Flyers
+19,2023020020,2023-10-14T16:00:00,20,7,3,6,Winnipeg Jets,4,Florida Panthers
+20,2023020021,2023-10-14T19:00:00,21,7,3,3,Boston Bruins,2,Nashville Predators
+21,2023020022,2023-10-14T19:00:00,22,7,3,5,Columbus Blue Jackets,3,New York Rangers
+22,2023020023,2023-10-14T19:00:00,23,7,3,6,Detroit Red Wings,4,Tampa Bay Lightning
+23,2023020024,2023-10-14T19:00:00,24,7,3,3,Montréal Canadiens,2,Chicago Blackhawks
+24,2023020025,2023-10-14T19:00:00,25,7,3,5,Pittsburgh Penguins,2,Calgary Flames
+25,2023020026,2023-10-14T19:00:00,26,7,3,7,Toronto Maple Leafs,4,Minnesota Wild
+26,2023020027,2023-10-14T19:30:00,27,7,3,3,New York Islanders,2,Buffalo Sabres
+27,2023020028,2023-10-14T20:00:00,28,7,5,2,St. Louis Blues,1,Seattle Kraken
+28,2023020029,2023-10-14T22:00:00,29,7,3,3,Edmonton Oilers,4,Vancouver Canucks
+29,2023020030,2023-10-14T22:00:00,30,7,5,1,San Jose Sharks,2,Colorado Avalanche
+30,2023020031,2023-10-14T22:00:00,31,7,3,4,Vegas Golden Knights,1,Anaheim Ducks
+31,2023020032,2023-10-14T22:30:00,32,7,5,5,Los Angeles Kings,6,Carolina Hurricanes
+32,2023020033,2023-10-15T19:00:00,33,7,3,5,Ottawa Senators,2,Tampa Bay Lightning
+33,2023020034,2023-10-15T20:30:00,34,7,3,6,Anaheim Ducks,3,Carolina Hurricanes
+34,2023020035,2023-10-16T19:00:00,35,7,3,0,Columbus Blue Jackets,4,Detroit Red Wings
+35,2023020036,2023-10-16T19:00:00,36,7,3,3,New Jersey Devils,4,Florida Panthers
+36,2023020037,2023-10-16T19:00:00,37,7,3,2,New York Rangers,1,Arizona Coyotes
+37,2023020038,2023-10-16T19:00:00,38,7,3,1,Toronto Maple Leafs,4,Chicago Blackhawks
+38,2023020039,2023-10-16T19:00:00,39,7,5,3,Washington Capitals,2,Calgary Flames
+39,2023020040,2023-10-17T19:30:00,40,7,4,3,Buffalo Sabres,2,Tampa Bay Lightning
+40,2023020041,2023-10-17T19:00:00,41,7,3,2,Montréal Canadiens,5,Minnesota Wild
+41,2023020042,2023-10-17T18:00:00,42,7,3,2,Philadelphia Flyers,0,Vancouver Canucks
+42,2023020043,2023-10-17T19:30:00,43,7,3,1,New York Islanders,0,Arizona Coyotes
+43,2023020044,2023-10-17T20:00:00,44,7,3,1,Nashville Predators,6,Edmonton Oilers
+44,2023020045,2023-10-17T20:00:00,45,7,3,1,Winnipeg Jets,5,Los Angeles Kings
+45,2023020046,2023-10-17T22:00:00,46,7,3,1,Seattle Kraken,4,Colorado Avalanche
+46,2023020047,2023-10-17T22:30:00,47,7,3,3,San Jose Sharks,6,Carolina Hurricanes
+47,2023020048,2023-10-17T22:30:00,48,7,5,3,Vegas Golden Knights,2,Dallas Stars
+48,2023020049,2023-10-18T19:00:00,49,7,3,6,Ottawa Senators,1,Washington Capitals
+49,2023020050,2023-10-18T19:30:00,50,7,3,6,Detroit Red Wings,3,Pittsburgh Penguins
+50,2023020051,2023-10-19T19:00:00,51,7,3,3,Buffalo Sabres,4,Calgary Flames
+51,2023020052,2023-10-19T19:00:00,52,7,3,3,Florida Panthers,1,Toronto Maple Leafs
+52,2023020053,2023-10-19T19:00:00,53,7,3,1,New York Rangers,4,Nashville Predators
+53,2023020054,2023-10-19T19:30:00,54,7,3,4,Philadelphia Flyers,1,Edmonton Oilers
+54,2023020055,2023-10-19T19:00:00,55,7,3,4,Tampa Bay Lightning,3,Vancouver Canucks
+55,2023020056,2023-10-19T20:00:00,56,7,3,3,Minnesota Wild,7,Los Angeles Kings
+56,2023020057,2023-10-19T20:00:00,57,7,3,2,St. Louis Blues,6,Arizona Coyotes
+57,2023020058,2023-10-19T20:00:00,58,7,3,3,Winnipeg Jets,5,Vegas Golden Knights
+58,2023020059,2023-10-19T22:00:00,59,7,3,2,Anaheim Ducks,3,Dallas Stars
+59,2023020060,2023-10-19T22:00:00,60,7,3,7,Seattle Kraken,4,Carolina Hurricanes
+60,2023020061,2023-10-19T22:30:00,61,7,3,4,Colorado Avalanche,0,Chicago Blackhawks
+61,2023020062,2023-10-19T22:30:00,62,7,3,1,San Jose Sharks,3,Boston Bruins
+62,2023020063,2023-10-20T19:00:00,63,7,3,3,Columbus Blue Jackets,1,Calgary Flames
+63,2023020064,2023-10-20T19:30:00,64,7,4,4,New York Islanders,5,New Jersey Devils
+64,2023020065,2023-10-21T13:00:00,65,7,3,2,Ottawa Senators,5,Detroit Red Wings
+65,2023020066,2023-10-21T16:00:00,66,7,3,2,Arizona Coyotes,1,Anaheim Ducks
+66,2023020067,2023-10-21T19:00:00,67,7,3,3,Buffalo Sabres,1,New York Islanders
+67,2023020068,2023-10-21T19:00:00,68,7,3,3,Florida Panthers,5,Vancouver Canucks
+68,2023020069,2023-10-21T19:00:00,69,7,4,3,Montréal Canadiens,2,Washington Capitals
+69,2023020070,2023-10-21T19:00:00,70,7,4,3,Tampa Bay Lightning,4,Toronto Maple Leafs
+70,2023020071,2023-10-21T20:00:00,71,7,3,3,Chicago Blackhawks,5,Vegas Golden Knights
+71,2023020072,2023-10-21T20:00:00,72,7,4,5,Dallas Stars,4,Philadelphia Flyers
+72,2023020073,2023-10-21T20:00:00,73,7,4,4,Minnesota Wild,5,Columbus Blue Jackets
+73,2023020074,2023-10-21T20:00:00,74,7,3,5,Nashville Predators,1,San Jose Sharks
+74,2023020075,2023-10-21T20:00:00,75,7,3,4,St. Louis Blues,2,Pittsburgh Penguins
+75,2023020076,2023-10-21T21:00:00,76,7,3,6,Colorado Avalanche,4,Carolina Hurricanes
+76,2023020077,2023-10-21T22:00:00,77,7,4,2,Edmonton Oilers,3,Winnipeg Jets
+77,2023020078,2023-10-21T22:00:00,78,7,3,1,Seattle Kraken,4,New York Rangers
+78,2023020079,2023-10-21T22:30:00,79,7,3,2,Los Angeles Kings,4,Boston Bruins
+79,2023020080,2023-10-22T17:00:00,80,7,3,6,Detroit Red Wings,2,Calgary Flames
+80,2023020081,2023-10-22T20:30:00,81,7,3,1,Anaheim Ducks,3,Boston Bruins
+81,2023020082,2023-10-23T19:00:00,82,7,3,1,Buffalo Sabres,3,Montréal Canadiens
+82,2023020083,2023-10-24T18:00:00,83,7,3,1,Washington Capitals,4,Toronto Maple Leafs
+83,2023020084,2023-10-24T20:30:00,84,7,4,2,Columbus Blue Jackets,3,Anaheim Ducks
+84,2023020085,2023-10-24T18:45:00,85,7,3,4,Ottawa Senators,6,Buffalo Sabres
+85,2023020086,2023-10-24T19:00:00,86,7,3,3,Tampa Bay Lightning,0,Carolina Hurricanes
+86,2023020087,2023-10-24T19:15:00,87,7,3,2,Montréal Canadiens,5,New Jersey Devils
+87,2023020088,2023-10-24T19:30:00,88,7,3,1,Pittsburgh Penguins,4,Dallas Stars
+88,2023020089,2023-10-24T19:45:00,89,7,3,3,Florida Panthers,1,San Jose Sharks
+89,2023020090,2023-10-24T20:00:00,90,7,3,4,New York Islanders,7,Colorado Avalanche
+90,2023020091,2023-10-24T20:15:00,91,7,4,4,Detroit Red Wings,5,Seattle Kraken
+91,2023020092,2023-10-24T20:30:00,92,7,3,0,Chicago Blackhawks,3,Boston Bruins
+92,2023020093,2023-10-24T20:45:00,93,7,3,4,Winnipeg Jets,2,St. Louis Blues
+93,2023020094,2023-10-24T21:00:00,94,7,3,7,Minnesota Wild,4,Edmonton Oilers
+94,2023020095,2023-10-24T21:15:00,95,7,3,2,Nashville Predators,3,Vancouver Canucks
+95,2023020096,2023-10-24T21:45:00,96,7,3,1,Calgary Flames,3,New York Rangers
+96,2023020097,2023-10-24T22:30:00,97,7,3,6,Los Angeles Kings,3,Arizona Coyotes
+97,2023020098,2023-10-24T23:00:00,98,7,3,3,Vegas Golden Knights,2,Philadelphia Flyers
+98,2023020099,2023-10-25T19:30:00,99,7,3,4,New Jersey Devils,6,Washington Capitals
+99,2023020100,2023-10-26T19:00:00,100,7,4,3,Boston Bruins,4,Anaheim Ducks
+100,2023020101,2023-10-26T19:00:00,101,7,4,3,Carolina Hurricanes,2,Seattle Kraken
+101,2023020102,2023-10-26T19:00:00,102,7,3,1,Detroit Red Wings,4,Winnipeg Jets
+102,2023020103,2023-10-26T19:00:00,103,7,4,4,Montréal Canadiens,3,Columbus Blue Jackets
+103,2023020104,2023-10-26T19:30:00,104,7,3,6,Philadelphia Flyers,2,Minnesota Wild
+104,2023020105,2023-10-26T19:00:00,105,7,3,4,Pittsburgh Penguins,0,Colorado Avalanche
+105,2023020106,2023-10-26T19:00:00,106,7,3,6,Tampa Bay Lightning,0,San Jose Sharks
+106,2023020107,2023-10-26T19:30:00,107,7,3,3,New York Islanders,2,Ottawa Senators
+107,2023020108,2023-10-26T20:00:00,108,7,3,1,Dallas Stars,4,Toronto Maple Leafs
+108,2023020109,2023-10-26T21:00:00,109,7,3,0,Calgary Flames,3,St. Louis Blues
+109,2023020110,2023-10-26T21:00:00,110,7,3,0,Edmonton Oilers,3,New York Rangers
+110,2023020111,2023-10-27T18:00:00,111,7,4,3,Vegas Golden Knights,4,Chicago Blackhawks
+111,2023020112,2023-10-27T19:00:00,112,7,3,3,Carolina Hurricanes,0,San Jose Sharks
+112,2023020113,2023-10-27T19:00:00,113,7,3,5,New Jersey Devils,4,Buffalo Sabres
+113,2023020114,2023-10-27T19:00:00,114,7,5,3,Washington Capitals,2,Minnesota Wild
+114,2023020115,2023-10-27T22:00:00,115,7,3,4,Arizona Coyotes,5,Los Angeles Kings
+115,2023020116,2023-10-27T22:00:00,116,7,3,5,Vancouver Canucks,0,St. Louis Blues
+116,2023020117,2023-10-28T13:00:00,117,7,3,4,Philadelphia Flyers,7,Anaheim Ducks
+117,2023020118,2023-10-28T18:00:00,118,7,3,3,Florida Panthers,2,Seattle Kraken
+118,2023020119,2023-10-28T19:00:00,119,7,3,4,Boston Bruins,1,Detroit Red Wings
+119,2023020120,2023-10-28T19:00:00,120,7,3,0,Columbus Blue Jackets,2,New York Islanders
+120,2023020121,2023-10-28T19:00:00,121,7,5,4,Montréal Canadiens,3,Winnipeg Jets
+121,2023020122,2023-10-28T19:00:00,122,7,4,3,Nashville Predators,2,Toronto Maple Leafs
+122,2023020123,2023-10-28T19:00:00,123,7,3,2,Pittsburgh Penguins,5,Ottawa Senators
+123,2023020124,2023-10-28T22:00:00,124,7,4,3,Vancouver Canucks,4,New York Rangers
+124,2023020125,2023-10-28T22:30:00,125,7,5,3,Los Angeles Kings,4,Vegas Golden Knights
+125,2023020126,2023-10-29T13:00:00,126,7,3,4,Buffalo Sabres,0,Colorado Avalanche
+126,2023020127,2023-10-29T17:00:00,127,7,3,4,New Jersey Devils,3,Minnesota Wild
+127,2023020128,2023-10-29T17:00:00,128,7,3,3,Washington Capitals,1,San Jose Sharks
+128,2023020129,2023-10-29T19:00:00,129,7,3,5,Edmonton Oilers,2,Calgary Flames
+129,2023020130,2023-10-30T19:00:00,130,7,4,3,Boston Bruins,2,Florida Panthers
+130,2023020131,2023-10-30T19:00:00,131,7,3,2,Philadelphia Flyers,3,Carolina Hurricanes
+131,2023020132,2023-10-30T19:00:00,132,7,3,3,Pittsburgh Penguins,4,Anaheim Ducks
+132,2023020133,2023-10-30T19:00:00,133,7,4,3,Tampa Bay Lightning,4,Seattle Kraken
+133,2023020134,2023-10-30T19:30:00,134,7,4,3,New York Islanders,4,Detroit Red Wings
+134,2023020135,2023-10-30T19:30:00,135,7,4,2,Winnipeg Jets,3,New York Rangers
+135,2023020136,2023-10-30T20:00:00,136,7,3,5,Dallas Stars,3,Columbus Blue Jackets
+136,2023020137,2023-10-30T22:00:00,137,7,3,8,Arizona Coyotes,1,Chicago Blackhawks
+137,2023020138,2023-10-30T22:00:00,138,7,5,3,Vegas Golden Knights,2,Montréal Canadiens
+138,2023020139,2023-10-31T20:00:00,139,7,3,1,Toronto Maple Leafs,4,Los Angeles Kings
+139,2023020140,2023-10-31T22:00:00,140,7,3,5,Vancouver Canucks,2,Nashville Predators
+140,2023020141,2023-11-01T19:00:00,141,7,3,2,Philadelphia Flyers,5,Buffalo Sabres
+141,2023020142,2023-11-01T20:30:00,142,7,3,3,Calgary Flames,4,Dallas Stars
+142,2023020143,2023-11-01T21:30:00,143,7,3,4,Colorado Avalanche,1,St. Louis Blues
+143,2023020144,2023-11-01T22:00:00,144,7,4,4,Anaheim Ducks,3,Arizona Coyotes
+144,2023020145,2023-11-02T19:30:00,145,7,5,3,Boston Bruins,2,Toronto Maple Leafs
+145,2023020146,2023-11-02T19:00:00,146,7,3,4,Columbus Blue Jackets,2,Tampa Bay Lightning
+146,2023020147,2023-11-02T19:00:00,147,7,3,0,Detroit Red Wings,2,Florida Panthers
+147,2023020148,2023-11-02T19:00:00,148,7,3,2,New York Rangers,1,Carolina Hurricanes
+148,2023020149,2023-11-02T19:00:00,149,7,3,2,Ottawa Senators,3,Los Angeles Kings
+149,2023020150,2023-11-02T19:00:00,150,7,3,0,Washington Capitals,3,New York Islanders
+150,2023020151,2023-11-02T20:00:00,151,7,3,3,Minnesota Wild,5,New Jersey Devils
+151,2023020152,2023-11-02T21:00:00,152,7,3,3,Edmonton Oilers,4,Dallas Stars
+152,2023020153,2023-11-02T22:00:00,153,7,3,3,Arizona Coyotes,2,Montréal Canadiens
+153,2023020154,2023-11-02T22:00:00,154,7,3,4,Seattle Kraken,2,Nashville Predators
+154,2023020155,2023-11-02T22:00:00,155,7,3,5,Vegas Golden Knights,2,Winnipeg Jets
+155,2023020156,2023-11-02T22:30:00,156,7,3,1,San Jose Sharks,10,Vancouver Canucks
+156,2023020157,2023-11-03T19:00:00,157,7,3,1,Buffalo Sabres,5,Philadelphia Flyers
+157,2023020158,2023-11-03T20:00:00,158,7,3,4,St. Louis Blues,1,New Jersey Devils
+158,2023020159,2023-11-04T15:00:00,159,7,3,2,Edmonton Oilers,5,Nashville Predators
+159,2023020160,2023-11-04T16:00:00,160,7,3,3,Arizona Coyotes,5,Winnipeg Jets
+160,2023020161,2023-11-04T19:00:00,161,7,3,5,Detroit Red Wings,4,Boston Bruins
+161,2023020162,2023-11-04T19:00:00,162,7,3,4,Ottawa Senators,6,Tampa Bay Lightning
+162,2023020163,2023-11-04T19:30:00,163,7,3,0,Philadelphia Flyers,5,Los Angeles Kings
+163,2023020164,2023-11-04T19:00:00,164,7,3,6,St. Louis Blues,3,Montréal Canadiens
+164,2023020165,2023-11-04T19:00:00,165,7,3,4,Toronto Maple Leafs,6,Buffalo Sabres
+165,2023020166,2023-11-04T19:00:00,166,7,3,2,Washington Capitals,1,Columbus Blue Jackets
+166,2023020167,2023-11-04T19:30:00,167,7,4,3,New York Islanders,4,Carolina Hurricanes
+167,2023020168,2023-11-04T20:00:00,168,7,3,5,Chicago Blackhawks,2,Florida Panthers
+168,2023020169,2023-11-04T20:00:00,169,7,5,5,Minnesota Wild,4,New York Rangers
+169,2023020170,2023-11-04T22:00:00,170,7,3,3,Seattle Kraken,6,Calgary Flames
+170,2023020171,2023-11-04T22:00:00,171,7,3,2,San Jose Sharks,10,Pittsburgh Penguins
+171,2023020172,2023-11-04T22:00:00,172,7,3,2,Vancouver Canucks,0,Dallas Stars
+172,2023020173,2023-11-04T22:00:00,173,7,3,7,Vegas Golden Knights,0,Colorado Avalanche
+173,2023020174,2023-11-05T19:00:00,174,7,3,2,Chicago Blackhawks,4,New Jersey Devils
+174,2023020175,2023-11-05T20:00:00,175,7,3,4,Anaheim Ducks,2,Vegas Golden Knights
+175,2023020176,2023-11-06T19:00:00,176,7,4,5,Florida Panthers,4,Columbus Blue Jackets
+176,2023020177,2023-11-06T19:00:00,177,7,4,6,Toronto Maple Leafs,5,Tampa Bay Lightning
+177,2023020178,2023-11-06T20:00:00,178,7,3,2,Dallas Stars,3,Boston Bruins
+178,2023020179,2023-11-06T22:00:00,179,7,3,6,Vancouver Canucks,2,Edmonton Oilers
+179,2023020180,2023-11-07T19:00:00,180,7,4,3,Carolina Hurricanes,2,Buffalo Sabres
+180,2023020181,2023-11-07T19:00:00,181,7,3,3,Montréal Canadiens,5,Tampa Bay Lightning
+181,2023020182,2023-11-07T19:30:00,182,7,3,2,New York Islanders,4,Minnesota Wild
+182,2023020183,2023-11-07T19:30:00,183,7,3,5,New York Rangers,3,Detroit Red Wings
+183,2023020184,2023-11-07T20:00:00,184,7,3,2,St. Louis Blues,5,Winnipeg Jets
+184,2023020185,2023-11-07T21:00:00,185,7,5,4,Arizona Coyotes,3,Seattle Kraken
+185,2023020186,2023-11-07T21:00:00,186,7,3,4,Calgary Flames,2,Nashville Predators
+186,2023020187,2023-11-07T22:00:00,187,7,3,0,Anaheim Ducks,2,Pittsburgh Penguins
+187,2023020188,2023-11-07T22:00:00,188,7,3,6,Colorado Avalanche,3,New Jersey Devils
+188,2023020189,2023-11-07T22:30:00,189,7,3,2,San Jose Sharks,1,Philadelphia Flyers
+189,2023020190,2023-11-08T19:00:00,190,7,3,3,Toronto Maple Leafs,6,Ottawa Senators
+190,2023020191,2023-11-08T19:30:00,191,7,4,3,Washington Capitals,4,Florida Panthers
+191,2023020192,2023-11-08T22:00:00,192,7,3,1,Vegas Golden Knights,4,Los Angeles Kings
+192,2023020193,2023-11-09T19:00:00,193,7,3,5,Boston Bruins,2,New York Islanders
+193,2023020194,2023-11-09T19:30:00,194,7,3,2,Columbus Blue Jackets,5,Dallas Stars
+194,2023020195,2023-11-09T19:00:00,195,7,4,2,Detroit Red Wings,3,Montréal Canadiens
+195,2023020196,2023-11-09T19:00:00,196,7,3,4,New York Rangers,1,Minnesota Wild
+196,2023020197,2023-11-09T19:00:00,197,7,3,2,Ottawa Senators,5,Vancouver Canucks
+197,2023020198,2023-11-09T19:00:00,198,7,3,3,Tampa Bay Lightning,5,Chicago Blackhawks
+198,2023020199,2023-11-09T20:00:00,199,7,3,2,St. Louis Blues,1,Arizona Coyotes
+199,2023020200,2023-11-09T20:00:00,200,7,3,6,Winnipeg Jets,3,Nashville Predators
+200,2023020201,2023-11-09T21:00:00,201,7,3,3,Colorado Avalanche,4,Seattle Kraken
+201,2023020202,2023-11-09T22:30:00,202,7,4,3,Los Angeles Kings,4,Pittsburgh Penguins
+202,2023020203,2023-11-09T22:30:00,203,7,3,3,San Jose Sharks,2,Edmonton Oilers
+203,2023020204,2023-11-10T19:00:00,204,7,3,3,Buffalo Sabres,2,Minnesota Wild
+204,2023020205,2023-11-10T19:00:00,205,7,3,5,Florida Panthers,2,Carolina Hurricanes
+205,2023020206,2023-11-10T19:00:00,206,7,3,2,New Jersey Devils,4,Washington Capitals
+206,2023020207,2023-11-10T19:00:00,207,7,5,5,Toronto Maple Leafs,4,Calgary Flames
+207,2023020208,2023-11-10T22:00:00,208,7,3,3,Anaheim Ducks,6,Philadelphia Flyers
+208,2023020209,2023-11-10T22:00:00,209,7,3,5,Vegas Golden Knights,0,San Jose Sharks
+209,2023020210,2023-11-11T13:00:00,210,7,3,5,Detroit Red Wings,4,Columbus Blue Jackets
+210,2023020211,2023-11-11T15:00:00,211,7,3,2,Winnipeg Jets,3,Dallas Stars
+211,2023020212,2023-11-11T19:00:00,212,7,4,3,Montréal Canadiens,2,Boston Bruins
+212,2023020213,2023-11-11T19:00:00,213,7,3,4,Ottawa Senators,1,Calgary Flames
+213,2023020214,2023-11-11T19:00:00,214,7,3,0,Tampa Bay Lightning,4,Carolina Hurricanes
+214,2023020215,2023-11-11T19:00:00,215,7,3,5,Toronto Maple Leafs,2,Vancouver Canucks
+215,2023020216,2023-11-11T19:30:00,216,7,3,1,New York Islanders,4,Washington Capitals
+216,2023020217,2023-11-11T19:30:00,217,7,3,4,Pittsburgh Penguins,0,Buffalo Sabres
+217,2023020218,2023-11-11T20:00:00,218,7,3,5,Nashville Predators,7,Arizona Coyotes
+218,2023020219,2023-11-11T21:00:00,219,7,3,2,Colorado Avalanche,8,St. Louis Blues
+219,2023020220,2023-11-11T22:00:00,220,7,3,1,Seattle Kraken,4,Edmonton Oilers
+220,2023020221,2023-11-11T22:30:00,221,7,3,2,Los Angeles Kings,4,Philadelphia Flyers
+221,2023020222,2023-11-12T13:00:00,222,7,3,4,Florida Panthers,3,Chicago Blackhawks
+222,2023020223,2023-11-12T18:00:00,223,7,3,3,Minnesota Wild,8,Dallas Stars
+223,2023020224,2023-11-12T19:00:00,224,7,3,2,Montréal Canadiens,5,Vancouver Canucks
+224,2023020225,2023-11-12T19:00:00,225,7,5,4,New York Rangers,3,Columbus Blue Jackets
+225,2023020226,2023-11-12T20:00:00,226,7,3,4,Anaheim Ducks,1,San Jose Sharks
+226,2023020227,2023-11-13T20:30:00,227,7,3,4,Edmonton Oilers,1,New York Islanders
+227,2023020228,2023-11-13T22:00:00,228,7,3,1,Seattle Kraken,5,Colorado Avalanche
+228,2023020229,2023-11-14T19:00:00,229,7,3,2,Buffalo Sabres,5,Boston Bruins
+229,2023020230,2023-11-14T19:00:00,230,7,3,3,Columbus Blue Jackets,5,Pittsburgh Penguins
+230,2023020231,2023-11-14T19:00:00,231,7,3,1,Montréal Canadiens,2,Calgary Flames
+231,2023020232,2023-11-14T19:00:00,232,7,3,3,Washington Capitals,0,Vegas Golden Knights
+232,2023020233,2023-11-14T20:00:00,233,7,4,4,Dallas Stars,3,Arizona Coyotes
+233,2023020234,2023-11-14T20:00:00,234,7,3,2,Nashville Predators,3,Anaheim Ducks
+234,2023020235,2023-11-14T20:00:00,235,7,3,5,St. Louis Blues,0,Tampa Bay Lightning
+235,2023020236,2023-11-14T20:00:00,236,7,3,6,Winnipeg Jets,3,New Jersey Devils
+236,2023020237,2023-11-14T22:30:00,237,7,3,3,San Jose Sharks,5,Florida Panthers
+237,2023020238,2023-11-15T19:30:00,238,7,3,1,Carolina Hurricanes,3,Philadelphia Flyers
+238,2023020239,2023-11-15T20:30:00,239,7,4,4,Edmonton Oilers,3,Seattle Kraken
+239,2023020240,2023-11-15T21:00:00,240,7,3,8,Colorado Avalanche,2,Anaheim Ducks
+240,2023020241,2023-11-15T22:00:00,241,7,4,4,Vancouver Canucks,3,New York Islanders
+241,2023020242,2023-11-16T14:00:00,242,7,4,5,Ottawa Senators,4,Detroit Red Wings
+242,2023020243,2023-11-16T19:00:00,243,7,3,2,Columbus Blue Jackets,3,Arizona Coyotes
+243,2023020244,2023-11-16T19:00:00,244,7,3,5,Montréal Canadiens,6,Vegas Golden Knights
+244,2023020245,2023-11-16T19:00:00,245,7,3,2,Pittsburgh Penguins,5,New Jersey Devils
+245,2023020246,2023-11-16T20:00:00,246,7,3,2,Chicago Blackhawks,4,Tampa Bay Lightning
+246,2023020247,2023-11-16T21:00:00,247,7,3,5,Calgary Flames,2,Vancouver Canucks
+247,2023020248,2023-11-16T22:00:00,248,7,5,4,Seattle Kraken,3,New York Islanders
+248,2023020249,2023-11-16T22:30:00,249,7,3,2,Los Angeles Kings,1,Florida Panthers
+249,2023020250,2023-11-16T22:30:00,250,7,3,5,San Jose Sharks,1,St. Louis Blues
+250,2023020251,2023-11-17T14:00:00,251,7,3,2,Detroit Red Wings,3,Toronto Maple Leafs
+251,2023020252,2023-11-17T20:00:00,252,7,3,3,Winnipeg Jets,2,Buffalo Sabres
+252,2023020253,2023-11-17T22:00:00,253,7,3,1,Anaheim Ducks,2,Florida Panthers
+253,2023020254,2023-11-18T11:00:00,254,7,5,2,Ottawa Senators,1,Minnesota Wild
+254,2023020255,2023-11-18T13:00:00,255,7,4,4,Philadelphia Flyers,3,Vegas Golden Knights
+255,2023020256,2023-11-18T14:00:00,256,7,3,4,Nashville Predators,2,Chicago Blackhawks
+256,2023020257,2023-11-18T16:00:00,257,7,3,6,Tampa Bay Lightning,4,Edmonton Oilers
+257,2023020258,2023-11-18T19:00:00,258,7,3,5,Boston Bruins,2,Montréal Canadiens
+258,2023020259,2023-11-18T19:00:00,259,7,3,4,Carolina Hurricanes,2,Pittsburgh Penguins
+259,2023020260,2023-11-18T19:00:00,260,7,5,4,Calgary Flames,5,New York Islanders
+260,2023020261,2023-11-18T19:00:00,261,7,3,3,New Jersey Devils,5,New York Rangers
+261,2023020262,2023-11-18T19:00:00,262,7,3,5,Winnipeg Jets,2,Arizona Coyotes
+262,2023020263,2023-11-18T19:30:00,263,7,3,4,Washington Capitals,3,Columbus Blue Jackets
+263,2023020264,2023-11-18T20:00:00,264,7,3,3,Dallas Stars,6,Colorado Avalanche
+264,2023020265,2023-11-18T22:00:00,265,7,3,3,Vancouver Canucks,4,Seattle Kraken
+265,2023020266,2023-11-18T22:30:00,266,7,3,5,Los Angeles Kings,1,St. Louis Blues
+266,2023020267,2023-11-19T08:00:00,267,7,4,3,Minnesota Wild,4,Toronto Maple Leafs
+267,2023020268,2023-11-19T17:30:00,268,7,3,5,Philadelphia Flyers,2,Columbus Blue Jackets
+268,2023020269,2023-11-19T18:00:00,269,7,3,3,Pittsburgh Penguins,0,Vegas Golden Knights
+269,2023020270,2023-11-19T19:00:00,270,7,3,2,Chicago Blackhawks,3,Buffalo Sabres
+270,2023020271,2023-11-19T20:00:00,271,7,3,1,Anaheim Ducks,3,St. Louis Blues
+271,2023020272,2023-11-20T19:00:00,272,7,3,5,Florida Panthers,3,Edmonton Oilers
+272,2023020273,2023-11-20T19:00:00,273,7,4,5,Tampa Bay Lightning,4,Boston Bruins
+273,2023020274,2023-11-20T20:00:00,274,7,3,6,Dallas Stars,3,New York Rangers
+274,2023020275,2023-11-20T20:00:00,275,7,3,4,Nashville Predators,3,Colorado Avalanche
+275,2023020276,2023-11-20T21:00:00,276,7,3,1,Arizona Coyotes,4,Los Angeles Kings
+276,2023020277,2023-11-20T22:00:00,277,7,4,3,Seattle Kraken,4,Calgary Flames
+277,2023020278,2023-11-20T22:00:00,278,7,3,3,Vancouver Canucks,1,San Jose Sharks
+278,2023020279,2023-11-22T19:00:00,279,7,3,6,Carolina Hurricanes,3,Edmonton Oilers
+279,2023020280,2023-11-22T19:00:00,280,7,3,7,Columbus Blue Jackets,3,Chicago Blackhawks
+280,2023020281,2023-11-22T19:00:00,281,7,3,4,Detroit Red Wings,0,New Jersey Devils
+281,2023020282,2023-11-22T19:00:00,282,7,3,1,Florida Panthers,3,Boston Bruins
+282,2023020283,2023-11-22T19:00:00,283,7,3,0,Pittsburgh Penguins,1,New York Rangers
+283,2023020284,2023-11-22T19:00:00,284,7,4,2,Tampa Bay Lightning,3,Winnipeg Jets
+284,2023020285,2023-11-22T19:00:00,285,7,4,4,Washington Capitals,3,Buffalo Sabres
+285,2023020286,2023-11-22T19:30:00,286,7,3,3,New York Islanders,2,Philadelphia Flyers
+286,2023020287,2023-11-22T21:00:00,287,7,3,5,Arizona Coyotes,6,St. Louis Blues
+287,2023020288,2023-11-22T21:00:00,288,7,3,4,Nashville Predators,2,Calgary Flames
+288,2023020289,2023-11-22T21:30:00,289,7,4,1,Dallas Stars,2,Vegas Golden Knights
+289,2023020290,2023-11-22T22:00:00,290,7,3,3,Anaheim Ducks,4,Montréal Canadiens
+290,2023020291,2023-11-22T22:00:00,291,7,3,5,Colorado Avalanche,2,Vancouver Canucks
+291,2023020292,2023-11-22T22:00:00,292,7,3,7,Seattle Kraken,1,San Jose Sharks
+292,2023020293,2023-11-24T13:00:00,293,7,3,2,Boston Bruins,5,Detroit Red Wings
+293,2023020294,2023-11-24T13:00:00,294,7,3,1,Philadelphia Flyers,3,New York Rangers
+294,2023020295,2023-11-24T14:00:00,295,7,4,4,Chicago Blackhawks,3,Toronto Maple Leafs
+295,2023020296,2023-11-24T15:00:00,296,7,3,1,New Jersey Devils,2,Columbus Blue Jackets
+296,2023020297,2023-11-24T15:00:00,297,7,3,3,St. Louis Blues,8,Nashville Predators
+297,2023020298,2023-11-24T15:00:00,298,7,3,0,Washington Capitals,5,Edmonton Oilers
+298,2023020299,2023-11-24T15:30:00,299,7,3,2,Anaheim Ducks,5,Los Angeles Kings
+299,2023020300,2023-11-24T15:30:00,300,7,5,2,San Jose Sharks,3,Montréal Canadiens
+300,2023020301,2023-11-24T18:00:00,301,7,3,3,Buffalo Sabres,2,Pittsburgh Penguins
+301,2023020302,2023-11-24T19:30:00,302,7,3,3,Ottawa Senators,5,New York Islanders
+302,2023020303,2023-11-24T20:00:00,303,7,3,2,Carolina Hurricanes,8,Tampa Bay Lightning
+303,2023020304,2023-11-24T20:00:00,304,7,3,0,Florida Panthers,3,Winnipeg Jets
+304,2023020305,2023-11-24T20:30:00,305,7,3,4,Dallas Stars,7,Calgary Flames
+305,2023020306,2023-11-24T20:30:00,306,7,3,2,Minnesota Wild,3,Colorado Avalanche
+306,2023020307,2023-11-24T22:00:00,307,7,3,1,Seattle Kraken,5,Vancouver Canucks
+307,2023020308,2023-11-25T13:00:00,308,7,3,7,New York Rangers,4,Boston Bruins
+308,2023020309,2023-11-25T16:00:00,309,7,3,4,Los Angeles Kings,0,Montréal Canadiens
+309,2023020310,2023-11-25T19:00:00,310,7,3,7,New Jersey Devils,2,Buffalo Sabres
+310,2023020311,2023-11-25T19:00:00,311,7,3,3,Pittsburgh Penguins,2,Toronto Maple Leafs
+311,2023020312,2023-11-25T19:30:00,312,7,5,0,New York Islanders,1,Philadelphia Flyers
+312,2023020313,2023-11-25T22:00:00,313,7,3,3,Colorado Avalanche,1,Calgary Flames
+313,2023020314,2023-11-25T22:00:00,314,7,3,4,San Jose Sharks,3,Vancouver Canucks
+314,2023020315,2023-11-25T22:00:00,315,7,3,0,Vegas Golden Knights,2,Arizona Coyotes
+315,2023020316,2023-11-26T13:00:00,316,7,3,4,Detroit Red Wings,1,Minnesota Wild
+316,2023020317,2023-11-26T14:00:00,317,7,3,2,Chicago Blackhawks,4,St. Louis Blues
+317,2023020318,2023-11-26T17:00:00,318,7,3,3,Carolina Hurricanes,2,Columbus Blue Jackets
+318,2023020319,2023-11-26T20:00:00,319,7,3,3,Nashville Predators,2,Winnipeg Jets
+319,2023020320,2023-11-26T21:00:00,320,7,3,8,Edmonton Oilers,2,Anaheim Ducks
+320,2023020321,2023-11-27T19:00:00,321,7,3,5,Columbus Blue Jackets,2,Boston Bruins
+321,2023020322,2023-11-27T19:00:00,322,7,3,1,New York Rangers,5,Buffalo Sabres
+322,2023020323,2023-11-27T19:00:00,323,7,3,0,Ottawa Senators,5,Florida Panthers
+323,2023020324,2023-11-27T21:00:00,324,7,3,4,Colorado Avalanche,1,Tampa Bay Lightning
+324,2023020325,2023-11-27T21:30:00,325,7,4,2,Calgary Flames,1,Vegas Golden Knights
+325,2023020326,2023-11-27T22:30:00,326,7,3,2,San Jose Sharks,1,Washington Capitals
+326,2023020327,2023-11-28T19:00:00,327,7,3,5,New Jersey Devils,4,New York Islanders
+327,2023020328,2023-11-28T19:30:00,328,7,3,1,Philadelphia Flyers,4,Carolina Hurricanes
+328,2023020329,2023-11-28T19:00:00,329,7,5,2,Toronto Maple Leafs,1,Florida Panthers
+329,2023020330,2023-11-28T20:00:00,330,7,3,3,Minnesota Wild,1,St. Louis Blues
+330,2023020331,2023-11-28T20:00:00,331,7,4,3,Nashville Predators,2,Pittsburgh Penguins
+331,2023020332,2023-11-28T20:00:00,332,7,3,0,Winnipeg Jets,2,Dallas Stars
+332,2023020333,2023-11-28T20:30:00,333,7,3,4,Chicago Blackhawks,3,Seattle Kraken
+333,2023020334,2023-11-28T21:00:00,334,7,3,3,Arizona Coyotes,1,Tampa Bay Lightning
+334,2023020335,2023-11-28T21:00:00,335,7,5,5,Edmonton Oilers,4,Vegas Golden Knights
+335,2023020336,2023-11-28T22:00:00,336,7,3,3,Vancouver Canucks,1,Anaheim Ducks
+336,2023020337,2023-11-29T19:00:00,337,7,3,2,Columbus Blue Jackets,4,Montréal Canadiens
+337,2023020338,2023-11-29T19:30:00,338,7,3,3,New York Rangers,2,Detroit Red Wings
+338,2023020339,2023-11-29T22:30:00,339,7,3,1,Los Angeles Kings,2,Washington Capitals
+339,2023020340,2023-11-30T19:00:00,340,7,3,3,Boston Bruins,0,San Jose Sharks
+340,2023020341,2023-11-30T19:30:00,341,7,4,4,Carolina Hurricanes,5,New York Islanders
+341,2023020342,2023-11-30T19:00:00,342,7,3,5,Detroit Red Wings,1,Chicago Blackhawks
+342,2023020343,2023-11-30T19:00:00,343,7,3,1,Montréal Canadiens,5,Florida Panthers
+343,2023020344,2023-11-30T19:00:00,344,7,4,3,Philadelphia Flyers,4,New Jersey Devils
+344,2023020345,2023-11-30T19:00:00,345,7,3,2,Tampa Bay Lightning,4,Pittsburgh Penguins
+345,2023020346,2023-11-30T19:00:00,346,7,5,4,Toronto Maple Leafs,3,Seattle Kraken
+346,2023020347,2023-11-30T20:00:00,347,7,3,1,Nashville Predators,6,Minnesota Wild
+347,2023020348,2023-11-30T20:00:00,348,7,3,6,St. Louis Blues,4,Buffalo Sabres
+348,2023020349,2023-11-30T20:00:00,349,7,3,1,Winnipeg Jets,3,Edmonton Oilers
+349,2023020350,2023-11-30T21:00:00,350,7,4,4,Arizona Coyotes,3,Colorado Avalanche
+350,2023020351,2023-11-30T21:00:00,351,7,4,4,Calgary Flames,3,Dallas Stars
+351,2023020352,2023-11-30T22:00:00,352,7,3,4,Anaheim Ducks,5,Washington Capitals
+352,2023020353,2023-11-30T22:00:00,353,7,3,1,Vancouver Canucks,4,Vegas Golden Knights
+353,2023020354,2023-12-01T19:00:00,354,7,3,4,Columbus Blue Jackets,2,Ottawa Senators
+354,2023020355,2023-12-01T19:00:00,355,7,3,3,New Jersey Devils,6,San Jose Sharks
+355,2023020356,2023-12-02T14:00:00,356,7,3,8,Dallas Stars,1,Tampa Bay Lightning
+356,2023020357,2023-12-02T15:00:00,357,7,3,3,Winnipeg Jets,1,Chicago Blackhawks
+357,2023020358,2023-12-02T16:30:00,358,7,3,3,Nashville Predators,4,New York Rangers
+358,2023020359,2023-12-02T18:00:00,359,7,3,3,Florida Panthers,4,New York Islanders
+359,2023020360,2023-12-02T19:00:00,360,7,3,6,Carolina Hurricanes,2,Buffalo Sabres
+360,2023020361,2023-12-02T19:00:00,361,7,4,4,Montréal Canadiens,5,Detroit Red Wings
+361,2023020362,2023-12-02T19:00:00,362,7,3,2,Ottawa Senators,0,Seattle Kraken
+362,2023020363,2023-12-02T19:00:00,363,7,5,3,Pittsburgh Penguins,4,Philadelphia Flyers
+363,2023020364,2023-12-02T19:00:00,364,7,4,3,Toronto Maple Leafs,4,Boston Bruins
+364,2023020365,2023-12-02T21:00:00,365,7,3,4,Arizona Coyotes,1,St. Louis Blues
+365,2023020366,2023-12-02T22:00:00,366,7,5,4,Anaheim Ducks,3,Colorado Avalanche
+366,2023020367,2023-12-02T22:00:00,367,7,3,3,Calgary Flames,4,Vancouver Canucks
+367,2023020368,2023-12-02T22:00:00,368,7,3,4,Vegas Golden Knights,1,Washington Capitals
+368,2023020369,2023-12-03T14:00:00,369,7,3,4,Minnesota Wild,1,Chicago Blackhawks
+369,2023020370,2023-12-03T18:00:00,370,7,3,6,New York Rangers,5,San Jose Sharks
+370,2023020371,2023-12-03T19:00:00,371,7,3,3,Boston Bruins,1,Columbus Blue Jackets
+371,2023020372,2023-12-03T19:00:00,372,7,3,1,Buffalo Sabres,2,Nashville Predators
+372,2023020373,2023-12-03T20:00:00,373,7,3,4,Los Angeles Kings,1,Colorado Avalanche
+373,2023020374,2023-12-04T19:00:00,374,7,4,2,Philadelphia Flyers,1,Pittsburgh Penguins
+374,2023020375,2023-12-04T19:00:00,375,7,3,4,Tampa Bay Lightning,0,Dallas Stars
+375,2023020376,2023-12-04T19:30:00,376,7,3,4,Montréal Canadiens,2,Seattle Kraken
+376,2023020377,2023-12-04T19:30:00,377,7,3,2,Winnipeg Jets,1,Carolina Hurricanes
+377,2023020378,2023-12-04T21:00:00,378,7,3,6,Arizona Coyotes,0,Washington Capitals
+378,2023020379,2023-12-04T22:00:00,379,7,4,1,Vegas Golden Knights,2,St. Louis Blues
+379,2023020380,2023-12-05T19:30:00,380,7,3,3,Buffalo Sabres,5,Detroit Red Wings
+380,2023020381,2023-12-05T19:00:00,381,7,4,3,Columbus Blue Jackets,4,Los Angeles Kings
+381,2023020382,2023-12-05T19:00:00,382,7,3,6,Ottawa Senators,2,New York Rangers
+382,2023020383,2023-12-05T19:30:00,383,7,4,4,New York Islanders,5,San Jose Sharks
+383,2023020384,2023-12-05T20:30:00,384,7,5,3,Chicago Blackhawks,4,Nashville Predators
+384,2023020385,2023-12-05T21:00:00,385,7,3,2,Calgary Flames,5,Minnesota Wild
+385,2023020386,2023-12-05T21:00:00,386,7,3,3,Colorado Avalanche,2,Anaheim Ducks
+386,2023020387,2023-12-05T22:00:00,387,7,3,5,Vancouver Canucks,6,New Jersey Devils
+387,2023020388,2023-12-06T19:00:00,388,7,3,5,Florida Panthers,4,Dallas Stars
+388,2023020389,2023-12-06T19:00:00,389,7,3,3,Tampa Bay Lightning,1,Pittsburgh Penguins
+389,2023020390,2023-12-06T21:00:00,390,7,3,3,St. Louis Blues,6,Vegas Golden Knights
+390,2023020391,2023-12-06T21:30:00,391,7,3,6,Edmonton Oilers,1,Carolina Hurricanes
+391,2023020392,2023-12-07T19:00:00,392,7,3,1,Boston Bruins,3,Buffalo Sabres
+392,2023020393,2023-12-07T19:00:00,393,7,4,5,Detroit Red Wings,6,San Jose Sharks
+393,2023020394,2023-12-07T19:00:00,394,7,3,0,Montréal Canadiens,4,Los Angeles Kings
+394,2023020395,2023-12-07T19:00:00,395,7,3,3,Ottawa Senators,4,Toronto Maple Leafs
+395,2023020396,2023-12-07T20:00:00,396,7,5,4,Washington Capitals,5,Dallas Stars
+396,2023020397,2023-12-07T19:30:00,397,7,3,7,New York Islanders,3,Columbus Blue Jackets
+397,2023020398,2023-12-07T20:00:00,398,7,3,5,Nashville Predators,1,Tampa Bay Lightning
+398,2023020399,2023-12-07T20:30:00,399,7,3,1,Chicago Blackhawks,0,Anaheim Ducks
+399,2023020400,2023-12-07T21:00:00,400,7,3,1,Arizona Coyotes,4,Philadelphia Flyers
+400,2023020401,2023-12-07T21:00:00,401,7,3,3,Calgary Flames,2,Carolina Hurricanes
+401,2023020402,2023-12-07T21:00:00,402,7,3,2,Colorado Avalanche,4,Winnipeg Jets
+402,2023020403,2023-12-07T22:30:00,403,7,3,1,Seattle Kraken,2,New Jersey Devils
+403,2023020404,2023-12-07T22:00:00,404,7,3,2,Vancouver Canucks,0,Minnesota Wild
+404,2023020405,2023-12-08T19:00:00,405,7,3,5,Columbus Blue Jackets,2,St. Louis Blues
+405,2023020406,2023-12-08T19:00:00,406,7,3,3,Florida Panthers,1,Pittsburgh Penguins
+406,2023020407,2023-12-08T21:00:00,407,7,3,4,Edmonton Oilers,3,Minnesota Wild
+407,2023020408,2023-12-09T13:00:00,408,7,3,5,Boston Bruins,3,Arizona Coyotes
+408,2023020409,2023-12-09T16:00:00,409,7,3,2,Calgary Flames,4,New Jersey Devils
+409,2023020410,2023-12-09T16:00:00,410,7,3,1,Dallas Stars,6,Vegas Golden Knights
+410,2023020411,2023-12-09T19:00:00,411,7,5,2,Buffalo Sabres,3,Montréal Canadiens
+411,2023020412,2023-12-09T19:00:00,412,7,3,1,Detroit Red Wings,5,Ottawa Senators
+412,2023020413,2023-12-09T19:00:00,413,7,3,4,Toronto Maple Leafs,0,Nashville Predators
+413,2023020414,2023-12-09T19:00:00,414,7,3,4,Washington Capitals,0,New York Rangers
+414,2023020415,2023-12-09T19:30:00,415,7,4,3,New York Islanders,2,Los Angeles Kings
+415,2023020416,2023-12-09T20:00:00,416,7,3,3,Chicago Blackhawks,1,St. Louis Blues
+416,2023020417,2023-12-09T21:00:00,417,7,3,2,Colorado Avalanche,5,Philadelphia Flyers
+417,2023020418,2023-12-09T22:00:00,418,7,4,3,Seattle Kraken,4,Tampa Bay Lightning
+418,2023020419,2023-12-09T22:00:00,419,7,3,4,Vancouver Canucks,3,Carolina Hurricanes
+419,2023020420,2023-12-10T13:00:00,420,7,3,2,Columbus Blue Jackets,5,Florida Panthers
+420,2023020421,2023-12-10T16:00:00,421,7,3,4,Edmonton Oilers,1,New Jersey Devils
+421,2023020422,2023-12-10T19:00:00,422,7,3,2,Chicago Blackhawks,4,Washington Capitals
+422,2023020423,2023-12-10T19:00:00,423,7,3,1,Montréal Canadiens,2,Nashville Predators
+423,2023020424,2023-12-10T19:00:00,424,7,3,4,New York Rangers,1,Los Angeles Kings
+424,2023020425,2023-12-10T20:00:00,425,7,3,2,Anaheim Ducks,4,Winnipeg Jets
+425,2023020426,2023-12-10T21:00:00,426,7,3,0,Seattle Kraken,3,Minnesota Wild
+426,2023020427,2023-12-10T22:00:00,427,7,5,5,Vegas Golden Knights,4,San Jose Sharks
+427,2023020428,2023-12-11T19:00:00,428,7,3,5,Buffalo Sabres,2,Arizona Coyotes
+428,2023020429,2023-12-11T19:00:00,429,7,4,4,New York Islanders,3,Toronto Maple Leafs
+429,2023020430,2023-12-11T20:00:00,430,7,3,6,Dallas Stars,3,Detroit Red Wings
+430,2023020431,2023-12-11T21:30:00,431,7,3,6,Colorado Avalanche,5,Calgary Flames
+431,2023020432,2023-12-12T19:00:00,432,7,3,3,New York Rangers,7,Toronto Maple Leafs
+432,2023020433,2023-12-12T19:00:00,433,7,3,1,Ottawa Senators,4,Carolina Hurricanes
+433,2023020434,2023-12-12T19:00:00,434,7,3,4,Pittsburgh Penguins,2,Arizona Coyotes
+434,2023020435,2023-12-12T20:00:00,435,7,4,3,Nashville Predators,2,Philadelphia Flyers
+435,2023020436,2023-12-12T19:30:00,436,7,3,4,St. Louis Blues,6,Detroit Red Wings
+436,2023020437,2023-12-12T22:00:00,437,7,3,4,Edmonton Oilers,1,Chicago Blackhawks
+437,2023020438,2023-12-12T22:00:00,438,7,3,4,Seattle Kraken,0,Florida Panthers
+438,2023020439,2023-12-12T22:00:00,439,7,3,4,Vancouver Canucks,1,Tampa Bay Lightning
+439,2023020440,2023-12-12T22:00:00,440,7,4,5,Vegas Golden Knights,4,Calgary Flames
+440,2023020441,2023-12-12T22:30:00,441,7,3,2,San Jose Sharks,1,Winnipeg Jets
+441,2023020442,2023-12-13T19:00:00,442,7,5,3,Montréal Canadiens,4,Pittsburgh Penguins
+442,2023020443,2023-12-13T19:30:00,443,7,4,2,New Jersey Devils,1,Boston Bruins
+443,2023020444,2023-12-13T19:30:00,444,7,3,4,New York Islanders,3,Anaheim Ducks
+444,2023020445,2023-12-13T22:00:00,445,7,3,5,Colorado Avalanche,1,Buffalo Sabres
+445,2023020446,2023-12-13T22:30:00,446,7,3,2,Los Angeles Kings,5,Winnipeg Jets
+446,2023020447,2023-12-14T19:30:00,447,7,3,1,Detroit Red Wings,2,Carolina Hurricanes
+447,2023020448,2023-12-14T19:00:00,448,7,5,4,Philadelphia Flyers,3,Washington Capitals
+448,2023020449,2023-12-14T19:00:00,449,7,4,5,Toronto Maple Leafs,6,Columbus Blue Jackets
+449,2023020450,2023-12-14T20:00:00,450,7,5,3,Minnesota Wild,2,Calgary Flames
+450,2023020451,2023-12-14T20:00:00,451,7,3,4,St. Louis Blues,2,Ottawa Senators
+451,2023020452,2023-12-14T21:00:00,452,7,3,4,Edmonton Oilers,7,Tampa Bay Lightning
+452,2023020453,2023-12-14T22:00:00,453,7,3,7,Seattle Kraken,1,Chicago Blackhawks
+453,2023020454,2023-12-14T22:00:00,454,7,3,4,Vancouver Canucks,0,Florida Panthers
+454,2023020455,2023-12-15T19:30:00,455,7,4,5,Carolina Hurricanes,6,Nashville Predators
+455,2023020456,2023-12-15T19:00:00,456,7,3,5,New York Rangers,1,Anaheim Ducks
+456,2023020457,2023-12-15T19:30:00,457,7,5,4,New York Islanders,5,Boston Bruins
+457,2023020458,2023-12-15T20:00:00,458,7,3,5,Dallas Stars,4,Ottawa Senators
+458,2023020459,2023-12-15T21:00:00,459,7,3,1,Arizona Coyotes,0,San Jose Sharks
+459,2023020460,2023-12-15T22:00:00,460,7,3,2,Vegas Golden Knights,5,Buffalo Sabres
+460,2023020461,2023-12-16T14:00:00,461,7,5,2,Minnesota Wild,1,Vancouver Canucks
+461,2023020462,2023-12-16T19:00:00,462,7,4,1,Boston Bruins,2,New York Rangers
+462,2023020463,2023-12-16T19:00:00,463,7,3,3,Columbus Blue Jackets,6,New Jersey Devils
+463,2023020464,2023-12-16T19:00:00,464,7,3,5,Montréal Canadiens,3,New York Islanders
+464,2023020465,2023-12-16T19:00:00,465,7,3,1,Philadelphia Flyers,0,Detroit Red Wings
+465,2023020466,2023-12-16T19:00:00,466,7,3,7,Toronto Maple Leafs,0,Pittsburgh Penguins
+466,2023020467,2023-12-16T19:00:00,467,7,3,6,Winnipeg Jets,2,Colorado Avalanche
+467,2023020468,2023-12-16T20:00:00,468,7,3,3,Nashville Predators,1,Washington Capitals
+468,2023020469,2023-12-16T20:00:00,469,7,4,4,St. Louis Blues,3,Dallas Stars
+469,2023020470,2023-12-16T21:00:00,470,7,3,2,Arizona Coyotes,0,Buffalo Sabres
+470,2023020471,2023-12-16T22:00:00,471,7,3,4,Calgary Flames,2,Tampa Bay Lightning
+471,2023020472,2023-12-16T22:00:00,472,7,3,1,Edmonton Oilers,5,Florida Panthers
+472,2023020473,2023-12-16T22:00:00,473,7,5,2,Seattle Kraken,3,Los Angeles Kings
+473,2023020474,2023-12-17T15:00:00,474,7,3,3,Chicago Blackhawks,4,Vancouver Canucks
+474,2023020475,2023-12-17T18:00:00,475,7,5,1,Carolina Hurricanes,2,Washington Capitals
+475,2023020476,2023-12-17T19:00:00,476,7,3,1,New Jersey Devils,5,Anaheim Ducks
+476,2023020477,2023-12-17T20:00:00,477,7,3,6,Colorado Avalanche,2,San Jose Sharks
+477,2023020478,2023-12-17T20:00:00,478,7,3,6,Vegas Golden Knights,3,Ottawa Senators
+478,2023020479,2023-12-18T19:00:00,479,7,3,3,Detroit Red Wings,4,Anaheim Ducks
+479,2023020480,2023-12-18T19:00:00,480,7,3,4,Pittsburgh Penguins,3,Minnesota Wild
+480,2023020481,2023-12-18T19:30:00,481,7,4,2,Winnipeg Jets,3,Montréal Canadiens
+481,2023020482,2023-12-18T20:00:00,482,7,4,4,Dallas Stars,3,Seattle Kraken
+482,2023020483,2023-12-18T21:30:00,483,7,3,3,Calgary Flames,1,Florida Panthers
+483,2023020484,2023-12-19T19:00:00,484,7,4,3,Boston Bruins,4,Minnesota Wild
+484,2023020485,2023-12-19T19:00:00,485,7,3,4,Buffalo Sabres,9,Columbus Blue Jackets
+485,2023020486,2023-12-19T19:00:00,486,7,3,6,Carolina Hurricanes,3,Vegas Golden Knights
+486,2023020487,2023-12-19T19:00:00,487,7,4,2,New Jersey Devils,3,Philadelphia Flyers
+487,2023020488,2023-12-19T19:00:00,488,7,3,6,Tampa Bay Lightning,1,St. Louis Blues
+488,2023020489,2023-12-19T19:00:00,489,7,3,2,Toronto Maple Leafs,5,New York Rangers
+489,2023020490,2023-12-19T19:30:00,490,7,3,3,New York Islanders,1,Edmonton Oilers
+490,2023020491,2023-12-19T20:00:00,491,7,3,2,Nashville Predators,5,Vancouver Canucks
+491,2023020492,2023-12-19T20:30:00,492,7,3,3,Chicago Blackhawks,2,Colorado Avalanche
+492,2023020493,2023-12-19T21:00:00,493,7,3,4,Arizona Coyotes,3,Ottawa Senators
+493,2023020494,2023-12-19T22:30:00,494,7,3,1,San Jose Sharks,4,Los Angeles Kings
+494,2023020495,2023-12-20T19:30:00,495,7,3,5,Winnipeg Jets,2,Detroit Red Wings
+495,2023020496,2023-12-20T19:30:00,496,7,4,3,Washington Capitals,2,New York Islanders
+496,2023020497,2023-12-20T22:00:00,497,7,3,1,Los Angeles Kings,2,Seattle Kraken
+497,2023020498,2023-12-21T19:00:00,498,7,3,9,Buffalo Sabres,3,Toronto Maple Leafs
+498,2023020499,2023-12-21T19:00:00,499,7,4,2,Columbus Blue Jackets,3,Washington Capitals
+499,2023020500,2023-12-21T19:00:00,500,7,3,1,Florida Panthers,4,St. Louis Blues
+500,2023020501,2023-12-21T19:30:00,501,7,3,3,New Jersey Devils,6,Edmonton Oilers
+501,2023020502,2023-12-21T19:00:00,502,7,3,2,Philadelphia Flyers,4,Nashville Predators
+502,2023020503,2023-12-21T19:00:00,503,7,5,2,Pittsburgh Penguins,1,Carolina Hurricanes
+503,2023020504,2023-12-21T19:00:00,504,7,3,5,Tampa Bay Lightning,4,Vegas Golden Knights
+504,2023020505,2023-12-21T20:00:00,505,7,4,4,Dallas Stars,3,Vancouver Canucks
+505,2023020506,2023-12-21T20:00:00,506,7,4,4,Minnesota Wild,3,Montréal Canadiens
+506,2023020507,2023-12-21T21:00:00,507,7,3,6,Colorado Avalanche,4,Ottawa Senators
+507,2023020508,2023-12-21T22:00:00,508,7,3,0,Anaheim Ducks,3,Calgary Flames
+508,2023020509,2023-12-21T22:30:00,509,7,3,2,San Jose Sharks,5,Arizona Coyotes
+509,2023020510,2023-12-22T19:00:00,510,7,5,7,Detroit Red Wings,6,Philadelphia Flyers
+510,2023020511,2023-12-22T19:30:00,511,7,3,3,New York Rangers,4,Edmonton Oilers
+511,2023020512,2023-12-22T20:00:00,512,7,3,5,Winnipeg Jets,1,Boston Bruins
+512,2023020513,2023-12-22T20:30:00,513,7,3,2,Chicago Blackhawks,5,Montréal Canadiens
+513,2023020514,2023-12-23T15:00:00,514,7,3,4,Florida Panthers,2,Vegas Golden Knights
+514,2023020515,2023-12-23T14:00:00,515,7,3,2,Nashville Predators,3,Dallas Stars
+515,2023020516,2023-12-23T19:30:00,516,7,3,4,Carolina Hurricanes,5,New York Islanders
+516,2023020517,2023-12-23T19:00:00,517,7,3,1,Columbus Blue Jackets,4,Toronto Maple Leafs
+517,2023020518,2023-12-23T19:00:00,518,7,3,3,Minnesota Wild,2,Boston Bruins
+518,2023020519,2023-12-23T19:00:00,519,7,3,3,New Jersey Devils,2,Detroit Red Wings
+519,2023020520,2023-12-23T19:00:00,520,7,4,5,Ottawa Senators,4,Pittsburgh Penguins
+520,2023020521,2023-12-23T19:00:00,521,7,5,1,Washington Capitals,2,Tampa Bay Lightning
+521,2023020522,2023-12-23T19:30:00,522,7,4,4,New York Rangers,3,Buffalo Sabres
+522,2023020523,2023-12-23T20:00:00,523,7,3,2,Anaheim Ducks,3,Seattle Kraken
+523,2023020524,2023-12-23T20:00:00,524,7,3,7,St. Louis Blues,5,Chicago Blackhawks
+524,2023020525,2023-12-23T21:00:00,525,7,3,4,Colorado Avalanche,1,Arizona Coyotes
+525,2023020526,2023-12-23T22:00:00,526,7,3,5,Los Angeles Kings,3,Calgary Flames
+526,2023020527,2023-12-23T22:00:00,527,7,3,7,Vancouver Canucks,4,San Jose Sharks
+527,2023020528,2023-12-27T19:00:00,528,7,4,4,New Jersey Devils,3,Columbus Blue Jackets
+528,2023020529,2023-12-27T19:00:00,529,7,3,5,New York Rangers,1,Washington Capitals
+529,2023020530,2023-12-27T19:00:00,530,7,3,2,Tampa Bay Lightning,3,Florida Panthers
+530,2023020531,2023-12-27T19:00:00,531,7,3,2,Toronto Maple Leafs,4,Ottawa Senators
+531,2023020532,2023-12-27T19:30:00,532,7,3,1,Buffalo Sabres,4,Boston Bruins
+532,2023020533,2023-12-27T19:30:00,533,7,3,0,New York Islanders,7,Pittsburgh Penguins
+533,2023020534,2023-12-27T20:00:00,534,7,3,6,Minnesota Wild,3,Detroit Red Wings
+534,2023020535,2023-12-27T20:00:00,535,7,3,2,Nashville Predators,5,Carolina Hurricanes
+535,2023020536,2023-12-27T20:00:00,536,7,3,2,St. Louis Blues,1,Dallas Stars
+536,2023020537,2023-12-27T21:00:00,537,7,4,5,Arizona Coyotes,4,Colorado Avalanche
+537,2023020538,2023-12-27T21:00:00,538,7,4,2,Chicago Blackhawks,1,Winnipeg Jets
+538,2023020539,2023-12-27T21:30:00,539,7,3,1,Calgary Flames,2,Seattle Kraken
+539,2023020540,2023-12-27T22:00:00,540,7,3,5,Anaheim Ducks,2,Vegas Golden Knights
+540,2023020541,2023-12-27T22:00:00,541,7,3,5,Los Angeles Kings,1,San Jose Sharks
+541,2023020542,2023-12-28T19:00:00,542,7,3,5,Carolina Hurricanes,3,Montréal Canadiens
+542,2023020543,2023-12-28T22:00:00,543,7,3,1,Vancouver Canucks,4,Philadelphia Flyers
+543,2023020544,2023-12-28T22:00:00,544,7,3,3,Vegas Golden Knights,2,Los Angeles Kings
+544,2023020545,2023-12-28T22:30:00,545,7,3,0,San Jose Sharks,5,Edmonton Oilers
+545,2023020546,2023-12-29T19:00:00,546,7,4,6,Columbus Blue Jackets,5,Toronto Maple Leafs
+546,2023020547,2023-12-29T19:00:00,547,7,4,5,Detroit Red Wings,4,Nashville Predators
+547,2023020548,2023-12-29T19:00:00,548,7,3,4,Florida Panthers,3,New York Rangers
+548,2023020549,2023-12-29T19:00:00,549,7,3,2,Ottawa Senators,6,New Jersey Devils
+549,2023020550,2023-12-29T19:30:00,550,7,3,5,New York Islanders,1,Washington Capitals
+550,2023020551,2023-12-29T20:00:00,551,7,4,5,Dallas Stars,4,Chicago Blackhawks
+551,2023020552,2023-12-29T20:00:00,552,7,3,1,St. Louis Blues,2,Colorado Avalanche
+552,2023020553,2023-12-29T22:00:00,553,7,3,0,Anaheim Ducks,2,Arizona Coyotes
+553,2023020554,2023-12-29T22:00:00,554,7,4,2,Seattle Kraken,1,Philadelphia Flyers
+554,2023020555,2023-12-30T14:00:00,555,7,3,4,Winnipeg Jets,2,Minnesota Wild
+555,2023020556,2023-12-30T17:00:00,556,7,4,3,Buffalo Sabres,2,Columbus Blue Jackets
+556,2023020557,2023-12-30T19:00:00,557,7,3,5,Boston Bruins,2,New Jersey Devils
+557,2023020558,2023-12-30T19:00:00,558,7,3,4,Florida Panthers,1,Montréal Canadiens
+558,2023020559,2023-12-30T19:00:00,559,7,3,4,Pittsburgh Penguins,2,St. Louis Blues
+559,2023020560,2023-12-30T19:00:00,560,7,3,1,Tampa Bay Lightning,5,New York Rangers
+560,2023020561,2023-12-30T19:00:00,561,7,3,2,Toronto Maple Leafs,3,Carolina Hurricanes
+561,2023020562,2023-12-30T19:00:00,562,7,5,2,Washington Capitals,3,Nashville Predators
+562,2023020563,2023-12-30T22:00:00,563,7,5,2,Los Angeles Kings,3,Edmonton Oilers
+563,2023020564,2023-12-31T14:00:00,564,7,3,2,Minnesota Wild,3,Winnipeg Jets
+564,2023020565,2023-12-31T17:00:00,565,7,3,3,Detroit Red Wings,5,Boston Bruins
+565,2023020566,2023-12-31T18:00:00,566,7,3,5,Ottawa Senators,1,Buffalo Sabres
+566,2023020567,2023-12-31T18:00:00,567,7,3,3,Pittsburgh Penguins,1,New York Islanders
+567,2023020568,2023-12-31T19:00:00,568,7,3,4,Tampa Bay Lightning,3,Montréal Canadiens
+568,2023020569,2023-12-31T20:00:00,569,7,3,2,Anaheim Ducks,7,Edmonton Oilers
+569,2023020570,2023-12-31T20:00:00,570,7,3,4,Calgary Flames,3,Philadelphia Flyers
+570,2023020571,2023-12-31T20:00:00,571,7,3,3,Colorado Avalanche,1,San Jose Sharks
+571,2023020572,2023-12-31T20:00:00,572,7,3,8,Dallas Stars,1,Chicago Blackhawks
+572,2023020573,2024-01-01T15:00:00,573,7,3,3,Seattle Kraken,0,Vegas Golden Knights
+573,2023020574,2024-01-02T19:00:00,574,7,3,1,Columbus Blue Jackets,4,Boston Bruins
+574,2023020575,2024-01-02T19:00:00,575,7,3,1,New York Rangers,6,Carolina Hurricanes
+575,2023020576,2024-01-02T19:30:00,576,7,3,3,Pittsburgh Penguins,4,Washington Capitals
+576,2023020577,2024-01-02T20:00:00,577,7,3,3,Dallas Stars,4,Montréal Canadiens
+577,2023020578,2024-01-02T20:00:00,578,7,3,1,Minnesota Wild,3,Calgary Flames
+578,2023020579,2024-01-02T20:00:00,579,7,3,3,Nashville Predators,0,Chicago Blackhawks
+579,2023020580,2024-01-02T20:00:00,580,7,3,4,Winnipeg Jets,2,Tampa Bay Lightning
+580,2023020581,2024-01-02T21:00:00,581,7,3,1,Arizona Coyotes,4,Florida Panthers
+581,2023020582,2024-01-02T21:00:00,582,7,4,5,Colorado Avalanche,4,New York Islanders
+582,2023020583,2024-01-02T21:00:00,583,7,3,5,Edmonton Oilers,2,Philadelphia Flyers
+583,2023020584,2024-01-02T22:00:00,584,7,3,6,Vancouver Canucks,3,Ottawa Senators
+584,2023020585,2024-01-02T22:30:00,585,7,3,0,Los Angeles Kings,3,Toronto Maple Leafs
+585,2023020586,2024-01-02T22:30:00,586,7,3,3,San Jose Sharks,5,Detroit Red Wings
+586,2023020587,2024-01-03T19:30:00,587,7,3,3,Washington Capitals,6,New Jersey Devils
+587,2023020588,2024-01-03T21:00:00,588,7,4,1,Anaheim Ducks,2,Toronto Maple Leafs
+588,2023020589,2024-01-04T19:00:00,589,7,3,5,Boston Bruins,6,Pittsburgh Penguins
+589,2023020590,2024-01-04T19:00:00,590,7,3,1,Montréal Canadiens,6,Buffalo Sabres
+590,2023020591,2024-01-04T19:00:00,591,7,3,4,New York Rangers,1,Chicago Blackhawks
+591,2023020592,2024-01-04T19:00:00,592,7,5,2,Philadelphia Flyers,3,Columbus Blue Jackets
+592,2023020593,2024-01-04T20:00:00,593,7,4,4,Dallas Stars,5,Colorado Avalanche
+593,2023020594,2024-01-04T20:00:00,594,7,3,1,Minnesota Wild,4,Tampa Bay Lightning
+594,2023020595,2024-01-04T20:00:00,595,7,3,3,Nashville Predators,6,Calgary Flames
+595,2023020596,2024-01-04T20:00:00,596,7,3,2,St. Louis Blues,1,Vancouver Canucks
+596,2023020597,2024-01-04T21:00:00,597,7,3,1,Arizona Coyotes,5,New York Islanders
+597,2023020598,2024-01-04T22:00:00,598,7,3,4,Seattle Kraken,1,Ottawa Senators
+598,2023020599,2024-01-04T22:00:00,599,7,3,1,Vegas Golden Knights,4,Florida Panthers
+599,2023020600,2024-01-04T22:30:00,600,7,5,3,Los Angeles Kings,4,Detroit Red Wings
+600,2023020601,2024-01-04T22:30:00,601,7,3,1,San Jose Sharks,2,Winnipeg Jets
+601,2023020602,2024-01-05T19:00:00,602,7,3,4,New Jersey Devils,2,Chicago Blackhawks
+602,2023020603,2024-01-05T19:00:00,603,7,3,2,Washington Capitals,6,Carolina Hurricanes
+603,2023020604,2024-01-05T22:00:00,604,7,3,1,Anaheim Ducks,3,Winnipeg Jets
+604,2023020605,2024-01-06T13:00:00,605,7,3,3,Philadelphia Flyers,2,Calgary Flames
+605,2023020606,2024-01-06T16:00:00,606,7,3,4,Colorado Avalanche,8,Florida Panthers
+606,2023020607,2024-01-06T19:00:00,607,7,3,7,Boston Bruins,3,Tampa Bay Lightning
+607,2023020608,2024-01-06T20:00:00,608,7,5,1,Carolina Hurricanes,2,St. Louis Blues
+608,2023020609,2024-01-06T19:00:00,609,7,4,3,Columbus Blue Jackets,4,Minnesota Wild
+609,2023020610,2024-01-06T19:00:00,610,7,5,4,Montréal Canadiens,3,New York Rangers
+610,2023020611,2024-01-06T19:00:00,611,7,3,4,New Jersey Devils,6,Vancouver Canucks
+611,2023020612,2024-01-06T19:00:00,612,7,3,1,Pittsburgh Penguins,3,Buffalo Sabres
+612,2023020613,2024-01-06T19:00:00,613,7,3,1,San Jose Sharks,4,Toronto Maple Leafs
+613,2023020614,2024-01-06T20:00:00,614,7,3,3,Dallas Stars,4,Nashville Predators
+614,2023020615,2024-01-06T22:00:00,615,7,3,3,Edmonton Oilers,1,Ottawa Senators
+615,2023020616,2024-01-06T22:00:00,616,7,3,5,Vegas Golden Knights,2,New York Islanders
+616,2023020617,2024-01-07T15:00:00,617,7,3,4,Chicago Blackhawks,3,Calgary Flames
+617,2023020618,2024-01-07T15:00:00,618,7,3,4,Washington Capitals,3,Los Angeles Kings
+618,2023020619,2024-01-07T19:00:00,619,7,3,2,Arizona Coyotes,6,Winnipeg Jets
+619,2023020620,2024-01-07T20:00:00,620,7,3,2,Anaheim Ducks,3,Detroit Red Wings
+620,2023020621,2024-01-08T19:00:00,621,7,3,3,New York Rangers,6,Vancouver Canucks
+621,2023020622,2024-01-08T19:00:00,622,7,3,1,Philadelphia Flyers,4,Pittsburgh Penguins
+622,2023020623,2024-01-08T20:00:00,623,7,3,0,Minnesota Wild,4,Dallas Stars
+623,2023020624,2024-01-08T21:00:00,624,7,5,4,Colorado Avalanche,3,Boston Bruins
+624,2023020625,2024-01-09T19:00:00,625,7,3,2,Buffalo Sabres,5,Seattle Kraken
+625,2023020626,2024-01-09T19:00:00,626,7,4,3,Tampa Bay Lightning,2,Los Angeles Kings
+626,2023020627,2024-01-09T19:00:00,627,7,3,7,Toronto Maple Leafs,1,San Jose Sharks
+627,2023020628,2024-01-09T19:30:00,628,7,3,2,New York Islanders,5,Vancouver Canucks
+628,2023020629,2024-01-09T20:00:00,629,7,3,3,Nashville Predators,5,Anaheim Ducks
+629,2023020630,2024-01-09T20:00:00,630,7,3,1,St. Louis Blues,5,Florida Panthers
+630,2023020631,2024-01-09T20:00:00,631,7,3,5,Winnipeg Jets,0,Columbus Blue Jackets
+631,2023020632,2024-01-09T20:30:00,632,7,3,1,Chicago Blackhawks,2,Edmonton Oilers
+632,2023020633,2024-01-09T21:00:00,633,7,4,4,Arizona Coyotes,3,Boston Bruins
+633,2023020634,2024-01-09T21:00:00,634,7,3,6,Calgary Flames,3,Ottawa Senators
+634,2023020635,2024-01-10T19:00:00,635,7,5,3,Philadelphia Flyers,2,Montréal Canadiens
+635,2023020636,2024-01-10T19:30:00,636,7,3,7,Dallas Stars,2,Minnesota Wild
+636,2023020637,2024-01-10T22:00:00,637,7,3,3,Colorado Avalanche,0,Vegas Golden Knights
+637,2023020638,2024-01-11T19:00:00,638,7,3,5,Buffalo Sabres,3,Ottawa Senators
+638,2023020639,2024-01-11T19:00:00,639,7,3,6,Carolina Hurricanes,3,Anaheim Ducks
+639,2023020640,2024-01-11T19:00:00,640,7,4,2,Detroit Red Wings,3,Edmonton Oilers
+640,2023020641,2024-01-11T19:00:00,641,7,4,3,Florida Panthers,2,Los Angeles Kings
+641,2023020642,2024-01-11T19:00:00,642,7,3,2,Montréal Canadiens,3,San Jose Sharks
+642,2023020643,2024-01-11T19:00:00,643,7,4,3,Pittsburgh Penguins,4,Vancouver Canucks
+643,2023020644,2024-01-11T19:00:00,644,7,4,4,Tampa Bay Lightning,3,New Jersey Devils
+644,2023020645,2024-01-11T19:00:00,645,7,3,1,Washington Capitals,4,Seattle Kraken
+645,2023020646,2024-01-11T19:00:00,646,7,4,4,New York Islanders,3,Toronto Maple Leafs
+646,2023020647,2024-01-11T20:00:00,647,7,3,5,St. Louis Blues,2,New York Rangers
+647,2023020648,2024-01-11T20:00:00,648,7,3,2,Winnipeg Jets,1,Chicago Blackhawks
+648,2023020649,2024-01-11T21:00:00,649,7,3,2,Arizona Coyotes,6,Calgary Flames
+649,2023020650,2024-01-11T22:00:00,650,7,4,2,Vegas Golden Knights,1,Boston Bruins
+650,2023020651,2024-01-12T20:00:00,651,7,3,3,Dallas Stars,6,Nashville Predators
+651,2023020652,2024-01-12T20:00:00,652,7,4,3,Minnesota Wild,4,Philadelphia Flyers
+652,2023020653,2024-01-13T13:00:00,653,7,3,3,Washington Capitals,2,New York Rangers
+653,2023020654,2024-01-13T16:00:00,654,7,3,0,Buffalo Sabres,1,Vancouver Canucks
+654,2023020655,2024-01-13T16:00:00,655,7,3,5,Ottawa Senators,4,San Jose Sharks
+655,2023020656,2024-01-13T18:00:00,656,7,3,1,Florida Panthers,4,New Jersey Devils
+656,2023020657,2024-01-13T19:00:00,657,7,4,3,Carolina Hurricanes,2,Pittsburgh Penguins
+657,2023020658,2024-01-13T19:00:00,658,7,3,4,Columbus Blue Jackets,7,Seattle Kraken
+658,2023020659,2024-01-13T19:00:00,659,7,3,5,Detroit Red Wings,3,Los Angeles Kings
+659,2023020660,2024-01-13T19:00:00,660,7,4,1,Montréal Canadiens,2,Edmonton Oilers
+660,2023020661,2024-01-13T19:00:00,661,7,3,5,Tampa Bay Lightning,1,Anaheim Ducks
+661,2023020662,2024-01-13T19:00:00,662,7,3,3,Toronto Maple Leafs,5,Colorado Avalanche
+662,2023020663,2024-01-13T19:00:00,663,7,3,0,Winnipeg Jets,2,Philadelphia Flyers
+663,2023020664,2024-01-13T20:00:00,664,7,3,1,Chicago Blackhawks,3,Dallas Stars
+664,2023020665,2024-01-13T20:00:00,665,7,3,0,Minnesota Wild,6,Arizona Coyotes
+665,2023020666,2024-01-13T20:00:00,666,7,3,3,Nashville Predators,1,New York Islanders
+666,2023020667,2024-01-13T20:00:00,667,7,4,3,St. Louis Blues,4,Boston Bruins
+667,2023020668,2024-01-13T22:00:00,668,7,3,1,Vegas Golden Knights,3,Calgary Flames
+668,2023020669,2024-01-14T13:00:00,669,7,3,2,New York Rangers,1,Washington Capitals
+669,2023020670,2024-01-14T19:30:00,670,7,3,2,Toronto Maple Leafs,4,Detroit Red Wings
+670,2023020671,2024-01-15T13:00:00,671,7,3,3,Boston Bruins,0,New Jersey Devils
+671,2023020672,2024-01-15T12:00:00,672,7,3,3,Buffalo Sabres,0,San Jose Sharks
+672,2023020673,2024-01-15T13:00:00,673,7,5,4,Columbus Blue Jackets,3,Vancouver Canucks
+673,2023020674,2024-01-15T13:00:00,674,7,4,4,Florida Panthers,5,Anaheim Ducks
+674,2023020675,2024-01-15T15:00:00,675,7,3,2,Carolina Hurricanes,5,Los Angeles Kings
+675,2023020676,2024-01-15T18:00:00,676,7,3,5,Minnesota Wild,0,New York Islanders
+676,2023020677,2024-01-15T13:00:00,677,7,3,3,Pittsburgh Penguins,0,Seattle Kraken
+677,2023020678,2024-01-15T19:00:00,678,7,3,4,Montréal Canadiens,3,Colorado Avalanche
+678,2023020679,2024-01-15T20:00:00,679,7,3,2,St. Louis Blues,4,Philadelphia Flyers
+679,2023020680,2024-01-15T18:00:00,680,7,3,4,Vegas Golden Knights,1,Nashville Predators
+680,2023020681,2024-01-16T19:00:00,681,7,3,5,New York Rangers,2,Seattle Kraken
+681,2023020682,2024-01-16T19:00:00,682,7,3,4,Ottawa Senators,7,Colorado Avalanche
+682,2023020683,2024-01-16T19:00:00,683,7,3,2,Washington Capitals,0,Anaheim Ducks
+683,2023020684,2024-01-16T20:00:00,684,7,3,5,Dallas Stars,1,Los Angeles Kings
+684,2023020685,2024-01-16T20:00:00,685,7,3,4,Winnipeg Jets,2,New York Islanders
+685,2023020686,2024-01-16T20:30:00,686,7,5,2,Chicago Blackhawks,1,San Jose Sharks
+686,2023020687,2024-01-16T21:00:00,687,7,4,3,Calgary Flames,2,Arizona Coyotes
+687,2023020688,2024-01-16T21:00:00,688,7,3,4,Edmonton Oilers,2,Toronto Maple Leafs
+688,2023020689,2024-01-17T19:00:00,689,7,4,2,Florida Panthers,3,Detroit Red Wings
+689,2023020690,2024-01-17T19:00:00,690,7,3,2,New Jersey Devils,3,Montréal Canadiens
+690,2023020691,2024-01-18T19:00:00,691,7,3,3,Buffalo Sabres,0,Chicago Blackhawks
+691,2023020692,2024-01-18T19:00:00,692,7,3,5,Boston Bruins,2,Colorado Avalanche
+692,2023020693,2024-01-18T19:00:00,693,7,3,6,Ottawa Senators,2,Montréal Canadiens
+693,2023020694,2024-01-18T19:00:00,694,7,3,5,Philadelphia Flyers,1,Dallas Stars
+694,2023020695,2024-01-18T19:00:00,695,7,3,7,Tampa Bay Lightning,3,Minnesota Wild
+695,2023020696,2024-01-18T19:00:00,696,7,3,5,Washington Capitals,2,St. Louis Blues
+696,2023020697,2024-01-18T21:00:00,697,7,3,3,Calgary Flames,4,Toronto Maple Leafs
+697,2023020698,2024-01-18T21:00:00,698,7,3,4,Edmonton Oilers,2,Seattle Kraken
+698,2023020699,2024-01-18T22:00:00,699,7,3,1,Los Angeles Kings,2,Nashville Predators
+699,2023020700,2024-01-18T22:00:00,700,7,3,2,Vancouver Canucks,1,Arizona Coyotes
+700,2023020701,2024-01-18T22:00:00,701,7,3,5,Vegas Golden Knights,1,New York Rangers
+701,2023020702,2024-01-19T19:00:00,702,7,3,4,Carolina Hurricanes,2,Detroit Red Wings
+702,2023020703,2024-01-19T19:00:00,703,7,3,1,Columbus Blue Jackets,4,New Jersey Devils
+703,2023020704,2024-01-19T19:00:00,704,7,3,4,Florida Panthers,6,Minnesota Wild
+704,2023020705,2024-01-19T20:30:00,705,7,4,4,Chicago Blackhawks,3,New York Islanders
+705,2023020706,2024-01-20T12:30:00,706,7,3,1,Buffalo Sabres,3,Tampa Bay Lightning
+706,2023020707,2024-01-20T13:00:00,707,7,3,4,Philadelphia Flyers,7,Colorado Avalanche
+707,2023020708,2024-01-20T15:00:00,708,7,3,3,Arizona Coyotes,2,Nashville Predators
+708,2023020709,2024-01-20T15:00:00,709,7,4,1,Ottawa Senators,2,Winnipeg Jets
+709,2023020710,2024-01-20T19:00:00,710,7,3,9,Boston Bruins,4,Montréal Canadiens
+710,2023020711,2024-01-20T19:00:00,711,7,3,2,New Jersey Devils,6,Dallas Stars
+711,2023020712,2024-01-20T19:00:00,712,7,3,6,Vancouver Canucks,4,Toronto Maple Leafs
+712,2023020713,2024-01-20T20:00:00,713,7,3,3,St. Louis Blues,0,Washington Capitals
+713,2023020714,2024-01-20T22:00:00,714,7,3,1,Calgary Flames,3,Edmonton Oilers
+714,2023020715,2024-01-20T22:00:00,715,7,3,5,San Jose Sharks,3,Anaheim Ducks
+715,2023020716,2024-01-20T22:00:00,716,7,3,3,Vegas Golden Knights,2,Pittsburgh Penguins
+716,2023020717,2024-01-20T22:30:00,717,7,3,2,Los Angeles Kings,1,New York Rangers
+717,2023020718,2024-01-21T13:00:00,718,7,3,3,Philadelphia Flyers,5,Ottawa Senators
+718,2023020719,2024-01-21T17:00:00,719,7,3,2,Carolina Hurricanes,5,Minnesota Wild
+719,2023020720,2024-01-21T19:00:00,720,7,3,2,Detroit Red Wings,1,Tampa Bay Lightning
+720,2023020721,2024-01-21T19:30:00,721,7,4,3,New York Islanders,2,Dallas Stars
+721,2023020722,2024-01-21T20:30:00,722,7,3,2,Anaheim Ducks,5,New York Rangers
+722,2023020723,2024-01-21T21:00:00,723,7,3,1,Seattle Kraken,3,Toronto Maple Leafs
+723,2023020724,2024-01-22T19:00:00,724,7,3,4,Boston Bruins,1,Winnipeg Jets
+724,2023020725,2024-01-22T19:00:00,725,7,4,6,New Jersey Devils,5,Vegas Golden Knights
+725,2023020726,2024-01-22T20:00:00,726,7,3,1,Nashville Predators,4,Florida Panthers
+726,2023020727,2024-01-22T21:00:00,727,7,3,5,Arizona Coyotes,2,Pittsburgh Penguins
+727,2023020728,2024-01-22T22:00:00,728,7,3,2,Vancouver Canucks,0,Chicago Blackhawks
+728,2023020729,2024-01-22T22:30:00,729,7,5,3,Los Angeles Kings,4,San Jose Sharks
+729,2023020730,2024-01-23T19:00:00,730,7,3,4,Detroit Red Wings,5,Dallas Stars
+730,2023020731,2024-01-23T19:00:00,731,7,3,1,Montréal Canadiens,4,Ottawa Senators
+731,2023020732,2024-01-23T19:00:00,732,7,3,3,Philadelphia Flyers,6,Tampa Bay Lightning
+732,2023020733,2024-01-23T19:30:00,733,7,3,2,New York Islanders,3,Vegas Golden Knights
+733,2023020734,2024-01-23T20:00:00,734,7,3,5,Minnesota Wild,3,Washington Capitals
+734,2023020735,2024-01-23T21:00:00,735,7,3,3,Calgary Flames,4,St. Louis Blues
+735,2023020736,2024-01-23T21:00:00,736,7,3,4,Edmonton Oilers,1,Columbus Blue Jackets
+736,2023020737,2024-01-23T22:00:00,737,7,3,4,Anaheim Ducks,2,Buffalo Sabres
+737,2023020738,2024-01-23T22:30:00,738,7,4,3,San Jose Sharks,2,New York Rangers
+738,2023020739,2024-01-24T19:00:00,739,7,3,6,Florida Panthers,2,Arizona Coyotes
+739,2023020740,2024-01-24T19:00:00,740,7,4,1,Toronto Maple Leafs,0,Winnipeg Jets
+740,2023020741,2024-01-24T19:30:00,741,7,3,2,Boston Bruins,3,Carolina Hurricanes
+741,2023020742,2024-01-24T21:30:00,742,7,3,6,Colorado Avalanche,2,Washington Capitals
+742,2023020743,2024-01-24T22:00:00,743,7,3,6,Seattle Kraken,2,Chicago Blackhawks
+743,2023020744,2024-01-24T22:00:00,744,7,4,3,Vancouver Canucks,4,St. Louis Blues
+744,2023020745,2024-01-24T22:30:00,745,7,3,3,Los Angeles Kings,5,Buffalo Sabres
+745,2023020746,2024-01-25T19:30:00,746,7,3,3,Carolina Hurricanes,2,New Jersey Devils
+746,2023020747,2024-01-25T19:00:00,747,7,3,3,Detroit Red Wings,0,Philadelphia Flyers
+747,2023020748,2024-01-25T19:00:00,748,7,3,4,Montréal Canadiens,3,New York Islanders
+748,2023020749,2024-01-25T19:00:00,749,7,4,2,Ottawa Senators,3,Boston Bruins
+749,2023020750,2024-01-25T19:00:00,750,7,3,6,Tampa Bay Lightning,3,Arizona Coyotes
+750,2023020751,2024-01-25T20:00:00,751,7,4,4,Dallas Stars,3,Anaheim Ducks
+751,2023020752,2024-01-25T20:00:00,752,7,3,2,Minnesota Wild,3,Nashville Predators
+752,2023020753,2024-01-25T21:00:00,753,7,3,2,Calgary Flames,5,Columbus Blue Jackets
+753,2023020754,2024-01-25T21:00:00,754,7,3,3,Edmonton Oilers,0,Chicago Blackhawks
+754,2023020755,2024-01-26T19:00:00,755,7,3,2,New York Rangers,5,Vegas Golden Knights
+755,2023020756,2024-01-26T19:00:00,756,7,5,2,Pittsburgh Penguins,3,Florida Panthers
+756,2023020757,2024-01-26T21:00:00,757,7,3,5,Colorado Avalanche,1,Los Angeles Kings
+757,2023020758,2024-01-26T22:00:00,758,7,4,3,Seattle Kraken,4,St. Louis Blues
+758,2023020759,2024-01-27T12:30:00,759,7,3,2,Philadelphia Flyers,6,Boston Bruins
+759,2023020760,2024-01-27T14:00:00,760,7,4,5,Dallas Stars,4,Washington Capitals
+760,2023020761,2024-01-27T16:00:00,761,7,3,4,Edmonton Oilers,1,Nashville Predators
+761,2023020762,2024-01-27T16:00:00,762,7,3,2,San Jose Sharks,5,Buffalo Sabres
+762,2023020763,2024-01-27T19:00:00,763,7,3,3,Carolina Hurricanes,1,Arizona Coyotes
+763,2023020764,2024-01-27T20:00:00,764,7,3,5,Detroit Red Wings,2,Vegas Golden Knights
+764,2023020765,2024-01-27T19:00:00,765,7,3,2,Ottawa Senators,7,New York Rangers
+765,2023020766,2024-01-27T19:00:00,766,7,4,3,Pittsburgh Penguins,2,Montréal Canadiens
+766,2023020767,2024-01-27T19:00:00,767,7,3,6,Tampa Bay Lightning,3,New Jersey Devils
+767,2023020768,2024-01-27T19:00:00,768,7,3,2,Winnipeg Jets,4,Toronto Maple Leafs
+768,2023020769,2024-01-27T19:30:00,769,7,4,2,New York Islanders,3,Florida Panthers
+769,2023020770,2024-01-27T21:00:00,770,7,3,2,Minnesota Wild,3,Anaheim Ducks
+770,2023020771,2024-01-27T22:00:00,771,7,3,1,Calgary Flames,0,Chicago Blackhawks
+771,2023020772,2024-01-27T22:00:00,772,7,4,5,Vancouver Canucks,4,Columbus Blue Jackets
+772,2023020773,2024-01-28T14:00:00,773,7,4,4,St. Louis Blues,3,Los Angeles Kings
+773,2023020774,2024-01-28T21:00:00,774,7,3,4,Seattle Kraken,2,Columbus Blue Jackets
+774,2023020775,2024-01-29T19:00:00,775,7,4,4,Ottawa Senators,3,Nashville Predators
+775,2023020776,2024-01-30T20:00:00,776,7,3,0,St. Louis Blues,1,Columbus Blue Jackets
+776,2023020777,2024-01-30T22:30:00,777,7,3,2,San Jose Sharks,0,Seattle Kraken
+777,2023020778,2024-01-31T19:00:00,778,7,4,2,Detroit Red Wings,3,Ottawa Senators
+778,2023020779,2024-01-31T19:30:00,779,7,3,2,Nashville Predators,4,Los Angeles Kings
+779,2023020780,2024-01-31T22:30:00,780,7,4,3,Anaheim Ducks,2,San Jose Sharks
+780,2023020781,2024-02-05T19:00:00,781,7,4,2,New York Rangers,1,Colorado Avalanche
+781,2023020782,2024-02-05T19:00:00,782,7,3,2,Toronto Maple Leafs,3,New York Islanders
+782,2023020783,2024-02-06T19:00:00,783,7,3,1,Boston Bruins,4,Calgary Flames
+783,2023020784,2024-02-06T19:00:00,784,7,3,1,Buffalo Sabres,2,Dallas Stars
+784,2023020785,2024-02-06T19:00:00,785,7,3,2,Carolina Hurricanes,3,Vancouver Canucks
+785,2023020786,2024-02-06T19:00:00,786,7,3,1,Florida Panthers,2,Philadelphia Flyers
+786,2023020787,2024-02-06T19:30:00,787,7,3,5,New Jersey Devils,3,Colorado Avalanche
+787,2023020788,2024-02-06T19:00:00,788,7,3,3,Pittsburgh Penguins,0,Winnipeg Jets
+788,2023020789,2024-02-06T19:00:00,789,7,3,2,Washington Capitals,5,Montréal Canadiens
+789,2023020790,2024-02-06T22:00:00,790,7,3,3,Vegas Golden Knights,1,Edmonton Oilers
+790,2023020791,2024-02-07T19:00:00,791,7,3,3,New York Rangers,1,Tampa Bay Lightning
+791,2023020792,2024-02-07T19:00:00,792,7,3,5,Toronto Maple Leafs,4,Dallas Stars
+792,2023020793,2024-02-07T21:30:00,793,7,3,1,Chicago Blackhawks,2,Minnesota Wild
+793,2023020794,2024-02-08T19:00:00,794,7,3,4,Boston Bruins,0,Vancouver Canucks
+794,2023020795,2024-02-08T19:00:00,795,7,3,4,Florida Panthers,2,Washington Capitals
+795,2023020796,2024-02-08T19:00:00,796,7,3,3,New Jersey Devils,5,Calgary Flames
+796,2023020797,2024-02-08T19:00:00,797,7,3,4,Philadelphia Flyers,1,Winnipeg Jets
+797,2023020798,2024-02-08T20:00:00,798,7,3,6,New York Islanders,2,Tampa Bay Lightning
+798,2023020799,2024-02-08T19:00:00,799,7,3,5,Carolina Hurricanes,2,Colorado Avalanche
+799,2023020800,2024-02-08T21:00:00,800,7,3,2,Arizona Coyotes,3,Vegas Golden Knights
+800,2023020801,2024-02-09T20:00:00,801,7,3,3,Minnesota Wild,2,Pittsburgh Penguins
+801,2023020802,2024-02-09T20:30:00,802,7,4,3,Chicago Blackhawks,4,New York Rangers
+802,2023020803,2024-02-09T22:00:00,803,7,3,3,Anaheim Ducks,5,Edmonton Oilers
+803,2023020804,2024-02-10T13:00:00,804,7,3,1,Buffalo Sabres,3,St. Louis Blues
+804,2023020805,2024-02-10T13:00:00,805,7,4,4,Detroit Red Wings,3,Vancouver Canucks
+805,2023020806,2024-02-10T13:00:00,806,7,3,2,Montréal Canadiens,3,Dallas Stars
+806,2023020807,2024-02-10T13:00:00,807,7,3,2,New York Islanders,5,Calgary Flames
+807,2023020808,2024-02-10T15:30:00,808,7,3,0,Boston Bruins,3,Washington Capitals
+808,2023020809,2024-02-10T18:00:00,809,7,3,4,Florida Panthers,0,Colorado Avalanche
+809,2023020810,2024-02-10T19:00:00,810,7,4,1,Carolina Hurricanes,0,New Jersey Devils
+810,2023020811,2024-02-10T19:00:00,811,7,3,2,Columbus Blue Jackets,4,Tampa Bay Lightning
+811,2023020812,2024-02-10T19:00:00,812,7,3,5,Ottawa Senators,3,Toronto Maple Leafs
+812,2023020813,2024-02-10T19:00:00,813,7,3,3,Philadelphia Flyers,2,Seattle Kraken
+813,2023020814,2024-02-10T19:00:00,814,7,3,2,Winnipeg Jets,1,Pittsburgh Penguins
+814,2023020815,2024-02-10T20:00:00,815,7,4,5,Nashville Predators,4,Arizona Coyotes
+815,2023020816,2024-02-10T22:00:00,816,7,3,4,Los Angeles Kings,0,Edmonton Oilers
+816,2023020817,2024-02-11T13:00:00,817,7,3,2,Montréal Canadiens,7,St. Louis Blues
+817,2023020818,2024-02-11T13:30:00,818,7,4,2,Washington Capitals,3,Vancouver Canucks
+818,2023020819,2024-02-12T19:00:00,819,7,3,3,New Jersey Devils,1,Seattle Kraken
+819,2023020820,2024-02-12T19:00:00,820,7,3,2,New York Rangers,0,Calgary Flames
+820,2023020821,2024-02-12T19:00:00,821,7,3,5,Philadelphia Flyers,3,Arizona Coyotes
+821,2023020822,2024-02-12T22:00:00,822,7,3,3,Vegas Golden Knights,5,Minnesota Wild
+822,2023020823,2024-02-13T19:00:00,823,7,5,2,Boston Bruins,3,Tampa Bay Lightning
+823,2023020824,2024-02-13T19:00:00,824,7,3,7,Buffalo Sabres,0,Los Angeles Kings
+824,2023020825,2024-02-13T19:00:00,825,7,3,5,Montréal Canadiens,0,Anaheim Ducks
+825,2023020826,2024-02-13T19:00:00,826,7,3,6,Ottawa Senators,3,Columbus Blue Jackets
+826,2023020827,2024-02-13T19:00:00,827,7,3,4,Toronto Maple Leafs,1,St. Louis Blues
+827,2023020828,2024-02-13T19:00:00,828,7,3,3,Washington Capitals,6,Colorado Avalanche
+828,2023020829,2024-02-13T19:30:00,829,7,5,1,New York Islanders,2,Seattle Kraken
+829,2023020830,2024-02-13T20:00:00,830,7,3,4,Dallas Stars,2,Carolina Hurricanes
+830,2023020831,2024-02-13T20:00:00,831,7,3,2,Nashville Predators,4,New Jersey Devils
+831,2023020832,2024-02-13T20:30:00,832,7,3,2,Chicago Blackhawks,4,Vancouver Canucks
+832,2023020833,2024-02-13T21:00:00,833,7,3,8,Edmonton Oilers,4,Detroit Red Wings
+833,2023020834,2024-02-14T19:30:00,834,7,3,2,Pittsburgh Penguins,5,Florida Panthers
+834,2023020835,2024-02-14T19:30:00,835,7,3,1,Winnipeg Jets,0,San Jose Sharks
+835,2023020836,2024-02-14T21:30:00,836,7,3,1,Arizona Coyotes,3,Minnesota Wild
+836,2023020837,2024-02-15T19:00:00,837,7,3,1,Boston Bruins,4,Seattle Kraken
+837,2023020838,2024-02-15T19:00:00,838,7,3,0,Buffalo Sabres,4,Florida Panthers
+838,2023020839,2024-02-15T19:00:00,839,7,3,1,New Jersey Devils,2,Los Angeles Kings
+839,2023020840,2024-02-15T19:00:00,840,7,3,7,New York Rangers,4,Montréal Canadiens
+840,2023020841,2024-02-15T19:00:00,841,7,3,1,Ottawa Senators,5,Anaheim Ducks
+841,2023020842,2024-02-15T19:00:00,842,7,3,6,Tampa Bay Lightning,3,Colorado Avalanche
+842,2023020843,2024-02-15T19:00:00,843,7,4,4,Toronto Maple Leafs,3,Philadelphia Flyers
+843,2023020844,2024-02-15T20:00:00,844,7,3,6,St. Louis Blues,3,Edmonton Oilers
+844,2023020845,2024-02-15T20:30:00,845,7,3,1,Chicago Blackhawks,4,Pittsburgh Penguins
+845,2023020846,2024-02-15T21:00:00,846,7,3,3,Calgary Flames,6,San Jose Sharks
+846,2023020847,2024-02-15T20:00:00,847,7,3,2,Nashville Predators,9,Dallas Stars
+847,2023020848,2024-02-15T22:00:00,848,7,3,4,Vancouver Canucks,1,Detroit Red Wings
+848,2023020849,2024-02-16T21:00:00,849,7,3,1,Arizona Coyotes,5,Carolina Hurricanes
+849,2023020850,2024-02-17T15:00:00,850,7,4,3,Dallas Stars,4,Edmonton Oilers
+850,2023020851,2024-02-17T15:00:00,851,7,3,3,Chicago Blackhawks,2,Ottawa Senators
+851,2023020852,2024-02-17T16:00:00,852,7,3,0,Calgary Flames,5,Detroit Red Wings
+852,2023020853,2024-02-17T12:30:00,853,7,4,4,Boston Bruins,5,Los Angeles Kings
+853,2023020854,2024-02-17T17:00:00,854,7,4,2,Minnesota Wild,3,Buffalo Sabres
+854,2023020855,2024-02-17T17:00:00,855,7,3,2,St. Louis Blues,5,Nashville Predators
+855,2023020856,2024-02-17T17:00:00,856,7,3,2,Tampa Bay Lightning,9,Florida Panthers
+856,2023020857,2024-02-17T19:00:00,857,7,3,3,Montréal Canadiens,4,Washington Capitals
+857,2023020858,2024-02-17T19:00:00,858,7,3,9,Toronto Maple Leafs,2,Anaheim Ducks
+858,2023020859,2024-02-17T20:00:00,859,7,3,6,New Jersey Devils,3,Philadelphia Flyers
+859,2023020860,2024-02-17T22:00:00,860,7,3,2,Vancouver Canucks,4,Winnipeg Jets
+860,2023020861,2024-02-17T22:30:00,861,7,3,3,San Jose Sharks,4,Columbus Blue Jackets
+861,2023020862,2024-02-17T22:30:00,862,7,3,1,Vegas Golden Knights,3,Carolina Hurricanes
+862,2023020863,2024-02-18T15:00:00,863,7,4,5,New York Islanders,6,New York Rangers
+863,2023020864,2024-02-18T18:00:00,864,7,3,4,Colorado Avalanche,3,Arizona Coyotes
+864,2023020865,2024-02-18T18:00:00,865,7,3,1,Pittsburgh Penguins,2,Los Angeles Kings
+865,2023020866,2024-02-19T12:30:00,866,7,3,3,Buffalo Sabres,4,Anaheim Ducks
+866,2023020867,2024-02-19T13:00:00,867,7,5,4,Boston Bruins,3,Dallas Stars
+867,2023020868,2024-02-19T13:00:00,868,7,3,2,St. Louis Blues,4,Toronto Maple Leafs
+868,2023020869,2024-02-19T14:00:00,869,7,3,10,Minnesota Wild,7,Vancouver Canucks
+869,2023020870,2024-02-19T15:30:00,870,7,4,3,Seattle Kraken,4,Detroit Red Wings
+870,2023020871,2024-02-19T16:00:00,871,7,3,3,Arizona Coyotes,6,Edmonton Oilers
+871,2023020872,2024-02-19T16:00:00,872,7,3,6,Calgary Flames,3,Winnipeg Jets
+872,2023020873,2024-02-19T16:00:00,873,7,3,0,San Jose Sharks,4,Vegas Golden Knights
+873,2023020874,2024-02-19T19:00:00,874,7,3,6,Carolina Hurricanes,3,Chicago Blackhawks
+874,2023020875,2024-02-19T19:00:00,875,7,3,2,Tampa Bay Lightning,4,Ottawa Senators
+875,2023020876,2024-02-20T19:00:00,876,7,4,3,Florida Panthers,2,Ottawa Senators
+876,2023020877,2024-02-20T19:00:00,877,7,3,3,New York Rangers,1,Dallas Stars
+877,2023020878,2024-02-20T19:00:00,878,7,4,4,Pittsburgh Penguins,5,New York Islanders
+878,2023020879,2024-02-20T19:00:00,879,7,3,6,Washington Capitals,2,New Jersey Devils
+879,2023020880,2024-02-20T20:00:00,880,7,3,6,Winnipeg Jets,3,Minnesota Wild
+880,2023020881,2024-02-20T21:00:00,881,7,3,3,Colorado Avalanche,1,Vancouver Canucks
+881,2023020882,2024-02-20T22:00:00,882,7,3,3,Vegas Golden Knights,5,Nashville Predators
+882,2023020883,2024-02-20T22:30:00,883,7,3,5,Los Angeles Kings,1,Columbus Blue Jackets
+883,2023020884,2024-02-21T19:00:00,884,7,3,2,Montréal Canadiens,3,Buffalo Sabres
+884,2023020885,2024-02-21T19:30:00,885,7,3,1,Chicago Blackhawks,3,Philadelphia Flyers
+885,2023020886,2024-02-21T22:00:00,886,7,3,4,Anaheim Ducks,7,Columbus Blue Jackets
+886,2023020887,2024-02-21T22:00:00,887,7,3,3,Arizona Coyotes,6,Toronto Maple Leafs
+887,2023020888,2024-02-21T22:00:00,888,7,4,5,Edmonton Oilers,6,Boston Bruins
+888,2023020889,2024-02-22T19:00:00,889,7,3,1,Carolina Hurricanes,0,Florida Panthers
+889,2023020890,2024-02-22T19:00:00,890,7,4,2,Detroit Red Wings,1,Colorado Avalanche
+890,2023020891,2024-02-22T19:00:00,891,7,3,1,New Jersey Devils,5,New York Rangers
+891,2023020892,2024-02-22T19:00:00,892,7,3,4,Ottawa Senators,1,Dallas Stars
+892,2023020893,2024-02-22T19:00:00,893,7,3,4,Pittsburgh Penguins,1,Montréal Canadiens
+893,2023020894,2024-02-22T19:00:00,894,7,3,3,Tampa Bay Lightning,5,Washington Capitals
+894,2023020895,2024-02-22T20:00:00,895,7,3,4,St. Louis Blues,0,New York Islanders
+895,2023020896,2024-02-22T21:00:00,896,7,4,3,Calgary Flames,2,Boston Bruins
+896,2023020897,2024-02-22T22:00:00,897,7,3,5,Seattle Kraken,2,Vancouver Canucks
+897,2023020898,2024-02-22T22:00:00,898,7,3,3,Vegas Golden Knights,7,Toronto Maple Leafs
+898,2023020899,2024-02-22T22:30:00,899,7,3,1,Los Angeles Kings,4,Nashville Predators
+899,2023020900,2024-02-23T19:00:00,900,7,3,1,Columbus Blue Jackets,2,Buffalo Sabres
+900,2023020901,2024-02-23T20:30:00,901,7,4,2,Chicago Blackhawks,3,Winnipeg Jets
+901,2023020902,2024-02-23T21:00:00,902,7,3,2,Edmonton Oilers,4,Minnesota Wild
+902,2023020903,2024-02-24T14:00:00,903,7,3,4,New Jersey Devils,3,Montréal Canadiens
+903,2023020904,2024-02-24T14:00:00,904,7,3,2,New York Islanders,4,Tampa Bay Lightning
+904,2023020905,2024-02-24T15:00:00,905,7,3,1,Philadelphia Flyers,2,New York Rangers
+905,2023020906,2024-02-24T18:00:00,906,7,4,3,Florida Panthers,2,Washington Capitals
+906,2023020907,2024-02-24T20:00:00,907,7,3,1,Carolina Hurricanes,2,Dallas Stars
+907,2023020908,2024-02-24T19:00:00,908,7,3,3,Colorado Avalanche,4,Toronto Maple Leafs
+908,2023020909,2024-02-24T12:00:00,909,7,3,6,Detroit Red Wings,1,St. Louis Blues
+909,2023020910,2024-02-24T19:00:00,910,7,5,4,Ottawa Senators,3,Vegas Golden Knights
+910,2023020911,2024-02-24T19:00:00,911,7,4,3,Vancouver Canucks,2,Boston Bruins
+911,2023020912,2024-02-24T22:00:00,912,7,3,3,Edmonton Oilers,6,Calgary Flames
+912,2023020913,2024-02-24T22:00:00,913,7,3,2,Seattle Kraken,5,Minnesota Wild
+913,2023020914,2024-02-24T22:00:00,914,7,3,2,San Jose Sharks,4,Nashville Predators
+914,2023020915,2024-02-24T22:30:00,915,7,5,3,Los Angeles Kings,2,Anaheim Ducks
+915,2023020916,2024-02-25T13:00:00,916,7,3,1,New Jersey Devils,4,Tampa Bay Lightning
+916,2023020917,2024-02-25T15:30:00,917,7,3,7,Pittsburgh Penguins,6,Philadelphia Flyers
+917,2023020918,2024-02-25T18:00:00,918,7,5,3,Buffalo Sabres,2,Carolina Hurricanes
+918,2023020919,2024-02-25T18:00:00,919,7,3,4,Columbus Blue Jackets,2,New York Rangers
+919,2023020920,2024-02-25T18:00:00,920,7,4,2,Chicago Blackhawks,3,Detroit Red Wings
+920,2023020921,2024-02-25T18:00:00,921,7,4,4,Winnipeg Jets,3,Arizona Coyotes
+921,2023020922,2024-02-25T20:00:00,922,7,3,2,Anaheim Ducks,4,Nashville Predators
+922,2023020923,2024-02-26T19:00:00,923,7,3,6,Washington Capitals,3,Ottawa Senators
+923,2023020924,2024-02-26T20:00:00,924,7,4,2,Dallas Stars,3,New York Islanders
+924,2023020925,2024-02-26T21:30:00,925,7,3,4,Edmonton Oilers,2,Los Angeles Kings
+925,2023020926,2024-02-26T22:00:00,926,7,5,4,Seattle Kraken,3,Boston Bruins
+926,2023020927,2024-02-27T19:00:00,927,7,3,8,Detroit Red Wings,3,Washington Capitals
+927,2023020928,2024-02-27T19:00:00,928,7,3,3,Florida Panthers,2,Buffalo Sabres
+928,2023020929,2024-02-27T19:00:00,929,7,3,4,Montréal Canadiens,2,Arizona Coyotes
+929,2023020930,2024-02-27T19:00:00,930,7,3,6,Philadelphia Flyers,2,Tampa Bay Lightning
+930,2023020931,2024-02-27T19:00:00,931,7,3,2,Toronto Maple Leafs,6,Vegas Golden Knights
+931,2023020932,2024-02-27T20:00:00,932,7,3,2,Minnesota Wild,3,Carolina Hurricanes
+932,2023020933,2024-02-27T20:00:00,933,7,3,4,Nashville Predators,1,Ottawa Senators
+933,2023020934,2024-02-27T20:00:00,934,7,3,4,Winnipeg Jets,2,St. Louis Blues
+934,2023020935,2024-02-27T21:00:00,935,7,3,4,Calgary Flames,2,Los Angeles Kings
+935,2023020936,2024-02-27T21:30:00,936,7,3,5,Colorado Avalanche,1,Dallas Stars
+936,2023020937,2024-02-27T22:00:00,937,7,4,3,Vancouver Canucks,4,Pittsburgh Penguins
+937,2023020938,2024-02-27T22:30:00,938,7,3,2,San Jose Sharks,7,New Jersey Devils
+938,2023020939,2024-02-28T19:00:00,939,7,3,4,New York Rangers,1,Columbus Blue Jackets
+939,2023020940,2024-02-28T20:30:00,940,7,4,3,Edmonton Oilers,2,St. Louis Blues
+940,2023020941,2024-02-29T19:00:00,941,7,3,5,Boston Bruins,4,Vegas Golden Knights
+941,2023020942,2024-02-29T19:00:00,942,7,3,2,Columbus Blue Jackets,4,Carolina Hurricanes
+942,2023020943,2024-02-29T19:00:00,943,7,3,3,Detroit Red Wings,5,New York Islanders
+943,2023020944,2024-02-29T19:00:00,944,7,5,4,Florida Panthers,3,Montréal Canadiens
+944,2023020945,2024-02-29T19:00:00,945,7,4,2,Tampa Bay Lightning,3,Buffalo Sabres
+945,2023020946,2024-02-29T19:00:00,946,7,3,4,Toronto Maple Leafs,2,Arizona Coyotes
+946,2023020947,2024-02-29T20:00:00,947,7,3,4,Dallas Stars,1,Winnipeg Jets
+947,2023020948,2024-02-29T20:00:00,948,7,3,6,Nashville Predators,1,Minnesota Wild
+948,2023020949,2024-02-29T21:00:00,949,7,3,0,Chicago Blackhawks,5,Colorado Avalanche
+949,2023020950,2024-02-29T22:00:00,950,7,3,2,Seattle Kraken,0,Pittsburgh Penguins
+950,2023020951,2024-02-29T22:00:00,951,7,3,1,Vancouver Canucks,5,Los Angeles Kings
+951,2023020952,2024-02-29T22:30:00,952,7,3,4,San Jose Sharks,6,Anaheim Ducks
+952,2023020953,2024-03-01T19:00:00,953,7,3,3,Ottawa Senators,5,Arizona Coyotes
+953,2023020954,2024-03-01T19:00:00,954,7,3,5,Washington Capitals,2,Philadelphia Flyers
+954,2023020955,2024-03-01T22:00:00,955,7,3,4,Anaheim Ducks,3,New Jersey Devils
+955,2023020956,2024-03-02T12:30:00,956,7,3,3,Carolina Hurricanes,5,Winnipeg Jets
+956,2023020957,2024-03-02T19:30:00,957,7,3,5,New York Islanders,1,Boston Bruins
+957,2023020958,2024-03-02T16:00:00,958,7,3,1,Seattle Kraken,2,Edmonton Oilers
+958,2023020959,2024-03-02T18:00:00,959,7,3,5,Nashville Predators,1,Colorado Avalanche
+959,2023020960,2024-03-02T19:00:00,960,7,3,7,Buffalo Sabres,2,Vegas Golden Knights
+960,2023020961,2024-03-02T15:00:00,961,7,3,0,Detroit Red Wings,4,Florida Panthers
+961,2023020962,2024-03-02T19:00:00,962,7,3,4,Philadelphia Flyers,2,Ottawa Senators
+962,2023020963,2024-03-02T19:00:00,963,7,5,4,Tampa Bay Lightning,3,Montréal Canadiens
+963,2023020964,2024-03-02T19:00:00,964,7,5,4,Toronto Maple Leafs,3,New York Rangers
+964,2023020965,2024-03-02T20:00:00,965,7,3,2,Chicago Blackhawks,5,Columbus Blue Jackets
+965,2023020966,2024-03-02T20:00:00,966,7,5,3,Dallas Stars,2,San Jose Sharks
+966,2023020967,2024-03-02T18:00:00,967,7,3,3,St. Louis Blues,1,Minnesota Wild
+967,2023020968,2024-03-02T22:00:00,968,7,3,4,Calgary Flames,3,Pittsburgh Penguins
+968,2023020969,2024-03-03T13:00:00,969,7,3,2,Washington Capitals,5,Arizona Coyotes
+969,2023020970,2024-03-03T15:30:00,970,7,3,5,Los Angeles Kings,1,New Jersey Devils
+970,2023020971,2024-03-03T19:00:00,971,7,3,2,Buffalo Sabres,5,Winnipeg Jets
+971,2023020972,2024-03-03T19:00:00,972,7,3,4,Minnesota Wild,3,San Jose Sharks
+972,2023020973,2024-03-03T20:00:00,973,7,3,1,Anaheim Ducks,2,Vancouver Canucks
+973,2023020974,2024-03-03T21:00:00,974,7,3,6,Edmonton Oilers,1,Pittsburgh Penguins
+974,2023020975,2024-03-04T19:00:00,975,7,3,6,Columbus Blue Jackets,3,Vegas Golden Knights
+975,2023020976,2024-03-04T19:00:00,976,7,3,2,New York Rangers,4,Florida Panthers
+976,2023020977,2024-03-04T19:00:00,977,7,5,1,Philadelphia Flyers,2,St. Louis Blues
+977,2023020978,2024-03-04T19:00:00,978,7,3,1,Toronto Maple Leafs,4,Boston Bruins
+978,2023020979,2024-03-04T21:00:00,979,7,3,5,Colorado Avalanche,0,Chicago Blackhawks
+979,2023020980,2024-03-04T21:30:00,980,7,3,2,Calgary Flames,4,Seattle Kraken
+980,2023020981,2024-03-05T19:30:00,981,7,4,1,Boston Bruins,2,Edmonton Oilers
+981,2023020982,2024-03-05T19:00:00,982,7,3,3,New Jersey Devils,5,Florida Panthers
+982,2023020983,2024-03-05T19:00:00,983,7,3,5,Pittsburgh Penguins,3,Columbus Blue Jackets
+983,2023020984,2024-03-05T19:30:00,984,7,3,4,New York Islanders,2,St. Louis Blues
+984,2023020985,2024-03-05T20:00:00,985,7,4,3,Nashville Predators,4,Montréal Canadiens
+985,2023020986,2024-03-05T20:00:00,986,7,3,3,Winnipeg Jets,4,Seattle Kraken
+986,2023020987,2024-03-05T21:00:00,987,7,3,2,Arizona Coyotes,5,Chicago Blackhawks
+987,2023020988,2024-03-05T22:30:00,988,7,4,1,Los Angeles Kings,2,Vancouver Canucks
+988,2023020989,2024-03-05T22:30:00,989,7,4,6,San Jose Sharks,7,Dallas Stars
+989,2023020990,2024-03-06T19:00:00,990,7,4,2,Toronto Maple Leafs,1,Buffalo Sabres
+990,2023020991,2024-03-06T21:30:00,991,7,3,7,Colorado Avalanche,2,Detroit Red Wings
+991,2023020992,2024-03-06T22:00:00,992,7,3,2,Anaheim Ducks,1,Ottawa Senators
+992,2023020993,2024-03-07T19:00:00,993,7,3,4,Boston Bruins,1,Toronto Maple Leafs
+993,2023020994,2024-03-07T19:00:00,994,7,3,4,Carolina Hurricanes,1,Montréal Canadiens
+994,2023020995,2024-03-07T19:00:00,995,7,3,4,Columbus Blue Jackets,2,Edmonton Oilers
+995,2023020996,2024-03-07T19:00:00,996,7,3,1,Florida Panthers,2,Philadelphia Flyers
+996,2023020997,2024-03-07T19:00:00,997,7,3,4,New Jersey Devils,1,St. Louis Blues
+997,2023020998,2024-03-07T19:00:00,998,7,3,0,Pittsburgh Penguins,6,Washington Capitals
+998,2023020999,2024-03-07T19:00:00,999,7,3,3,Tampa Bay Lightning,6,Calgary Flames
+999,2023021000,2024-03-07T20:00:00,1000,7,3,4,Nashville Predators,2,Buffalo Sabres
+1000,2023021001,2024-03-07T21:00:00,1001,7,3,2,Arizona Coyotes,5,Minnesota Wild
+1001,2023021002,2024-03-07T22:00:00,1002,7,3,1,Vegas Golden Knights,3,Vancouver Canucks
+1002,2023021003,2024-03-07T22:30:00,1003,7,4,4,Los Angeles Kings,3,Ottawa Senators
+1003,2023021004,2024-03-07T22:30:00,1004,7,3,2,San Jose Sharks,7,New York Islanders
+1004,2023021005,2024-03-08T21:00:00,1005,7,3,4,Arizona Coyotes,0,Detroit Red Wings
+1005,2023021006,2024-03-08T21:00:00,1006,7,4,2,Colorado Avalanche,1,Minnesota Wild
+1006,2023021007,2024-03-08T22:00:00,1007,7,3,2,Anaheim Ducks,6,Dallas Stars
+1007,2023021008,2024-03-08T22:00:00,1008,7,3,0,Seattle Kraken,3,Winnipeg Jets
+1008,2023021009,2024-03-09T12:30:00,1009,7,5,3,Buffalo Sabres,2,Edmonton Oilers
+1009,2023021010,2024-03-09T12:30:00,1010,7,3,1,Columbus Blue Jackets,2,Nashville Predators
+1010,2023021011,2024-03-09T12:30:00,1011,7,3,2,New Jersey Devils,4,Carolina Hurricanes
+1011,2023021012,2024-03-09T15:00:00,1012,7,3,5,Boston Bruins,1,Pittsburgh Penguins
+1012,2023021013,2024-03-09T16:00:00,1013,7,3,5,Florida Panthers,1,Calgary Flames
+1013,2023021014,2024-03-09T19:00:00,1014,7,3,2,Montréal Canadiens,3,Toronto Maple Leafs
+1014,2023021015,2024-03-09T19:00:00,1015,7,3,2,San Jose Sharks,1,Ottawa Senators
+1015,2023021016,2024-03-09T19:00:00,1016,7,3,7,Tampa Bay Lightning,0,Philadelphia Flyers
+1016,2023021017,2024-03-09T19:00:00,1017,7,3,4,Washington Capitals,1,Chicago Blackhawks
+1017,2023021018,2024-03-09T19:30:00,1018,7,3,4,New York Rangers,0,St. Louis Blues
+1018,2023021019,2024-03-09T22:00:00,1019,7,3,5,Vancouver Canucks,0,Winnipeg Jets
+1019,2023021020,2024-03-09T22:00:00,1020,7,3,5,Vegas Golden Knights,3,Detroit Red Wings
+1020,2023021021,2024-03-09T22:30:00,1021,7,3,1,Los Angeles Kings,4,Dallas Stars
+1021,2023021022,2024-03-10T13:00:00,1022,7,3,0,Pittsburgh Penguins,4,Edmonton Oilers
+1022,2023021023,2024-03-10T15:30:00,1023,7,4,4,Minnesota Wild,3,Nashville Predators
+1023,2023021024,2024-03-10T17:00:00,1024,7,3,7,Carolina Hurricanes,2,Calgary Flames
+1024,2023021025,2024-03-10T18:00:00,1025,7,3,7,Chicago Blackhawks,4,Arizona Coyotes
+1025,2023021026,2024-03-10T20:00:00,1026,7,3,1,Anaheim Ducks,6,New York Islanders
+1026,2023021027,2024-03-11T19:00:00,1027,7,3,1,Boston Bruins,5,St. Louis Blues
+1027,2023021028,2024-03-11T19:00:00,1028,7,3,3,New York Rangers,1,New Jersey Devils
+1028,2023021029,2024-03-11T19:30:00,1029,7,3,3,Winnipeg Jets,0,Washington Capitals
+1029,2023021030,2024-03-11T22:30:00,1030,7,3,3,Los Angeles Kings,0,New York Islanders
+1030,2023021031,2024-03-12T19:00:00,1031,7,3,7,Buffalo Sabres,3,Detroit Red Wings
+1031,2023021032,2024-03-12T19:00:00,1032,7,3,0,Carolina Hurricanes,1,New York Rangers
+1032,2023021033,2024-03-12T19:00:00,1033,7,3,3,Montréal Canadiens,0,Columbus Blue Jackets
+1033,2023021034,2024-03-12T19:00:00,1034,7,4,2,Ottawa Senators,1,Pittsburgh Penguins
+1034,2023021035,2024-03-12T19:00:00,1035,7,3,3,Philadelphia Flyers,2,San Jose Sharks
+1035,2023021036,2024-03-12T20:00:00,1036,7,3,3,Dallas Stars,4,Florida Panthers
+1036,2023021037,2024-03-12T20:00:00,1037,7,3,4,Minnesota Wild,1,Arizona Coyotes
+1037,2023021038,2024-03-12T20:30:00,1038,7,3,7,Chicago Blackhawks,2,Anaheim Ducks
+1038,2023021039,2024-03-12T21:00:00,1039,7,3,2,Calgary Flames,6,Colorado Avalanche
+1039,2023021040,2024-03-12T22:00:00,1040,7,4,4,Seattle Kraken,5,Vegas Golden Knights
+1040,2023021041,2024-03-13T19:30:00,1041,7,3,3,St. Louis Blues,1,Los Angeles Kings
+1041,2023021042,2024-03-13T19:30:00,1042,7,3,2,Winnipeg Jets,4,Nashville Predators
+1042,2023021043,2024-03-13T22:00:00,1043,7,3,7,Edmonton Oilers,2,Washington Capitals
+1043,2023021044,2024-03-13T22:30:00,1044,7,4,3,Vancouver Canucks,4,Colorado Avalanche
+1044,2023021045,2024-03-14T19:00:00,1045,7,3,4,Buffalo Sabres,0,New York Islanders
+1045,2023021046,2024-03-14T19:00:00,1046,7,3,4,Carolina Hurricanes,0,Florida Panthers
+1046,2023021047,2024-03-14T19:00:00,1047,7,5,2,Columbus Blue Jackets,3,Ottawa Senators
+1047,2023021048,2024-03-14T19:00:00,1048,7,3,1,Detroit Red Wings,4,Arizona Coyotes
+1048,2023021049,2024-03-14T19:00:00,1049,7,4,1,Montréal Canadiens,2,Boston Bruins
+1049,2023021050,2024-03-14T19:30:00,1050,7,3,2,Philadelphia Flyers,6,Toronto Maple Leafs
+1050,2023021051,2024-03-14T19:00:00,1051,7,3,6,Pittsburgh Penguins,3,San Jose Sharks
+1051,2023021052,2024-03-14T19:00:00,1052,7,3,6,Tampa Bay Lightning,3,New York Rangers
+1052,2023021053,2024-03-14T20:00:00,1053,7,3,2,Dallas Stars,6,New Jersey Devils
+1053,2023021054,2024-03-14T20:00:00,1054,7,3,2,Minnesota Wild,0,Anaheim Ducks
+1054,2023021055,2024-03-14T21:00:00,1055,7,3,4,Calgary Flames,1,Vegas Golden Knights
+1055,2023021056,2024-03-14T22:00:00,1056,7,3,1,Seattle Kraken,2,Washington Capitals
+1056,2023021057,2024-03-15T20:00:00,1057,7,3,6,Winnipeg Jets,0,Anaheim Ducks
+1057,2023021058,2024-03-15T20:30:00,1058,7,3,0,Chicago Blackhawks,5,Los Angeles Kings
+1058,2023021059,2024-03-16T12:30:00,1059,7,3,4,Detroit Red Wings,1,Buffalo Sabres
+1059,2023021060,2024-03-16T12:30:00,1060,7,4,3,New York Islanders,4,Ottawa Senators
+1060,2023021061,2024-03-16T15:00:00,1061,7,3,4,Pittsburgh Penguins,7,New York Rangers
+1061,2023021062,2024-03-16T17:00:00,1062,7,3,4,Arizona Coyotes,1,New Jersey Devils
+1062,2023021063,2024-03-16T18:00:00,1063,7,3,3,Florida Panthers,5,Tampa Bay Lightning
+1063,2023021064,2024-03-16T19:00:00,1064,7,3,6,Boston Bruins,5,Philadelphia Flyers
+1064,2023021065,2024-03-16T19:00:00,1065,7,3,4,Columbus Blue Jackets,2,San Jose Sharks
+1065,2023021066,2024-03-16T19:00:00,1066,7,3,5,Calgary Flames,2,Montréal Canadiens
+1066,2023021067,2024-03-16T19:00:00,1067,7,5,4,Toronto Maple Leafs,5,Carolina Hurricanes
+1067,2023021068,2024-03-16T20:00:00,1068,7,3,4,Dallas Stars,1,Los Angeles Kings
+1068,2023021069,2024-03-16T20:00:00,1069,7,5,3,St. Louis Blues,2,Minnesota Wild
+1069,2023021070,2024-03-16T22:00:00,1070,7,4,2,Edmonton Oilers,3,Colorado Avalanche
+1070,2023021071,2024-03-16T22:00:00,1071,7,3,1,Seattle Kraken,4,Nashville Predators
+1071,2023021072,2024-03-16T22:00:00,1072,7,3,1,Vancouver Canucks,2,Washington Capitals
+1072,2023021073,2024-03-17T13:00:00,1073,7,3,5,New York Rangers,2,New York Islanders
+1073,2023021074,2024-03-17T15:30:00,1074,7,3,3,Vegas Golden Knights,1,New Jersey Devils
+1074,2023021075,2024-03-17T18:00:00,1075,7,3,1,Columbus Blue Jackets,6,Winnipeg Jets
+1075,2023021076,2024-03-17T18:00:00,1076,7,3,5,Chicago Blackhawks,2,San Jose Sharks
+1076,2023021077,2024-03-17T18:00:00,1077,7,3,2,Ottawa Senators,7,Carolina Hurricanes
+1077,2023021078,2024-03-17T18:00:00,1078,7,3,6,Pittsburgh Penguins,3,Detroit Red Wings
+1078,2023021079,2024-03-17T19:00:00,1079,7,3,4,St. Louis Blues,2,Anaheim Ducks
+1079,2023021080,2024-03-18T20:30:00,1080,7,3,2,Calgary Flames,5,Washington Capitals
+1080,2023021081,2024-03-18T22:00:00,1081,7,3,2,Seattle Kraken,6,Buffalo Sabres
+1081,2023021082,2024-03-19T19:00:00,1082,7,3,6,Boston Bruins,2,Ottawa Senators
+1082,2023021083,2024-03-19T19:00:00,1083,7,4,4,Detroit Red Wings,3,Columbus Blue Jackets
+1083,2023021084,2024-03-19T19:00:00,1084,7,3,5,New Jersey Devils,2,Pittsburgh Penguins
+1084,2023021085,2024-03-19T19:00:00,1085,7,3,2,New York Rangers,4,Winnipeg Jets
+1085,2023021086,2024-03-19T19:00:00,1086,7,3,4,Philadelphia Flyers,3,Toronto Maple Leafs
+1086,2023021087,2024-03-19T19:30:00,1087,7,3,1,New York Islanders,4,Carolina Hurricanes
+1087,2023021088,2024-03-19T20:00:00,1088,7,3,8,Nashville Predators,2,San Jose Sharks
+1088,2023021089,2024-03-19T20:00:00,1089,7,3,3,St. Louis Blues,4,Colorado Avalanche
+1089,2023021090,2024-03-19T21:00:00,1090,7,4,3,Edmonton Oilers,2,Montréal Canadiens
+1090,2023021091,2024-03-19T22:00:00,1091,7,3,0,Anaheim Ducks,4,Minnesota Wild
+1091,2023021092,2024-03-19T22:00:00,1092,7,3,6,Los Angeles Kings,2,Chicago Blackhawks
+1092,2023021093,2024-03-19T22:00:00,1093,7,3,3,Vancouver Canucks,2,Buffalo Sabres
+1093,2023021094,2024-03-19T22:00:00,1094,7,3,3,Vegas Golden Knights,5,Tampa Bay Lightning
+1094,2023021095,2024-03-20T19:30:00,1095,7,3,3,Washington Capitals,7,Toronto Maple Leafs
+1095,2023021096,2024-03-20T20:00:00,1096,7,3,5,Dallas Stars,2,Arizona Coyotes
+1096,2023021097,2024-03-20T22:00:00,1097,7,3,6,Los Angeles Kings,0,Minnesota Wild
+1097,2023021098,2024-03-21T19:00:00,1098,7,3,2,Boston Bruins,5,New York Rangers
+1098,2023021099,2024-03-21T19:00:00,1099,7,4,3,Carolina Hurricanes,2,Philadelphia Flyers
+1099,2023021100,2024-03-21T19:00:00,1100,7,3,6,Detroit Red Wings,3,New York Islanders
+1100,2023021101,2024-03-21T19:30:00,1101,7,3,0,Florida Panthers,3,Nashville Predators
+1101,2023021102,2024-03-21T19:00:00,1102,7,3,4,New Jersey Devils,1,Winnipeg Jets
+1102,2023021103,2024-03-21T19:00:00,1103,7,3,2,Ottawa Senators,5,St. Louis Blues
+1103,2023021104,2024-03-21T21:00:00,1104,7,3,8,Edmonton Oilers,3,Buffalo Sabres
+1104,2023021105,2024-03-21T22:00:00,1105,7,3,4,Anaheim Ducks,0,Chicago Blackhawks
+1105,2023021106,2024-03-21T22:00:00,1106,7,3,4,Vancouver Canucks,1,Montréal Canadiens
+1106,2023021107,2024-03-21T22:30:00,1107,7,3,3,Vegas Golden Knights,1,Seattle Kraken
+1107,2023021108,2024-03-21T22:30:00,1108,7,3,1,San Jose Sharks,4,Tampa Bay Lightning
+1108,2023021109,2024-03-22T19:00:00,1109,7,5,7,Washington Capitals,6,Carolina Hurricanes
+1109,2023021110,2024-03-22T20:00:00,1110,7,3,4,Dallas Stars,2,Pittsburgh Penguins
+1110,2023021111,2024-03-22T21:00:00,1111,7,3,6,Colorado Avalanche,1,Columbus Blue Jackets
+1111,2023021112,2024-03-22T22:00:00,1112,7,4,2,Arizona Coyotes,1,Seattle Kraken
+1112,2023021113,2024-03-23T13:00:00,1113,7,3,6,New York Islanders,3,Winnipeg Jets
+1113,2023021114,2024-03-23T13:00:00,1114,7,3,3,Philadelphia Flyers,2,Boston Bruins
+1114,2023021115,2024-03-23T14:00:00,1115,7,4,4,Minnesota Wild,5,St. Louis Blues
+1115,2023021116,2024-03-23T17:00:00,1116,7,3,1,Nashville Predators,0,Detroit Red Wings
+1116,2023021117,2024-03-23T19:00:00,1117,7,3,2,New Jersey Devils,5,Ottawa Senators
+1117,2023021118,2024-03-23T19:00:00,1118,7,3,6,Toronto Maple Leafs,3,Edmonton Oilers
+1118,2023021119,2024-03-23T20:00:00,1119,7,5,4,New York Rangers,3,Florida Panthers
+1119,2023021120,2024-03-23T22:00:00,1120,7,3,4,Vancouver Canucks,2,Calgary Flames
+1120,2023021121,2024-03-23T22:30:00,1121,7,4,4,Los Angeles Kings,3,Tampa Bay Lightning
+1121,2023021122,2024-03-23T22:30:00,1122,7,4,4,San Jose Sharks,5,Chicago Blackhawks
+1122,2023021123,2024-03-23T22:30:00,1123,7,3,4,Vegas Golden Knights,2,Columbus Blue Jackets
+1123,2023021124,2024-03-24T12:30:00,1124,7,3,3,Washington Capitals,0,Winnipeg Jets
+1124,2023021125,2024-03-24T14:00:00,1125,7,4,5,Colorado Avalanche,4,Pittsburgh Penguins
+1125,2023021126,2024-03-24T17:00:00,1126,7,3,0,New York Islanders,4,New Jersey Devils
+1126,2023021127,2024-03-24T18:00:00,1127,7,3,2,Carolina Hurricanes,1,Toronto Maple Leafs
+1127,2023021128,2024-03-24T18:00:00,1128,7,3,5,Ottawa Senators,3,Edmonton Oilers
+1128,2023021129,2024-03-24T18:00:00,1129,7,3,1,Philadelphia Flyers,4,Florida Panthers
+1129,2023021130,2024-03-24T20:00:00,1130,7,3,2,Arizona Coyotes,4,Dallas Stars
+1130,2023021131,2024-03-24T20:30:00,1131,7,4,2,Anaheim Ducks,3,Tampa Bay Lightning
+1131,2023021132,2024-03-24T21:00:00,1132,7,3,1,Calgary Flames,4,Buffalo Sabres
+1132,2023021133,2024-03-24T21:00:00,1133,7,3,1,Seattle Kraken,5,Montréal Canadiens
+1133,2023021134,2024-03-25T20:00:00,1134,7,4,1,St. Louis Blues,2,Vegas Golden Knights
+1134,2023021135,2024-03-25T21:00:00,1135,7,3,2,Vancouver Canucks,3,Los Angeles Kings
+1135,2023021136,2024-03-26T19:00:00,1136,7,3,3,Florida Panthers,4,Boston Bruins
+1136,2023021137,2024-03-26T19:00:00,1137,7,4,6,New York Rangers,5,Philadelphia Flyers
+1137,2023021138,2024-03-26T19:00:00,1138,7,3,4,Pittsburgh Penguins,1,Carolina Hurricanes
+1138,2023021139,2024-03-26T19:30:00,1139,7,3,3,Toronto Maple Leafs,6,New Jersey Devils
+1139,2023021140,2024-03-26T19:00:00,1140,7,4,4,Washington Capitals,3,Detroit Red Wings
+1140,2023021141,2024-03-26T20:00:00,1141,7,4,5,Nashville Predators,4,Vegas Golden Knights
+1141,2023021142,2024-03-26T20:00:00,1142,7,4,3,Winnipeg Jets,4,Edmonton Oilers
+1142,2023021143,2024-03-26T20:30:00,1143,7,3,3,Chicago Blackhawks,1,Calgary Flames
+1143,2023021144,2024-03-26T21:00:00,1144,7,3,1,Colorado Avalanche,2,Montréal Canadiens
+1144,2023021145,2024-03-26T22:00:00,1145,7,3,6,Arizona Coyotes,2,Columbus Blue Jackets
+1145,2023021146,2024-03-26T22:00:00,1146,7,3,4,Seattle Kraken,0,Anaheim Ducks
+1146,2023021147,2024-03-26T22:30:00,1147,7,3,3,San Jose Sharks,6,Dallas Stars
+1147,2023021148,2024-03-27T19:00:00,1148,7,3,2,Buffalo Sabres,6,Ottawa Senators
+1148,2023021149,2024-03-27T19:30:00,1149,7,3,3,Tampa Bay Lightning,1,Boston Bruins
+1149,2023021150,2024-03-28T19:30:00,1150,7,3,4,Carolina Hurricanes,0,Detroit Red Wings
+1150,2023021151,2024-03-28T19:00:00,1151,7,3,2,Florida Panthers,3,New York Islanders
+1151,2023021152,2024-03-28T19:00:00,1152,7,3,4,Montréal Canadiens,1,Philadelphia Flyers
+1152,2023021153,2024-03-28T19:00:00,1153,7,3,2,Ottawa Senators,0,Chicago Blackhawks
+1153,2023021154,2024-03-28T19:00:00,1154,7,3,3,Pittsburgh Penguins,2,Columbus Blue Jackets
+1154,2023021155,2024-03-28T19:00:00,1155,7,3,5,Toronto Maple Leafs,1,Washington Capitals
+1155,2023021156,2024-03-28T20:00:00,1156,7,3,3,Minnesota Wild,1,San Jose Sharks
+1156,2023021157,2024-03-28T20:00:00,1157,7,3,5,St. Louis Blues,3,Calgary Flames
+1157,2023021158,2024-03-28T20:00:00,1158,7,3,1,Winnipeg Jets,4,Vegas Golden Knights
+1158,2023021159,2024-03-28T21:00:00,1159,7,5,2,Colorado Avalanche,3,New York Rangers
+1159,2023021160,2024-03-28T21:00:00,1160,7,3,4,Edmonton Oilers,1,Los Angeles Kings
+1160,2023021161,2024-03-28T22:00:00,1161,7,3,8,Arizona Coyotes,4,Nashville Predators
+1161,2023021162,2024-03-28T22:00:00,1162,7,3,4,Seattle Kraken,2,Anaheim Ducks
+1162,2023021163,2024-03-28T22:00:00,1163,7,3,1,Vancouver Canucks,3,Dallas Stars
+1163,2023021164,2024-03-29T19:00:00,1164,7,3,5,Buffalo Sabres,2,New Jersey Devils
+1164,2023021165,2024-03-30T12:30:00,1165,7,5,3,Florida Panthers,2,Detroit Red Wings
+1165,2023021166,2024-03-30T15:30:00,1166,7,4,1,Minnesota Wild,2,Vegas Golden Knights
+1166,2023021167,2024-03-30T16:00:00,1167,7,3,6,Edmonton Oilers,1,Anaheim Ducks
+1167,2023021168,2024-03-30T18:00:00,1168,7,3,5,Arizona Coyotes,8,New York Rangers
+1168,2023021169,2024-03-30T18:00:00,1169,7,3,7,Colorado Avalanche,4,Nashville Predators
+1169,2023021170,2024-03-30T19:00:00,1170,7,3,0,Buffalo Sabres,3,Toronto Maple Leafs
+1170,2023021171,2024-03-30T19:00:00,1171,7,5,4,Columbus Blue Jackets,3,Pittsburgh Penguins
+1171,2023021172,2024-03-30T19:00:00,1172,7,3,0,Montréal Canadiens,3,Carolina Hurricanes
+1172,2023021173,2024-03-30T19:00:00,1173,7,3,1,Philadelphia Flyers,5,Chicago Blackhawks
+1173,2023021174,2024-03-30T19:00:00,1174,7,3,4,Tampa Bay Lightning,1,New York Islanders
+1174,2023021175,2024-03-30T19:00:00,1175,7,3,2,Winnipeg Jets,3,Ottawa Senators
+1175,2023021176,2024-03-30T19:00:00,1176,7,5,2,Washington Capitals,3,Boston Bruins
+1176,2023021177,2024-03-30T20:00:00,1177,7,3,0,St. Louis Blues,4,San Jose Sharks
+1177,2023021178,2024-03-30T22:00:00,1178,7,3,4,Calgary Flames,2,Los Angeles Kings
+1178,2023021179,2024-03-30T22:00:00,1179,7,3,0,Seattle Kraken,3,Dallas Stars
+1179,2023021180,2024-03-31T15:30:00,1180,7,3,3,Vancouver Canucks,2,Anaheim Ducks
+1180,2023021181,2024-04-01T19:00:00,1181,7,3,4,Columbus Blue Jackets,1,Colorado Avalanche
+1181,2023021182,2024-04-01T19:00:00,1182,7,3,2,New York Rangers,5,Pittsburgh Penguins
+1182,2023021183,2024-04-01T19:00:00,1183,7,4,3,Philadelphia Flyers,4,New York Islanders
+1183,2023021184,2024-04-01T19:00:00,1184,7,3,2,Tampa Bay Lightning,4,Detroit Red Wings
+1184,2023021185,2024-04-01T19:00:00,1185,7,3,6,Toronto Maple Leafs,4,Florida Panthers
+1185,2023021186,2024-04-01T21:00:00,1186,7,4,3,St. Louis Blues,2,Edmonton Oilers
+1186,2023021187,2024-04-01T21:00:00,1187,7,3,4,Winnipeg Jets,3,Los Angeles Kings
+1187,2023021188,2024-04-01T22:30:00,1188,7,3,2,San Jose Sharks,4,Seattle Kraken
+1188,2023021189,2024-04-02T19:00:00,1189,7,3,6,Buffalo Sabres,2,Washington Capitals
+1189,2023021190,2024-04-02T19:00:00,1190,7,3,5,Montréal Canadiens,3,Florida Panthers
+1190,2023021191,2024-04-02T19:00:00,1191,7,3,3,New Jersey Devils,6,Pittsburgh Penguins
+1191,2023021192,2024-04-02T19:30:00,1192,7,3,2,New York Islanders,1,Chicago Blackhawks
+1192,2023021193,2024-04-02T20:00:00,1193,7,3,3,Minnesota Wild,2,Ottawa Senators
+1193,2023021194,2024-04-02T20:00:00,1194,7,3,0,Nashville Predators,3,Boston Bruins
+1194,2023021195,2024-04-02T21:00:00,1195,7,3,3,Calgary Flames,5,Anaheim Ducks
+1195,2023021196,2024-04-02T22:00:00,1196,7,3,6,Vegas Golden Knights,3,Vancouver Canucks
+1196,2023021197,2024-04-03T19:00:00,1197,7,3,1,Toronto Maple Leafs,4,Tampa Bay Lightning
+1197,2023021198,2024-04-03T19:00:00,1198,7,3,4,New York Rangers,3,New Jersey Devils
+1198,2023021199,2024-04-03T21:30:00,1199,7,3,5,Dallas Stars,0,Edmonton Oilers
+1199,2023021200,2024-04-03T22:00:00,1200,7,3,1,Arizona Coyotes,2,Vancouver Canucks
+1200,2023021201,2024-04-03T21:30:00,1201,7,3,5,Los Angeles Kings,2,Seattle Kraken
+1201,2023021202,2024-04-04T19:00:00,1202,7,3,1,Carolina Hurricanes,4,Boston Bruins
+1202,2023021203,2024-04-04T19:00:00,1203,7,3,2,Columbus Blue Jackets,4,New York Islanders
+1203,2023021204,2024-04-04T19:00:00,1204,7,3,4,Montréal Canadiens,7,Tampa Bay Lightning
+1204,2023021205,2024-04-04T19:00:00,1205,7,3,0,Ottawa Senators,6,Florida Panthers
+1205,2023021206,2024-04-04T19:00:00,1206,7,3,1,Washington Capitals,4,Pittsburgh Penguins
+1206,2023021207,2024-04-04T20:00:00,1207,7,3,2,Minnesota Wild,5,Colorado Avalanche
+1207,2023021208,2024-04-04T20:00:00,1208,7,3,6,Nashville Predators,3,St. Louis Blues
+1208,2023021209,2024-04-04T20:00:00,1209,7,3,5,Winnipeg Jets,2,Calgary Flames
+1209,2023021210,2024-04-04T22:30:00,1210,7,3,1,San Jose Sharks,2,Los Angeles Kings
+1210,2023021211,2024-04-05T19:00:00,1211,7,3,4,Buffalo Sabres,2,Philadelphia Flyers
+1211,2023021212,2024-04-05T19:00:00,1212,7,3,4,Carolina Hurricanes,2,Washington Capitals
+1212,2023021213,2024-04-05T19:00:00,1213,7,3,3,Detroit Red Wings,4,New York Rangers
+1213,2023021214,2024-04-05T21:00:00,1214,7,3,6,Edmonton Oilers,2,Colorado Avalanche
+1214,2023021215,2024-04-05T22:00:00,1215,7,3,1,Anaheim Ducks,3,Seattle Kraken
+1215,2023021216,2024-04-05T22:00:00,1216,7,3,7,Arizona Coyotes,4,Vegas Golden Knights
+1216,2023021217,2024-04-06T13:00:00,1217,7,3,5,Pittsburgh Penguins,4,Tampa Bay Lightning
+1217,2023021218,2024-04-06T15:30:00,1218,7,4,3,Boston Bruins,2,Florida Panthers
+1218,2023021219,2024-04-06T16:00:00,1219,7,3,2,Minnesota Wild,4,Winnipeg Jets
+1219,2023021220,2024-04-06T15:30:00,1220,7,3,3,Chicago Blackhawks,2,Dallas Stars
+1220,2023021221,2024-04-06T18:00:00,1221,7,4,3,San Jose Sharks,2,St. Louis Blues
+1221,2023021222,2024-04-06T19:00:00,1222,7,3,6,Columbus Blue Jackets,2,Philadelphia Flyers
+1222,2023021223,2024-04-06T19:00:00,1223,7,3,2,Montréal Canadiens,4,Toronto Maple Leafs
+1223,2023021224,2024-04-06T19:00:00,1224,7,3,3,Ottawa Senators,4,New Jersey Devils
+1224,2023021225,2024-04-06T19:30:00,1225,7,3,2,New York Islanders,0,Nashville Predators
+1225,2023021226,2024-04-06T22:00:00,1226,7,3,2,Calgary Flames,4,Edmonton Oilers
+1226,2023021227,2024-04-06T22:00:00,1227,7,3,6,Los Angeles Kings,3,Vancouver Canucks
+1227,2023021228,2024-04-07T13:00:00,1228,7,3,3,Detroit Red Wings,1,Buffalo Sabres
+1228,2023021229,2024-04-07T15:30:00,1229,7,3,0,Chicago Blackhawks,4,Minnesota Wild
+1229,2023021230,2024-04-07T17:00:00,1230,7,3,3,Carolina Hurricanes,0,Columbus Blue Jackets
+1230,2023021231,2024-04-07T18:00:00,1231,7,3,2,San Jose Sharks,5,Arizona Coyotes
+1231,2023021232,2024-04-07T18:00:00,1232,7,4,2,Washington Capitals,3,Ottawa Senators
+1232,2023021233,2024-04-07T19:00:00,1233,7,5,2,New Jersey Devils,3,Nashville Predators
+1233,2023021234,2024-04-07T19:00:00,1234,7,3,5,New York Rangers,2,Montréal Canadiens
+1234,2023021235,2024-04-07T20:00:00,1235,7,5,5,Anaheim Ducks,6,St. Louis Blues
+1235,2023021236,2024-04-07T22:00:00,1236,7,3,4,Colorado Avalanche,7,Dallas Stars
+1236,2023021237,2024-04-08T19:00:00,1237,7,4,3,Toronto Maple Leafs,2,Pittsburgh Penguins
+1237,2023021238,2024-04-08T22:00:00,1238,7,3,4,Vancouver Canucks,3,Vegas Golden Knights
+1238,2023021239,2024-04-09T19:00:00,1239,7,3,1,Boston Bruins,4,Carolina Hurricanes
+1239,2023021240,2024-04-09T19:00:00,1240,7,3,1,Detroit Red Wings,2,Washington Capitals
+1240,2023021241,2024-04-09T19:00:00,1241,7,3,2,Florida Panthers,0,Ottawa Senators
+1241,2023021242,2024-04-09T19:00:00,1242,7,3,9,Montréal Canadiens,3,Philadelphia Flyers
+1242,2023021243,2024-04-09T19:00:00,1243,7,3,2,New Jersey Devils,5,Toronto Maple Leafs
+1243,2023021244,2024-04-09T19:00:00,1244,7,3,4,New York Islanders,2,New York Rangers
+1244,2023021245,2024-04-09T19:00:00,1245,7,3,5,Tampa Bay Lightning,2,Columbus Blue Jackets
+1245,2023021246,2024-04-09T20:00:00,1246,7,3,3,Dallas Stars,2,Buffalo Sabres
+1246,2023021247,2024-04-09T20:00:00,1247,7,4,3,Nashville Predators,4,Winnipeg Jets
+1247,2023021248,2024-04-09T21:30:00,1248,7,3,5,Colorado Avalanche,2,Minnesota Wild
+1248,2023021249,2024-04-09T22:00:00,1249,7,3,3,Anaheim Ducks,1,Los Angeles Kings
+1249,2023021250,2024-04-09T22:00:00,1250,7,3,5,Seattle Kraken,0,Arizona Coyotes
+1250,2023021251,2024-04-09T22:30:00,1251,7,4,2,San Jose Sharks,3,Calgary Flames
+1251,2023021252,2024-04-10T20:00:00,1252,7,3,5,St. Louis Blues,2,Chicago Blackhawks
+1252,2023021253,2024-04-10T20:30:00,1253,7,3,5,Edmonton Oilers,1,Vegas Golden Knights
+1253,2023021254,2024-04-10T22:30:00,1254,7,4,3,Vancouver Canucks,4,Arizona Coyotes
+1254,2023021255,2024-04-11T19:00:00,1255,7,3,4,Buffalo Sabres,2,Washington Capitals
+1255,2023021256,2024-04-11T19:00:00,1256,7,3,4,Florida Panthers,0,Columbus Blue Jackets
+1256,2023021257,2024-04-11T19:00:00,1257,7,3,1,New York Rangers,4,Philadelphia Flyers
+1257,2023021258,2024-04-11T19:00:00,1258,7,4,6,Pittsburgh Penguins,5,Detroit Red Wings
+1258,2023021259,2024-04-11T19:00:00,1259,7,5,2,Tampa Bay Lightning,3,Ottawa Senators
+1259,2023021260,2024-04-11T19:00:00,1260,7,3,5,Toronto Maple Leafs,6,New Jersey Devils
+1260,2023021261,2024-04-11T19:30:00,1261,7,4,3,New York Islanders,2,Montréal Canadiens
+1261,2023021262,2024-04-11T20:00:00,1262,7,3,0,Dallas Stars,3,Winnipeg Jets
+1262,2023021263,2024-04-11T22:00:00,1263,7,3,1,Seattle Kraken,3,San Jose Sharks
+1263,2023021264,2024-04-11T22:30:00,1264,7,3,4,Los Angeles Kings,1,Calgary Flames
+1264,2023021265,2024-04-12T20:00:00,1265,7,3,2,St. Louis Blues,5,Carolina Hurricanes
+1265,2023021266,2024-04-12T20:30:00,1266,7,3,1,Chicago Blackhawks,5,Nashville Predators
+1266,2023021267,2024-04-12T21:00:00,1267,7,4,2,Edmonton Oilers,3,Arizona Coyotes
+1267,2023021268,2024-04-12T22:00:00,1268,7,3,3,Anaheim Ducks,6,Calgary Flames
+1268,2023021269,2024-04-12T22:00:00,1269,7,3,7,Vegas Golden Knights,2,Minnesota Wild
+1269,2023021270,2024-04-13T12:30:00,1270,7,5,3,New York Rangers,2,New York Islanders
+1270,2023021271,2024-04-13T15:00:00,1271,7,3,3,Dallas Stars,1,Seattle Kraken
+1271,2023021272,2024-04-13T16:00:00,1272,7,3,0,Colorado Avalanche,7,Winnipeg Jets
+1272,2023021273,2024-04-13T17:00:00,1273,7,4,3,Florida Panthers,2,Buffalo Sabres
+1273,2023021274,2024-04-13T17:00:00,1274,7,3,1,Philadelphia Flyers,0,New Jersey Devils
+1274,2023021275,2024-04-13T17:30:00,1275,7,3,4,Washington Capitals,2,Tampa Bay Lightning
+1275,2023021276,2024-04-13T19:00:00,1276,7,5,5,Ottawa Senators,4,Montréal Canadiens
+1276,2023021277,2024-04-13T19:00:00,1277,7,4,4,Toronto Maple Leafs,5,Detroit Red Wings
+1277,2023021278,2024-04-13T20:00:00,1278,7,3,6,Nashville Predators,4,Columbus Blue Jackets
+1278,2023021279,2024-04-13T20:00:00,1279,7,3,4,Pittsburgh Penguins,6,Boston Bruins
+1279,2023021280,2024-04-13T22:00:00,1280,7,3,1,Edmonton Oilers,3,Vancouver Canucks
+1280,2023021281,2024-04-13T22:30:00,1281,7,3,3,Los Angeles Kings,1,Anaheim Ducks
+1281,2023021282,2024-04-13T22:30:00,1282,7,3,2,San Jose Sharks,6,Minnesota Wild
+1282,2023021283,2024-04-14T13:00:00,1283,7,3,4,St. Louis Blues,1,Seattle Kraken
+1283,2023021284,2024-04-14T15:30:00,1284,7,4,4,Vegas Golden Knights,3,Colorado Avalanche
+1284,2023021285,2024-04-14T18:00:00,1285,7,3,2,Chicago Blackhawks,4,Carolina Hurricanes
+1285,2023021286,2024-04-14T20:00:00,1286,7,3,6,Calgary Flames,5,Arizona Coyotes
+1286,2023021287,2024-04-15T19:00:00,1287,7,4,5,Detroit Red Wings,4,Montréal Canadiens
+1287,2023021288,2024-04-15T19:00:00,1288,7,3,1,New Jersey Devils,4,New York Islanders
+1288,2023021289,2024-04-15T19:00:00,1289,7,3,4,Pittsburgh Penguins,2,Nashville Predators
+1289,2023021290,2024-04-15T19:00:00,1290,7,3,2,Tampa Bay Lightning,4,Buffalo Sabres
+1290,2023021291,2024-04-15T19:00:00,1291,7,3,2,Washington Capitals,0,Boston Bruins
+1291,2023021292,2024-04-15T19:30:00,1292,7,3,4,New York Rangers,0,Ottawa Senators
+1292,2023021293,2024-04-15T21:30:00,1293,7,3,9,Edmonton Oilers,2,San Jose Sharks
+1293,2023021294,2024-04-15T21:30:00,1294,7,3,1,Los Angeles Kings,3,Minnesota Wild
+1294,2023021295,2024-04-16T19:00:00,1295,7,3,1,Boston Bruins,3,Ottawa Senators
+1295,2023021296,2024-04-16T19:00:00,1296,7,3,6,Columbus Blue Jackets,3,Carolina Hurricanes
+1296,2023021297,2024-04-16T19:30:00,1297,7,3,5,Florida Panthers,2,Toronto Maple Leafs
+1297,2023021298,2024-04-16T19:00:00,1298,7,5,4,Montréal Canadiens,5,Detroit Red Wings
+1298,2023021299,2024-04-16T19:00:00,1299,7,3,1,Philadelphia Flyers,2,Washington Capitals
+1299,2023021300,2024-04-16T20:00:00,1300,7,3,4,Winnipeg Jets,3,Seattle Kraken
+1300,2023021301,2024-04-16T22:00:00,1301,7,3,3,Vegas Golden Knights,1,Chicago Blackhawks
+1301,2023021302,2024-04-16T22:00:00,1302,7,3,4,Vancouver Canucks,1,Calgary Flames
+1302,2023021303,2024-04-17T19:00:00,1303,7,3,5,New York Islanders,4,Pittsburgh Penguins
+1303,2023021304,2024-04-17T19:00:00,1304,7,3,6,Tampa Bay Lightning,4,Toronto Maple Leafs
+1304,2023021305,2024-04-17T21:30:00,1305,7,5,2,Dallas Stars,1,St. Louis Blues
+1305,2023021306,2024-04-17T22:00:00,1306,7,3,5,Arizona Coyotes,2,Edmonton Oilers
+1306,2023021307,2024-04-18T19:00:00,1307,7,3,3,Minnesota Wild,4,Seattle Kraken
+1307,2023021308,2024-04-18T20:00:00,1308,7,3,4,Winnipeg Jets,2,Vancouver Canucks
+1308,2023021309,2024-04-18T21:00:00,1309,7,3,5,Calgary Flames,1,San Jose Sharks
+1309,2023021310,2024-04-18T21:30:00,1310,7,3,5,Colorado Avalanche,1,Edmonton Oilers
+1310,2023021311,2024-04-18T22:00:00,1311,7,3,1,Vegas Golden Knights,4,Anaheim Ducks
+1311,2023021312,2024-04-18T22:30:00,1312,7,4,5,Los Angeles Kings,4,Chicago Blackhawks
