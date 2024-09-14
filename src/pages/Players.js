@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../supabaseClient';
 import '../styles/Players.scss';
-
-const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function Players() {
   const [data, setData] = useState([]);

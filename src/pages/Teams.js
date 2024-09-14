@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTable, useSortBy } from 'react-table';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
-
-const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function Teams() {
   const [data, setData] = useState([]);
