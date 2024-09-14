@@ -1,4 +1,5 @@
 import os
+import json
 import unidecode
 import requests
 import pandas as pd
@@ -375,6 +376,36 @@ def fix_teams(player_stat_df):
     player_to_team_map = active_players_df.set_index('PlayerID')['Team'].to_dict()
     player_stat_df['Team'] = player_stat_df['PlayerID'].map(player_to_team_map)
     return player_stat_df
+
+def update_metadata(state, params):
+
+    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'metadata.json')
+    os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
+    
+    if state == 0:
+        [start_time, projection_year, simulations] = params
+        metadata = {
+            'startTimestamp': start_time,
+            'endTimestamp': None,
+            'engineRunTime': None,
+            'projectionYear': projection_year,
+            'monteCarloSimulations': simulations
+        }
+
+    elif state == 1:
+        [end_time, engine_run_time] = params
+        with open(metadata_path, 'r') as f:
+            metadata = json.load(f)
+        metadata['endTimestamp'] = end_time
+        metadata['engineRunTime'] = engine_run_time
+
+    try:
+        with open(metadata_path, 'w') as f:
+            json.dump(metadata, f, indent=4)
+    except IOError as e:
+        print(f"Error updating metadata: {e}")
+
+    return
 
 def push_to_supabase(table_name, year, verbose=False):
     load_dotenv()

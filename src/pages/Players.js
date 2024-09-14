@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../supabaseClient';
 import '../styles/Players.scss';
 
 function Players() {
-  const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
-  const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [teamFilter, setTeamFilter] = useState('');
   const [posFilter, setPosFilter] = useState('');
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [sortBy, setSortByState] = useState([]);
+  const [lastUpdated, setLastUpdated] = useState('');
 
   const columns = React.useMemo(
     () => [
-//       { Header: 'Player', accessor: 'player' },
-//       { Header: 'Team', accessor: 'team' },
-//       { Header: 'Position', accessor: 'position' },
-//       { Header: 'Games', accessor: 'games', sortType: 'basic' },
-//       { Header: 'Goals', accessor: 'goals', sortType: 'basic' },
-//       { Header: 'Assists', accessor: 'assists', sortType: 'basic' },
-//       { Header: 'Points', accessor: 'points', sortType: 'basic' },
       {
         Header: 'Player',
         accessor: 'player',
@@ -66,7 +57,6 @@ function Players() {
       const { data: players, error } = await supabase
         .from('player-projections')
         .select('*');
-
       if (error) {
         console.error('Error fetching data:', error);
       } else {
@@ -74,8 +64,28 @@ function Players() {
         setData(players);
       }
     };
-
+    const fetchMetadata = async () => {
+      try {
+        const response = await fetch('metadata.json');
+        if (response.ok) {
+          const metadata = await response.json();
+          const timestamp = metadata.endTimestamp;
+          const date = new Date(timestamp * 1000);
+    
+          // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          const formattedDate = date.toLocaleDateString('en-US', options);
+    
+          setLastUpdated(formattedDate);
+        } else {
+          console.error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching metadata:', error);
+      }
+    };  
     fetchData();
+    fetchMetadata();
   }, []);
 
   const filteredData = React.useMemo(() => {
@@ -143,14 +153,13 @@ function Players() {
     }
   };
 
-  // Calculate the range of players being displayed
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min(startRow + pageSize - 1, filteredData.length);
 
   return (
     <div className="players">
       <h1>Players</h1>
-      <h2>Last updated May 15, 2024</h2>
+      <h2>Last updated {lastUpdated}</h2>
       <div className="filter-container">
         <div className="select-container">
           <select value={teamFilter} onChange={e => setTeamFilter(e.target.value)}>
@@ -258,9 +267,9 @@ function Players() {
               ))}
             </select>
           </div>
-        </div>
-        <div className="pagination-info">
-          Showing players {startRow} - {endRow} out of {filteredData.length}
+          <div className="pagination-info">
+            Showing {startRow}-{endRow} of {filteredData.length}
+          </div>
         </div>
       </div>
     </div>

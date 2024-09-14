@@ -9,7 +9,11 @@ from projection_engine import *
 def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
+    SIMULATIONS = 1
     # season_state = get_season_state(PROJECTION_YEAR)
+
+    # Update metadata.json
+    update_metadata(state=0, params=[start_time, PROJECTION_YEAR, SIMULATIONS])
 
     # # Scrape or fetch player data
     # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
@@ -74,7 +78,7 @@ def main():
     # print(team_stat_df.to_string())
 
     # Run projection engine and simulate season
-    run_projection_engine(projection_year=PROJECTION_YEAR, simulations=1, download_files=True, verbose=True) ###
+    run_projection_engine(projection_year=PROJECTION_YEAR, simulations=SIMULATIONS, download_files=True, verbose=True) ###
 
     # Push the simulation results to Supabase
     # push_to_supabase(table_name="team-projections", projection_year=PROJECTION_YEAR, verbose=True)
@@ -82,6 +86,9 @@ def main():
     # push_to_supabase(table_name="game-projections", projection_year=PROJECTION_YEAR, verbose=True)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
+    update_metadata(state=1, params=[time.time(), time.time()-start_time])
+
+    return
 
 if __name__ == "__main__":
     main()
