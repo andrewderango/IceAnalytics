@@ -379,7 +379,7 @@ def fix_teams(player_stat_df):
 
 def update_metadata(state, params):
 
-    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', 'metadata.json')
+    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'metadata.json')
     os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
     
     if state == 0:
