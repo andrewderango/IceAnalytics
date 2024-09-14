@@ -1,13 +1,15 @@
 import React from 'react';
-import '../styles/Home.scss';
+import notFound from '../assets/images/404.png';
+import '../styles/NotFound.scss';
 
-function Home() {
+function NotFound() {
   return (
-    <div className="home">
-      <h1>PAGE NOT FOUND</h1>
-      <p>404</p>
+    <div className="not-found">
+        <img src={notFound} alt="404"/>
+        <h1>404</h1>
+        <p>Page not found</p>
     </div>
   );
 }
 
-export default Home;
+export default NotFound;

@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Sweet Sans Pro Heavy';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
+}
+
+.not-found {
+    text-align: center;
+    min-height: calc(100vh - 185px);
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 50vh;
+      margin-bottom: calc(-0.05*(100vw) - 75px);
+      object-fit: contain;
+    }
+  
+    h1 {
+      font-size: calc(0.0736378*(100vw) + 84px);
+      font-family: 'Sweet Sans Pro Heavy', sans-serif;
+      margin-bottom: calc(-0.0192141*(100vw) - 25px);
+    }
+  
+    p {
+      font-size: calc(0.0736378*(100vw)/5 + 17px);
+      color: goldenrod;
+      font-family: 'Sweet Sans Pro Thin', sans-serif;
+    }
+  }

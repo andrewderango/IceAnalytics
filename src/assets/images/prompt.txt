@@ -1,1 +1,2 @@
-Create a minimalistic 3D rendering of a hockey player headshot from a diagonal angle. It should just be grey, with a mannequin-like face. The theme should be dark and sleek. The background should be black. The visor should be a solid gold gradient that blocks the eyes completely.
+Home: Create a minimalistic 3D rendering of a hockey player headshot from a diagonal angle. It should just be grey, with a mannequin-like face. The theme should be dark and sleek. The background should be black. The visor should be a solid gold gradient that blocks the eyes completely.
+404: A full-body shot of a hockey player, mannequin style, using a dark and gold theme with a solid dark background
