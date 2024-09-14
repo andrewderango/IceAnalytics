@@ -3,12 +3,14 @@ import { useTable, useSortBy } from 'react-table';
 import { createClient } from '@supabase/supabase-js';
 import '../styles/Teams.scss';
 
+const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 function Teams() {
-  const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
-  const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState({ id: null, desc: false });
+  const [lastUpdated, setLastUpdated] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,8 +25,28 @@ function Teams() {
         setData(teams);
       }
     };
-  
+    const fetchMetadata = async () => {
+      try {
+        const response = await fetch('metadata.json');
+        if (response.ok) {
+          const metadata = await response.json();
+          const timestamp = metadata.endTimestamp;
+          const date = new Date(timestamp * 1000);
+
+          // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          const formattedDate = date.toLocaleDateString('en-US', options);
+
+          setLastUpdated(formattedDate);
+        } else {
+          console.error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching metadata:', error);
+      }
+    };  
     fetchData();
+    fetchMetadata();
   }, []);
 
   const columns = useMemo(
@@ -186,7 +208,7 @@ function Teams() {
   return (
     <div className="teams">
       <h1>Teams</h1>
-      <h2>Last updated May 15, 2024</h2>
+      <h2>Last updated {lastUpdated}</h2>
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
