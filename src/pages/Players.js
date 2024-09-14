@@ -3,10 +3,11 @@ import { useTable, usePagination, useSortBy } from 'react-table';
 import { createClient } from '@supabase/supabase-js';
 import '../styles/Players.scss';
 
+const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 function Players() {
-  const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
-  const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [teamFilter, setTeamFilter] = useState('');
