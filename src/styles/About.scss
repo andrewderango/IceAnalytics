@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+    font-family: 'Sweet Sans Pro Heavy';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Regular';
+    src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
+}
+
+.about {
+    text-align: left;
+    min-height: calc(100vh - 185px);
+    padding: 0 10%;
+    margin-bottom: 50px;
+    font-family: 'Roboto', sans-serif;
+
+    h1 {
+        text-align: center;
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        font-size: 48px;
+        margin-top: 64px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+
+        .small-upper {
+            font-size: smaller;
+        }
+
+        @media (max-width: 500px) {
+            font-size: 36px;
+            margin-top: 36px;
+        }
+    }
+
+    h2 {
+        font-size: 32px;
+        margin-top: 64px;
+        margin-bottom: 16px;
+        color: goldenrod;
+
+        @media (max-width: 500px) {
+            font-size: 28px;
+            margin-top: 36px;
+        }
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+
+        @media (max-width: 500px) {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    }
+
+    ul {
+        list-style-type: disc;
+        margin-left: 20px;
+        padding: 0;
+
+        li {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 500px) {
+            font-size: 14px;
+        }
+    }
+
+    a {
+        // color: goldenrod;
+        // color: rgba(218, 165, 32, 0.5);
+        color: #999;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
