@@ -5,14 +5,14 @@ import logo from '../assets/images/logo.svg';
 
 function Header() {
   const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
+  // const [height, setHeight] = useState(window.innerHeight);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
+      // setHeight(window.innerHeight);
     };
   
     window.addEventListener('resize', handleResize);
@@ -57,7 +57,7 @@ function Header() {
             <li><NavLink to="/players" activeStyle={{ color: 'goldenrod' }}>PLAYERS</NavLink></li>
             <li><NavLink to="/teams" activeStyle={{ color: 'goldenrod' }}>TEAMS</NavLink></li>
             <li><NavLink to="/about" activeStyle={{ color: 'goldenrod' }}>ABOUT</NavLink></li>
-            <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }}>{width}x{height}</NavLink></li>
+            {/* <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }}>{width}x{height}</NavLink></li> */}
           </ul>
         </nav>
       ) : (
@@ -72,7 +72,7 @@ function Header() {
               <li><NavLink to="/players" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>PLAYERS</NavLink></li>
               <li><NavLink to="/teams" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>TEAMS</NavLink></li>
               <li><NavLink to="/about" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>ABOUT</NavLink></li>
-              <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>{width}x{height}</NavLink></li>
+              {/* <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>{width}x{height}</NavLink></li> */}
             </ul>
           )}
         </nav>
