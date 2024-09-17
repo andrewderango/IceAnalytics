@@ -9,7 +9,7 @@ from projection_engine import *
 def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
-    SIMULATIONS = 1
+    SIMULATIONS = 10000
     # season_state = get_season_state(PROJECTION_YEAR)
 
     # Update metadata.json
@@ -69,7 +69,7 @@ def main():
     bootstrap_df = bootstrap_goal_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a1_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True)
+    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True) ###
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
