@@ -29,9 +29,16 @@ function Teams() {
           const timestamp = metadata.endTimestamp;
           const date = new Date(timestamp * 1000);
 
-          // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
-          const formattedDate = date.toLocaleDateString('en-US', options);
+          let formattedDate;
+          if (window.innerWidth < 600) {
+            // MM/DD/YY for mobile
+            const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+            formattedDate = date.toLocaleDateString('en-US', options);
+          } else {
+            // full date otherwise
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            formattedDate = date.toLocaleDateString('en-US', options);
+          }
 
           setLastUpdated(formattedDate);
         } else {
