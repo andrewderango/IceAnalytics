@@ -159,7 +159,7 @@ function Players() {
   return (
     <div className="players">
       <h1>Players</h1>
-      <h2>Last updated {lastUpdated}</h2>
+      <h2>Projections last updated {lastUpdated}</h2>
       <div className="filter-container">
         <div className="select-container">
           <select value={teamFilter} onChange={e => setTeamFilter(e.target.value)}>
