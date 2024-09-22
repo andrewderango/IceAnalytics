@@ -204,7 +204,7 @@ function Teams() {
   return (
     <div className="teams">
       <h1>Teams</h1>
-      <h2>Last updated {lastUpdated}</h2>
+      <h2>Projections last updated {lastUpdated}</h2>
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
