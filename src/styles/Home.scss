@@ -29,7 +29,7 @@ body, html {
             min-height: 100vh;
         }
         @media (max-width: 499px) {
-            min-height: 80vh;
+            min-height: calc(0.583*100vh + 210px);
         }
         @media (max-height: 500px) and (min-width: 500px) {
             min-height: 200vh;
@@ -109,6 +109,10 @@ body, html {
                 font-size: calc(20/390 * 100vw);
                 font-weight: 300;
                 margin-top: 6%;
+
+                .headshot {
+                    margin-top: 10px;
+                }
             }
         }
     }
@@ -128,8 +132,10 @@ body, html {
         @media (max-width: 1000px) {
             max-height: none;
             height: 40%;
+            // width: 69.5%;
+            // height: auto;
             // top: 45%;
-            top: calc(88.9841% - 294px);
+            top: calc(0.276*100vh + 91px);
             transform: translate(-50%, 0%) !important;
             left: 50%;
             right: auto;
