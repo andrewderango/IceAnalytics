@@ -195,75 +195,38 @@ body, html {
         }
 
         button {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: calc(30/1440 * 100vw);
-            background: #222;
-            overflow: hidden;
+            padding: calc(17/1440 * 100vw) calc(40/1440 * 100vw);
+            border-radius: 50px;
             cursor: pointer;
-            color: goldenrod;
-            font-family: 'Sweet Sans Pro Thin', sans-serif;
-            font-weight: 100;
-            font-size: calc(16/1440 * 100vw);
             border: 1px solid goldenrod;
+            background-color: #222;
+            text-transform: uppercase;
+            font-size: calc(18/1440 * 100vw);
+            transition: all 0.5s ease;
+            font-family: 'Sweet Sans Pro Thin', sans-serif;
+            color: goldenrod;
+
+            &:hover {
+                letter-spacing: 1px;
+                background-color: goldenrod;
+                color: #000; // #222;
+                font-weight: 900;
+            }
+
+            &:active {
+                transform: translateY(1px);
+                transition: 100ms;
+            }
 
             @media (max-width: 1000px) {
-                font-size: calc(12/390 * 100vw);
+                font-size: calc(16/390 * 100vw);
                 border-radius: 50px;
                 padding: 2% 6%;
+                margin-bottom: 20px;
+                color: goldenrod;
+                background-color: #393939;
             }
-          }
-          
-          button:after {
-            content: " ";
-            width: 0%;
-            height: 100%;
-            background: goldenrod;
-            position: absolute;
-            transition: all 0.4s ease-in-out;
-            right: 0;
-          }
-          
-          button:hover::after {
-            right: auto;
-            left: 0;
-            width: 100%;
-          }
-          
-          button span {
-            text-align: center;
-            text-decoration: none;
-            width: 100%;
-            // padding: 18px 40px;
-            padding: calc(18/1440 * 100vw) calc(40/1440 * 100vw);
-            color: goldenrod;
-            font-size: 1.125em;
-            font-weight: 700;
-            letter-spacing: 0.0em;
-            z-index: 20;
-            transition: all 0.3s ease-in-out;
-          }
-          
-          button:hover span {
-            color: black;
-            animation: scaleUp 0.3s ease-in-out;
-          }
-          
-          @keyframes scaleUp {
-            0% {
-              transform: scale(1);
-            }
-          
-            50% {
-              transform: scale(0.95);
-            }
-          
-            100% {
-              transform: scale(1);
-            }
-          }
+        }
     }
 
     .pages-section {
