@@ -330,37 +330,40 @@ body, html {
             }
     
             button {
-                // padding: 17px 40px;
                 padding: calc(17/1440 * 100vw) calc(40/1440 * 100vw);
                 border-radius: 50px;
                 cursor: pointer;
                 border: none;
                 background-color: #666;
                 text-transform: uppercase;
-                // font-size: 15px;
                 font-size: calc(15/1440 * 100vw);
                 transition: all 0.5s ease;
                 font-family: 'Sweet Sans Pro Thin';
     
-                &:hover {
-                    letter-spacing: 1px;
-                    background-color: goldenrod;
-                    color: #222;
-                    font-weight: 900;
-                }
-    
-                &:active {
-                    transform: translateY(1px);
-                    transition: 100ms;
+                @media (min-width: 1000px) {
+                    &:hover {
+                        letter-spacing: 1px;
+                        background-color: goldenrod;
+                        color: #222;
+                        font-weight: 900;
+                    }
+        
+                    &:active {
+                        transform: translateY(1px);
+                        transition: 100ms;
+                    }
                 }
 
                 @media (max-width: 1000px) {
-                    font-size: calc(16/390 * 100vw);
-                    border-radius: 50px;
-                    padding: 2% 6%;
+                    font-family: 'Sweet Sans Pro Thin';
+                    font-size: calc(13/390 * 100vw);
+                    border: 0.7px solid goldenrod;
+                    border-radius: 12px;
+                    padding: 3% 6%;
                     margin-bottom: 20px;
                     color: goldenrod;
-                    background-color: #393939;
+                    background-color: #222;
+                    font-weight: 100;
                 }
             }
     
