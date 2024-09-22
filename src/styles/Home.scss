@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 @font-face {
     font-family: 'Sweet Sans Pro Heavy';
@@ -206,25 +205,29 @@ body, html {
             font-family: 'Sweet Sans Pro Thin', sans-serif;
             color: goldenrod;
 
-            &:hover {
-                letter-spacing: 1px;
-                background-color: goldenrod;
-                color: #000; // #222;
-                font-weight: 900;
-            }
+            @media (min-width: 1000px) {
+                &:hover {
+                    letter-spacing: 1px;
+                    background-color: goldenrod;
+                    color: #000; // #222;
+                    font-weight: 900;
+                }
 
-            &:active {
-                transform: translateY(1px);
-                transition: 100ms;
+                &:active {
+                    transform: translateY(1px);
+                    transition: 100ms;
+                }
             }
 
             @media (max-width: 1000px) {
-                font-size: calc(16/390 * 100vw);
-                border-radius: 50px;
-                padding: 2% 6%;
+                font-size: calc(14/390 * 100vw);
+                border-radius: 5px;
+                padding: 3% 6%;
                 margin-bottom: 20px;
-                color: goldenrod;
-                background-color: #393939;
+                color: #000;
+                background-color: goldenrod;
+                font-family: 'Sweet Sans Pro Regular', sans-serif;
+                font-weight: 100;
             }
         }
     }
