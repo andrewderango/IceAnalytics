@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Players.scss';
 
@@ -19,6 +19,11 @@ function Players() {
       {
         Header: 'Player',
         accessor: 'player',
+        Cell: ({ row }) => (
+          <Link to={`/player/${row.original.player_id}`}>
+            {row.original.player}
+          </Link>
+        ),
       },
       {
         Header: 'Team',
@@ -222,7 +227,7 @@ function Players() {
             {page.map(row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} onClick={() => handleRowClick(row.original.id)}>
+                <tr {...row.getRowProps()} onClick={() => handleRowClick(row.original.player_id)}>
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps({
