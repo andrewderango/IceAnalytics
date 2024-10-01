@@ -56,17 +56,26 @@ function Player() {
     goals = 0,
     assists = 0,
     points = 0,
+    logo,
   } = player;
 
   return (
     <div className="player">
-      <h1>{playerName}</h1>
-      <p><strong>Team:</strong> {team}</p>
-      <p><strong>Position:</strong> {position}</p>
-      <p><strong>Games Played:</strong> {games}</p>
-      <p><strong>Goals:</strong> {goals}</p>
-      <p><strong>Assists:</strong> {assists}</p>
-      <p><strong>Points:</strong> {points}</p>
+    <h1>{playerName}</h1>
+    {logo && <img src={logo} alt={`${playerName} logo`} className="player-logo" />}
+    {team && playerId && (
+        <img
+        src={`https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
+        alt={`${playerName} headshot`}
+        className="player-headshot"
+        />
+    )}
+    <p><strong>Team:</strong> {team}</p>
+    <p><strong>Position:</strong> {position}</p>
+    <p><strong>Games Played:</strong> {games}</p>
+    <p><strong>Goals:</strong> {goals}</p>
+    <p><strong>Assists:</strong> {assists}</p>
+    <p><strong>Points:</strong> {points}</p>
     </div>
   );
 }
