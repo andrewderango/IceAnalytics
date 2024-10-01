@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
+import { useHistory } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Players.scss';
 
@@ -11,6 +12,7 @@ function Players() {
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [sortBy, setSortByState] = useState([]);
   const [lastUpdated, setLastUpdated] = useState('');
+  const history = useHistory();
 
   const columns = React.useMemo(
     () => [
@@ -160,6 +162,10 @@ function Players() {
     }
   };
 
+  const handleRowClick = (playerId) => {
+    history.push(`/player/${playerId}`);
+  };
+
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min(startRow + pageSize - 1, filteredData.length);
 
@@ -216,7 +222,7 @@ function Players() {
             {page.map(row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} onClick={() => handleRowClick(row.original.id)}>
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps({
