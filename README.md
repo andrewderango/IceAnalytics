@@ -1,10 +1,11 @@
 # IceAnalytics
+
 [![GitHub release](https://img.shields.io/github/v/release/andrewderango/IceAnalytics.svg)](https://github.com/andrewderango/IceAnalytics/releases)
 [![Deploy to Firebase Hosting on PR](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-pull-request.yml)
 [![Deploy to Firebase Hosting on merge](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-merge.yml)
 [![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://opensource.org/license/gpl-3-0)
 
-IceAnalytics is an open-source NHL analytics and projections platform that provides comprehensive data-driven insights into player and team performance, game outcomes, and playoff probabilities. Powered by a bootstrapped Monte Carlo ensemble projection engine, IceAnalytics offers a unique and in-depth look at the NHL, combining advanced analytics with user-friendly access to predictions.
+IceAnalytics is an open-source NHL analytics and projections platform that provides comprehensive data-driven insights into player and team performance, game outcomes, and playoff probabilities. Powered by a bootstrapped Monte Carlo ensemble projection engine, IceAnalytics offers a unique and in-depth look at the NHL, combining advanced analytics with user-friendly access to predictions. Visit the site at [iceanalytics.ca](https://iceanalytics.ca)!
 
 ## Mission
 
