@@ -490,9 +490,8 @@ def push_to_supabase(table_name, year, verbose=False):
         standings_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Team Data', f'{year-1}-{year}_team_data.csv'))
         standings_df = standings_df.drop(standings_df.columns[0], axis=1)
         standings_df['record'] = standings_df['W'].astype(str) + '-' + standings_df['L'].astype(str) + '-' + standings_df['OTL'].astype(str)
-        standings_df['rank'] = standings_df.groupby('Point %')['Point %'].rank(ascending=False, method='min')
-        standings_df['rank'] = standings_df.groupby(['Point %', 'Points'])['rank'].rank(ascending=False, method='min').astype(int)
-        standings_df['rank'] = standings_df.groupby(['Point %', 'Points', 'ROW'])['rank'].rank(ascending=False, method='min').astype(int)
+        standings_df = standings_df.sort_values(by=['Points', 'Point %', 'GP', 'ROW'], ascending=[False, False, True, False])
+        standings_df['rank'] = standings_df.reset_index().index + 1
         standings_df['rank'] = standings_df['rank'].apply(lambda x: f"{x}{'th' if 10 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th')}")
         team_replacement_dict = {'Utah Utah HC': 'Utah Hockey Club', 'Montreal Canadiens': 'Montréal Canadiens', 'St Louis Blues': 'St. Louis Blues'}
         standings_df['Team'] = standings_df['Team'].replace(team_replacement_dict)
@@ -505,14 +504,9 @@ def push_to_supabase(table_name, year, verbose=False):
 
     data_to_insert = df.to_dict(orient='records')
 
-    # if verbose:
-        # print(df)
-        # print(data_to_insert)
-
-    print(df[['time', 'datetime', 'home_abbrev', 'visitor_abbrev', 'home_prob', 'visitor_prob', 'overtime_prob']].head(50))
-    df.to_csv('temp.csv')
-    supabase.auth.sign_out()
-    quit()
+    if verbose:
+        print(df)
+        print(data_to_insert)
     
     delete_response = None
     insert_response = None
