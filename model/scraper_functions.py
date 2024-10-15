@@ -491,6 +491,8 @@ def push_to_supabase(table_name, year, verbose=False):
         standings_df['rank'] = standings_df.groupby(['Point %', 'Points'])['rank'].rank(ascending=False, method='min').astype(int)
         standings_df['rank'] = standings_df.groupby(['Point %', 'Points', 'ROW'])['rank'].rank(ascending=False, method='min').astype(int)
         standings_df['rank'] = standings_df['rank'].apply(lambda x: f"{x}{'th' if 10 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th')}")
+        team_replacement_dict = {'Utah Utah HC': 'Utah Hockey Club', 'Montreal Canadiens': 'Montréal Canadiens', 'St Louis Blues': 'St. Louis Blues'}
+        standings_df['Team'] = standings_df['Team'].replace(team_replacement_dict)
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='home_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'home_record', 'rank': 'home_rank'})
         df = df.drop(columns=['Team'])
