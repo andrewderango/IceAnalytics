@@ -481,6 +481,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['home_prob'] = df['home_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
         df['visitor_prob'] = df['visitor_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
         df['overtime_prob'] = df['overtime_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
+        df['time_str'] = pd.to_datetime(df['time'].astype(str), format='%H:%M:%S').dt.strftime('%I:%M %p').astype(str)
         df['time_str'] = df['time_str'].apply(lambda x: x[1:] if x.startswith('0') else x)
         df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
         df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
