@@ -478,7 +478,10 @@ def push_to_supabase(table_name, year, verbose=False):
             'Overtime': 'overtime_prob',
         }
         df.rename(columns=rename_dict, inplace=True)
-        df['time_str'] = pd.to_datetime(df['time'].astype(str)).dt.strftime('%I:%M %p').astype(str)
+        df['home_prob'] = df['home_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
+        df['visitor_prob'] = df['visitor_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
+        df['overtime_prob'] = df['overtime_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
+        df['time_str'] = pd.to_datetime(df['time'].astype(str), format='%H:%M:%S').dt.strftime('%I:%M %p').astype(str)
         df['time_str'] = df['time_str'].apply(lambda x: x[1:] if x.startswith('0') else x)
         df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
         df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
@@ -487,10 +490,11 @@ def push_to_supabase(table_name, year, verbose=False):
         standings_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Team Data', f'{year-1}-{year}_team_data.csv'))
         standings_df = standings_df.drop(standings_df.columns[0], axis=1)
         standings_df['record'] = standings_df['W'].astype(str) + '-' + standings_df['L'].astype(str) + '-' + standings_df['OTL'].astype(str)
-        standings_df['rank'] = standings_df.groupby('Point %')['Point %'].rank(ascending=False, method='min')
-        standings_df['rank'] = standings_df.groupby(['Point %', 'Points'])['rank'].rank(ascending=False, method='min').astype(int)
-        standings_df['rank'] = standings_df.groupby(['Point %', 'Points', 'ROW'])['rank'].rank(ascending=False, method='min').astype(int)
+        standings_df = standings_df.sort_values(by=['Points', 'Point %', 'GP', 'ROW'], ascending=[False, False, True, False])
+        standings_df['rank'] = standings_df.reset_index().index + 1
         standings_df['rank'] = standings_df['rank'].apply(lambda x: f"{x}{'th' if 10 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th')}")
+        team_replacement_dict = {'Utah Utah HC': 'Utah Hockey Club', 'Montreal Canadiens': 'Montréal Canadiens', 'St Louis Blues': 'St. Louis Blues'}
+        standings_df['Team'] = standings_df['Team'].replace(team_replacement_dict)
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='home_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'home_record', 'rank': 'home_rank'})
         df = df.drop(columns=['Team'])
