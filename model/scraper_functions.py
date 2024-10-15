@@ -478,7 +478,9 @@ def push_to_supabase(table_name, year, verbose=False):
             'Overtime': 'overtime_prob',
         }
         df.rename(columns=rename_dict, inplace=True)
-        df['time_str'] = pd.to_datetime(df['time'].astype(str)).dt.strftime('%I:%M %p').astype(str)
+        df['home_prob'] = df['home_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
+        df['visitor_prob'] = df['visitor_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
+        df['overtime_prob'] = df['overtime_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
         df['time_str'] = df['time_str'].apply(lambda x: x[1:] if x.startswith('0') else x)
         df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
         df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
@@ -502,9 +504,14 @@ def push_to_supabase(table_name, year, verbose=False):
 
     data_to_insert = df.to_dict(orient='records')
 
-    if verbose:
-        print(df)
-        print(data_to_insert)
+    # if verbose:
+        # print(df)
+        # print(data_to_insert)
+
+    print(df[['time', 'datetime', 'home_abbrev', 'visitor_abbrev', 'home_prob', 'visitor_prob', 'overtime_prob']].head(50))
+    df.to_csv('temp.csv')
+    supabase.auth.sign_out()
+    quit()
     
     delete_response = None
     insert_response = None
