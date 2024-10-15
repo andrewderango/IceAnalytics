@@ -9,8 +9,8 @@ function Games() {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const date = new Date().toISOString().split('T')[0];
-  const date = '2024-10-10';
+  const date = new Date().toISOString().split('T')[0];
+  // const date = '2024-10-10';
 
   useEffect(() => {
     const fetchData = async () => {
