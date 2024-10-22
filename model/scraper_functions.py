@@ -3,6 +3,7 @@ import json
 import unidecode
 import requests
 import pandas as pd
+from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
@@ -379,7 +380,7 @@ def fix_teams(player_stat_df):
 
 def update_metadata(state, params):
 
-    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'metadata.json')
+    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
     os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
     
     if state == 0:
@@ -501,6 +502,13 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
+    elif table_name == 'last-update':
+        metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
+        with open(metadata_path, 'r') as f:
+            metadata = json.load(f)
+        end_timestamp = metadata['endTimestamp']
+        end_datetime = datetime.fromtimestamp(end_timestamp)
+        df = pd.DataFrame([{'datetime': end_datetime.isoformat()}])
 
     data_to_insert = df.to_dict(orient='records')
 
@@ -519,8 +527,12 @@ def push_to_supabase(table_name, year, verbose=False):
             delete_response = supabase.table(table_name).delete().gt('game_id', -1).execute()
             insert_response = supabase.table(table_name).insert(data_to_insert).execute()
             print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        except:
+            try:
+                delete_response = supabase.table(table_name).delete().gt('datetime', '1970-01-01T00:00:00Z').execute()
+                insert_response = supabase.table(table_name).insert(data_to_insert).execute()
+            except Exception as e:
+                print(f"An error occurred: {e}")
 
     supabase.auth.sign_out()
     return delete_response, insert_response
