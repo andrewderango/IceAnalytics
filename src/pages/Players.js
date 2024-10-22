@@ -66,31 +66,39 @@ function Players() {
     };
     const fetchMetadata = async () => {
       try {
-        const response = await fetch('metadata.json');
-        if (response.ok) {
-          const metadata = await response.json();
-          const timestamp = metadata.endTimestamp;
-          const date = new Date(timestamp * 1000);
+        const { data, error } = await supabase
+          .from('last-update')
+          .select('datetime')
+          .order('datetime', { ascending: false })
+          .limit(1);
     
+        if (error) {
+          console.error('Error fetching metadata:', error);
+          return;
+        }
+    
+        if (data.length > 0) {
+          const timestamp = new Date(data[0].datetime);
           let formattedDate;
+    
           if (window.innerWidth < 600) {
             // MM/DD/YY for mobile
             const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-            formattedDate = date.toLocaleDateString('en-US', options);
+            formattedDate = timestamp.toLocaleDateString('en-US', options);
           } else {
             // full date otherwise
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            formattedDate = date.toLocaleDateString('en-US', options);
+            formattedDate = timestamp.toLocaleDateString('en-US', options);
           }
     
           setLastUpdated(formattedDate);
         } else {
-          console.error(`HTTP error! status: ${response.status}`);
+          console.error('No data found in last-update table.');
         }
       } catch (error) {
         console.error('Error fetching metadata:', error);
       }
-    };  
+    };
     fetchData();
     fetchMetadata();
   }, []);
