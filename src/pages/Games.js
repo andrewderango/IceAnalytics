@@ -15,7 +15,7 @@ function Games() {
   useEffect(() => {
     const fetchData = async () => {
       const { data: games, error } = await supabase
-        .from('game-projections')
+        .from('game_projections')
         .select('*')
         .eq('date', date);
       

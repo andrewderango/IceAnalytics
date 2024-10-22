@@ -420,7 +420,7 @@ def push_to_supabase(table_name, year, verbose=False):
         supabase.auth.sign_up(credentials={"email": os.getenv('SUPABASE_EMAIL'), "password": os.getenv('SUPABASE_PASSWORD')})
         session = supabase.auth.sign_in_with_password({"email": os.getenv('SUPABASE_EMAIL'), "password": os.getenv('SUPABASE_PASSWORD')})
 
-    if table_name == 'team-projections':
+    if table_name == 'team_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Teams', f'{year}_team_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
@@ -439,7 +439,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['playoff_prob'] = 0.50
         df['presidents_trophy_prob'] = 0.03125
         df['stanley_cup_prob'] = 0.03125
-    elif table_name == 'player-projections':
+    elif table_name == 'player_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
@@ -459,7 +459,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
         df = df.drop(columns=['TOI'])
         df = df.dropna(subset=['logo'])
-    elif table_name == 'game-projections':
+    elif table_name == 'game_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Games', f'{year}_game_projections.csv')
         df = pd.read_csv(file_path)
         df = df.drop(df.columns[0], axis=1)
@@ -502,7 +502,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
-    elif table_name == 'last-update':
+    elif table_name == 'last_update':
         metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
