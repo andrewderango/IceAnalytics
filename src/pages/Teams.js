@@ -11,7 +11,7 @@ function Teams() {
   useEffect(() => {
     const fetchData = async () => {
       const { data: teams, error } = await supabase
-        .from('team-projections')
+        .from('team_projections')
         .select('*');
       
       if (error) {
@@ -24,7 +24,7 @@ function Teams() {
     const fetchMetadata = async () => {
       try {
         const { data, error } = await supabase
-          .from('last-update')
+          .from('last_update')
           .select('datetime')
           .order('datetime', { ascending: false })
           .limit(1);
@@ -50,7 +50,7 @@ function Teams() {
     
           setLastUpdated(formattedDate);
         } else {
-          console.error('No data found in last-update table.');
+          console.error('No data found in last_update table.');
         }
       } catch (error) {
         console.error('Error fetching metadata:', error);
