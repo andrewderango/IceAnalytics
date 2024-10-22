@@ -380,7 +380,7 @@ def fix_teams(player_stat_df):
 
 def update_metadata(state, params):
 
-    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'metadata.json')
+    metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
     os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
     
     if state == 0:
@@ -503,7 +503,12 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
     elif table_name == 'last-update':
-        df = pd.DataFrame([{'datetime': datetime.now().isoformat()}])
+        metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
+        with open(metadata_path, 'r') as f:
+            metadata = json.load(f)
+        end_timestamp = metadata['endTimestamp']
+        end_datetime = datetime.fromtimestamp(end_timestamp)
+        df = pd.DataFrame([{'datetime': end_datetime.isoformat()}])
 
     data_to_insert = df.to_dict(orient='records')
 
