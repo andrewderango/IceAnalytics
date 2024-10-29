@@ -90,62 +90,62 @@
 88,2024020089,2024-10-20T20:00:00,89,7,3,1,San Jose Sharks,4,Colorado Avalanche
 89,2024020090,2024-10-20T20:00:00,90,7,3,1,Anaheim Ducks,4,Los Angeles Kings
 90,2024020091,2024-10-21T19:30:00,91,7,3,5,Toronto Maple Leafs,2,Tampa Bay Lightning
-91,2024020092,2024-10-22T18:00:00,92,1,1,0,Philadelphia Flyers,0,Washington Capitals
-92,2024020093,2024-10-22T18:30:00,93,1,1,0,Florida Panthers,0,Minnesota Wild
-93,2024020094,2024-10-22T18:45:00,94,1,1,0,New Jersey Devils,0,Tampa Bay Lightning
-94,2024020095,2024-10-22T19:00:00,95,1,1,0,Buffalo Sabres,0,Dallas Stars
-95,2024020096,2024-10-22T19:15:00,96,1,1,0,Montréal Canadiens,0,New York Rangers
-96,2024020097,2024-10-22T19:30:00,97,1,1,0,Columbus Blue Jackets,0,Toronto Maple Leafs
-97,2024020098,2024-10-22T19:45:00,98,1,1,0,New York Islanders,0,Detroit Red Wings
-98,2024020099,2024-10-22T20:00:00,99,1,1,0,St. Louis Blues,0,Winnipeg Jets
-99,2024020100,2024-10-22T20:15:00,100,1,1,0,Chicago Blackhawks,0,Vancouver Canucks
-100,2024020101,2024-10-22T20:45:00,101,1,1,0,Nashville Predators,0,Boston Bruins
-101,2024020102,2024-10-22T21:30:00,102,1,1,0,Calgary Flames,0,Pittsburgh Penguins
-102,2024020103,2024-10-22T21:00:00,103,1,1,0,Edmonton Oilers,0,Carolina Hurricanes
-103,2024020104,2024-10-22T21:15:00,104,1,1,0,Utah Hockey Club,0,Ottawa Senators
-104,2024020105,2024-10-22T22:15:00,105,1,1,0,Anaheim Ducks,0,San Jose Sharks
-105,2024020106,2024-10-22T20:30:00,106,1,1,0,Seattle Kraken,0,Colorado Avalanche
-106,2024020107,2024-10-22T23:00:00,107,1,1,0,Vegas Golden Knights,0,Los Angeles Kings
-107,2024020108,2024-10-23T19:30:00,108,1,1,0,Washington Capitals,0,Philadelphia Flyers
-108,2024020109,2024-10-24T19:00:00,109,1,1,0,Boston Bruins,0,Dallas Stars
-109,2024020110,2024-10-24T19:00:00,110,1,1,0,Toronto Maple Leafs,0,St. Louis Blues
-110,2024020111,2024-10-24T19:00:00,111,1,1,0,Detroit Red Wings,0,New Jersey Devils
-111,2024020112,2024-10-24T19:00:00,112,1,1,0,Tampa Bay Lightning,0,Minnesota Wild
-112,2024020113,2024-10-24T19:00:00,113,1,1,0,New York Rangers,0,Florida Panthers
-113,2024020114,2024-10-24T21:00:00,114,1,1,0,Calgary Flames,0,Carolina Hurricanes
-114,2024020115,2024-10-24T21:00:00,115,1,1,0,Utah Hockey Club,0,Colorado Avalanche
-115,2024020116,2024-10-24T22:00:00,116,1,1,0,Seattle Kraken,0,Winnipeg Jets
-116,2024020117,2024-10-24T22:30:00,117,1,1,0,Los Angeles Kings,0,San Jose Sharks
-117,2024020118,2024-10-25T18:00:00,118,1,1,0,Vegas Golden Knights,0,Ottawa Senators
-118,2024020119,2024-10-25T19:00:00,119,1,1,0,New Jersey Devils,0,New York Islanders
-119,2024020120,2024-10-25T20:30:00,120,1,1,0,Chicago Blackhawks,0,Nashville Predators
-120,2024020121,2024-10-25T21:00:00,121,1,1,0,Edmonton Oilers,0,Pittsburgh Penguins
-121,2024020122,2024-10-26T13:00:00,122,1,1,0,Buffalo Sabres,0,Detroit Red Wings
-122,2024020123,2024-10-26T13:00:00,123,1,1,0,Philadelphia Flyers,0,Minnesota Wild
-123,2024020124,2024-10-26T16:00:00,124,1,1,0,Los Angeles Kings,0,Utah Hockey Club
-124,2024020125,2024-10-26T19:00:00,125,1,1,0,Boston Bruins,0,Toronto Maple Leafs
-125,2024020126,2024-10-26T19:00:00,126,1,1,0,Montréal Canadiens,0,St. Louis Blues
-126,2024020127,2024-10-26T19:00:00,127,1,1,0,Tampa Bay Lightning,0,Washington Capitals
-127,2024020128,2024-10-26T19:00:00,128,1,1,0,New York Rangers,0,Anaheim Ducks
-128,2024020129,2024-10-26T19:00:00,129,1,1,0,Calgary Flames,0,Winnipeg Jets
-129,2024020130,2024-10-26T19:30:00,130,1,1,0,New York Islanders,0,Florida Panthers
-130,2024020131,2024-10-26T20:00:00,131,1,1,0,Nashville Predators,0,Columbus Blue Jackets
-131,2024020132,2024-10-26T20:00:00,132,1,1,0,Dallas Stars,0,Chicago Blackhawks
-132,2024020133,2024-10-26T22:00:00,133,1,1,0,Vancouver Canucks,0,Pittsburgh Penguins
-133,2024020134,2024-10-26T22:00:00,134,1,1,0,Vegas Golden Knights,0,San Jose Sharks
-134,2024020135,2024-10-26T22:00:00,135,1,1,0,Seattle Kraken,0,Carolina Hurricanes
-135,2024020136,2024-10-27T18:00:00,136,1,1,0,Detroit Red Wings,0,Edmonton Oilers
-136,2024020137,2024-10-27T19:00:00,137,1,1,0,New Jersey Devils,0,Anaheim Ducks
-137,2024020138,2024-10-27T19:00:00,138,1,1,0,Philadelphia Flyers,0,Montréal Canadiens
-138,2024020139,2024-10-27T21:00:00,139,1,1,0,Colorado Avalanche,0,Ottawa Senators
-139,2024020140,2024-10-28T19:00:00,140,1,1,0,Buffalo Sabres,0,Florida Panthers
-140,2024020141,2024-10-28T19:30:00,141,1,1,0,Tampa Bay Lightning,0,Nashville Predators
-141,2024020142,2024-10-28T19:00:00,142,1,1,0,Columbus Blue Jackets,0,Edmonton Oilers
-142,2024020143,2024-10-28T19:30:00,143,1,1,0,Winnipeg Jets,0,Toronto Maple Leafs
-143,2024020144,2024-10-28T21:00:00,144,1,1,0,Colorado Avalanche,0,Chicago Blackhawks
-144,2024020145,2024-10-28T21:00:00,145,1,1,0,Utah Hockey Club,0,San Jose Sharks
-145,2024020146,2024-10-28T22:00:00,146,1,1,0,Vancouver Canucks,0,Carolina Hurricanes
-146,2024020147,2024-10-28T22:00:00,147,1,1,0,Vegas Golden Knights,0,Calgary Flames
+91,2024020092,2024-10-22T18:00:00,92,7,3,1,Philadelphia Flyers,4,Washington Capitals
+92,2024020093,2024-10-22T18:30:00,93,7,3,1,Florida Panthers,5,Minnesota Wild
+93,2024020094,2024-10-22T18:45:00,94,7,3,5,New Jersey Devils,8,Tampa Bay Lightning
+94,2024020095,2024-10-22T19:00:00,95,7,3,4,Buffalo Sabres,2,Dallas Stars
+95,2024020096,2024-10-22T19:15:00,96,7,3,2,Montréal Canadiens,7,New York Rangers
+96,2024020097,2024-10-22T19:30:00,97,7,3,6,Columbus Blue Jackets,2,Toronto Maple Leafs
+97,2024020098,2024-10-22T19:45:00,98,7,3,0,New York Islanders,1,Detroit Red Wings
+98,2024020099,2024-10-22T20:00:00,99,7,3,2,St. Louis Blues,3,Winnipeg Jets
+99,2024020100,2024-10-22T20:15:00,100,7,3,3,Chicago Blackhawks,6,Vancouver Canucks
+100,2024020101,2024-10-22T20:45:00,101,7,3,4,Nashville Predators,0,Boston Bruins
+101,2024020102,2024-10-22T21:30:00,102,7,5,4,Calgary Flames,3,Pittsburgh Penguins
+102,2024020103,2024-10-22T21:00:00,103,7,4,2,Edmonton Oilers,3,Carolina Hurricanes
+103,2024020104,2024-10-22T21:15:00,104,7,3,0,Utah Hockey Club,4,Ottawa Senators
+104,2024020105,2024-10-22T22:15:00,105,7,3,3,Anaheim Ducks,1,San Jose Sharks
+105,2024020106,2024-10-22T20:30:00,106,7,3,2,Seattle Kraken,3,Colorado Avalanche
+106,2024020107,2024-10-22T23:00:00,107,7,3,6,Vegas Golden Knights,1,Los Angeles Kings
+107,2024020108,2024-10-23T19:30:00,108,7,3,6,Washington Capitals,3,Philadelphia Flyers
+108,2024020109,2024-10-24T19:00:00,109,7,3,2,Boston Bruins,5,Dallas Stars
+109,2024020110,2024-10-24T19:00:00,110,7,3,1,Toronto Maple Leafs,5,St. Louis Blues
+110,2024020111,2024-10-24T19:00:00,111,7,3,5,Detroit Red Wings,3,New Jersey Devils
+111,2024020112,2024-10-24T19:00:00,112,7,3,2,Tampa Bay Lightning,4,Minnesota Wild
+112,2024020113,2024-10-24T19:00:00,113,7,3,1,New York Rangers,3,Florida Panthers
+113,2024020114,2024-10-24T21:00:00,114,7,3,2,Calgary Flames,4,Carolina Hurricanes
+114,2024020115,2024-10-24T21:00:00,115,7,3,1,Utah Hockey Club,5,Colorado Avalanche
+115,2024020116,2024-10-24T22:00:00,116,7,4,3,Seattle Kraken,4,Winnipeg Jets
+116,2024020117,2024-10-24T22:30:00,117,7,3,3,Los Angeles Kings,2,San Jose Sharks
+117,2024020118,2024-10-25T18:00:00,118,7,3,6,Vegas Golden Knights,4,Ottawa Senators
+118,2024020119,2024-10-25T19:00:00,119,7,4,3,New Jersey Devils,4,New York Islanders
+119,2024020120,2024-10-25T20:30:00,120,7,3,2,Chicago Blackhawks,3,Nashville Predators
+120,2024020121,2024-10-25T21:00:00,121,7,3,4,Edmonton Oilers,0,Pittsburgh Penguins
+121,2024020122,2024-10-26T13:00:00,122,7,3,5,Buffalo Sabres,3,Detroit Red Wings
+122,2024020123,2024-10-26T13:00:00,123,7,3,7,Philadelphia Flyers,5,Minnesota Wild
+123,2024020124,2024-10-26T16:00:00,124,7,3,3,Los Angeles Kings,2,Utah Hockey Club
+124,2024020125,2024-10-26T19:00:00,125,7,4,4,Boston Bruins,3,Toronto Maple Leafs
+125,2024020126,2024-10-26T19:00:00,126,7,3,5,Montréal Canadiens,2,St. Louis Blues
+126,2024020127,2024-10-26T19:00:00,127,7,3,3,Tampa Bay Lightning,0,Washington Capitals
+127,2024020128,2024-10-26T19:00:00,128,7,3,2,New York Rangers,1,Anaheim Ducks
+128,2024020129,2024-10-26T19:00:00,129,7,3,3,Calgary Flames,5,Winnipeg Jets
+129,2024020130,2024-10-26T19:30:00,130,7,3,3,New York Islanders,6,Florida Panthers
+130,2024020131,2024-10-26T20:00:00,131,7,4,4,Nashville Predators,3,Columbus Blue Jackets
+131,2024020132,2024-10-26T20:00:00,132,7,3,4,Dallas Stars,2,Chicago Blackhawks
+132,2024020133,2024-10-26T22:00:00,133,7,3,4,Vancouver Canucks,3,Pittsburgh Penguins
+133,2024020134,2024-10-26T22:00:00,134,7,3,7,Vegas Golden Knights,3,San Jose Sharks
+134,2024020135,2024-10-26T22:00:00,135,7,3,1,Seattle Kraken,4,Carolina Hurricanes
+135,2024020136,2024-10-27T18:00:00,136,7,4,2,Detroit Red Wings,3,Edmonton Oilers
+136,2024020137,2024-10-27T19:00:00,137,7,3,6,New Jersey Devils,2,Anaheim Ducks
+137,2024020138,2024-10-27T19:00:00,138,7,3,3,Philadelphia Flyers,4,Montréal Canadiens
+138,2024020139,2024-10-27T21:00:00,139,7,3,5,Colorado Avalanche,4,Ottawa Senators
+139,2024020140,2024-10-28T19:00:00,140,7,3,2,Buffalo Sabres,5,Florida Panthers
+140,2024020141,2024-10-28T19:30:00,141,7,4,3,Tampa Bay Lightning,2,Nashville Predators
+141,2024020142,2024-10-28T19:00:00,142,7,3,6,Columbus Blue Jackets,1,Edmonton Oilers
+142,2024020143,2024-10-28T19:30:00,143,7,3,4,Winnipeg Jets,6,Toronto Maple Leafs
+143,2024020144,2024-10-28T21:00:00,144,4,3,2,Colorado Avalanche,4,Chicago Blackhawks
+144,2024020145,2024-10-28T21:00:00,145,3,3,4,Utah Hockey Club,1,San Jose Sharks
+145,2024020146,2024-10-28T22:00:00,146,3,2,1,Vancouver Canucks,3,Carolina Hurricanes
+146,2024020147,2024-10-28T22:00:00,147,3,2,2,Vegas Golden Knights,0,Calgary Flames
 147,2024020148,2024-10-29T19:00:00,148,1,1,0,Boston Bruins,0,Philadelphia Flyers
 148,2024020149,2024-10-29T19:00:00,149,1,1,0,Montréal Canadiens,0,Seattle Kraken
 149,2024020150,2024-10-29T19:00:00,150,1,1,0,Ottawa Senators,0,St. Louis Blues

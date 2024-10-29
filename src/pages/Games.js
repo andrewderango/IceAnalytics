@@ -9,8 +9,11 @@ function Games() {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const date = new Date().toISOString().split('T')[0];
-  // const date = '2024-10-10';
+
+  // get the current date in EST
+  const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+  const [month, day, year] = estDate.split(',')[0].split('/');
+  const date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +25,7 @@ function Games() {
       if (error) {
         console.error('Error fetching data:', error);
       } else {
-        console.log('Fetched data:', games);
+        // console.log('Fetched data:', games);
         setGames(games);
         setLoading(false);
       }
