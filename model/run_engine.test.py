@@ -10,10 +10,10 @@ def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
     SIMULATIONS = 10000
-    season_state = get_season_state(PROJECTION_YEAR)
+    # season_state = get_season_state(PROJECTION_YEAR)
 
     # Update metadata.json
-    update_metadata(state=0, params=[start_time, PROJECTION_YEAR, SIMULATIONS])
+    # update_metadata(state=0, params=[start_time, PROJECTION_YEAR, SIMULATIONS])
 
     # Scrape or fetch player data
     # scrape_historical_player_data(start_year=2008, end_year=2024, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
@@ -61,6 +61,7 @@ def main():
     player_stat_df = savitzky_golvay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=False, verbose=False)
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=False, verbose=False)
+    print(player_stat_df[:10].to_string())
 
     # Bootstrap player inferences
     bootstrap_df = pd.DataFrame()
