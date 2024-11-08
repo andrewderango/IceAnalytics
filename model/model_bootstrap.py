@@ -93,7 +93,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists']]
+            df = df[['PlayerID', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists']]
             df['ATOI'] = df['TOI']/df['GP']
             df['Pper1kChunk'] = (df['Goals'] + df['First Assists'] + df['Second Assists'])/df['TOI']/2 * 1000
             df[['ATOI', 'GP', 'Pper1kChunk']] = df[['ATOI', 'GP', 'Pper1kChunk']].fillna(0)
@@ -101,7 +101,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP', 'Pper1kChunk': f'Y-{projection_year-year} Pper1kChunk'})
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
-            df = df[['PlayerID', 'Player']]
+            df = df[['PlayerID']]
             df[f'Y-{projection_year-year} ATOI'] = 0
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} Pper1kChunk'] = 0
@@ -109,11 +109,11 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         if combined_df is None or combined_df.empty:
             combined_df = df
         else:
-            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+            combined_df = pd.merge(combined_df, df, on=['PlayerID'], how='outer')
 
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
-    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df = combined_df.merge(bios_df, on=['PlayerID'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
@@ -240,22 +240,22 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'Total Points']]
+            df = df[['PlayerID', 'GP', 'Total Points']]
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'Total Points': f'Y-{projection_year-year} Points'})
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
-            df = df[['PlayerID', 'Player']]
+            df = df[['PlayerID']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} Points'] = 0
 
         if combined_df is None or combined_df.empty:
             combined_df = df
         else:
-            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+            combined_df = pd.merge(combined_df, df, on=['PlayerID'], how='outer')
 
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
-    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df = combined_df.merge(bios_df, on=['PlayerID'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
@@ -382,7 +382,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'ixG', 'Shots']]
+            df = df[['PlayerID', 'GP', 'TOI', 'Goals', 'ixG', 'Shots']]
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
             df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
             df['SHper1kChunk'] = df['Shots']/df['TOI']/2 * 1000
@@ -391,7 +391,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'Gper1kChunk': f'Y-{projection_year-year} Gper1kChunk', 'xGper1kChunk': f'Y-{projection_year-year} xGper1kChunk', 'SHper1kChunk': f'Y-{projection_year-year} SHper1kChunk'})
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
-            df = df[['PlayerID', 'Player']]
+            df = df[['PlayerID']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} Gper1kChunk'] = 0
             df[f'Y-{projection_year-year} xGper1kChunk'] = 0
@@ -400,11 +400,11 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         if combined_df is None or combined_df.empty:
             combined_df = df
         else:
-            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+            combined_df = pd.merge(combined_df, df, on=['PlayerID'], how='outer')
 
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
-    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df = combined_df.merge(bios_df, on=['PlayerID'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
@@ -531,7 +531,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'First Assists', 'Second Assists']]
+            df = df[['PlayerID', 'GP', 'TOI', 'First Assists', 'Second Assists']]
             df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df[['A1per1kChunk', 'A2per1kChunk']] = df[['A1per1kChunk', 'A2per1kChunk']].fillna(0)
@@ -539,7 +539,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk', 'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk'})
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
-            df = df[['PlayerID', 'Player']]
+            df = df[['PlayerID']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} A1per1kChunk'] = 0
             df[f'Y-{projection_year-year} A2per1kChunk'] = 0
@@ -547,11 +547,11 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         if combined_df is None or combined_df.empty:
             combined_df = df
         else:
-            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+            combined_df = pd.merge(combined_df, df, on=['PlayerID'], how='outer')
 
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
-    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df = combined_df.merge(bios_df, on=['PlayerID'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
@@ -678,7 +678,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
     
         if season_started == True:
             df = pd.read_csv(file_path)
-            df = df[['PlayerID', 'Player', 'GP', 'TOI', 'First Assists', 'Second Assists']]
+            df = df[['PlayerID', 'GP', 'TOI', 'First Assists', 'Second Assists']]
             df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df[['A1per1kChunk', 'A2per1kChunk']] = df[['A1per1kChunk', 'A2per1kChunk']].fillna(0)
@@ -686,7 +686,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
             df = df.rename(columns={'GP': f'Y-{projection_year-year} GP', 'A1per1kChunk': f'Y-{projection_year-year} A1per1kChunk', 'A2per1kChunk': f'Y-{projection_year-year} A2per1kChunk'})
         else:
             df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{year-2}-{year-1}_skater_data.csv')) # copy last season df
-            df = df[['PlayerID', 'Player']]
+            df = df[['PlayerID']]
             df[f'Y-{projection_year-year} GP'] = 0
             df[f'Y-{projection_year-year} A1per1kChunk'] = 0
             df[f'Y-{projection_year-year} A2per1kChunk'] = 0
@@ -694,11 +694,11 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         if combined_df is None or combined_df.empty:
             combined_df = df
         else:
-            combined_df = pd.merge(combined_df, df, on=['PlayerID', 'Player'], how='outer')
+            combined_df = pd.merge(combined_df, df, on=['PlayerID'], how='outer')
 
     # Calculate projection age
     bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'), usecols=['PlayerID', 'Player', 'Date of Birth', 'Position', 'Team'])
-    combined_df = combined_df.merge(bios_df, on=['PlayerID', 'Player'], how='left')
+    combined_df = combined_df.merge(bios_df, on=['PlayerID'], how='left')
     combined_df['Date of Birth'] = pd.to_datetime(combined_df['Date of Birth'])
     combined_df['Y-0 Age'] = projection_year - combined_df['Date of Birth'].dt.year
     combined_df = combined_df.drop(columns=['Date of Birth'])
@@ -719,6 +719,9 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
 
     # Adjust for current season progress
     combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+
+    # Drop columns without Player ID
+    bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
