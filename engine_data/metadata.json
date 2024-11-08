@@ -1,7 +1,13 @@
 {
+<<<<<<< Updated upstream
     "startTimestamp": 1730469283.1508648,
     "endTimestamp": 1730469307.992788,
     "engineRunTime": 24.841923236846924,
+=======
+    "startTimestamp": 1731078331.229981,
+    "endTimestamp": 1731078359.630047,
+    "engineRunTime": 28.400066137313843,
+>>>>>>> Stashed changes
     "projectionYear": 2025,
     "monteCarloSimulations": 10000
 }
