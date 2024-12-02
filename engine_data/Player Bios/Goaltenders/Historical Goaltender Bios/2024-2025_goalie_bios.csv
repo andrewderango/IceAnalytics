@@ -1,7 +1,7 @@
 ,Player,Team,Position,Age,Date of Birth,Birth City,Birth State/Province,Birth Country,Nationality,Height (in),Weight (lbs),Draft Year,Draft Team,Draft Round,Round Pick,Overall Draft Position
-0,Marc-Andre Fleury,MIN,G,39,1984-11-28,Sorel,QC,CAN,CAN,74,185,2003,PIT,1,1,1
+0,Marc-Andre Fleury,MIN,G,40,1984-11-28,Sorel,QC,CAN,CAN,74,185,2003,PIT,1,1,1
 1,Jonathan Quick,NYR,G,38,1986-01-21,Milford,CT,USA,USA,73,220,2005,L.A,3,11,72
-2,James Reimer,ANA,G,36,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99
+2,James Reimer,"ANA, BUF",G,36,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99
 3,Semyon Varlamov,NYI,G,36,1988-04-27,Samara,,RUS,RUS,74,206,2006,WSH,1,23,23
 4,Jacob Markstrom,N.J,G,34,1990-01-31,Gävle,,SWE,SWE,78,207,2008,FLA,2,1,31
 5,Jake Allen,N.J,G,34,1990-08-07,Fredericton,NB,CAN,CAN,74,195,2008,STL,2,4,34
@@ -10,10 +10,10 @@
 8,Sergei Bobrovsky,FLA,G,36,1988-09-20,Novokuznetsk,,RUS,RUS,74,182,-,-,-,-,-
 9,Calvin Pickard,EDM,G,32,1992-04-15,Moncton,NB,CAN,CAN,73,210,2010,COL,2,19,49
 10,Scott Wedgewood,NSH,G,32,1992-08-14,Brampton,ON,CAN,CAN,74,205,2010,N.J,3,24,84
-11,Philipp Grubauer,SEA,G,32,1991-11-25,Rosenheim,,DEU,DEU,73,188,2010,WSH,4,22,112
+11,Philipp Grubauer,SEA,G,33,1991-11-25,Rosenheim,,DEU,DEU,73,188,2010,WSH,4,22,112
 12,Petr Mrazek,CHI,G,32,1992-02-14,Ostrava,,CZE,CZE,74,188,2010,DET,5,21,141
 13,Frederik Andersen,CAR,G,35,1989-10-02,Herning,,DNK,DNK,76,238,2012,ANA,3,26,87
-14,Anton Forsberg,OTT,G,31,1992-11-27,Härnösand,,SWE,SWE,75,193,2011,CBJ,7,7,188
+14,Anton Forsberg,OTT,G,32,1992-11-27,Härnösand,,SWE,SWE,75,193,2011,CBJ,7,7,188
 15,Jordan Binnington,STL,G,31,1993-07-11,Richmond Hill,ON,CAN,CAN,74,172,2011,STL,3,27,88
 16,John Gibson,ANA,G,31,1993-07-14,Pittsburgh,PA,USA,USA,74,210,2011,ANA,2,9,39
 17,Andrei Vasilevskiy,T.B,G,30,1994-07-25,Tyumen,,RUS,RUS,76,220,2012,T.B,1,19,19
@@ -40,7 +40,7 @@
 38,Ilya Samsonov,VGK,G,27,1997-02-22,Magnitogorsk,,RUS,RUS,75,214,2015,WSH,1,22,22
 39,Adin Hill,VGK,G,28,1996-05-11,Comox,BC,CAN,CAN,76,215,2015,ARI,3,15,76
 40,Karel Vejmelka,UTA,G,28,1996-05-25,Trebic,,CZE,CZE,76,224,2015,NSH,5,24,145
-41,Ivan Fedotov,PHI,G,27,1996-11-28,Russia,,RUS,RUS,78,188,2015,PHI,7,7,188
+41,Ivan Fedotov,PHI,G,28,1996-11-28,Russia,,RUS,RUS,78,188,2015,PHI,7,7,188
 42,Joey Daccord,SEA,G,28,1996-08-19,Boston,MA,USA,USA,74,201,2015,OTT,7,18,199
 43,Connor Ingram,UTA,G,27,1997-03-31,Saskatoon,SK,CAN,CAN,74,196,2016,T.B,3,27,88
 44,Casey DeSmith,DAL,G,33,1991-08-13,Rochester,NH,USA,USA,72,181,-,-,-,-,-
@@ -54,7 +54,7 @@
 52,Ukko-Pekka Luukkonen,BUF,G,25,1999-03-09,Espoo,,FIN,FIN,77,217,2017,BUF,2,23,54
 53,Cayden Primeau,MTL,G,25,1999-08-11,Farmington Hills,MI,USA,USA,74,199,2017,MTL,7,13,199
 54,Daniil Tarasov,CBJ,G,25,1999-03-27,Novokuznetsk,,RUS,RUS,77,196,2017,CBJ,3,24,86
-55,Jeremy Swayman,BOS,G,25,1998-11-24,Anchorage,AK,USA,USA,74,194,2017,BOS,4,18,111
+55,Jeremy Swayman,BOS,G,26,1998-11-24,Anchorage,AK,USA,USA,74,194,2017,BOS,4,18,111
 56,Logan Thompson,WSH,G,27,1997-02-25,Calgary,AB,CAN,CAN,76,205,-,-,-,-,-
 57,Alexandar Georgiev,COL,G,28,1996-02-10,Moscow,,RUS,RUS,73,178,-,-,-,-,-
 58,Lukas Dostal,ANA,G,24,2000-06-22,Brno,,CZE,CZE,74,174,2018,ANA,3,23,85
@@ -69,9 +69,12 @@
 67,Pyotr Kochetkov,CAR,G,25,1999-06-25,Penza,,RUS,RUS,75,205,2019,CAR,2,5,36
 68,Arturs Silovs,VAN,G,23,2001-03-22,,,LVA,LVA,76,203,2019,VAN,6,1,156
 69,Dustin Wolf,CGY,G,23,2001-04-16,Gilroy,CA,USA,USA,72,156,2019,CGY,7,28,214
-70,Yaroslav Askarov,S.J,G,22,2002-06-16,Omsk,,RUS,RUS,75,178,2020,NSH,1,11,11
-71,Devon Levi,BUF,G,22,2001-12-27,Dollard-des-Ormeaux,QC,CAN,CAN,72,184,2020,FLA,7,26,212
-72,Joel Blomqvist,PIT,G,22,2002-01-10,,,FIN,,74,183,2020,PIT,2,21,52
-73,Aleksei Kolosov,PHI,G,22,2002-01-04,,,BLR,,73,185,2021,PHI,3,14,78
-74,Arvid Soderblom,CHI,G,25,1999-08-19,Göteborg,,SWE,SWE,75,180,-,-,-,-,-
-75,Dennis Hildeby,TOR,G,23,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122
+70,Erik Portillo,L.A,G,24,2000-09-03,,,SWE,,78,218,2019,BUF,3,5,67
+71,Yaroslav Askarov,S.J,G,22,2002-06-16,Omsk,,RUS,RUS,75,178,2020,NSH,1,11,11
+72,Devon Levi,BUF,G,22,2001-12-27,Dollard-des-Ormeaux,QC,CAN,CAN,72,184,2020,FLA,7,26,212
+73,Joel Blomqvist,PIT,G,22,2002-01-10,,,FIN,,74,183,2020,PIT,2,21,52
+74,Aleksei Kolosov,PHI,G,22,2002-01-04,,,BLR,,73,185,2021,PHI,3,14,78
+75,Arvid Soderblom,CHI,G,25,1999-08-19,Göteborg,,SWE,SWE,75,180,-,-,-,-,-
+76,Jaxson Stauber,UTA,G,25,1999-04-27,Wayzata,MN,USA,USA,75,174,-,-,-,-,-
+77,Dennis Hildeby,TOR,G,23,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122
+78,Yaniv Perets,CAR,G,24,2000-03-04,,,CAN,,73,181,-,-,-,-,-
