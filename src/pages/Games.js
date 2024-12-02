@@ -57,20 +57,20 @@ function Games() {
             {games.map(game => (
                 <div className="game" key={game.id}>
                     <div className="game-head">
-                      <p className="matchup">{game.home_name} @ {game.visitor_name}</p>
+                      <p className="matchup">{game.visitor_name} @ {game.home_name}</p>
                       <p className="time">{game.time_str}</p>
                     </div>
                     <div className="column-left">
-                        <img src={game.home_logo} alt={game.home_name} />
-                        <p className="probability">{(game.home_prob*100).toFixed(1)}%</p>
-                        {/* <p className="projected-goals">{game.team1_projectedGoals.toFixed(2)} Goals</p> */}
-                        <p className="record">{game.home_record} ({game.home_rank})</p>
-                    </div>
-                    <div className="column-right">
                         <img src={game.visitor_logo} alt={game.visitor_name} />
                         <p className="probability">{(game.visitor_prob*100).toFixed(1)}%</p>
                         {/* <p className="projected-goals">{game.team2_projectedGoals.toFixed(2)} Goals</p> */}
                         <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
+                    </div>
+                    <div className="column-right">
+                        <img src={game.home_logo} alt={game.home_name} />
+                        <p className="probability">{(game.home_prob*100).toFixed(1)}%</p>
+                        {/* <p className="projected-goals">{game.team1_projectedGoals.toFixed(2)} Goals</p> */}
+                        <p className="record">{game.home_record} ({game.home_rank})</p>
                     </div>
                 </div>
             ))}
