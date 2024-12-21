@@ -164,7 +164,7 @@
 162,Troy Grosenick,L.A,G,34,1989-08-27,Brookfield,WI,USA,USA,73,181,-,-,-,-,-,2020-2021,troygrosenick
 163,Niklas Svedberg,BOS,G,34,1989-09-04,Sollentuna,,SWE,SWE,73,163,-,-,-,-,-,2014-2015,niklassvedberg
 164,Braden Holtby,DAL,G,34,1989-09-16,Lloydminster,SK,CAN,CAN,73,215,2008,WSH,4,2,93,2021-2022,bradenholtby
-165,Dustin Tokarski,PIT,G,34,1989-09-16,Watson,SK,CAN,CAN,72,198,2008,T.B,5,1,122,2022-2023,dustintokarski
+165,Dustin Tokarski,CAR,G,35,1989-09-16,Watson,SK,CAN,CAN,72,198,2008,T.B,5,1,122,2024-2025,dustintokarski
 166,Frederik Andersen,CAR,G,35,1989-10-02,Herning,,DNK,DNK,76,238,2012,ANA,3,26,87,2024-2025,frederikandersen
 167,Tom McCollum,DET,G,34,1989-12-07,Amherst,NY,USA,USA,74,220,2008,DET,1,30,30,2014-2015,tommccollum
 168,Harri Sateri,ARI,G,33,1989-12-29,Toijala,,FIN,FIN,73,205,2008,S.J,4,15,106,2021-2022,harrisateri
@@ -225,7 +225,7 @@
 223,John Gibson,ANA,G,31,1993-07-14,Pittsburgh,PA,USA,USA,74,210,2011,ANA,2,9,39,2024-2025,johngibson
 224,Linus Ullmark,OTT,G,31,1993-07-31,Lugnvik,,SWE,SWE,77,212,2012,BUF,6,12,163,2024-2025,linusullmark
 225,Kasimir Kaskisuo,NSH,G,30,1993-10-02,Vantaa,,FIN,FIN,75,203,-,-,-,-,-,2020-2021,kasimirkaskisuo
-226,Charlie Lindgren,WSH,G,30,1993-12-18,Lakeville,MN,USA,USA,74,179,-,-,-,-,-,2024-2025,charlielindgren
+226,Charlie Lindgren,WSH,G,31,1993-12-18,Lakeville,MN,USA,USA,74,179,-,-,-,-,-,2024-2025,charlielindgren
 227,Malcolm Subban,CBJ,G,30,1993-12-21,Toronto,ON,CAN,CAN,74,215,2012,BOS,1,24,24,2023-2024,malcolmsubban
 228,Anthony Stolarz,TOR,G,30,1994-01-20,Edison,NJ,USA,USA,78,243,2012,PHI,2,15,45,2024-2025,anthonystolarz
 229,Jon Gillies,CBJ,G,29,1994-01-22,Concord,NH,USA,USA,78,223,2012,CGY,3,14,75,2022-2023,jongillies
@@ -271,7 +271,7 @@
 269,Erik Kallgren,TOR,G,27,1996-10-14,Stockholm,,SWE,SWE,75,200,2015,ARI,7,2,183,2022-2023,erikkallgren
 270,Sam Montembeault,MTL,G,28,1996-10-30,Bécancour,QC,CAN,CAN,75,214,2015,FLA,3,16,77,2024-2025,sammontembeault
 271,Ivan Fedotov,PHI,G,28,1996-11-28,Russia,,RUS,RUS,78,188,2015,PHI,7,7,188,2024-2025,ivanfedotov
-272,Mackenzie Blackwood,S.J,G,28,1996-12-09,Thunder Bay,ON,CAN,CAN,76,225,2015,N.J,2,12,42,2024-2025,mackenzieblackwood
+272,Mackenzie Blackwood,"COL, S.J",G,28,1996-12-09,Thunder Bay,ON,CAN,CAN,76,225,2015,N.J,2,12,42,2024-2025,mackenzieblackwood
 273,Felix Sandstrom,PHI,G,27,1997-01-12,Gävle,,SWE,SWE,74,191,2015,PHI,3,9,70,2023-2024,felixsandstrom
 274,Veini Vehvilainen,CBJ,G,26,1997-02-13,Jyväskylä,,FIN,FIN,72,181,2018,CBJ,6,18,173,2020-2021,veinivehvilainen
 275,Ilya Samsonov,VGK,G,27,1997-02-22,Magnitogorsk,,RUS,RUS,75,214,2015,WSH,1,22,22,2024-2025,ilyasamsonov
@@ -295,7 +295,7 @@
 293,Kaden Fulcher,DET,G,25,1998-09-23,Brigden,ON,CAN,,74,210,-,-,-,-,-,2018-2019,kadenfulcher
 294,Stuart Skinner,EDM,G,26,1998-11-01,Edmonton,AB,CAN,CAN,76,206,2017,EDM,3,16,78,2024-2025,stuartskinner
 295,Jeremy Swayman,BOS,G,26,1998-11-24,Anchorage,AK,USA,USA,74,194,2017,BOS,4,18,111,2024-2025,jeremyswayman
-296,Jake Oettinger,DAL,G,25,1998-12-18,Lakeville,MN,USA,USA,77,220,2017,DAL,1,26,26,2024-2025,jakeoettinger
+296,Jake Oettinger,DAL,G,26,1998-12-18,Lakeville,MN,USA,USA,77,220,2017,DAL,1,26,26,2024-2025,jakeoettinger
 297,Jiri Patera,VGK,G,25,1999-02-24,,,CZE,CZE,74,209,2017,VGK,6,6,161,2023-2024,jiripatera
 298,Ivan Prosvetov,COL,G,25,1999-03-05,Moscow,,RUS,RUS,77,195,2018,ARI,4,21,114,2023-2024,ivanprosvetov
 299,Ukko-Pekka Luukkonen,BUF,G,25,1999-03-09,Espoo,,FIN,FIN,77,217,2017,BUF,2,23,54,2024-2025,ukkopekkaluukkonen
@@ -333,5 +333,5 @@
 331,Yaroslav Askarov,S.J,G,22,2002-06-16,Omsk,,RUS,RUS,75,178,2020,NSH,1,11,11,2024-2025,yaroslavaskarov
 332,Drew Commesso,CHI,G,22,2002-07-19,,,USA,,74,180,2020,CHI,2,15,46,2024-2025,drewcommesso
 333,Leevi Merilainen,OTT,G,21,2002-08-13,Oulu,,FIN,FIN,74,158,-,-,-,-,-,2022-2023,leevimerilainen
-334,Jesper Wallstedt,MIN,G,21,2002-11-14,Vasteras,,SWE,SWE,75,214,2021,MIN,1,20,20,2023-2024,jesperwallstedt
+334,Jesper Wallstedt,MIN,G,22,2002-11-14,Vasteras,,SWE,SWE,75,214,2021,MIN,1,20,20,2024-2025,jesperwallstedt
 335,Sebastian Cossa,DET,G,22,2002-11-21,Hamilton,ON,CAN,CAN,78,210,2021,DET,1,15,15,2024-2025,sebastiancossa
