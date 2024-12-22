@@ -39,7 +39,7 @@ Ultimately, this process renders a model that projects future statistics and pro
 
 We welcome your input and ideas to make IceAnalytics even better! If you have a feature request, suggestion for the site or the projection model, or notice an issue with the platform, we'd love to hear from you. Here's how you can contribute:
 
-- **Submit an Issue**: Create a GitHub issue in our repository with details about your feature request, suggestion, or bug report. Be as descriptive as possible so we can understand and address it effectively.\
+- **Submit an Issue**: Create a GitHub issue in our repository with details about your feature request, suggestion, or bug report. Be as descriptive as possible so we can understand and address it effectively.
 - **Engage in Discussions**: Feel free to comment on existing issues or join discussions to help shape the future of IceAnalytics.
 
 Your feedback is invaluable in guiding the platform's development. Thank you for helping us improve IceAnalytics!
