@@ -119,7 +119,7 @@ function Games() {
           {games.map((game) => (
             <div className="game" key={game.id}>
               <div className="game-head">
-                <p className="matchup">{game.home_name} @ {game.visitor_name}</p>
+                <p className="matchup">{game.visitor_name} @ {game.home_name}</p>
                 <p className="time">
                   {game.home_prob === 1 || game.home_prob === 0 ? (game.overtime_prob === 1 ? 'Final - OT' : 'Final - Regulation') : game.time_str}
                  </p>
