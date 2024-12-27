@@ -9,6 +9,7 @@ function Games() {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState('');
 
   // get the current date in EST
   const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
@@ -30,8 +31,45 @@ function Games() {
     }
   };
 
+  const fetchMetadata = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('last_update')
+        .select('datetime')
+        .order('datetime', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error('Error fetching metadata:', error);
+        return;
+      }
+
+      if (data.length > 0) {
+        const timestamp = new Date(data[0].datetime);
+        let formattedDate;
+
+        if (window.innerWidth < 600) {
+          // MM/DD/YY for mobile
+          const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+          formattedDate = timestamp.toLocaleDateString('en-US', options);
+        } else {
+          // full date otherwise
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          formattedDate = timestamp.toLocaleDateString('en-US', options);
+        }
+
+        setLastUpdated(formattedDate);
+      } else {
+        console.error('No data found in last_update table.');
+      }
+    } catch (error) {
+      console.error('Error fetching metadata:', error);
+    }
+  };
+
   useEffect(() => {
     fetchData(currentDate);
+    fetchMetadata();
   }, [currentDate]);
 
   const handlePrevDay = () => {
@@ -57,10 +95,11 @@ function Games() {
   return (
     <div className="games">
       <h1>Games</h1>
+      <h2>Projections last updated {lastUpdated}</h2>
       <div className="day-navigator">
         <button onClick={handlePrevDay}>{'<'}</button>
         <span className="date-display">
-          {new Date(currentDate).toLocaleDateString('en-US', {
+          {new Date(new Date(currentDate).setDate(new Date(currentDate).getDate() + 1)).toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -69,14 +108,6 @@ function Games() {
         </span>
         <button onClick={handleNextDay}>{'>'}</button>
       </div>
-      <h2 className="date">
-        {new Date(new Date(currentDate).setDate(new Date(currentDate).getDate() + 1)).toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })}
-      </h2>
       <div className="games-container">
         {games.map((game) => (
           <div className="game" key={game.id}>
