@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Games.scss';
 import { GridLoader } from 'react-spinners';
 import { createClient } from '@supabase/supabase-js';
+import noGamesImage from '../assets/images/404.png';
 
 function Games() {
   const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
@@ -108,26 +109,33 @@ function Games() {
         </span>
         <button onClick={handleNextDay}>{'>'}</button>
       </div>
-      <div className="games-container">
-        {games.map((game) => (
-          <div className="game" key={game.id}>
-            <div className="game-head">
-              <p className="matchup">{game.home_name} @ {game.visitor_name}</p>
-              <p className="time">{game.time_str}</p>
+      {games.length === 0 ? (
+        <div className="no-games-message">
+          <img src={noGamesImage} alt="No games available" />
+          <p>No games available on this date.</p>
+        </div>
+      ) : (
+        <div className="games-container">
+          {games.map((game) => (
+            <div className="game" key={game.id}>
+              <div className="game-head">
+                <p className="matchup">{game.home_name} @ {game.visitor_name}</p>
+                <p className="time">{game.time_str}</p>
+              </div>
+              <div className="column-left">
+                <img src={game.home_logo} alt={game.home_name} />
+                <p className="probability">{(game.home_prob * 100).toFixed(1)}%</p>
+                <p className="record">{game.home_record} ({game.home_rank})</p>
+              </div>
+              <div className="column-right">
+                <img src={game.visitor_logo} alt={game.visitor_name} />
+                <p className="probability">{(game.visitor_prob * 100).toFixed(1)}%</p>
+                <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
+              </div>
             </div>
-            <div className="column-left">
-              <img src={game.home_logo} alt={game.home_name} />
-              <p className="probability">{(game.home_prob * 100).toFixed(1)}%</p>
-              <p className="record">{game.home_record} ({game.home_rank})</p>
-            </div>
-            <div className="column-right">
-              <img src={game.visitor_logo} alt={game.visitor_name} />
-              <p className="probability">{(game.visitor_prob * 100).toFixed(1)}%</p>
-              <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
