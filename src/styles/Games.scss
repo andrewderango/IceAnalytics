@@ -57,7 +57,6 @@
     justify-content: center;
     margin-top: 36px;
     margin-bottom: 64px;
-    transition: 0.5s ease;
 
     @media (max-width: 500px) {
         grid-template-columns: repeat(auto-fit, 90%)
@@ -143,4 +142,51 @@
     align-items: flex-start;
     height: 100vh;
     padding-top: 20%;
+}
+
+.day-navigator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+        background-color: #444;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:disabled {
+            background-color: #222;
+            cursor: not-allowed;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: #555;
+        }
+    }
+
+    .date-display {
+        margin: 0 10px;
+        font-size: 18px;
+        color: #fff;
+    }
+}
+
+.no-games-message {
+    font-size: 24px;
+    color: #bbb;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+        width: 500px;
+        height: auto;
+        margin-top: 20px;
+    }
 }
