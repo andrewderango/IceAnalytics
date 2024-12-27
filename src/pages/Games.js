@@ -125,18 +125,18 @@ function Games() {
                  </p>
               </div>
               <div className="column-left">
-                <img src={game.home_logo} alt={game.home_name} />
-                <p className="probability">
-                  {game.home_prob === 1 || game.home_prob === 0 ? game.home_score : `${(game.home_prob * 100).toFixed(1)}%`}
-                </p>
-                <p className="record">{game.home_record} ({game.home_rank})</p>
-              </div>
-              <div className="column-right">
                 <img src={game.visitor_logo} alt={game.visitor_name} />
                 <p className="probability">
                   {game.visitor_prob === 1 || game.visitor_prob === 0 ? game.visitor_score : `${(game.visitor_prob * 100).toFixed(1)}%`}
                 </p>
                 <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
+              </div>
+              <div className="column-right">
+                <img src={game.home_logo} alt={game.home_name} />
+                <p className="probability">
+                  {game.home_prob === 1 || game.home_prob === 0 ? game.home_score : `${(game.home_prob * 100).toFixed(1)}%`}
+                </p>
+                <p className="record">{game.home_record} ({game.home_rank})</p>
               </div>
             </div>
           ))}
