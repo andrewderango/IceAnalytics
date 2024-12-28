@@ -42,7 +42,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping ATOI"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -50,16 +50,16 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['ATOI'] = residual_variance
@@ -189,7 +189,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping GP"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -197,16 +197,16 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['GP'] = residual_variance
@@ -331,7 +331,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Goals"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -339,16 +339,16 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['Gper1kChunk'] = residual_variance
@@ -480,7 +480,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Primary Assists"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -488,16 +488,16 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['A1per1kChunk'] = residual_variance
@@ -627,7 +627,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Secondary Assists"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -635,16 +635,16 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['A2per1kChunk'] = residual_variance
