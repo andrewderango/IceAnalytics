@@ -135,7 +135,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
 
 
     # generate player uncertainty-based projections via monte carlo engine
-    skater_proj_df = player_monte_carlo_engine(skater_proj_df, simulations, download_files, verbose)
+    skater_proj_df = player_monte_carlo_engine(skater_proj_df, projection_year, simulations, download_files, verbose)
 
     # generate team uncertainty-based projections via monte carlo engine
     team_proj_df = team_monte_carlo_engine(team_proj_df, simulations, download_files, verbose)
@@ -262,9 +262,31 @@ def compute_poisson_game_probabilities(home_weighted_avg, visitor_weighted_avg, 
     return home_score, visitor_score, home_prob, visitor_prob, overtime
 
 # Generate player uncertainty-based projections via monte carlo engine
-def player_monte_carlo_engine(skater_proj_df, simulations, download_files, verbose):
+def player_monte_carlo_engine(skater_proj_df, projection_year, simulations, download_files, verbose):
+
+    print('\n\n\n\n\n\n\n')
+
+    # create monte_carlo_player_df
+    monte_carlo_player_df = skater_proj_df.copy()
 
     # extract bootstrap_df from CSV
+    bootstrap_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters', f'{projection_year}_skater_bootstraps.csv'), index_col=0)
+    bootstrap_df['PlayerID'] = bootstrap_df['PlayerID'].astype(int)
+    bootstrap_df['Aper1kChunk'] = bootstrap_df['A1per1kChunk'] + bootstrap_df['A2per1kChunk'] # variances are additive when independent; approximate as independent for simplicity
+    bootstrap_df.drop(columns=['A1per1kChunk', 'A2per1kChunk'], inplace=True)
+    bootstrap_df.rename(columns={'ATOI': 'vATOI', 'GP': 'vGames Played', 'Gper1kChunk': 'vGper1kChunk', 'Aper1kChunk': 'vAper1kChunk'}, inplace=True)
+
+    # convert monte carlo player df to rates
+    monte_carlo_player_df['ATOI'] = monte_carlo_player_df['TOI'] / monte_carlo_player_df['Games Played']
+    monte_carlo_player_df['Gper1kChunk'] = monte_carlo_player_df['Goals'] / monte_carlo_player_df['TOI'] * 500
+    monte_carlo_player_df['Aper1kChunk'] = monte_carlo_player_df['Assists'] / monte_carlo_player_df['TOI'] * 500
+    monte_carlo_player_df.drop(columns=['Goals', 'Assists', 'TOI', 'Points'], inplace=True)
+
+    # left join bootstrap_df into monte_carlo_player_df
+    monte_carlo_player_df = monte_carlo_player_df.merge(bootstrap_df[['PlayerID', 'vGames Played', 'vGper1kChunk', 'vAper1kChunk']], on='PlayerID', how='left')
+
+    print(monte_carlo_player_df)
+    quit()
 
     # add probabilities for 10, 20, 30, ..., 150 G, A, and P, Art Ross and Rocket Richard probabilities to skater_proj_df
 
