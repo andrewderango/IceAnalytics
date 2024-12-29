@@ -286,18 +286,24 @@ def player_monte_carlo_engine(skater_proj_df, projection_year, simulations, down
     monte_carlo_player_df = monte_carlo_player_df.merge(bootstrap_df[['PlayerID', 'vGames Played', 'vATOI', 'vGper1kChunk', 'vAper1kChunk']], on='PlayerID', how='left')
 
     # loop through each row and simulate
+    simulation_results = []
     for index, row in tqdm(monte_carlo_player_df.iterrows(), total=monte_carlo_player_df.shape[0], desc="Simulating Player Seasons"):
+        sim_data = {'PlayerID': row['PlayerID']}
         for sim in range(simulations):
             sim_gp = np.random.normal(row['Games Played'], np.sqrt(row['vGames Played']))
             sim_ATOI = np.random.normal(row['ATOI'], np.sqrt(row['vATOI']))
             sim_Gper1kChunk = np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk']))
             sim_Aper1kChunk = np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk']))
-            monte_carlo_player_df.loc[index, f'{sim+1}_goals'] = sim_Gper1kChunk * sim_ATOI * sim_gp / 500
-            monte_carlo_player_df.loc[index, f'{sim+1}_assists'] = sim_Aper1kChunk * sim_ATOI * sim_gp / 500
-            monte_carlo_player_df.loc[index, f'{sim+1}_points'] = monte_carlo_player_df.loc[index, f'{sim+1}_goals'] + monte_carlo_player_df.loc[index, f'{sim+1}_assists']
+            sim_data[f'{sim+1}_goals'] = sim_Gper1kChunk * sim_ATOI * sim_gp / 500
+            sim_data[f'{sim+1}_assists'] = sim_Aper1kChunk * sim_ATOI * sim_gp / 500
+            sim_data[f'{sim+1}_points'] = sim_data[f'{sim+1}_goals'] + sim_data[f'{sim+1}_assists']
+        simulation_results.append(sim_data)
+
+    simulation_df = pd.DataFrame(simulation_results)
+    monte_carlo_player_df = pd.concat([monte_carlo_player_df.set_index('PlayerID'), simulation_df.set_index('PlayerID')], axis=1).reset_index()
 
     # if any value in the df is negative, set to 0
-    monte_carlo_player_df[monte_carlo_player_df < 0] = 0
+    # monte_carlo_player_df[monte_carlo_player_df < 0] = 0
 
     print(monte_carlo_player_df)
     print(monte_carlo_player_df.info())
