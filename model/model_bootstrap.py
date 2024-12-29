@@ -176,6 +176,9 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         train_data = aggregate_skater_offence_training_data(projection_year)
         train_data = train_data.dropna(subset=['Y-0 Age'])
         train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Y-3 Points'] = train_data['Y-3 GP']*train_data['Y-3 ATOI']*train_data['Y-3 Gper1kChunk']/1000*2
+        train_data['Y-2 Points'] = train_data['Y-2 GP']*train_data['Y-2 ATOI']*train_data['Y-2 Gper1kChunk']/1000*2
+        train_data['Y-1 Points'] = train_data['Y-1 GP']*train_data['Y-1 ATOI']*train_data['Y-1 Gper1kChunk']/1000*2
 
         features = ['Y-3 GP', 'Y-3 Points', 'Y-2 GP', 'Y-2 Points', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
         target_var = 'Y-0 GP'
