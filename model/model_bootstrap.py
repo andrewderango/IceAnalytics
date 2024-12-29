@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -55,6 +55,9 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             models.append(model)
         residual_variance = np.var(cumulative_residuals)
 
+        # Get total variance of actual ATOI
+        actual_variance = np.var(y)
+
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
@@ -62,7 +65,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['ATOI'] = residual_variance
+        json_data['ATOI'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -70,7 +73,8 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['ATOI']
+        residual_variance = json_data['ATOI']['Residual']
+        actual_variance = json_data['ATOI']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -133,7 +137,11 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
     combined_df['ATOI'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    print(residual_variance)
+    print(actual_variance)
+    r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82) * r_squared + evp
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -161,7 +169,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'gp_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -275,7 +283,8 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['GP'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    nsr = 0.178851 # noise to signal ratio; proportion of variance explained by random error rather than model error
+    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - combined_df['Y-0 GP']/82) * (1 - nsr) + nsr
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -303,7 +312,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
 def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'goal_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -424,7 +433,8 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
     combined_df['Gper1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    nsr = 0.178851 # noise to signal ratio; proportion of variance explained by random error rather than model error
+    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82) * (1 - nsr) + nsr
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -452,7 +462,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
 def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'a1_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -599,7 +609,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
 def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'a2_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
