@@ -210,6 +210,9 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             models.append(model)
         residual_variance = np.var(cumulative_residuals)
 
+        # Get total variance of actual GP
+        actual_variance = np.var(y)
+
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
@@ -217,7 +220,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['GP'] = residual_variance
+        json_data['GP'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -225,7 +228,8 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['GP']
+        residual_variance = json_data['GP']['Residual']
+        actual_variance = json_data['GP']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -283,8 +287,11 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['GP'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    nsr = 0.178851 # noise to signal ratio; proportion of variance explained by random error rather than model error
-    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - combined_df['Y-0 GP']/82) * (1 - nsr) + nsr
+    print(residual_variance)
+    print(actual_variance)
+    r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82) * r_squared + evp
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -353,6 +360,9 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
             models.append(model)
         residual_variance = np.var(cumulative_residuals)
 
+        # Get total variance of actual Gper1kChunk
+        actual_variance = np.var(y)
+
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
@@ -360,7 +370,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['Gper1kChunk'] = residual_variance
+        json_data['Gper1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -368,7 +378,8 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['Gper1kChunk']
+        residual_variance = json_data['Gper1kChunk']['Residual']
+        actual_variance = json_data['Gper1kChunk']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -433,8 +444,11 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
     combined_df['Gper1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    nsr = 0.178851 # noise to signal ratio; proportion of variance explained by random error rather than model error
-    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82) * (1 - nsr) + nsr
+    print(residual_variance)
+    print(actual_variance)
+    r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82) * r_squared + evp
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -503,6 +517,9 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
             models.append(model)
         residual_variance = np.var(cumulative_residuals)
 
+        # Get total variance of actual A1per1kChunk
+        actual_variance = np.var(y)
+
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
@@ -510,7 +527,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['A1per1kChunk'] = residual_variance
+        json_data['A1per1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -518,7 +535,8 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['A1per1kChunk']
+        residual_variance = json_data['A1per1kChunk']['Residual']
+        actual_variance = json_data['A1per1kChunk']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -581,7 +599,11 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['A1per1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    print(residual_variance)
+    print(actual_variance)
+    r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82) * r_squared + evp
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -650,6 +672,9 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
             models.append(model)
         residual_variance = np.var(cumulative_residuals)
 
+        # Get total variance of actual A2per1kChunk
+        actual_variance = np.var(y)
+
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
@@ -657,7 +682,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Modify cumulative_residuals json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['A2per1kChunk'] = residual_variance
+        json_data['A2per1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -665,7 +690,8 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['A2per1kChunk']
+        residual_variance = json_data['A2per1kChunk']['Residual']
+        actual_variance = json_data['A2per1kChunk']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -728,7 +754,11 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['A2per1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    print(residual_variance)
+    print(actual_variance)
+    r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82) * r_squared + evp
 
     # Drop columns without Player ID
     bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
