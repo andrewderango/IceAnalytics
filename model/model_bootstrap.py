@@ -62,7 +62,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify cumulative_residuals json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['ATOI'] = {'Residual': residual_variance, 'Actual': actual_variance}
@@ -220,7 +220,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify cumulative_residuals json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['GP'] = {'Residual': residual_variance, 'Actual': actual_variance}
@@ -370,7 +370,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify cumulative_residuals json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['Gper1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
@@ -527,7 +527,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify cumulative_residuals json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['A1per1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
@@ -682,7 +682,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify cumulative_residuals json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
         json_data['A2per1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
