@@ -132,6 +132,13 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     game_proj_df.index += 1
     if verbose:
         print(game_proj_df)
+
+
+    # generate player uncertainty-based projections via monte carlo engine
+    skater_proj_df = player_monte_carlo_engine(skater_proj_df, simulations, download_files, verbose)
+
+    # generate team uncertainty-based projections via monte carlo engine
+    team_proj_df = team_monte_carlo_engine(team_proj_df, simulations, download_files, verbose)
     
     if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
@@ -193,7 +200,7 @@ def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, c
         visitor_weighted_avg *= defence_scores[row['Home Team']]
 
         # compute game level projections
-        home_score, visitor_score, home_prob, visitor_prob, overtime = compute_poisson_probabilities(home_weighted_avg, visitor_weighted_avg) ### r&d: poisson vs alternative efficient game inference methods
+        home_score, visitor_score, home_prob, visitor_prob, overtime = compute_poisson_game_probabilities(home_weighted_avg, visitor_weighted_avg) ### r&d: poisson vs alternative efficient game inference methods
 
         # update team scoring dict
         team_scoring_dict[row['Home Abbreviation']][0] += home_prob
@@ -231,7 +238,7 @@ def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, c
     return player_scoring_dict, team_scoring_dict, game_scoring_dict
 
 # function to compute poisson probabilities of winning and overtime
-def compute_poisson_probabilities(home_weighted_avg, visitor_weighted_avg, chunks=120, max_goals=10):
+def compute_poisson_game_probabilities(home_weighted_avg, visitor_weighted_avg, chunks=120, max_goals=10):
     home_score = home_weighted_avg * chunks
     visitor_score = visitor_weighted_avg * chunks
     home_prob, visitor_prob, overtime = 0, 0, 0
@@ -253,3 +260,27 @@ def compute_poisson_probabilities(home_weighted_avg, visitor_weighted_avg, chunk
     visitor_prob /= (visitor_prob - home_prob*visitor_prob/(home_prob-1))
 
     return home_score, visitor_score, home_prob, visitor_prob, overtime
+
+# Generate player uncertainty-based projections via monte carlo engine
+def player_monte_carlo_engine(skater_proj_df, simulations, download_files, verbose):
+
+    # extract bootstrap_df from CSV
+
+    # add probabilities for 10, 20, 30, ..., 150 G, A, and P, Art Ross and Rocket Richard probabilities to skater_proj_df
+
+    # may not need to use download_files parameter, remove if not needed
+
+    # use tqdm when iterate through MC simulations
+
+    return skater_proj_df
+
+# Generate team uncertainty-based projections via monte carlo engine
+def team_monte_carlo_engine(team_proj_df, simulations, download_files, verbose):
+
+    # add probabilities for team point benchmarks, President's trophy, playoffs, Stanley Cup
+
+    # may not need to use download_files parameter, remove if not needed
+
+    # use tqdm when iterate through MC simulations
+
+    return team_proj_df
