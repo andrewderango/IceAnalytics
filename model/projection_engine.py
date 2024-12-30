@@ -308,6 +308,9 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
 
     ### find a way to efficiently store KDE curves for player cards (IceAnalytics v2). probably will want to store ~100 pts from the KDE curve then re-construct it in React.
 
+    if verbose:
+        print('Computing Monte Carlo Player Awards...')
+
     # art ross calculation
     monte_carlo_player_df['ArtRoss'] = 0
     for sim in range(1, simulations + 1):
@@ -322,13 +325,50 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
         monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_goals_player, 'Rocket'] += 1
     monte_carlo_player_df['Rocket'] /= simulations
 
+    if verbose:
+        print('Computing Monte Carlo Player Prediction Intervals...')
+    
+    # for each player, find the 95% prediction interval for goals, assists, and points
+    monte_carlo_player_df['Goals_95PI_low'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.025, axis=1)
+    monte_carlo_player_df['Goals_95PI_high%'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.975, axis=1)
+    monte_carlo_player_df['Assists_95PI_low'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.025, axis=1)
+    monte_carlo_player_df['Assists_95PI_high%'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.975, axis=1)
+    monte_carlo_player_df['Points_95PI_low'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.025, axis=1)
+    monte_carlo_player_df['Points_95PI_high%'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.975, axis=1)
+
+    if verbose:
+        print('Computing Monte Carlo Player Statistical Benchmarks...')
+
+    # goal benchmark probabilities
+    monte_carlo_player_df['P_10G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 9.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_20G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 19.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_30G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 29.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_40G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 39.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_50G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 49.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_60G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 59.5).sum() / simulations, axis=1)
+
+    # assist benchmark probabilities
+    monte_carlo_player_df['P_25A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 24.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_50A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 49.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_75A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 74.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_100A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 99.5).sum() / simulations, axis=1)
+
+    # point benchmark probabilities
+    monte_carlo_player_df['P_50P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 49.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_75P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 74.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_100P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 99.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_125P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 124.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_150P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 149.5).sum() / simulations, axis=1)
+
     # download monte_carlo_player_df to CSV
-    # monte_carlo_player_df.to_csv('full_monte_carlo_skater_data.csv')
+    monte_carlo_player_df.to_csv('model/test/full_monte_carlo_skater_data.csv')
 
-    # join art ross and rocket richard probabilities to skater_proj_df
+    # join calculated probabilities to skater_proj_df
     skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'ArtRoss', 'Rocket']], on='PlayerID', how='left')
-
-    ### add probabilities for 10, 20, 30, ..., 150 G, A, and P to skater_proj_df
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'Goals_95PI_low', 'Goals_95PI_high%', 'Assists_95PI_low', 'Assists_95PI_high%', 'Points_95PI_low', 'Points_95PI_high%']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_10G', 'P_20G', 'P_30G', 'P_40G', 'P_50G', 'P_60G']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_25A', 'P_50A', 'P_75A', 'P_100A']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_50P', 'P_75P', 'P_100P', 'P_125P', 'P_150P']], on='PlayerID', how='left')
 
     return skater_proj_df
 

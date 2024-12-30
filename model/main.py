@@ -73,7 +73,7 @@ def main():
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
-    team_stat_df = team_ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, player_stat_df=player_stat_df, team_ga_model=team_ga_model, download_file=True, verbose=False)
+    team_stat_df = team_ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, player_stat_df=player_stat_df, team_ga_model=team_ga_model, download_file=True, verbose=True)
     # team_stat_df = team_stat_df.sort_values(by='Agg GA/GP', ascending=False)
     # print(team_stat_df.to_string())
 
