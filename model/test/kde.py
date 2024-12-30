@@ -6,7 +6,7 @@ from scipy.stats import anderson, norm
 from statsmodels.graphics.gofplots import qqplot
 
 # read the CSV file
-df = pd.read_csv('test.csv')
+df = pd.read_csv('full_monte_carlo_skater_data.csv')
 
 # extract point projection columns
 point_columns = [col for col in df.columns if '_points' in col]

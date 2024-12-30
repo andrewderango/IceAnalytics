@@ -306,26 +306,29 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     simulation_df = pd.DataFrame(simulation_results)
     monte_carlo_player_df = pd.concat([monte_carlo_player_df.set_index('PlayerID'), simulation_df.set_index('PlayerID')], axis=1).reset_index()
 
+    ### find a way to efficiently store KDE curves for player cards (IceAnalytics v2). probably will want to store ~100 pts from the KDE curve then re-construct it in React.
+
     # art ross calculation
     monte_carlo_player_df['ArtRoss'] = 0
     for sim in range(1, simulations + 1):
         max_points_player = monte_carlo_player_df.loc[monte_carlo_player_df[f'{sim}_points'].idxmax(), 'PlayerID']
         monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_points_player, 'ArtRoss'] += 1
+    monte_carlo_player_df['ArtRoss'] /= simulations
 
     # rocket richard calculation
     monte_carlo_player_df['Rocket'] = 0
     for sim in range(1, simulations + 1):
         max_goals_player = monte_carlo_player_df.loc[monte_carlo_player_df[f'{sim}_goals'].idxmax(), 'PlayerID']
         monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_goals_player, 'Rocket'] += 1
+    monte_carlo_player_df['Rocket'] /= simulations
 
     # download monte_carlo_player_df to CSV
-    # monte_carlo_player_df.to_csv('test.csv')
+    # monte_carlo_player_df.to_csv('full_monte_carlo_skater_data.csv')
 
-    ### find a way to efficiently store KDE curves for player cards (IceAnalytics v2). probably will want to store ~100 pts from the KDE curve then re-construct it in React.
+    # join art ross and rocket richard probabilities to skater_proj_df
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'ArtRoss', 'Rocket']], on='PlayerID', how='left')
 
-    quit()
-
-    # add probabilities for 10, 20, 30, ..., 150 G, A, and P, Art Ross and Rocket Richard probabilities to skater_proj_df
+    ### add probabilities for 10, 20, 30, ..., 150 G, A, and P to skater_proj_df
 
     return skater_proj_df
 
