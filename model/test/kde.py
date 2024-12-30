@@ -9,10 +9,10 @@ from statsmodels.graphics.gofplots import qqplot
 df = pd.read_csv('test.csv')
 
 # extract point projection columns
-point_columns = [col for col in df.columns if '_goals' in col]
+point_columns = [col for col in df.columns if '_points' in col]
 
 # filter for a specific player
-player = 'Lane Hutson'
+player = 'Connor McDavid'
 player_df = df[df['Player'] == player].copy()
 print(player_df)
 

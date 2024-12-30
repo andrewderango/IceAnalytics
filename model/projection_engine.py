@@ -265,8 +265,6 @@ def compute_poisson_game_probabilities(home_weighted_avg, visitor_weighted_avg, 
 # Generate player uncertainty-based projections via monte carlo engine
 def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose):
 
-    print('\n\n\n\n\n\n\n')
-
     # create monte_carlo_player_df
     monte_carlo_player_df = copy.deepcopy(skater_proj_df)
     existing_scoring_dict = copy.deepcopy(core_player_scoring_dict)
@@ -308,26 +306,26 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     simulation_df = pd.DataFrame(simulation_results)
     monte_carlo_player_df = pd.concat([monte_carlo_player_df.set_index('PlayerID'), simulation_df.set_index('PlayerID')], axis=1).reset_index()
 
-    # if any value in the df is negative, set to 0
-    # monte_carlo_player_df[monte_carlo_player_df < 0] = 0
+    # art ross calculation
+    monte_carlo_player_df['ArtRoss'] = 0
+    for sim in range(1, simulations + 1):
+        max_points_player = monte_carlo_player_df.loc[monte_carlo_player_df[f'{sim}_points'].idxmax(), 'PlayerID']
+        monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_points_player, 'ArtRoss'] += 1
 
-    print(monte_carlo_player_df)
-    # print(monte_carlo_player_df.describe().T)
-    # print(existing_scoring_dict)
+    # rocket richard calculation
+    monte_carlo_player_df['Rocket'] = 0
+    for sim in range(1, simulations + 1):
+        max_goals_player = monte_carlo_player_df.loc[monte_carlo_player_df[f'{sim}_goals'].idxmax(), 'PlayerID']
+        monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_goals_player, 'Rocket'] += 1
 
     # download monte_carlo_player_df to CSV
-    monte_carlo_player_df.to_csv('test.csv')
+    # monte_carlo_player_df.to_csv('test.csv')
+
+    ### find a way to efficiently store KDE curves for player cards (IceAnalytics v2). probably will want to store ~100 pts from the KDE curve then re-construct it in React.
 
     quit()
 
-    # account for season continuation and meaning of skater_proj_df (remaining, total, etc.)
-    # believe bootstrap is the variance for the remaining games
-
     # add probabilities for 10, 20, 30, ..., 150 G, A, and P, Art Ross and Rocket Richard probabilities to skater_proj_df
-
-    # may not need to use download_files parameter, remove if not needed
-
-    # use tqdm when iterate through MC simulations
 
     return skater_proj_df
 
