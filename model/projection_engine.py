@@ -291,11 +291,15 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     simulation_results = []
     for index, row in tqdm(monte_carlo_player_df.iterrows(), total=monte_carlo_player_df.shape[0], desc="Simulating Player Seasons"):
         sim_data = {'PlayerID': row['PlayerID']}
+        curr_gp = existing_scoring_dict[row['PlayerID']][0]
+        curr_toi = existing_scoring_dict[row['PlayerID']][1]
+        curr_g = existing_scoring_dict[row['PlayerID']][2]
+        curr_a = existing_scoring_dict[row['PlayerID']][3]
         for sim in range(simulations):
-            sim_gp = np.random.normal(row['Games Played'], np.sqrt(row['vGames Played']))
-            sim_ATOI = np.random.normal(row['ATOI'], np.sqrt(row['vATOI']))
-            sim_Gper1kChunk = np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk']))
-            sim_Aper1kChunk = np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk']))
+            sim_gp = min(max(np.random.normal(row['Games Played'], np.sqrt(row['vGames Played'])), curr_gp), 82)
+            sim_ATOI = max(np.random.normal(row['ATOI'], np.sqrt(row['vATOI'])), curr_toi/sim_gp)
+            sim_Gper1kChunk = max(np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk'])), curr_g/(sim_ATOI*sim_gp/500))
+            sim_Aper1kChunk = max(np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk'])), curr_a/(sim_ATOI*sim_gp/500))
             sim_data[f'{sim+1}_goals'] = sim_Gper1kChunk * sim_ATOI * sim_gp / 500
             sim_data[f'{sim+1}_assists'] = sim_Aper1kChunk * sim_ATOI * sim_gp / 500
             sim_data[f'{sim+1}_points'] = sim_data[f'{sim+1}_goals'] + sim_data[f'{sim+1}_assists']
@@ -308,11 +312,11 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     # monte_carlo_player_df[monte_carlo_player_df < 0] = 0
 
     print(monte_carlo_player_df)
-    print(monte_carlo_player_df.describe().T)
-    print(existing_scoring_dict)
+    # print(monte_carlo_player_df.describe().T)
+    # print(existing_scoring_dict)
 
     # download monte_carlo_player_df to CSV
-    # monte_carlo_player_df.to_csv('test.csv')
+    monte_carlo_player_df.to_csv('test.csv')
 
     quit()
 
