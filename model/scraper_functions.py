@@ -453,6 +453,8 @@ def push_to_supabase(table_name, year, verbose=False):
             'Goals': 'goals',
             'Assists': 'assists',
             'Points': 'points',
+            'ArtRoss': 'art_ross',
+            'Rocket': 'rocket'
         }
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
