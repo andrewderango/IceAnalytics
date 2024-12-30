@@ -9,23 +9,24 @@ from statsmodels.graphics.gofplots import qqplot
 df = pd.read_csv('test.csv')
 
 # extract point projection columns
-point_columns = [col for col in df.columns if '_points' in col]
+point_columns = [col for col in df.columns if '_goals' in col]
 
 # filter for a specific player
-player = 'Nathan MacKinnon'
+player = 'Lane Hutson'
 player_df = df[df['Player'] == player].copy()
 print(player_df)
 
 # get the point projections for the specific player
 list = player_df[point_columns].values.tolist()[0]
-# print(list)
-# print(len(list))
+print(list)
+print(len(list))
+print(min(list))
 
 # Convert list to NumPy array
 array = np.array(list)
 
-# Perform hypothesis test to see if the distribution is normal (Anderson-Darling Test), get p-value
-result = anderson(array[:1000])
+# Perform hypothesis test to see if the distribution is normal (Anderson-Darling Test)
+result = anderson(array)
 print(result)
 
 # Step 5: Plot the KDE distribution for the specific player

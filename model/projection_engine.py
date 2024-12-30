@@ -5,6 +5,7 @@ from tqdm import tqdm
 from model_training import *
 from scraper_functions import *
 from scipy.stats import poisson
+import copy
 
 def run_projection_engine(projection_year, simulations, download_files, verbose):
 
@@ -33,19 +34,19 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     schedule_df = schedule_df.drop(columns=['Team Name', 'TeamID', 'Active_x', 'Active_y'])
 
     # configure skater projection df
-    skater_proj_df = metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']].copy()
+    skater_proj_df = copy.deepcopy(metaprojection_df[['PlayerID', 'Player', 'Position', 'Team', 'Age']])
     skater_proj_df = skater_proj_df.assign(Games_Played=0, Goals=0, Assists=0)
     skater_proj_df.rename(columns={'Games_Played': 'Games Played'}, inplace=True)
     
     # configure team projection df
-    team_proj_df = teams_df[['Team Name', 'Abbreviation']].copy()
+    team_proj_df = copy.deepcopy(teams_df[['Team Name', 'Abbreviation']])
     active_teams = pd.concat([schedule_df['Home Team'], schedule_df['Visiting Team']])
     team_proj_df = team_proj_df[team_proj_df['Team Name'].isin(active_teams)]
     team_proj_df = team_proj_df.assign(Wins=0, Losses=0, OTL=0, Goals_For=0, Goals_Against=0)
     team_proj_df.rename(columns={'Team Name': 'Team', 'Goals_For': 'Goals For', 'Goals_Against': 'Goals Against'}, inplace=True)
 
     # configure games projection df
-    game_proj_df = schedule_df[['GameID', 'Time (EST)', 'Home Team', 'Home Abbreviation', 'Home Score', 'Visiting Team', 'Visiting Abbreviation', 'Visiting Score']].copy()
+    game_proj_df = copy.deepcopy(schedule_df[['GameID', 'Time (EST)', 'Home Team', 'Home Abbreviation', 'Home Score', 'Visiting Team', 'Visiting Abbreviation', 'Visiting Score']])
     game_proj_df = game_proj_df.assign(
         Date = pd.to_datetime(game_proj_df['Time (EST)']).dt.date, 
         TimeEST = pd.to_datetime(game_proj_df['Time (EST)']).dt.time, 
@@ -79,7 +80,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     team_rosters = {}
     metaprojection_df.loc[metaprojection_df['Team'] == 'ARI', 'Team'] = 'UTA' ### temporary fix for ARI
     for team_abbreviation in team_proj_df['Abbreviation']:
-        team_roster = metaprojection_df[metaprojection_df['Team'] == team_abbreviation].copy()
+        team_roster = copy.deepcopy(metaprojection_df[metaprojection_df['Team'] == team_abbreviation])
         team_roster['PosFD'] = team_roster['Position'].apply(lambda x: 'D' if x == 'D' else 'F')
         team_rosters[team_abbreviation] = team_roster
 
@@ -135,7 +136,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
 
 
     # generate player uncertainty-based projections via monte carlo engine
-    skater_proj_df = player_monte_carlo_engine(skater_proj_df, projection_year, simulations, download_files, verbose)
+    skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
 
     # generate team uncertainty-based projections via monte carlo engine
     team_proj_df = team_monte_carlo_engine(team_proj_df, simulations, download_files, verbose)
@@ -170,9 +171,9 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
 
 def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, core_game_scoring_dict, schedule_df, team_rosters, defence_scores, a1_probability, a2_probability):    
 
-    player_scoring_dict = core_player_scoring_dict.copy()
-    team_scoring_dict = core_team_scoring_dict.copy()
-    game_scoring_dict = core_game_scoring_dict.copy()
+    player_scoring_dict = copy.deepcopy(core_player_scoring_dict)
+    team_scoring_dict = copy.deepcopy(core_team_scoring_dict)
+    game_scoring_dict = copy.deepcopy(core_game_scoring_dict)
 
     # loop through each game
     for index, row in tqdm(schedule_df.iterrows(), total=schedule_df.shape[0], desc="Generating Game Inferences"):
@@ -262,12 +263,13 @@ def compute_poisson_game_probabilities(home_weighted_avg, visitor_weighted_avg, 
     return home_score, visitor_score, home_prob, visitor_prob, overtime
 
 # Generate player uncertainty-based projections via monte carlo engine
-def player_monte_carlo_engine(skater_proj_df, projection_year, simulations, download_files, verbose):
+def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose):
 
     print('\n\n\n\n\n\n\n')
 
     # create monte_carlo_player_df
-    monte_carlo_player_df = skater_proj_df.copy()
+    monte_carlo_player_df = copy.deepcopy(skater_proj_df)
+    existing_scoring_dict = copy.deepcopy(core_player_scoring_dict)
 
     # extract bootstrap_df from CSV
     bootstrap_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters', f'{projection_year}_skater_bootstraps.csv'), index_col=0)
@@ -306,12 +308,16 @@ def player_monte_carlo_engine(skater_proj_df, projection_year, simulations, down
     # monte_carlo_player_df[monte_carlo_player_df < 0] = 0
 
     print(monte_carlo_player_df)
-    print(monte_carlo_player_df.info())
+    print(monte_carlo_player_df.describe().T)
+    print(existing_scoring_dict)
 
     # download monte_carlo_player_df to CSV
-    monte_carlo_player_df.to_csv('test.csv')
+    # monte_carlo_player_df.to_csv('test.csv')
 
     quit()
+
+    # account for season continuation and meaning of skater_proj_df (remaining, total, etc.)
+    # believe bootstrap is the variance for the remaining games
 
     # add probabilities for 10, 20, 30, ..., 150 G, A, and P, Art Ross and Rocket Richard probabilities to skater_proj_df
 
