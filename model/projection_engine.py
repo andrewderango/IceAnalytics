@@ -460,35 +460,18 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
     # playoff odds calculation
     monte_carlo_team_df['Playoffs'] = 0
     for sim in range(1, simulations + 1):
-        # get top 3 teams in each division
         division_teams = monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Atlantic'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
         division_teams += monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Metropolitan'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
         division_teams += monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Central'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
         division_teams += monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Pacific'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
         division_teams = list(set(division_teams))
-
-        # get wildcard teams: top 2 remaining teams from each conference (atlantic/metropolitan and central/pacific)
-        # first create df of teams not in division_teams
         remaining_teams = monte_carlo_team_df[~monte_carlo_team_df['Abbreviation'].isin(division_teams)]
         wildcard_teams = remaining_teams[(remaining_teams['Division'] == 'Atlantic') | (remaining_teams['Division'] == 'Metropolitan')].nlargest(2, f'{sim}_Pts')['Abbreviation'].tolist()
         wildcard_teams += remaining_teams[(remaining_teams['Division'] == 'Central') | (remaining_teams['Division'] == 'Pacific')].nlargest(2, f'{sim}_Pts')['Abbreviation'].tolist()
 
-        print(division_teams)
-        print(wildcard_teams)
-
-        # update playoff odds
         for team in division_teams + wildcard_teams:
             monte_carlo_team_df.loc[monte_carlo_team_df['Abbreviation'] == team, 'Playoffs'] += 1
-
-        # print monte_carlo_team_df, showing only the columns we care about
-        monte_carlo_team_df = monte_carlo_team_df.sort_values(by=f'{sim}_Pts', ascending=False)
-        print(monte_carlo_team_df[['Abbreviation', 'Division', f'{sim}_Pts', 'Presidents', 'Playoffs']])
-        quit() 
-
     monte_carlo_team_df['Playoffs'] /= simulations
-
-
-
 
     if verbose:
         print('Computing Monte Carlo Team Prediction Intervals...')
@@ -521,7 +504,7 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
             print(f'\tFile size: {file_size} MB')
 
     # join to team_proj_df
-    team_proj_df = team_proj_df.merge(monte_carlo_team_df[['Abbreviation', 'Presidents']], on='Abbreviation', how='left')
+    team_proj_df = team_proj_df.merge(monte_carlo_team_df[['Abbreviation', 'Presidents', 'Playoffs']], on='Abbreviation', how='left')
     team_proj_df = team_proj_df.merge(monte_carlo_team_df[['Abbreviation', 'Pts_90PI_low', 'Pts_90PI_high']], on='Abbreviation', how='left')
     team_proj_df = team_proj_df.merge(monte_carlo_team_df[['Abbreviation', 'P_60Pts', 'P_70Pts', 'P_80Pts', 'P_90Pts', 'P_100Pts', 'P_110Pts', 'P_120Pts']], on='Abbreviation', how='left')
 
