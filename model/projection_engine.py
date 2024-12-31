@@ -400,8 +400,6 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
     # get team divisions
     team_divisions_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'divisions.csv'))
     monte_carlo_team_df = monte_carlo_team_df.merge(team_divisions_df[['Abbreviation', 'Division']], on='Abbreviation', how='left')
-    print(monte_carlo_team_df)
-    quit()
 
     # loop through monte carlo simulations
     simulation_results = []
@@ -458,6 +456,39 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
         max_points_team = monte_carlo_team_df.loc[monte_carlo_team_df[f'{sim}_Pts'].idxmax(), 'Abbreviation']
         monte_carlo_team_df.loc[monte_carlo_team_df['Abbreviation'] == max_points_team, 'Presidents'] += 1
     monte_carlo_team_df['Presidents'] /= simulations
+
+    # playoff odds calculation
+    monte_carlo_team_df['Playoffs'] = 0
+    for sim in range(1, simulations + 1):
+        # get top 3 teams in each division
+        division_teams = monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Atlantic'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
+        division_teams += monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Metropolitan'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
+        division_teams += monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Central'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
+        division_teams += monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Pacific'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()
+        division_teams = list(set(division_teams))
+
+        # get wildcard teams: top 2 remaining teams from each conference (atlantic/metropolitan and central/pacific)
+        # first create df of teams not in division_teams
+        remaining_teams = monte_carlo_team_df[~monte_carlo_team_df['Abbreviation'].isin(division_teams)]
+        wildcard_teams = remaining_teams[(remaining_teams['Division'] == 'Atlantic') | (remaining_teams['Division'] == 'Metropolitan')].nlargest(2, f'{sim}_Pts')['Abbreviation'].tolist()
+        wildcard_teams += remaining_teams[(remaining_teams['Division'] == 'Central') | (remaining_teams['Division'] == 'Pacific')].nlargest(2, f'{sim}_Pts')['Abbreviation'].tolist()
+
+        print(division_teams)
+        print(wildcard_teams)
+
+        # update playoff odds
+        for team in division_teams + wildcard_teams:
+            monte_carlo_team_df.loc[monte_carlo_team_df['Abbreviation'] == team, 'Playoffs'] += 1
+
+        # print monte_carlo_team_df, showing only the columns we care about
+        monte_carlo_team_df = monte_carlo_team_df.sort_values(by=f'{sim}_Pts', ascending=False)
+        print(monte_carlo_team_df[['Abbreviation', 'Division', f'{sim}_Pts', 'Presidents', 'Playoffs']])
+        quit() 
+
+    monte_carlo_team_df['Playoffs'] /= simulations
+
+
+
 
     if verbose:
         print('Computing Monte Carlo Team Prediction Intervals...')
