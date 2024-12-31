@@ -136,10 +136,10 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
 
 
     # generate player uncertainty-based projections via monte carlo engine
-    skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
+    ### skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
 
     # generate team uncertainty-based projections via monte carlo engine
-    team_proj_df = team_monte_carlo_engine(team_proj_df, simulations, download_files, verbose)
+    team_proj_df = team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose)
     
     if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
@@ -360,8 +360,16 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     monte_carlo_player_df['P_125P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 124.5).sum() / simulations, axis=1)
     monte_carlo_player_df['P_150P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 149.5).sum() / simulations, axis=1)
 
-    # download monte_carlo_player_df to CSV
-    monte_carlo_player_df.to_csv('model/test/full_monte_carlo_skater_data.csv')
+    # download monte_carlo_player_df to CSV (very large file; contains all player simulation data)
+    if download_files:
+        export_path = os.path.join(os.path.dirname(__file__), 'test')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        skater_proj_df.to_csv(os.path.join(export_path, 'full_monte_carlo_skater_data.csv'), index=True)
+        if verbose:
+            print(f'full_monte_carlo_skater_data.csv has been downloaded to the following directory: {export_path}')
+            file_size = os.path.getsize(os.path.join(export_path, 'full_monte_carlo_skater_data.csv'))/1000000
+            print(f'\tFile size: {file_size} MB')
 
     # join calculated probabilities to skater_proj_df
     skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'ArtRoss', 'Rocket']], on='PlayerID', how='left')
@@ -373,12 +381,126 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     return skater_proj_df
 
 # Generate team uncertainty-based projections via monte carlo engine
-def team_monte_carlo_engine(team_proj_df, simulations, download_files, verbose):
+def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose):
 
-    # add probabilities for team point benchmarks, President's trophy, playoffs, Stanley Cup
+    # create monte_carlo_team_df
+    monte_carlo_team_df = copy.deepcopy(team_proj_df)
+    existing_scoring_dict = copy.deepcopy(core_team_scoring_dict)
 
-    # may not need to use download_files parameter, remove if not needed
+    print(monte_carlo_team_df)
+    print(existing_scoring_dict)
 
-    # use tqdm when iterate through MC simulations
+    # extract schedule_df from CSV
+    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Games', f'{projection_year}_game_projections.csv'), index_col=0)
+    schedule_df.drop(columns=['DatetimeEST', 'TimeEST'], inplace=True)
+    # bootstrap_df.rename(columns={'ATOI': 'vATOI', 'GP': 'vGames Played', 'Gper1kChunk': 'vGper1kChunk', 'Aper1kChunk': 'vAper1kChunk'}, inplace=True)
+
+    print(schedule_df)
+    quit()
+
+    # add probabilities for team point benchmarks, President's trophy, 90% pts PI, playoffs (later), Stanley Cup (later)
+    return team_proj_df
+
+    # convert monte carlo player df to rates
+    monte_carlo_player_df['ATOI'] = monte_carlo_player_df['TOI'] / monte_carlo_player_df['Games Played']
+    monte_carlo_player_df['Gper1kChunk'] = monte_carlo_player_df['Goals'] / monte_carlo_player_df['TOI'] * 500
+    monte_carlo_player_df['Aper1kChunk'] = monte_carlo_player_df['Assists'] / monte_carlo_player_df['TOI'] * 500
+    monte_carlo_player_df.drop(columns=['Goals', 'Assists', 'TOI', 'Points'], inplace=True)
+
+    # left join bootstrap_df into monte_carlo_player_df
+    monte_carlo_player_df = monte_carlo_player_df.merge(bootstrap_df[['PlayerID', 'vGames Played', 'vATOI', 'vGper1kChunk', 'vAper1kChunk']], on='PlayerID', how='left')
+
+    # loop through each row and simulate
+    simulation_results = []
+    for index, row in tqdm(monte_carlo_player_df.iterrows(), total=monte_carlo_player_df.shape[0], desc="Simulating Player Seasons"):
+        sim_data = {'PlayerID': row['PlayerID']}
+        curr_gp = existing_scoring_dict[row['PlayerID']][0]
+        curr_toi = existing_scoring_dict[row['PlayerID']][1]
+        curr_g = existing_scoring_dict[row['PlayerID']][2]
+        curr_a = existing_scoring_dict[row['PlayerID']][3]
+        for sim in range(simulations):
+            sim_gp = min(max(np.random.normal(row['Games Played'], np.sqrt(row['vGames Played'])), curr_gp), 82)
+            sim_ATOI = max(np.random.normal(row['ATOI'], np.sqrt(row['vATOI'])), curr_toi/sim_gp)
+            sim_Gper1kChunk = max(np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk'])), curr_g/(sim_ATOI*sim_gp/500))
+            sim_Aper1kChunk = max(np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk'])), curr_a/(sim_ATOI*sim_gp/500))
+            sim_data[f'{sim+1}_goals'] = sim_Gper1kChunk * sim_ATOI * sim_gp / 500
+            sim_data[f'{sim+1}_assists'] = sim_Aper1kChunk * sim_ATOI * sim_gp / 500
+            sim_data[f'{sim+1}_points'] = sim_data[f'{sim+1}_goals'] + sim_data[f'{sim+1}_assists']
+        simulation_results.append(sim_data)
+
+    simulation_df = pd.DataFrame(simulation_results)
+    monte_carlo_player_df = pd.concat([monte_carlo_player_df.set_index('PlayerID'), simulation_df.set_index('PlayerID')], axis=1).reset_index()
+
+    ### find a way to efficiently store KDE curves for player cards (IceAnalytics v2). probably will want to store ~100 pts from the KDE curve then re-construct it in React.
+
+    if verbose:
+        print('Computing Monte Carlo Player Awards...')
+
+    # art ross calculation
+    monte_carlo_player_df['ArtRoss'] = 0
+    for sim in range(1, simulations + 1):
+        max_points_player = monte_carlo_player_df.loc[monte_carlo_player_df[f'{sim}_points'].idxmax(), 'PlayerID']
+        monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_points_player, 'ArtRoss'] += 1
+    monte_carlo_player_df['ArtRoss'] /= simulations
+
+    # rocket richard calculation
+    monte_carlo_player_df['Rocket'] = 0
+    for sim in range(1, simulations + 1):
+        max_goals_player = monte_carlo_player_df.loc[monte_carlo_player_df[f'{sim}_goals'].idxmax(), 'PlayerID']
+        monte_carlo_player_df.loc[monte_carlo_player_df['PlayerID'] == max_goals_player, 'Rocket'] += 1
+    monte_carlo_player_df['Rocket'] /= simulations
+
+    if verbose:
+        print('Computing Monte Carlo Player Prediction Intervals...')
+    
+    # for each player, find the 90% prediction interval for goals, assists, and points
+    monte_carlo_player_df['Goals_90PI_low'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.05, axis=1)
+    monte_carlo_player_df['Goals_90PI_high'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.95, axis=1)
+    monte_carlo_player_df['Assists_90PI_low'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.05, axis=1)
+    monte_carlo_player_df['Assists_90PI_high'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.95, axis=1)
+    monte_carlo_player_df['Points_90PI_low'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.05, axis=1)
+    monte_carlo_player_df['Points_90PI_high'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.95, axis=1)
+
+    if verbose:
+        print('Computing Monte Carlo Player Statistical Benchmarks...')
+
+    # goal benchmark probabilities
+    monte_carlo_player_df['P_10G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 9.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_20G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 19.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_30G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 29.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_40G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 39.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_50G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 49.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_60G'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 59.5).sum() / simulations, axis=1)
+
+    # assist benchmark probabilities
+    monte_carlo_player_df['P_25A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 24.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_50A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 49.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_75A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 74.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_100A'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 99.5).sum() / simulations, axis=1)
+
+    # point benchmark probabilities
+    monte_carlo_player_df['P_50P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 49.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_75P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 74.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_100P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 99.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_125P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 124.5).sum() / simulations, axis=1)
+    monte_carlo_player_df['P_150P'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].apply(lambda x: (x >= 149.5).sum() / simulations, axis=1)
+
+    # download monte_carlo_player_df to CSV (very large file; contains all player simulation data)
+    if download_files:
+        export_path = os.path.join(os.path.dirname(__file__), 'test')
+        if not os.path.exists(export_path):
+            os.makedirs(export_path)
+        skater_proj_df.to_csv(os.path.join(export_path, 'full_monte_carlo_skater_data.csv'), index=True)
+        if verbose:
+            print(f'full_monte_carlo_skater_data.csv has been downloaded to the following directory: {export_path}')
+            file_size = os.path.getsize(os.path.join(export_path, 'full_monte_carlo_skater_data.csv'))/1000000
+            print(f'\tFile size: {file_size} MB')
+
+    # join calculated probabilities to skater_proj_df
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'ArtRoss', 'Rocket']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'Goals_90PI_low', 'Goals_90PI_high', 'Assists_90PI_low', 'Assists_90PI_high', 'Points_90PI_low', 'Points_90PI_high']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_10G', 'P_20G', 'P_30G', 'P_40G', 'P_50G', 'P_60G']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_25A', 'P_50A', 'P_75A', 'P_100A']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_50P', 'P_75P', 'P_100P', 'P_125P', 'P_150P']], on='PlayerID', how='left')
 
     return team_proj_df

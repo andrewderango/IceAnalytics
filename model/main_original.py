@@ -10,7 +10,7 @@ def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
     SIMULATIONS = 10000
-    # season_state = get_season_state(PROJECTION_YEAR)
+    season_state = get_season_state(PROJECTION_YEAR)
 
     # Update metadata.json
     update_metadata(state=0, params=[start_time, PROJECTION_YEAR, SIMULATIONS])
