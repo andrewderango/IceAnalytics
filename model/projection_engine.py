@@ -328,13 +328,13 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     if verbose:
         print('Computing Monte Carlo Player Prediction Intervals...')
     
-    # for each player, find the 95% prediction interval for goals, assists, and points
-    monte_carlo_player_df['Goals_95PI_low'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.025, axis=1)
-    monte_carlo_player_df['Goals_95PI_high%'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.975, axis=1)
-    monte_carlo_player_df['Assists_95PI_low'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.025, axis=1)
-    monte_carlo_player_df['Assists_95PI_high%'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.975, axis=1)
-    monte_carlo_player_df['Points_95PI_low'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.025, axis=1)
-    monte_carlo_player_df['Points_95PI_high%'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.975, axis=1)
+    # for each player, find the 90% prediction interval for goals, assists, and points
+    monte_carlo_player_df['Goals_90PI_low'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.05, axis=1)
+    monte_carlo_player_df['Goals_90PI_high'] = monte_carlo_player_df[[f'{sim}_goals' for sim in range(1, simulations + 1)]].quantile(0.95, axis=1)
+    monte_carlo_player_df['Assists_90PI_low'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.05, axis=1)
+    monte_carlo_player_df['Assists_90PI_high'] = monte_carlo_player_df[[f'{sim}_assists' for sim in range(1, simulations + 1)]].quantile(0.95, axis=1)
+    monte_carlo_player_df['Points_90PI_low'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.05, axis=1)
+    monte_carlo_player_df['Points_90PI_high'] = monte_carlo_player_df[[f'{sim}_points' for sim in range(1, simulations + 1)]].quantile(0.95, axis=1)
 
     if verbose:
         print('Computing Monte Carlo Player Statistical Benchmarks...')
@@ -365,7 +365,7 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
 
     # join calculated probabilities to skater_proj_df
     skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'ArtRoss', 'Rocket']], on='PlayerID', how='left')
-    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'Goals_95PI_low', 'Goals_95PI_high%', 'Assists_95PI_low', 'Assists_95PI_high%', 'Points_95PI_low', 'Points_95PI_high%']], on='PlayerID', how='left')
+    skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'Goals_90PI_low', 'Goals_90PI_high', 'Assists_90PI_low', 'Assists_90PI_high', 'Points_90PI_low', 'Points_90PI_high']], on='PlayerID', how='left')
     skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_10G', 'P_20G', 'P_30G', 'P_40G', 'P_50G', 'P_60G']], on='PlayerID', how='left')
     skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_25A', 'P_50A', 'P_75A', 'P_100A']], on='PlayerID', how='left')
     skater_proj_df = skater_proj_df.merge(monte_carlo_player_df[['PlayerID', 'P_50P', 'P_75P', 'P_100P', 'P_125P', 'P_150P']], on='PlayerID', how='left')
