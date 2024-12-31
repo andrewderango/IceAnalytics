@@ -1,7 +1,7 @@
 {
     "startTimestamp": 1735062829.442302,
-    "endTimestamp": 1735607739.355051,
-    "engineRunTime": 158.29337406158447,
+    "endTimestamp": 1735619863.567061,
+    "engineRunTime": 40.56207799911499,
     "projectionYear": 2025,
     "monteCarloSimulations": 10000
 }
