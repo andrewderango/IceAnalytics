@@ -136,7 +136,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
 
 
     # generate player uncertainty-based projections via monte carlo engine
-    ### skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
+    skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
 
     # generate team uncertainty-based projections via monte carlo engine
     team_proj_df = team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose)
