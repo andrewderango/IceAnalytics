@@ -64,7 +64,7 @@ function Players() {
               className={isSelected ? 'selected-column' : ''} 
               style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
             >
-              {(parseFloat(value) * 100).toFixed(2)}%
+              {(parseFloat(value) * 100).toFixed(1)}%
             </div>
           );
         },
@@ -85,7 +85,7 @@ function Players() {
               className={isSelected ? 'selected-column' : ''} 
               style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
             >
-              {(parseFloat(value) * 100).toFixed(2)}%
+              {(parseFloat(value) * 100).toFixed(1)}%
             </div>
           );
         },

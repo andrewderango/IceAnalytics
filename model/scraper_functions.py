@@ -433,11 +433,20 @@ def push_to_supabase(table_name, year, verbose=False):
             'OTL': 'otl',
             'Goals For': 'goals_for',
             'Goals Against': 'goals_against',
+            'Presidents': 'presidents_trophy_prob',
+            'Pts_90PI_low': 'pts_90pi_low',
+            'Pts_90PI_high': 'pts_90pi_high',
+            'P_60Pts': 'p_60pts',
+            'P_70Pts': 'p_70pts',
+            'P_80Pts': 'p_80pts',
+            'P_90Pts': 'p_90pts',
+            'P_100Pts': 'p_100pts',
+            'P_110Pts': 'p_110pts',
+            'P_120Pts': 'p_120pts'
         }
         df.rename(columns=rename_dict, inplace=True)
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
         df['playoff_prob'] = 0.50
-        df['presidents_trophy_prob'] = 0.03125
         df['stanley_cup_prob'] = 0.03125
     elif table_name == 'player_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
