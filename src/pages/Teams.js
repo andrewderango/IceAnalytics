@@ -107,68 +107,68 @@ function Teams() {
         accessor: 'goals_against',
         Cell: ({ cell: { value } }) => Math.round(value),
       },
-//       {
-//         Header: 'Playoffs',
-//         accessor: 'playoff_prob',
-//         sortType: (rowA, rowB, columnId, desc) => {
-//           const a = parseFloat(rowA.original[columnId]);
-//           const b = parseFloat(rowB.original[columnId]);
-//           return desc ? b - a : a - b;
-//         },
-//         Cell: ({ cell: { value }, column: { id } }) => {
-//           const isSelected = id === sortBy.id;
-//           const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
-//           return (
-//             <div 
-//               className={isSelected ? 'selected-column' : ''} 
-//               style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
-//             >
-//               {(parseFloat(value) * 100).toFixed(1)}%
-//             </div>
-//           );
-//         },
-//       },
-//       {
-//         Header: "Presidents' Trophy",
-//         accessor: 'presidents_trophy_prob',
-//         sortType: (rowA, rowB, columnId, desc) => {
-//           const a = parseFloat(rowA.original[columnId]);
-//           const b = parseFloat(rowB.original[columnId]);
-//           return desc ? b - a : a - b;
-//         },
-//         Cell: ({ cell: { value }, column: { id } }) => {
-//           const isSelected = id === sortBy.id;
-//           const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
-//           return (
-//             <div 
-//               className={isSelected ? 'selected-column' : ''} 
-//               style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
-//             >
-//               {(parseFloat(value) * 100).toFixed(1)}%
-//             </div>
-//           );
-//         },
-//       },
-//       {
-//         Header: 'Stanley Cup',
-//         accessor: 'stanley_cup_prob',
-//         sortType: (rowA, rowB, columnId, desc) => {
-//           const a = parseFloat(rowA.original[columnId]);
-//           const b = parseFloat(rowB.original[columnId]);
-//           return desc ? b - a : a - b;
-//         },
-//         Cell: ({ cell: { value }, column: { id } }) => {
-//           const isSelected = id === sortBy.id;
-//           const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
-//           return (
-//             <div 
-//               className={isSelected ? 'selected-column' : ''} 
-//               style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
-//             >
-//               {(parseFloat(value) * 100).toFixed(1)}%
-//             </div>
-//           );
-//         },
+      {
+        Header: 'Playoffs',
+        accessor: 'playoff_prob',
+        sortType: (rowA, rowB, columnId, desc) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return desc ? b - a : a - b;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
+      {
+        Header: "Presidents' Trophy",
+        accessor: 'presidents_trophy_prob',
+        sortType: (rowA, rowB, columnId, desc) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return desc ? b - a : a - b;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
+      // {
+      //   Header: 'Stanley Cup',
+      //   accessor: 'stanley_cup_prob',
+      //   sortType: (rowA, rowB, columnId, desc) => {
+      //     const a = parseFloat(rowA.original[columnId]);
+      //     const b = parseFloat(rowB.original[columnId]);
+      //     return desc ? b - a : a - b;
+      //   },
+      //   Cell: ({ cell: { value }, column: { id } }) => {
+      //     const isSelected = id === sortBy.id;
+      //     const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+      //     return (
+      //       <div 
+      //         className={isSelected ? 'selected-column' : ''} 
+      //         style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+      //       >
+      //         {(parseFloat(value) * 100).toFixed(1)}%
+      //       </div>
+      //     );
+      //   },
     ],
     [sortBy]
   );

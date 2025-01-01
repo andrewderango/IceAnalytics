@@ -926,7 +926,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     else:
         team_stat_df = pd.merge(team_stat_df, combined_df, on='Team', how='left')
 
-    SAMPLED_MU, SAMPLED_SIGMA = 3.110104167, 0.4139170901 ###!
+    SAMPLED_MU, SAMPLED_SIGMA = 3.087422, 0.309527 ###!
     player_stat_df.rename(columns={'Team': 'Abbreviation'}, inplace=True)
     player_stat_df['pGA/60'] = player_stat_df['GA/60'] * player_stat_df['ATOI']
     player_stat_df['pxGA/60'] = player_stat_df['xGA/60'] * player_stat_df['ATOI']
@@ -934,7 +934,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     team_weighted_xga = player_stat_df.groupby('Abbreviation').apply(lambda x: x['pxGA/60'].sum() / x['ATOI'].sum()).reset_index(name='pxGA/GP')
     team_stat_df = team_stat_df.merge(team_weighted_ga, on='Abbreviation', how='left')
     team_stat_df = team_stat_df.merge(team_weighted_xga, on='Abbreviation', how='left')
-    team_stat_df['Agg GA/GP'] = team_stat_df['GA/GP']*0.81 + team_stat_df['pGA/GP']*0.11 + team_stat_df['pxGA/GP']*0.08 ###!
+    team_stat_df['Agg GA/GP'] = team_stat_df['GA/GP']*0.61 + team_stat_df['pGA/GP']*0.28 + team_stat_df['pxGA/GP']*0.11 ###!
     team_stat_df['z_score'] = (team_stat_df['Agg GA/GP'] - team_stat_df['Agg GA/GP'].mean()) / team_stat_df['Agg GA/GP'].std()
     team_stat_df['Normalized GA/GP'] = (team_stat_df['z_score'] * SAMPLED_SIGMA) + SAMPLED_MU
     team_stat_df.drop(columns=['z_score'], inplace=True)

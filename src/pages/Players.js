@@ -48,6 +48,48 @@ function Players() {
         accessor: 'points',
         Cell: ({ value }) => Math.round(value),
       },
+      {
+        Header: 'Art Ross',
+        accessor: 'art_ross',
+        sortType: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return b - a;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
+      {
+        Header: 'Rocket',
+        accessor: 'rocket',
+        sortType: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return b - a;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
     ],
     [selectedColumn]
   );
