@@ -1,10 +1,11 @@
 # IceAnalytics
+
 [![GitHub release](https://img.shields.io/github/v/release/andrewderango/IceAnalytics.svg)](https://github.com/andrewderango/IceAnalytics/releases)
 [![Deploy to Firebase Hosting on PR](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-pull-request.yml)
 [![Deploy to Firebase Hosting on merge](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/andrewderango/IceAnalytics/actions/workflows/firebase-hosting-merge.yml)
 [![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://opensource.org/license/gpl-3-0)
 
-IceAnalytics is an open-source NHL analytics and projections platform that provides comprehensive data-driven insights into player and team performance, game outcomes, and playoff probabilities. Powered by a bootstrapped Monte Carlo ensemble projection engine, IceAnalytics offers a unique and in-depth look at the NHL, combining advanced analytics with user-friendly access to predictions.
+IceAnalytics is an open-source NHL analytics and projections platform that provides comprehensive data-driven insights into player and team performance, game outcomes, and playoff probabilities. Powered by a bootstrapped Monte Carlo ensemble projection engine, IceAnalytics offers a unique and in-depth look at the NHL, combining advanced analytics with user-friendly access to predictions. Visit the site at [iceanalytics.ca](https://iceanalytics.ca)!
 
 ## Mission
 
@@ -16,7 +17,7 @@ IceAnalytics is powered by a sophisticated bootstrapped Monte Carlo ensemble pro
 
 1. **Data Collection**: We scrape player and team statistical and biographical data from the NHL API for every season since 2007, widely considered to be the start of the analytics era in the NHL. The 2006-07 NHL season was the first to have publicized shot data became available and enable advanced models like expected goals (xG). These advanced analytics data provide a rich foundation for the modeling done for this engine. Scraping is done for the concurrent season's data as well, including player statistics, team performance metrics, and the complete game schedule to enable rest-of-season projections.
 
-2. **Model Training**: Leveraging the scrpaed historical data, our engine trains a series of models to infer metrics such as games played (GP), average time on ice (ATOI), goals (G), primary assists (A1), secondary assits (A2), and many defensive analytics such as team-level goals against (GA). These models include support vector regression, neural networks, and XGBoost, whose hyperparameters were optimized via Optuna.
+2. **Model Training**: Leveraging the scraped historical data, our engine trains a series of models to infer metrics such as games played (GP), average time on ice (ATOI), goals (G), primary assists (A1), secondary assits (A2), and many defensive analytics such as team-level goals against (GA). These models include support vector regression, neural networks, and XGBoost, whose hyperparameters were optimized via Optuna.
 
 3. **Inferencing**: Once the models are trained, we make inferences for the current season by integrating the predictions from these models with each player's ongoing performance. Subsequently, a Savitzky-Golay filter is applied for calibrative scaling. This helps the inferences better align with historical scaling and ensure a more accurate trend in player and team performance from season to season.
 
@@ -36,23 +37,12 @@ Ultimately, this process renders a model that projects future statistics and pro
 
 ## Contributing
 
-We welcome contributions! Whether it's improving the projection model, fixing bugs, or adding new features, feel free to submit pull requests. Here's how you can get started:
+We welcome your input and ideas to make IceAnalytics even better! If you have a feature request, suggestion for the site or the projection model, or notice an issue with the platform, we'd love to hear from you. Here's how you can contribute:
 
-1. Fork the repository.
-2. Create a new branch for your feature: 
-```
-git checkout -b feature-name
-```
-3. Make changes and commit them: 
-```
-git commit -m "Add new feature".
-```
-4. Push your changes: 
-```
-git push origin feature-name
-```
-5. Submit a pull request.
+- **Submit an Issue**: Create a GitHub issue in our repository with details about your feature request, suggestion, or bug report. Be as descriptive as possible so we can understand and address it effectively.
+- **Engage in Discussions**: Feel free to comment on existing issues or join discussions to help shape the future of IceAnalytics.
 
+Your feedback is invaluable in guiding the platform's development. Thank you for helping us improve IceAnalytics!
 
 ## License
 

@@ -55,6 +55,48 @@ function Players() {
         accessor: 'points',
         Cell: ({ value }) => Math.round(value),
       },
+      {
+        Header: 'Art Ross',
+        accessor: 'art_ross',
+        sortType: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return b - a;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
+      {
+        Header: 'Rocket',
+        accessor: 'rocket',
+        sortType: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return b - a;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
     ],
     [selectedColumn]
   );
@@ -62,7 +104,7 @@ function Players() {
   useEffect(() => {
     const fetchData = async () => {
       const { data: players, error } = await supabase
-        .from('player-projections')
+        .from('player_projections')
         .select('*');
       if (error) {
         console.error('Error fetching data:', error);
@@ -73,31 +115,39 @@ function Players() {
     };
     const fetchMetadata = async () => {
       try {
-        const response = await fetch('metadata.json');
-        if (response.ok) {
-          const metadata = await response.json();
-          const timestamp = metadata.endTimestamp;
-          const date = new Date(timestamp * 1000);
+        const { data, error } = await supabase
+          .from('last_update')
+          .select('datetime')
+          .order('datetime', { ascending: false })
+          .limit(1);
     
+        if (error) {
+          console.error('Error fetching metadata:', error);
+          return;
+        }
+    
+        if (data.length > 0) {
+          const timestamp = new Date(data[0].datetime);
           let formattedDate;
+    
           if (window.innerWidth < 600) {
             // MM/DD/YY for mobile
             const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-            formattedDate = date.toLocaleDateString('en-US', options);
+            formattedDate = timestamp.toLocaleDateString('en-US', options);
           } else {
             // full date otherwise
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            formattedDate = date.toLocaleDateString('en-US', options);
+            formattedDate = timestamp.toLocaleDateString('en-US', options);
           }
     
           setLastUpdated(formattedDate);
         } else {
-          console.error(`HTTP error! status: ${response.status}`);
+          console.error('No data found in last_update table.');
         }
       } catch (error) {
         console.error('Error fetching metadata:', error);
       }
-    };  
+    };
     fetchData();
     fetchMetadata();
   }, []);

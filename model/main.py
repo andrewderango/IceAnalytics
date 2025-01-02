@@ -81,9 +81,10 @@ def main():
     run_projection_engine(projection_year=PROJECTION_YEAR, simulations=SIMULATIONS, download_files=True, verbose=True) ###
 
     # Push the simulation results to Supabase
-    push_to_supabase(table_name="team-projections", projection_year=PROJECTION_YEAR, verbose=True)
-    push_to_supabase(table_name="player-projections", projection_year=PROJECTION_YEAR, verbose=True)
-    push_to_supabase(table_name="game-projections", projection_year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="team_projections", year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="player_projections", year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="game_projections", year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="last_update", year=PROJECTION_YEAR, verbose=True)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
     update_metadata(state=1, params=[time.time(), time.time()-start_time])
@@ -92,3 +93,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# double check deep copying
