@@ -50,13 +50,10 @@ function Player() {
   // Ensure all numeric fields have default values if they are undefined
   const {
     player: playerName,
-    team,
-    // position,
-    // jersey_number,
-    // games = 0,
-    // goals = 0,
-    // assists = 0,
-    // points = 0,
+    team = 'Chicago Blackhawks',
+    position,
+    jersey_number = 98,
+    age,
     logo,
   } = player;
 
@@ -72,20 +69,18 @@ function Player() {
         )}
         <div className="player-name">
           {playerName}
-          {/* <div className="player-jersey">#{jersey_number}</div>
-          <div className="player-position">{position}</div> */}
-          <div className="player-jersey">#98 - Chicago Blackhawks</div>
+          <div className="player-details">#{jersey_number} - {team}</div>
+        </div>
+        <div className="player-info">
+          <div className="player-age">
+            <span className="label">Age</span> {age}
+          </div>
+          <div className="player-position">
+            <span className="label">Position</span> {position}
+          </div>
         </div>
         {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
       </div>
-      {/* <div className="content">
-        <p><strong>Team:</strong> {team}</p>
-        <p><strong>Position:</strong> {position}</p>
-        <p><strong>Games Played:</strong> {games}</p>
-        <p><strong>Goals:</strong> {goals}</p>
-        <p><strong>Assists:</strong> {assists}</p>
-        <p><strong>Points:</strong> {points}</p>
-      </div> */}
     </div>
   );
 }

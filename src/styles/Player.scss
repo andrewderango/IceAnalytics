@@ -67,6 +67,25 @@
         }
       }
 
+      .player-info {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+
+        .player-age,
+        .player-position {
+          font-size: 24px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          margin-left: 10px;
+
+          .label {
+            font-size: 14px;
+            color: #777;
+          }
+        }
+      }
+
       .team-logo {
         height: 150px;
         width: 150px;
