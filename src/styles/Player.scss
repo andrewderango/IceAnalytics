@@ -34,7 +34,7 @@
 
       .player-headshot {
         height: 200px;
-        width: 200px;
+        width: auto;
       }
 
       .player-name {
@@ -43,13 +43,13 @@
         font-size: 42px;
         font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
-        margin: 75px 35px;
+        margin: 85px 30px;
       }
 
       .team-logo {
         height: 150px;
         width: 150px;
-        margin: 25px 25px;
+        margin: 25px 35px;
       }
     }
 
