@@ -48,7 +48,7 @@ def pull_espn_data(limit, download_files, verbose):
         print(f"Failed to fetch data: {response.status_code}")
 
 def main():
-    df = pull_espn_data(limit=5, download_files=True, verbose=True)
+    df = pull_espn_data(limit=1000, download_files=True, verbose=True)
 
 if __name__ == '__main__':
     main()
