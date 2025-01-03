@@ -51,11 +51,12 @@ function Player() {
   const {
     player: playerName,
     team,
-    position,
-    games = 0,
-    goals = 0,
-    assists = 0,
-    points = 0,
+    // position,
+    // jersey_number,
+    // games = 0,
+    // goals = 0,
+    // assists = 0,
+    // points = 0,
     logo,
   } = player;
 
@@ -69,17 +70,22 @@ function Player() {
             className="player-headshot"
           />
         )}
-        <div className="player-name">{playerName}</div>
+        <div className="player-name">
+          {playerName}
+          {/* <div className="player-jersey">#{jersey_number}</div>
+          <div className="player-position">{position}</div> */}
+          <div className="player-jersey">#98 - Chicago Blackhawks</div>
+        </div>
         {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
       </div>
-      <div className="content">
+      {/* <div className="content">
         <p><strong>Team:</strong> {team}</p>
         <p><strong>Position:</strong> {position}</p>
         <p><strong>Games Played:</strong> {games}</p>
         <p><strong>Goals:</strong> {goals}</p>
         <p><strong>Assists:</strong> {assists}</p>
         <p><strong>Points:</strong> {points}</p>
-      </div>
+      </div> */}
     </div>
   );
 }

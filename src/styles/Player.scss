@@ -43,7 +43,28 @@
         font-size: 42px;
         font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
-        margin: 85px 30px;
+        margin: 50px 30px;
+
+        .player-details {
+          font-size: 24px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          margin-top: 10px;
+        }
+
+        .player-jersey {
+          font-size: 24px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          margin-top: 5px;
+        }
+
+        .player-position {
+          font-size: 24px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          margin-top: 5px;
+        }
       }
 
       .team-logo {
