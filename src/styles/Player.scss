@@ -1,6 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+    font-family: 'Sweet Sans Pro Heavy';
+    src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Regular';
+    src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Sweet Sans Pro Thin';
+    src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
+        url('../assets/fonts/SweetSansProThin.woff') format('woff');
+}
+
 .player {
     color: white;
-    background-color: #333;
+    background-color: #111;
     padding: 20px;
     margin: 10px auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -9,19 +26,12 @@
       height: 200px;
       width: calc(100% + 40px);
       margin: -20px -20px;
-      background-color: #555;
+      background-color: #222;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       padding: 0 20px;
 
-      // .player-headshot {
-      //   height: 200px;
-      //   width: 200px;
-      //   border-radius: 50%;
-      //   border: 5px solid #333;
-      //   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      // }
       .player-headshot {
         height: 200px;
         width: 200px;
@@ -29,15 +39,17 @@
 
       .player-name {
         flex-grow: 1;
-        text-align: center;
-        font-size: 24px;
+        text-align: left;
+        font-size: 42px;
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
+        margin: 75px 35px;
       }
 
       .team-logo {
         height: 150px;
         width: 150px;
-        margin: 25px 25px
+        margin: 25px 25px;
       }
     }
 
