@@ -489,6 +489,15 @@ def push_to_supabase(table_name, year, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
+        
+        # merge in ESPN headshots
+        player_bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'))
+        player_bios_df = player_bios_df[['PlayerID', 'EspnHeadshot']]
+        player_bios_df.rename(columns={'PlayerID': 'player_id', 'EspnHeadshot': 'espn_headshot'}, inplace=True)
+        player_bios_df = player_bios_df.drop_duplicates(subset='player_id', keep='first')
+        player_bios_df['espn_headshot'] = player_bios_df['espn_headshot'].fillna('N/A')
+        df = df.merge(player_bios_df, on='player_id', how='left')
+
         df = df.drop(columns=['TOI'])
         df = df.dropna(subset=['logo'])
     elif table_name == 'game_projections':
