@@ -18,7 +18,7 @@ function Player() {
       }
 
       const { data, error } = await supabase
-        .from('player-projections')
+        .from('player_projections')
         .select('*')
         .eq('player_id', playerId)
         .single();
@@ -61,21 +61,23 @@ function Player() {
 
   return (
     <div className="player">
-    <h1>{playerName}</h1>
-    {logo && <img src={logo} alt={`${playerName} logo`} className="player-logo" />}
-    {team && playerId && (
-        <img
-        src={`https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
-        alt={`${playerName} headshot`}
-        className="player-headshot"
-        />
-    )}
-    <p><strong>Team:</strong> {team}</p>
-    <p><strong>Position:</strong> {position}</p>
-    <p><strong>Games Played:</strong> {games}</p>
-    <p><strong>Goals:</strong> {goals}</p>
-    <p><strong>Assists:</strong> {assists}</p>
-    <p><strong>Points:</strong> {points}</p>
+      <div className="header-bar">
+        {team && playerId && (
+          <img
+            src={`https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
+            alt={`${playerName} headshot`}
+            className="player-headshot"
+          />
+        )}
+        <div className="player-name">{playerName}</div>
+        {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
+      </div>
+      <p><strong>Team:</strong> {team}</p>
+      <p><strong>Position:</strong> {position}</p>
+      <p><strong>Games Played:</strong> {games}</p>
+      <p><strong>Goals:</strong> {goals}</p>
+      <p><strong>Assists:</strong> {assists}</p>
+      <p><strong>Points:</strong> {points}</p>
     </div>
   );
 }

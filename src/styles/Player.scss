@@ -2,11 +2,45 @@
     color: white;
     background-color: #333;
     padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 20px auto;
+    margin: 10px auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  a
+  
+    .header-bar {
+      height: 200px;
+      width: calc(100% + 40px);
+      margin: -20px -20px;
+      background-color: #555;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 20px;
+
+      // .player-headshot {
+      //   height: 200px;
+      //   width: 200px;
+      //   border-radius: 50%;
+      //   border: 5px solid #333;
+      //   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      // }
+      .player-headshot {
+        height: 200px;
+        width: 200px;
+      }
+
+      .player-name {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 24px;
+        color: white;
+      }
+
+      .team-logo {
+        height: 150px;
+        width: 150px;
+        margin: 25px 25px
+      }
+    }
+
     h1 {
       margin-bottom: 10px;
     }
