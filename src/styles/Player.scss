@@ -28,7 +28,7 @@
       margin: -20px -20px;
       background-color: #222;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       padding: 0 20px;
 
@@ -37,13 +37,19 @@
         width: auto;
       }
 
+      .player-headshot-name {
+        display: flex;
+        align-items: center;
+      }
+
       .player-name {
-        flex-grow: 1;
+        flex-grow: 0;
+        display: inline-block;
         text-align: left;
         font-size: 42px;
         font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
-        margin: 50px 30px;
+        margin-left: 25px;
 
         .player-details {
           font-size: 24px;
@@ -51,37 +57,30 @@
           color: #aaa;
           margin-top: 10px;
         }
-
-        .player-jersey {
-          font-size: 24px;
-          font-family: 'Sweet Sans Pro Regular', sans-serif;
-          color: #aaa;
-          margin-top: 5px;
-        }
-
-        .player-position {
-          font-size: 24px;
-          font-family: 'Sweet Sans Pro Regular', sans-serif;
-          color: #aaa;
-          margin-top: 5px;
-        }
       }
 
       .player-info {
         display: flex;
+        flex-direction: row;
         align-items: center;
-        margin-right: 20px;
+        justify-content: center;
+        margin: 20px 10px 0px 10px;
 
         .player-age,
         .player-position {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
           font-size: 24px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: #aaa;
-          margin-left: 10px;
+          margin: 0 20px;
 
           .label {
             font-size: 14px;
             color: #777;
+            margin-right: 10px;
           }
         }
       }
@@ -89,7 +88,7 @@
       .team-logo {
         height: 150px;
         width: 150px;
-        margin: 25px 35px;
+        margin: 0 35px;
       }
     }
 

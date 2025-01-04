@@ -60,23 +60,25 @@ function Player() {
   return (
     <div className="player">
       <div className="header-bar">
-        {team && playerId && (
-          <img
-            src={player.espn_headshot !== "N/A" ? player.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
-            alt={`${playerName} headshot`}
-            className="player-headshot"
-          />
-        )}
-        <div className="player-name">
-          {playerName}
-          <div className="player-details">#{jersey_number} - {team}</div>
+        <div className="player-headshot-name">
+          {team && playerId && (
+            <img
+              src={player.espn_headshot !== "N/A" ? player.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
+              alt={`${playerName} headshot`}
+              className="player-headshot"
+            />
+          )}
+          <div className="player-name">
+            {playerName}
+            <div className="player-details">#{jersey_number} - {team}</div>
+          </div>
         </div>
         <div className="player-info">
-          <div className="player-age">
-            <span className="label">Age</span> {age}
-          </div>
           <div className="player-position">
             <span className="label">Position</span> {position}
+          </div>
+          <div className="player-age">
+            <span className="label">Age</span> {age}
           </div>
         </div>
         {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
