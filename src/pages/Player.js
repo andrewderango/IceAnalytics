@@ -257,6 +257,14 @@ function Player() {
         },
       },
     },
+    plugins: {
+      tooltip: {
+        enabled: false,
+      },
+    },
+    hover: {
+      mode: null,
+    },
   };
 
   return (
