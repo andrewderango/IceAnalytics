@@ -108,113 +108,68 @@ function Player() {
   const artRossProbability = (art_ross * 100).toFixed(2);
   const rocketRichardProbability = (rocket * 100).toFixed(2);
 
+  const renderPIBox = (low, high) => (
+    <div className="pi-row">
+      <div className="pi-item">
+        {low.toFixed(1)}
+        <div className="label">90% PI Min</div>
+      </div>
+      <div className="pi-item">
+        {high.toFixed(1)}
+        <div className="label">90% PI Max</div>
+      </div>
+    </div>
+  );
+
+  const renderBenchmarks = (benchmarks) => (
+    <div className="benchmarks-row">
+      {benchmarks.map((benchmark, index) => (
+        <div key={index} className="benchmark-item">
+          {(benchmark.value * 100).toFixed(1)}%
+          <div className="label">{benchmark.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+
   const renderProbabilityContent = () => {
     switch (activeTab) {
       case 'goals':
         return (
           <>
-            <div className="pi-row">
-              <div className="pi-item">
-                {goals_90pi_low.toFixed(1)}
-                <div className="label">90% PI Min</div>
-              </div>
-              <div className="pi-item">
-                {goals_90pi_high.toFixed(1)}
-                <div className="label">90% PI Max</div>
-              </div>
-            </div>
-            <div className="benchmarks-row">
-              <div className="benchmark-item">
-                {(p_20g * 100).toFixed(1)}%
-                <div className="label">20 Goals</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_30g * 100).toFixed(1)}%
-                <div className="label">30 Goals</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_40g * 100).toFixed(1)}%
-                <div className="label">40 Goals</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_50g * 100).toFixed(1)}%
-                <div className="label">50 Goals</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_60g * 100).toFixed(1)}%
-                <div className="label">60 Goals</div>
-              </div>
-            </div>
+            {renderPIBox(goals_90pi_low, goals_90pi_high)}
+            {renderBenchmarks([
+              { value: p_20g, label: '20 Goals' },
+              { value: p_30g, label: '30 Goals' },
+              { value: p_40g, label: '40 Goals' },
+              { value: p_50g, label: '50 Goals' },
+              { value: p_60g, label: '60 Goals' },
+            ])}
           </>
         );
       case 'assists':
         return (
           <>
-            <div className="pi-row">
-              <div className="pi-item">
-                {assists_90pi_low.toFixed(1)}
-                <div className="label">90% PI Min</div>
-              </div>
-              <div className="pi-item">
-                {assists_90pi_high.toFixed(1)}
-                <div className="label">90% PI Max</div>
-              </div>
-            </div>
-            <div className="benchmarks-row">
-              <div className="benchmark-item">
-                {(p_25a * 100).toFixed(1)}%
-                <div className="label">25 Assists</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_50a * 100).toFixed(1)}%
-                <div className="label">50 Assists</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_75a * 100).toFixed(1)}%
-                <div className="label">75 Assists</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_100a * 100).toFixed(1)}%
-                <div className="label">100 Assists</div>
-              </div>
-            </div>
+            {renderPIBox(assists_90pi_low, assists_90pi_high)}
+            {renderBenchmarks([
+              { value: p_25a, label: '25 Assists' },
+              { value: p_50a, label: '50 Assists' },
+              { value: p_75a, label: '75 Assists' },
+              { value: p_100a, label: '100 Assists' },
+            ])}
           </>
         );
       case 'points':
         return (
           <>
-            <div className="pi-row">
-              <div className="pi-item">
-                {points_90pi_low.toFixed(1)}
-                <div className="label">90% PI Min</div>
-              </div>
-              <div className="pi-item">
-                {points_90pi_high.toFixed(1)}
-                <div className="label">90% PI Max</div>
-              </div>
-            </div>
-            <div className="benchmarks-row">
-              <div className="benchmark-item">
-                {(p_50p * 100).toFixed(1)}%
-                <div className="label">50 Points</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_75p * 100).toFixed(1)}%
-                <div className="label">75 Points</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_100p * 100).toFixed(1)}%
-                <div className="label">100 Points</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_125p * 100).toFixed(1)}%
-                <div className="label">125 Points</div>
-              </div>
-              <div className="benchmark-item">
-                {(p_150p * 100).toFixed(1)}%
-                <div className="label">150 Points</div>
-              </div>
-            </div>
+            {renderPIBox(points_90pi_low, points_90pi_high)}
+            {renderBenchmarks([
+              { value: p_50p, label: '50 Points' },
+              { value: p_75p, label: '75 Points' },
+              { value: p_100p, label: '100 Points' },
+              { value: p_125p, label: '125 Points' },
+              { value: p_150p, label: '150 Points' },
+            ])}
           </>
         );
       default:
