@@ -105,7 +105,7 @@
 
       .projections {
         border: 1px solid #444;
-        padding: 20px 15px 10px 15px;
+        padding: 20px 15px 15px 15px;
         margin-top: 20px;
         position: relative;
 
@@ -141,7 +141,8 @@
           background-color: #222;
           padding: 10px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-          width: 75px;
+          width: 20%;
+          margin: 0 10px;
 
           .label {
             font-size: 14px;
@@ -158,8 +159,8 @@
           background-color: #222;
           padding: 10px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-          width: 80%;
-          margin: 20px 20px;
+          width: 50%;
+          margin: 20px 10px;
 
           .label {
             font-size: 14px;
@@ -170,9 +171,9 @@
       }
 
       .probabilities {
-        margin-top: 20px;
+        margin-top: 40px;
         border: 1px solid #444;
-        padding: 20px 15px 10px 15px;
+        padding: 20px 15px 15px 15px;
         background-color: #111;
         position: relative;
 
@@ -197,7 +198,7 @@
             font-size: 18px;
             font-family: 'Sweet Sans Pro Regular', sans-serif;
             color: #aaa;
-            padding: 10px;
+            padding: 5px;
             cursor: pointer;
             &.active {
               color: white;
@@ -211,44 +212,14 @@
           flex-direction: column;
           align-items: center;
 
-          .awards-row {
+          .benchmarks-row {
             display: flex;
             justify-content: space-around;
             margin-top: 10px;
             width: 100%;
           }
 
-          .projections-row {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 10px;
-            width: 100%;
-          }
-
-          .probability-item,
-          .wide-projection-item {
-            text-align: center;
-            font-size: 24px;
-            font-family: 'Sweet Sans Pro Regular', sans-serif;
-            color: #aaa;
-            background-color: #222;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 75px;
-
-            .label {
-              font-size: 14px;
-              color: #777;
-              margin-top: 5px;
-            }
-          }
-
-          .wide-projection-item {
-            width: 80%;
-            margin: 20px 20px;
-          }
-
-          .pi-box {
+          .pi-row {
             display: flex;
             justify-content: space-around;
             width: 100%;
@@ -271,12 +242,30 @@
               }
             }
           }
+
+          .benchmark-item {
+            text-align: center;
+            font-size: 24px;
+            font-family: 'Sweet Sans Pro Regular', sans-serif;
+            color: #aaa;
+            background-color: #222;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 75px;
+            margin: 5px;
+
+            .label {
+              font-size: 14px;
+              color: #777;
+              margin-top: 5px;
+            }
+          }
         }
       }
 
       .chart-container {
         border: 1px solid #444;
-        padding: 20px 15px 10px 15px;
+        padding: 20px 15px 15px 15px;
         margin-top: 20px;
         background-color: #111;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

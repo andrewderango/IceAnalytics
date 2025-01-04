@@ -10,7 +10,7 @@ function Player() {
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('goals');
+  const [activeTab, setActiveTab] = useState('points');
   const [allPlayers, setAllPlayers] = useState([]);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ function Player() {
       case 'goals':
         return (
           <>
-            <div className="pi-box">
+            <div className="pi-row">
               <div className="pi-item">
                 {goals_90pi_low.toFixed(1)}
                 <div className="label">90% PI Min</div>
@@ -123,25 +123,25 @@ function Player() {
                 <div className="label">90% PI Max</div>
               </div>
             </div>
-            <div className="projections-row">
-              <div className="projection-item">
-                {p_20g.toFixed(2)}%
+            <div className="benchmarks-row">
+              <div className="benchmark-item">
+                {(p_20g * 100).toFixed(1)}%
                 <div className="label">20 Goals</div>
               </div>
-              <div className="projection-item">
-                {p_30g.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_30g * 100).toFixed(1)}%
                 <div className="label">30 Goals</div>
               </div>
-              <div className="projection-item">
-                {p_40g.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_40g * 100).toFixed(1)}%
                 <div className="label">40 Goals</div>
               </div>
-              <div className="projection-item">
-                {p_50g.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_50g * 100).toFixed(1)}%
                 <div className="label">50 Goals</div>
               </div>
-              <div className="projection-item">
-                {p_60g.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_60g * 100).toFixed(1)}%
                 <div className="label">60 Goals</div>
               </div>
             </div>
@@ -150,7 +150,7 @@ function Player() {
       case 'assists':
         return (
           <>
-            <div className="pi-box">
+            <div className="pi-row">
               <div className="pi-item">
                 {assists_90pi_low.toFixed(1)}
                 <div className="label">90% PI Min</div>
@@ -160,21 +160,21 @@ function Player() {
                 <div className="label">90% PI Max</div>
               </div>
             </div>
-            <div className="projections-row">
-              <div className="projection-item">
-                {p_25a.toFixed(2)}%
+            <div className="benchmarks-row">
+              <div className="benchmark-item">
+                {(p_25a * 100).toFixed(1)}%
                 <div className="label">25 Assists</div>
               </div>
-              <div className="projection-item">
-                {p_50a.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_50a * 100).toFixed(1)}%
                 <div className="label">50 Assists</div>
               </div>
-              <div className="projection-item">
-                {p_75a.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_75a * 100).toFixed(1)}%
                 <div className="label">75 Assists</div>
               </div>
-              <div className="projection-item">
-                {p_100a.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_100a * 100).toFixed(1)}%
                 <div className="label">100 Assists</div>
               </div>
             </div>
@@ -183,7 +183,7 @@ function Player() {
       case 'points':
         return (
           <>
-            <div className="pi-box">
+            <div className="pi-row">
               <div className="pi-item">
                 {points_90pi_low.toFixed(1)}
                 <div className="label">90% PI Min</div>
@@ -193,25 +193,25 @@ function Player() {
                 <div className="label">90% PI Max</div>
               </div>
             </div>
-            <div className="projections-row">
-              <div className="projection-item">
-                {p_50p.toFixed(2)}%
+            <div className="benchmarks-row">
+              <div className="benchmark-item">
+                {(p_50p * 100).toFixed(1)}%
                 <div className="label">50 Points</div>
               </div>
-              <div className="projection-item">
-                {p_75p.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_75p * 100).toFixed(1)}%
                 <div className="label">75 Points</div>
               </div>
-              <div className="projection-item">
-                {p_100p.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_100p * 100).toFixed(1)}%
                 <div className="label">100 Points</div>
               </div>
-              <div className="projection-item">
-                {p_125p.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_125p * 100).toFixed(1)}%
                 <div className="label">125 Points</div>
               </div>
-              <div className="projection-item">
-                {p_150p.toFixed(2)}%
+              <div className="benchmark-item">
+                {(p_150p * 100).toFixed(1)}%
                 <div className="label">150 Points</div>
               </div>
             </div>
