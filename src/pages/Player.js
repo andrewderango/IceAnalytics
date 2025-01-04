@@ -72,8 +72,8 @@ function Player() {
   } = player;
 
   const pointsPerGame = (points / games).toFixed(2);
-  const artRossProbability = art_ross.toFixed(2);
-  const rocketRichardProbability = rocket.toFixed(2);
+  const artRossProbability = (art_ross * 100).toFixed(2);
+  const rocketRichardProbability = (rocket * 100).toFixed(2);
 
   const renderProbabilityContent = () => {
     switch (activeTab) {
@@ -81,11 +81,11 @@ function Player() {
         return (
           <>
             <div className="probability-item">
-              {goals_90}
+              {(goals_90 * 100).toFixed(2)}%
               <div className="label">90% Prediction Interval</div>
             </div>
             <div className="probability-item">
-              {goals_benchmarks}
+              {(goals_benchmarks * 100).toFixed(2)}%
               <div className="label">Probability Benchmarks</div>
             </div>
           </>
@@ -94,11 +94,11 @@ function Player() {
         return (
           <>
             <div className="probability-item">
-              {assists_90}
+              {(assists_90 * 100).toFixed(2)}%
               <div className="label">90% Prediction Interval</div>
             </div>
             <div className="probability-item">
-              {assists_benchmarks}
+              {(assists_benchmarks * 100).toFixed(2)}%
               <div className="label">Probability Benchmarks</div>
             </div>
           </>
@@ -107,11 +107,11 @@ function Player() {
         return (
           <>
             <div className="probability-item">
-              {points_90}
+              {(points_90 * 100).toFixed(2)}%
               <div className="label">90% Prediction Interval</div>
             </div>
             <div className="probability-item">
-              {points_benchmarks}
+              {(points_benchmarks * 100).toFixed(2)}%
               <div className="label">Probability Benchmarks</div>
             </div>
           </>
