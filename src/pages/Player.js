@@ -82,12 +82,26 @@ function Player() {
     points,
     art_ross,
     rocket,
-    goals_90,
-    assists_90,
-    points_90,
-    goals_benchmarks,
-    assists_benchmarks,
-    points_benchmarks,
+    goals_90pi_low,
+    goals_90pi_high,
+    assists_90pi_low,
+    assists_90pi_high,
+    points_90pi_low,
+    points_90pi_high,
+    p_20g,
+    p_30g,
+    p_40g,
+    p_50g,
+    p_60g,
+    p_25a,
+    p_50a,
+    p_75a,
+    p_100a,
+    p_50p,
+    p_75p,
+    p_100p,
+    p_125p,
+    p_150p
   } = player;
 
   const pointsPerGame = (points / games).toFixed(2);
@@ -99,39 +113,107 @@ function Player() {
       case 'goals':
         return (
           <>
-            <div className="probability-item">
-              {(goals_90 * 100).toFixed(2)}%
-              <div className="label">90% Prediction Interval</div>
+            <div className="pi-box">
+              <div className="pi-item">
+                {goals_90pi_low.toFixed(1)}
+                <div className="label">90% PI Min</div>
+              </div>
+              <div className="pi-item">
+                {goals_90pi_high.toFixed(1)}
+                <div className="label">90% PI Max</div>
+              </div>
             </div>
-            <div className="probability-item">
-              {(goals_benchmarks * 100).toFixed(2)}%
-              <div className="label">Probability Benchmarks</div>
+            <div className="projections-row">
+              <div className="projection-item">
+                {p_20g.toFixed(2)}%
+                <div className="label">20 Goals</div>
+              </div>
+              <div className="projection-item">
+                {p_30g.toFixed(2)}%
+                <div className="label">30 Goals</div>
+              </div>
+              <div className="projection-item">
+                {p_40g.toFixed(2)}%
+                <div className="label">40 Goals</div>
+              </div>
+              <div className="projection-item">
+                {p_50g.toFixed(2)}%
+                <div className="label">50 Goals</div>
+              </div>
+              <div className="projection-item">
+                {p_60g.toFixed(2)}%
+                <div className="label">60 Goals</div>
+              </div>
             </div>
           </>
         );
       case 'assists':
         return (
           <>
-            <div className="probability-item">
-              {(assists_90 * 100).toFixed(2)}%
-              <div className="label">90% Prediction Interval</div>
+            <div className="pi-box">
+              <div className="pi-item">
+                {assists_90pi_low.toFixed(1)}
+                <div className="label">90% PI Min</div>
+              </div>
+              <div className="pi-item">
+                {assists_90pi_high.toFixed(1)}
+                <div className="label">90% PI Max</div>
+              </div>
             </div>
-            <div className="probability-item">
-              {(assists_benchmarks * 100).toFixed(2)}%
-              <div className="label">Probability Benchmarks</div>
+            <div className="projections-row">
+              <div className="projection-item">
+                {p_25a.toFixed(2)}%
+                <div className="label">25 Assists</div>
+              </div>
+              <div className="projection-item">
+                {p_50a.toFixed(2)}%
+                <div className="label">50 Assists</div>
+              </div>
+              <div className="projection-item">
+                {p_75a.toFixed(2)}%
+                <div className="label">75 Assists</div>
+              </div>
+              <div className="projection-item">
+                {p_100a.toFixed(2)}%
+                <div className="label">100 Assists</div>
+              </div>
             </div>
           </>
         );
       case 'points':
         return (
           <>
-            <div className="probability-item">
-              {(points_90 * 100).toFixed(2)}%
-              <div className="label">90% Prediction Interval</div>
+            <div className="pi-box">
+              <div className="pi-item">
+                {points_90pi_low.toFixed(1)}
+                <div className="label">90% PI Min</div>
+              </div>
+              <div className="pi-item">
+                {points_90pi_high.toFixed(1)}
+                <div className="label">90% PI Max</div>
+              </div>
             </div>
-            <div className="probability-item">
-              {(points_benchmarks * 100).toFixed(2)}%
-              <div className="label">Probability Benchmarks</div>
+            <div className="projections-row">
+              <div className="projection-item">
+                {p_50p.toFixed(2)}%
+                <div className="label">50 Points</div>
+              </div>
+              <div className="projection-item">
+                {p_75p.toFixed(2)}%
+                <div className="label">75 Points</div>
+              </div>
+              <div className="projection-item">
+                {p_100p.toFixed(2)}%
+                <div className="label">100 Points</div>
+              </div>
+              <div className="projection-item">
+                {p_125p.toFixed(2)}%
+                <div className="label">125 Points</div>
+              </div>
+              <div className="projection-item">
+                {p_150p.toFixed(2)}%
+                <div className="label">150 Points</div>
+              </div>
             </div>
           </>
         );
