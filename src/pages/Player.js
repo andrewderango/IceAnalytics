@@ -241,6 +241,7 @@ function Player() {
             </div>
           </div>
           <div className="probabilities">
+            <div className="header">Benchmark Probabilities</div>
             <div className="tabs">
               <div className={`tab ${activeTab === 'goals' ? 'active' : ''}`} onClick={() => setActiveTab('goals')}>
                 Goals
