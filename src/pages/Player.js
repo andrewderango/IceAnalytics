@@ -8,6 +8,7 @@ function Player() {
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('goals');
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -62,11 +63,63 @@ function Player() {
     points,
     art_ross,
     rocket,
+    goals_90,
+    assists_90,
+    points_90,
+    goals_benchmarks,
+    assists_benchmarks,
+    points_benchmarks,
   } = player;
 
   const pointsPerGame = (points / games).toFixed(2);
   const artRossProbability = art_ross.toFixed(2);
   const rocketRichardProbability = rocket.toFixed(2);
+
+  const renderProbabilityContent = () => {
+    switch (activeTab) {
+      case 'goals':
+        return (
+          <>
+            <div className="probability-item">
+              {goals_90}
+              <div className="label">90% Prediction Interval</div>
+            </div>
+            <div className="probability-item">
+              {goals_benchmarks}
+              <div className="label">Probability Benchmarks</div>
+            </div>
+          </>
+        );
+      case 'assists':
+        return (
+          <>
+            <div className="probability-item">
+              {assists_90}
+              <div className="label">90% Prediction Interval</div>
+            </div>
+            <div className="probability-item">
+              {assists_benchmarks}
+              <div className="label">Probability Benchmarks</div>
+            </div>
+          </>
+        );
+      case 'points':
+        return (
+          <>
+            <div className="probability-item">
+              {points_90}
+              <div className="label">90% Prediction Interval</div>
+            </div>
+            <div className="probability-item">
+              {points_benchmarks}
+              <div className="label">Probability Benchmarks</div>
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="player">
@@ -97,6 +150,7 @@ function Player() {
       <div className="content">
         <div className="left-content">
           <div className="projections">
+            <div className="header">Projections</div>
             <div className="projections-row">
               <div className="projection-item">
                 {Math.round(games)}
@@ -128,6 +182,22 @@ function Player() {
                 {rocketRichardProbability}%
                 <div className="label">Rocket Richard Trophy</div>
               </div>
+            </div>
+          </div>
+          <div className="probabilities">
+            <div className="tabs">
+              <div className={`tab ${activeTab === 'goals' ? 'active' : ''}`} onClick={() => setActiveTab('goals')}>
+                Goals
+              </div>
+              <div className={`tab ${activeTab === 'assists' ? 'active' : ''}`} onClick={() => setActiveTab('assists')}>
+                Assists
+              </div>
+              <div className={`tab ${activeTab === 'points' ? 'active' : ''}`} onClick={() => setActiveTab('points')}>
+                Points
+              </div>
+            </div>
+            <div className="probability-content">
+              {renderProbabilityContent()}
             </div>
           </div>
         </div>

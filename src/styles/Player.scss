@@ -103,14 +103,36 @@
         width: 48%;
       }
 
-      .projections-row,
-      .awards-row {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-      }
-
       .projections {
+        border: 1px solid #444;
+        padding: 20px 15px 10px 15px;
+        margin-top: 20px;
+        position: relative;
+
+        .header {
+          position: absolute;
+          top: -10px;
+          left: 20px;
+          background-color: #111;
+          padding: 0 10px;
+          font-size: 18px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: white;
+          width: auto;
+        }
+
+        .projections-row {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 10px;
+        }
+
+        .awards-row {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 10px;
+        }
+
         .projection-item {
           text-align: center;
           font-size: 24px;
@@ -143,6 +165,50 @@
             font-size: 14px;
             color: #777;
             margin-top: 5px;
+          }
+        }
+      }
+
+      .probabilities {
+        margin-top: 20px;
+
+        .tabs {
+          display: flex;
+          justify-content: space-around;
+          margin-bottom: 20px;
+
+          .tab {
+            font-size: 18px;
+            font-family: 'Sweet Sans Pro Regular', sans-serif;
+            color: #aaa;
+            padding: 10px;
+            cursor: pointer;
+            &.active {
+              color: white;
+              border-bottom: 2px solid #daa520;
+            }
+          }
+        }
+
+        .probability-content {
+          display: flex;
+          justify-content: space-around;
+
+          .probability-item {
+            text-align: center;
+            font-size: 24px;
+            font-family: 'Sweet Sans Pro Regular', sans-serif;
+            color: #aaa;
+            background-color: #222;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 150px;
+
+            .label {
+              font-size: 14px;
+              color: #777;
+              margin-top: 5px;
+            }
           }
         }
       }
