@@ -262,7 +262,7 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
         else:
             response = requests.get(f'https://api-web.nhle.com/v1/skater-stats-leaders/{year-2}{year-1}/2?categories=toi&limit=9999')
         data = response.json()
-        df = pd.DataFrame(columns=['PlayerID', 'Player', 'Team', 'Position', 'Headshot', 'Team Logo'])
+        df = pd.DataFrame(columns=['PlayerID', 'Player', 'Team', 'Position', 'Headshot', 'Team Logo', 'Jersey Number'])
         
         for player in data['toi']:
             new_row = pd.DataFrame({
@@ -271,7 +271,8 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
                 'Team': [player['teamAbbrev']], 
                 'Position': [player['position']],
                 'Headshot': [player['headshot']],
-                'Team Logo': [player['teamLogo']]
+                'Team Logo': [player['teamLogo']],
+                'Jersey Number': [player['sweaterNumber']]
             })
             df = pd.concat([df, new_row], ignore_index=True)
 
@@ -492,12 +493,13 @@ def push_to_supabase(table_name, year, verbose=False):
         
         # merge in ESPN headshots
         player_bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'))
-        player_bios_df = player_bios_df[['PlayerID', 'EspnHeadshot']]
-        player_bios_df.rename(columns={'PlayerID': 'player_id', 'EspnHeadshot': 'espn_headshot'}, inplace=True)
+        player_bios_df = player_bios_df[['PlayerID', 'EspnHeadshot', 'Jersey Number']]
+        player_bios_df.rename(columns={'PlayerID': 'player_id', 'EspnHeadshot': 'espn_headshot', 'Jersey Number': 'jersey_number'}, inplace=True)
         player_bios_df = player_bios_df.drop_duplicates(subset='player_id', keep='first')
         player_bios_df['espn_headshot'] = player_bios_df['espn_headshot'].fillna('N/A')
+        player_bios_df['jersey_number'] = player_bios_df['jersey_number'].fillna(0)
+        player_bios_df['jersey_number'] = player_bios_df['jersey_number'].astype(int)
         df = df.merge(player_bios_df, on='player_id', how='left')
-
         df = df.drop(columns=['TOI'])
         df = df.dropna(subset=['logo'])
     elif table_name == 'game_projections':
