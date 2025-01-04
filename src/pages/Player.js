@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Player.scss';
+import { Scatter } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 function Player() {
   const { playerId } = useParams();
@@ -9,6 +11,7 @@ function Player() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('goals');
+  const [allPlayers, setAllPlayers] = useState([]);
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -36,6 +39,22 @@ function Player() {
 
     fetchPlayer();
   }, [playerId]);
+
+  useEffect(() => {
+    const fetchAllPlayers = async () => {
+      const { data, error } = await supabase
+        .from('player_projections')
+        .select('player_id, goals, assists');
+
+      if (error) {
+        console.error('Error fetching all players data:', error);
+      } else {
+        setAllPlayers(data);
+      }
+    };
+
+    fetchAllPlayers();
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -121,6 +140,43 @@ function Player() {
     }
   };
 
+  const scatterData = {
+    datasets: [
+      {
+        label: 'All Players',
+        data: allPlayers
+          .filter(p => p.goals !== goals && p.assists !== assists)
+          .map(p => ({ x: p.goals, y: p.assists })),
+        backgroundColor: 'rgba(75, 75, 75, 0.6)',
+        order: 2,
+      },
+      {
+        label: playerName,
+        data: [{ x: goals, y: assists }],
+        backgroundColor: 'goldenrod',
+        pointRadius: 4,
+        order: 1,
+      },
+    ],
+  };
+
+  const scatterOptions = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Goals',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Assists',
+        },
+      },
+    },
+  };
+
   return (
     <div className="player">
       <div className="header-bar">
@@ -202,7 +258,10 @@ function Player() {
           </div>
         </div>
         <div className="right-content">
-          <div className="bio-title">Charts</div>
+          <div className="chart-container">
+            <div className="header">Relative Production Efficiency</div>
+            <Scatter data={scatterData} options={scatterOptions} />
+          </div>
         </div>
       </div>
     </div>

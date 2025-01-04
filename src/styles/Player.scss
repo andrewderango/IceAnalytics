@@ -212,6 +212,27 @@
           }
         }
       }
+
+      .chart-container {
+        border: 1px solid #444;
+        padding: 20px 15px 10px 15px;
+        margin-top: 20px;
+        background-color: #111;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        position: relative;
+
+        .header {
+          position: absolute;
+          top: -10px;
+          left: 20px;
+          background-color: #111;
+          padding: 0 10px;
+          font-size: 18px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: white;
+          width: auto;
+        }
+      }
     }
 
     h1 {
