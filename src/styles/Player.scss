@@ -192,13 +192,13 @@
         .tabs {
           display: flex;
           justify-content: space-around;
-          margin-bottom: 20px;
 
           .tab {
             font-size: 18px;
             font-family: 'Sweet Sans Pro Regular', sans-serif;
             color: #aaa;
             padding: 5px;
+            margin-top: 10px;
             cursor: pointer;
             &.active {
               color: white;
@@ -233,7 +233,8 @@
               background-color: #222;
               padding: 10px;
               box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-              width: 45%;
+              width: 50%;
+              margin: 20px 10px;
 
               .label {
                 font-size: 14px;
@@ -252,7 +253,8 @@
             padding: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             width: 75px;
-            margin: 5px;
+            width: 20%;
+            margin: 0 10px;
 
             .label {
               font-size: 14px;
