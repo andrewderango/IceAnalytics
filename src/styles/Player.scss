@@ -20,7 +20,6 @@
     background-color: #111;
     padding: 20px;
     margin: 10px auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   
     .header-bar {
       height: 200px;
@@ -89,6 +88,42 @@
         height: 150px;
         width: 150px;
         margin: 0 35px;
+      }
+    }
+
+    .content {
+      padding: 20px;
+      background-color: #111;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      .left-content,
+      .right-content {
+        width: 48%;
+      }
+
+      .projections {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+
+        .projection-item {
+          text-align: center;
+          font-size: 24px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          background-color: #222;
+          padding: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          width: 75px;
+
+          .label {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+          }
+        }
       }
     }
 

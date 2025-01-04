@@ -48,7 +48,6 @@ function Player() {
     return <div>Player not found</div>;
   }
 
-  // Ensure all numeric fields have default values if they are undefined
   const {
     player: playerName,
     team_name = 'NHL',
@@ -57,7 +56,13 @@ function Player() {
     jersey_number = 98,
     age,
     logo,
+    games,
+    goals,
+    assists,
+    points,
   } = player;
+
+  const pointsPerGame = (points / games).toFixed(2);
 
   return (
     <div className="player">
@@ -84,6 +89,35 @@ function Player() {
           </div>
         </div>
         {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
+      </div>
+      <div className="content">
+        <div className="left-content">
+          <div className="projections">
+            <div className="projection-item">
+              {Math.round(games)}
+              <div className="label">Games</div>
+            </div>
+            <div className="projection-item">
+              {Math.round(goals)}
+              <div className="label">Goals</div>
+            </div>
+            <div className="projection-item">
+              {Math.round(assists)}
+              <div className="label">Assists</div>
+            </div>
+            <div className="projection-item">
+              {Math.round(points)}
+              <div className="label">Points</div>
+            </div>
+            <div className="projection-item">
+              {pointsPerGame}
+              <div className="label">P/GP</div>
+            </div>
+          </div>
+        </div>
+        <div className="right-content">
+          <div className="bio-title">Charts</div>
+        </div>
       </div>
     </div>
   );
