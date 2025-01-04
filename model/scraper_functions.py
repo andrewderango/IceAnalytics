@@ -500,6 +500,13 @@ def push_to_supabase(table_name, year, verbose=False):
         player_bios_df['jersey_number'] = player_bios_df['jersey_number'].fillna(0)
         player_bios_df['jersey_number'] = player_bios_df['jersey_number'].astype(int)
         df = df.merge(player_bios_df, on='player_id', how='left')
+
+        # merge in team names
+        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
+        team_data = team_data[['Abbreviation', 'Team Name']]
+        team_data.rename(columns={'Abbreviation': 'team', 'Team Name': 'team_name'}, inplace=True)
+        df = df.merge(team_data, on='team', how='left')
+
         df = df.drop(columns=['TOI'])
         df = df.dropna(subset=['logo'])
     elif table_name == 'game_projections':

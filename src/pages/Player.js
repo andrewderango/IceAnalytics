@@ -28,6 +28,7 @@ function Player() {
         setError(error.message);
       } else {
         setPlayer(data);
+        console.log('Player details:', data); // temp for debugging
       }
       setLoading(false);
     };
@@ -50,7 +51,8 @@ function Player() {
   // Ensure all numeric fields have default values if they are undefined
   const {
     player: playerName,
-    team = 'Chicago Blackhawks',
+    team_name = 'NHL',
+    team,
     position,
     jersey_number = 98,
     age,
@@ -61,7 +63,7 @@ function Player() {
     <div className="player">
       <div className="header-bar">
         <div className="player-headshot-name">
-          {team && playerId && (
+          {team_name && playerId && (
             <img
               src={player.espn_headshot !== "N/A" ? player.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
               alt={`${playerName} headshot`}
@@ -70,7 +72,7 @@ function Player() {
           )}
           <div className="player-name">
             {playerName}
-            <div className="player-details">#{jersey_number} - {team}</div>
+            <div className="player-details">#{jersey_number} - {team_name}</div>
           </div>
         </div>
         <div className="player-info">
