@@ -12,6 +12,7 @@ function Player() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('points');
   const [allPlayers, setAllPlayers] = useState([]);
+  const [chartKey, setChartKey] = useState(0);
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -54,6 +55,17 @@ function Player() {
     };
 
     fetchAllPlayers();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setChartKey(prevKey => prevKey + 1);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   if (loading) {
@@ -198,6 +210,8 @@ function Player() {
   };
 
   const scatterOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         title: {
@@ -306,7 +320,7 @@ function Player() {
         <div className="right-content">
           <div className="chart-container">
             <div className="header">Relative Production Efficiency</div>
-            <Scatter data={scatterData} options={scatterOptions} />
+            <Scatter key={chartKey} data={scatterData} options={scatterOptions} />
           </div>
         </div>
       </div>
