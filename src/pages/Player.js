@@ -151,11 +151,11 @@ function Player() {
           <>
             {renderPIBox(goals_90pi_low, goals_90pi_high)}
             {renderBenchmarks([
-              { value: p_20g, label: '20 Goals' },
-              { value: p_30g, label: '30 Goals' },
-              { value: p_40g, label: '40 Goals' },
-              { value: p_50g, label: '50 Goals' },
-              { value: p_60g, label: '60 Goals' },
+              { value: p_20g, label: '20+ Goals' },
+              { value: p_30g, label: '30+ Goals' },
+              { value: p_40g, label: '40+ Goals' },
+              { value: p_50g, label: '50+ Goals' },
+              { value: p_60g, label: '60+ Goals' },
             ])}
           </>
         );
@@ -164,10 +164,10 @@ function Player() {
           <>
             {renderPIBox(assists_90pi_low, assists_90pi_high)}
             {renderBenchmarks([
-              { value: p_25a, label: '25 Assists' },
-              { value: p_50a, label: '50 Assists' },
-              { value: p_75a, label: '75 Assists' },
-              { value: p_100a, label: '100 Assists' },
+              { value: p_25a, label: '25+ Assists' },
+              { value: p_50a, label: '50+ Assists' },
+              { value: p_75a, label: '75+ Assists' },
+              { value: p_100a, label: '100+ Assists' },
             ])}
           </>
         );
@@ -176,11 +176,11 @@ function Player() {
           <>
             {renderPIBox(points_90pi_low, points_90pi_high)}
             {renderBenchmarks([
-              { value: p_50p, label: '50 Points' },
-              { value: p_75p, label: '75 Points' },
-              { value: p_100p, label: '100 Points' },
-              { value: p_125p, label: '125 Points' },
-              { value: p_150p, label: '150 Points' },
+              { value: p_50p, label: '50+ Points' },
+              { value: p_75p, label: '75+ Points' },
+              { value: p_100p, label: '100+ Points' },
+              { value: p_125p, label: '125+ Points' },
+              { value: p_150p, label: '150+ Points' },
             ])}
           </>
         );
