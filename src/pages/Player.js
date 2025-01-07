@@ -211,7 +211,7 @@ function Player() {
 
   const scatterOptions = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         title: {
