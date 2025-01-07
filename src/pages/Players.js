@@ -9,7 +9,10 @@ function Players() {
   const [teamFilter, setTeamFilter] = useState('');
   const [posFilter, setPosFilter] = useState('');
   const [selectedColumn, setSelectedColumn] = useState(null);
-  const [sortBy, setSortByState] = useState([]);
+  const [sortBy, setSortByState] = useState([
+    { id: 'points', desc: true },
+    { id: 'goals', desc: true }
+  ]);
   const [lastUpdated, setLastUpdated] = useState('');
 
   const columns = React.useMemo(
@@ -176,7 +179,7 @@ function Players() {
       initialState: {
         pageIndex: 0,
         pageSize: 25,
-        sortBy: sortBy.length > 0 ? sortBy : [
+        sortBy: [
           { id: 'points', desc: true },
           { id: 'goals', desc: true }
         ],
@@ -193,11 +196,12 @@ function Players() {
     const isDescending = ['games', 'goals', 'assists', 'points'].includes(column.id);
     if (selectedColumn === column.id) {
       setSelectedColumn(null);
-      setSortBy([]);
-      setSortByState([
+      const defaultSort = [
         { id: 'points', desc: true },
         { id: 'goals', desc: true }
-      ]);
+      ];
+      setSortBy(defaultSort);
+      setSortByState(defaultSort);
     } else {
       setSelectedColumn(column.id);
       const sortConfig = [
