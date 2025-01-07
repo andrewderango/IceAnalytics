@@ -296,6 +296,19 @@
           width: auto;
         }
       }
+
+      @media (max-width: 1000px) {
+        flex-direction: column;
+
+        .left-content,
+        .right-content {
+          width: 100%;
+        }
+
+        .right-content {
+          margin-top: 20px;
+        }
+      }
     }
 
     h1 {
