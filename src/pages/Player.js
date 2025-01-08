@@ -13,6 +13,7 @@ function Player() {
   const [activeTab, setActiveTab] = useState('points');
   const [allPlayers, setAllPlayers] = useState([]);
   const [chartKey, setChartKey] = useState(0);
+  const [isScreenSmallerThan1400, setIsScreenSmallerThan1400] = useState(window.innerWidth < 1475);
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -60,6 +61,7 @@ function Player() {
   useEffect(() => {
     const handleResize = () => {
       setChartKey(prevKey => prevKey + 1);
+      setIsScreenSmallerThan1400(window.innerWidth < 1475);
     };
 
     window.addEventListener('resize', handleResize);
@@ -138,7 +140,9 @@ function Player() {
       {benchmarks.map((benchmark, index) => (
         <div key={index} className="benchmark-item">
           {(benchmark.value * 100).toFixed(1)}%
-          <div className="label">{benchmark.label}</div>
+          <div className="label">
+            {isScreenSmallerThan1400 ? benchmark.shortLabel : benchmark.label}
+          </div>
         </div>
       ))}
     </div>
@@ -151,11 +155,11 @@ function Player() {
           <>
             {renderPIBox(goals_90pi_low, goals_90pi_high)}
             {renderBenchmarks([
-              { value: p_20g, label: '20+ Goals' },
-              { value: p_30g, label: '30+ Goals' },
-              { value: p_40g, label: '40+ Goals' },
-              { value: p_50g, label: '50+ Goals' },
-              { value: p_60g, label: '60+ Goals' },
+              { value: p_20g, label: '20+ Goals', shortLabel: '20+ Goals' },
+              { value: p_30g, label: '30+ Goals', shortLabel: '30+ Goals' },
+              { value: p_40g, label: '40+ Goals', shortLabel: '40+ Goals' },
+              { value: p_50g, label: '50+ Goals', shortLabel: '50+ Goals' },
+              { value: p_60g, label: '60+ Goals', shortLabel: '60+ Goals' },
             ])}
           </>
         );
@@ -164,10 +168,10 @@ function Player() {
           <>
             {renderPIBox(assists_90pi_low, assists_90pi_high)}
             {renderBenchmarks([
-              { value: p_25a, label: '25+ Assists' },
-              { value: p_50a, label: '50+ Assists' },
-              { value: p_75a, label: '75+ Assists' },
-              { value: p_100a, label: '100+ Assists' },
+              { value: p_25a, label: '25+ Assists', shortLabel: '25+ Assists' },
+              { value: p_50a, label: '50+ Assists', shortLabel: '50+ Assists' },
+              { value: p_75a, label: '75+ Assists', shortLabel: '75+ Assists' },
+              { value: p_100a, label: '100+ Assists', shortLabel: '100+ Assists' },
             ])}
           </>
         );
@@ -176,11 +180,11 @@ function Player() {
           <>
             {renderPIBox(points_90pi_low, points_90pi_high)}
             {renderBenchmarks([
-              { value: p_50p, label: '50+ Points' },
-              { value: p_75p, label: '75+ Points' },
-              { value: p_100p, label: '100+ Points' },
-              { value: p_125p, label: '125+ Points' },
-              { value: p_150p, label: '150+ Points' },
+              { value: p_50p, label: '50+ Points', shortLabel: '50+ Pts' },
+              { value: p_75p, label: '75+ Points', shortLabel: '75+ Pts' },
+              { value: p_100p, label: '100+ Points', shortLabel: '100+ Pts' },
+              { value: p_125p, label: '125+ Points', shortLabel: '125+ Pts' },
+              { value: p_150p, label: '150+ Points', shortLabel: '150+ Pts' },
             ])}
           </>
         );
