@@ -14,6 +14,7 @@ function Player() {
   const [allPlayers, setAllPlayers] = useState([]);
   const [chartKey, setChartKey] = useState(0);
   const [isScreenSmallerThan1475, setIsScreenSmallerThan1475] = useState(window.innerWidth < 1475);
+  const [isScreenSmallerThan1000, setIsScreenSmallerThan1000] = useState(window.innerWidth <= 1000);
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -62,6 +63,7 @@ function Player() {
     const handleResize = () => {
       setChartKey(prevKey => prevKey + 1);
       setIsScreenSmallerThan1475(window.innerWidth < 1475);
+      setIsScreenSmallerThan1000(window.innerWidth <= 1000);
     };
 
     window.addEventListener('resize', handleResize);
@@ -256,16 +258,33 @@ function Player() {
             <div className="player-details">#{jersey_number} - {team_name}</div>
           </div>
         </div>
-        <div className="player-info">
-          <div className="player-position">
-            <span className="label">Position</span> {position}
+        {!isScreenSmallerThan1000 && (
+          <div className="player-info">
+            <div className="player-position">
+              <span className="label">Position</span> {position}
+            </div>
+            <div className="player-age">
+              <span className="label">Age</span> {age}
+            </div>
           </div>
-          <div className="player-age">
-            <span className="label">Age</span> {age}
-          </div>
-        </div>
-        {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
+        )}
+        {!isScreenSmallerThan1000 && logo && (
+          <img src={logo} alt={`${playerName} logo`} className="team-logo" />
+        )}
       </div>
+      {isScreenSmallerThan1000 && (
+        <div className="info-bar">
+          <div className="player-info">
+            <div className="player-position">
+              <span className="label">Position</span> {position}
+            </div>
+            <div className="player-age">
+              <span className="label">Age</span> {age}
+            </div>
+          </div>
+          {logo && <img src={logo} alt={`${playerName} logo`} className="team-logo" />}
+        </div>
+      )}
       <div className="content">
         <div className="left-content">
           <div className="projections">

@@ -5,7 +5,7 @@
     margin: 10px auto;
   
     .header-bar {
-      height: 85px;
+      height: 115px;
       width: calc(100% + 40px);
       margin: -10px -20px -20px -20px;
       background-color: #222;
@@ -15,7 +15,7 @@
       padding: 0 20px;
 
       .player-headshot {
-        height: 85px;
+        height: 115px;
         width: auto;
       }
 
@@ -28,25 +28,35 @@
         flex-grow: 0;
         display: inline-block;
         text-align: left;
-        font-size: 18px;
+        font-size: 20px;
         font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
-        margin-left: clamp(10px, 1.8vw, 25px);
+        margin-left: 0px;
 
         .player-details {
           font-size: 12px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: #aaa;
-          margin-top: 10px;
+          margin-top: 5px;
         }
       }
 
+    }
+
+    .info-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      // background-color: rgba(218, 165, 32, 0.75); // low alpha goldenrod
+      background-color: #333;
+      padding: 0 20px;
+      margin-top: 20px;
+
       .player-info {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         justify-content: center;
-        margin: 20px 0px 0px 10px;
 
         .player-age,
         .player-position {
@@ -54,23 +64,23 @@
           flex-direction: row;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
+          font-size: 14px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: #aaa;
-          margin: 0 20px;
+          margin: 0 10px;
 
           .label {
-            font-size: 14px;
+            font-size: 10px;
             color: #777;
-            margin-right: 10px;
+            margin-right: 5px;
           }
         }
       }
 
       .team-logo {
-        height: 150px;
-        width: 150px;
-        margin: 0 35px;
+        height: 32px;
+        width: 32px;
+        margin: 0px 0;
       }
     }
 
