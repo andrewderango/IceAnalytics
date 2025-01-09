@@ -135,6 +135,7 @@
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
+          z-index: 1;
         }
 
         .projections-row {
@@ -205,6 +206,7 @@
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
+          z-index: 1; // Ensure label is behind the header
         }
 
         .tabs {
@@ -306,6 +308,7 @@
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
+          z-index: 1; // Ensure label is behind the header
         }
       }
 
