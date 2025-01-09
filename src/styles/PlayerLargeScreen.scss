@@ -152,7 +152,7 @@
           }
         }
 
-        .wide-projection-item {
+        .award-item {
           text-align: center;
           font-size: clamp(2px, 2.2vw, 24px);
           font-family: 'Sweet Sans Pro Regular', sans-serif;
@@ -161,7 +161,7 @@
           padding: 10px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           width: 50%;
-          margin: 20px 10px;
+          margin: 10px 10px;
           min-width: 100px;
 
           .label {
@@ -218,7 +218,7 @@
           .benchmarks-row {
             display: flex;
             justify-content: space-around;
-            margin-top: 10px;
+            margin: 10px 0;
             width: 100%;
           }
 
@@ -226,7 +226,7 @@
             display: flex;
             justify-content: space-around;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 20px;
 
             .pi-item {
               text-align: center;
@@ -237,7 +237,7 @@
               padding: 10px;
               box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
               width: 50%;
-              margin: 20px 10px;
+              margin: 10px 10px;
               min-width: 100px;
 
               .label {

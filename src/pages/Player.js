@@ -316,11 +316,11 @@ function Player() {
               </div>
             </div>
             <div className="awards-row">
-              <div className="wide-projection-item">
+              <div className="award-item">
                 {artRossProbability}%
                 <div className="label">Art Ross Trophy</div>
               </div>
-              <div className="wide-projection-item">
+              <div className="award-item">
                 {rocketRichardProbability}%
                 <div className="label">Rocket Richard Trophy</div>
               </div>
