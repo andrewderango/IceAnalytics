@@ -89,7 +89,7 @@ function Player() {
     team_name = 'NHL',
     team,
     position,
-    jersey_number = 98,
+    jersey_number,
     age,
     logo,
     games,

@@ -28,10 +28,11 @@
         flex-grow: 0;
         display: inline-block;
         text-align: left;
-        font-size: 20px;
+        font-size: 22px;
         font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
         margin-left: 0px;
+        max-width: calc(100vw - 159px);
 
         .player-details {
           font-size: 12px;
@@ -49,8 +50,10 @@
       justify-content: space-between;
       // background-color: rgba(218, 165, 32, 0.75); // low alpha goldenrod
       background-color: #333;
-      padding: 0 20px;
+      padding: 0 10px 0px 5px;
       margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid #444;
 
       .player-info {
         display: flex;
