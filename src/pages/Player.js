@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import { Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
@@ -7,6 +7,7 @@ import '../styles/Player.scss';
 
 function Player() {
   const { playerId } = useParams();
+  const history = useHistory();
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,21 +28,20 @@ function Player() {
       const { data, error } = await supabase
         .from('player_projections')
         .select('*')
-        .eq('player_id', playerId)
-        .single();
+        .eq('player_id', playerId);
 
-      if (error) {
-        console.error('Error fetching player data:', error);
-        setError(error.message);
+      if (error || data.length !== 1) {
+        console.error('Error fetching player data:', error || 'Multiple or no rows returned');
+        history.push('/not-found');
       } else {
-        setPlayer(data);
-        console.log('Player details:', data); // temp for debugging
+        setPlayer(data[0]);
+        console.log('Player details:', data[0]); // temp for debugging
       }
       setLoading(false);
     };
 
     fetchPlayer();
-  }, [playerId]);
+  }, [playerId, history]);
 
   useEffect(() => {
     const fetchAllPlayers = async () => {
