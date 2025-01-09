@@ -314,3 +314,7 @@
       }
     }
   }
+
+.spacer {
+  height: max(0px, calc(100vh - 1100px));
+}

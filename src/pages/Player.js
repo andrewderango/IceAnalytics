@@ -351,6 +351,7 @@ function Player() {
           </div>
         </div>
       </div>
+      <div className="spacer"></div>
     </div>
   );
 }
