@@ -18,13 +18,13 @@
 .player {
     color: white;
     background-color: #111;
-    padding: 20px;
+    padding: 0px;
     margin: 10px auto;
   
     .header-bar {
-      height: 200px;
+      height: 85px;
       width: calc(100% + 40px);
-      margin: -20px -20px;
+      margin: -10px -20px -20px -20px;
       background-color: #222;
       display: flex;
       align-items: center;
@@ -32,7 +32,7 @@
       padding: 0 20px;
 
       .player-headshot {
-        height: 200px;
+        height: 85px;
         width: auto;
       }
 
@@ -45,13 +45,13 @@
         flex-grow: 0;
         display: inline-block;
         text-align: left;
-        font-size: 42px;
+        font-size: 18px;
         font-family: 'Sweet Sans Pro Heavy', sans-serif;
         color: white;
         margin-left: clamp(10px, 1.8vw, 25px);
 
         .player-details {
-          font-size: 24px;
+          font-size: 12px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: #aaa;
           margin-top: 10px;
@@ -60,10 +60,10 @@
 
       .player-info {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
         justify-content: center;
-        margin: 20px 10px 0px 10px;
+        margin: 20px 0px 0px 10px;
 
         .player-age,
         .player-position {
@@ -84,24 +84,10 @@
         }
       }
 
-      @media (max-width: 1125px) {
-        .player-info {
-          flex-direction: column;
-          align-items: flex-start;
-          margin-right: 0px;
-        }
-      }
-
       .team-logo {
         height: 150px;
         width: 150px;
         margin: 0 35px;
-      }
-    }
-
-    @media (max-width: 1000px) {
-      .header-bar {
-        margin-top: -30px;
       }
     }
 
@@ -110,13 +96,18 @@
       background-color: #111;
       margin-top: 20px;
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
 
       .left-content,
       .right-content {
-        width: 48%;
+        width: 100%;
         display: flex;
         flex-direction: column;
+      }
+
+      .right-content {
+        margin-top: 20px;
       }
 
       .projections,
@@ -201,6 +192,8 @@
         padding: 20px 15px 15px 15px;
         background-color: #111;
         position: relative;
+        white-space: pre-wrap;
+        text-align: center;
 
         .header {
           position: absolute;
@@ -237,6 +230,8 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          white-space: pre-wrap;
+          text-align: center;
 
           .benchmarks-row {
             display: flex;
@@ -283,6 +278,7 @@
             width: 20%;
             margin: 0 10px;
             min-width: 10%;
+            white-space: pre-wrap;
 
             .label {
               font-size: clamp(2px, 1.2vw, 14px);
@@ -317,26 +313,6 @@
           z-index: 1;
         }
       }
-
-      @media (max-width: 1475px) {
-        .probabilities .probability-content .benchmark-item .label {
-          white-space: pre-wrap;
-          text-align: center;
-        }
-      }
-
-      @media (max-width: 1000px) {
-        flex-direction: column;
-
-        .left-content,
-        .right-content {
-          width: 100%;
-        }
-
-        .right-content {
-          margin-top: 20px;
-        }
-      }
     }
 
     h1 {
@@ -350,9 +326,3 @@
       }
     }
   }
-
-@media (max-width: 1000px) {
-  .player {
-    padding: 0px;
-  }
-}
