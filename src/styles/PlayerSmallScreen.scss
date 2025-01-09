@@ -90,7 +90,7 @@
     .content {
       padding: 20px;
       background-color: #111;
-      margin-top: 20px;
+      margin-top: 0px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -124,7 +124,7 @@
           left: 20px;
           background-color: #111;
           padding: 0 10px;
-          font-size: 18px;
+          font-size: 16px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
@@ -140,23 +140,27 @@
         .awards-row {
           display: flex;
           justify-content: space-around;
-          margin-top: 10px;
         }
 
         .projection-item {
           text-align: center;
-          font-size: clamp(2px, 2.2vw, 24px);
+          font-size: 18px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: #aaa;
           background-color: #222;
+
           padding: 10px;
+          @media (max-width: 380px) {
+            padding: 10px 5px;
+          }
+
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           width: 20%;
-          margin: 0 10px;
+          margin: 0 5px;
           min-width: 10%;
 
           .label {
-            font-size: clamp(2px, 1.2vw, 14px);
+            font-size: 10px;
             color: #777;
             margin-top: 5px;
           }
@@ -164,18 +168,18 @@
 
         .wide-projection-item {
           text-align: center;
-          font-size: clamp(2px, 2.2vw, 24px);
+          font-size: 18px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: #aaa;
           background-color: #222;
           padding: 10px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           width: 50%;
-          margin: 20px 10px;
+          margin: 10px 5px;
           min-width: 100px;
 
           .label {
-            font-size: clamp(2px, 1.2vw, 14px);
+            font-size: 10px;
             color: #777;
             margin-top: 5px;
           }
@@ -197,7 +201,7 @@
           left: 20px;
           background-color: #111;
           padding: 0 10px;
-          font-size: 18px;
+          font-size: 16px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
@@ -209,7 +213,7 @@
           justify-content: space-around;
 
           .tab {
-            font-size: 18px;
+            font-size: 14px;
             font-family: 'Sweet Sans Pro Regular', sans-serif;
             color: #aaa;
             padding: 5px;
@@ -244,18 +248,18 @@
 
             .pi-item {
               text-align: center;
-              font-size: clamp(2px, 2.2vw, 24px);
+              font-size: 18px;
               font-family: 'Sweet Sans Pro Regular', sans-serif;
               color: #aaa;
               background-color: #222;
               padding: 10px;
               box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
               width: 50%;
-              margin: 20px 10px;
+              margin: 10px 5px;
               min-width: 100px;
 
               .label {
-                font-size: clamp(2px, 1.2vw, 14px);
+                font-size: 10px;
                 color: #777;
                 margin-top: 5px;
               }
@@ -264,7 +268,15 @@
 
           .benchmark-item {
             text-align: center;
-            font-size: clamp(2px, 1.4vw, 24px);
+            
+            font-size: 12px;
+            @media (max-width: 400px) {
+              font-size: 11px;
+            }
+            @media (max-width: 380px) {
+              font-size: 10px;
+            }
+
             font-family: 'Sweet Sans Pro Regular', sans-serif;
             color: #aaa;
             background-color: #222;
@@ -272,12 +284,12 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             width: 75px;
             width: 20%;
-            margin: 0 10px;
+            margin: 0 5px;
             min-width: 10%;
             white-space: pre-wrap;
 
             .label {
-              font-size: clamp(2px, 1.2vw, 14px);
+              font-size: 10px;
               color: #777;
               margin-top: 5px;
             }
@@ -295,6 +307,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        height: 400px;
 
         .header {
           position: absolute;
@@ -302,7 +315,7 @@
           left: 20px;
           background-color: #111;
           padding: 0 10px;
-          font-size: 18px;
+          font-size: 16px;
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
