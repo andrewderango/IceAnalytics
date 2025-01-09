@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../supabaseClient';
-import '../styles/Player.scss';
 import { Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
+
+if (window.innerWidth > 1000) {
+  import('../styles/PlayerLargeScreen.scss');
+} else {
+  import('../styles/PlayerSmallScreen.scss');
+}
 
 function Player() {
   const { playerId } = useParams();

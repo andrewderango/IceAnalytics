@@ -206,7 +206,7 @@
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
-          z-index: 1; // Ensure label is behind the header
+          z-index: 1;
         }
 
         .tabs {
@@ -308,7 +308,7 @@
           font-family: 'Sweet Sans Pro Regular', sans-serif;
           color: white;
           width: auto;
-          z-index: 1; // Ensure label is behind the header
+          z-index: 1;
         }
       }
 
@@ -316,19 +316,6 @@
         .probabilities .probability-content .benchmark-item .label {
           white-space: pre-wrap;
           text-align: center;
-        }
-      }
-
-      @media (max-width: 1000px) {
-        flex-direction: column;
-
-        .left-content,
-        .right-content {
-          width: 100%;
-        }
-
-        .right-content {
-          margin-top: 20px;
         }
       }
     }
