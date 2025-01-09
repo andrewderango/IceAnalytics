@@ -301,6 +301,13 @@
         }
       }
 
+      @media (max-width: 1475px) {
+        .probabilities .probability-content .benchmark-item .label {
+          white-space: pre-wrap;
+          text-align: center;
+        }
+      }
+
       @media (max-width: 1000px) {
         flex-direction: column;
 

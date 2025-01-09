@@ -13,7 +13,7 @@ function Player() {
   const [activeTab, setActiveTab] = useState('points');
   const [allPlayers, setAllPlayers] = useState([]);
   const [chartKey, setChartKey] = useState(0);
-  const [isScreenSmallerThan1400, setIsScreenSmallerThan1400] = useState(window.innerWidth < 1475);
+  const [isScreenSmallerThan1475, setIsScreenSmallerThan1475] = useState(window.innerWidth < 1475);
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -61,7 +61,7 @@ function Player() {
   useEffect(() => {
     const handleResize = () => {
       setChartKey(prevKey => prevKey + 1);
-      setIsScreenSmallerThan1400(window.innerWidth < 1475);
+      setIsScreenSmallerThan1475(window.innerWidth < 1475);
     };
 
     window.addEventListener('resize', handleResize);
@@ -139,9 +139,9 @@ function Player() {
     <div className="benchmarks-row">
       {benchmarks.map((benchmark, index) => (
         <div key={index} className="benchmark-item">
-          {(benchmark.value * 100).toFixed(1)}%
+          {isScreenSmallerThan1475 && benchmark.value === 1.0 ? (benchmark.value * 100).toFixed(0) : (benchmark.value * 100).toFixed(1)}%
           <div className="label">
-            {isScreenSmallerThan1400 ? benchmark.shortLabel : benchmark.label}
+            {isScreenSmallerThan1475 ? benchmark.shortLabel.replace(' ', '\n') : benchmark.label}
           </div>
         </div>
       ))}
@@ -180,11 +180,11 @@ function Player() {
           <>
             {renderPIBox(points_90pi_low, points_90pi_high)}
             {renderBenchmarks([
-              { value: p_50p, label: '50+ Points', shortLabel: '50+ Pts' },
-              { value: p_75p, label: '75+ Points', shortLabel: '75+ Pts' },
-              { value: p_100p, label: '100+ Points', shortLabel: '100+ Pts' },
-              { value: p_125p, label: '125+ Points', shortLabel: '125+ Pts' },
-              { value: p_150p, label: '150+ Points', shortLabel: '150+ Pts' },
+              { value: p_50p, label: '50+ Points', shortLabel: '50+ Points' },
+              { value: p_75p, label: '75+ Points', shortLabel: '75+ Points' },
+              { value: p_100p, label: '100+ Points', shortLabel: '100+ Points' },
+              { value: p_125p, label: '125+ Points', shortLabel: '125+ Points' },
+              { value: p_150p, label: '150+ Points', shortLabel: '150+ Points' },
             ])}
           </>
         );
