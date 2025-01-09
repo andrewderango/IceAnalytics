@@ -238,7 +238,7 @@ function Player() {
       },
       legend: {
         display: true,
-        position: isScreenSmallerThan1000 ? 'bottom' : 'top',
+        position: 'bottom',
       },
     },
     hover: {
