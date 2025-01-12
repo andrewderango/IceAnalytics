@@ -43,7 +43,7 @@ def pull_espn_data(update_scrape, limit, download_files, verbose):
 
             if download_files:
                 current_dir = os.path.dirname(os.path.abspath(__file__))
-                save_path = os.path.join(current_dir, '..', '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_data.csv')
+                save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_data.csv')
                 espn_df.to_csv(save_path, index=True)
 
             return espn_df
@@ -52,7 +52,7 @@ def pull_espn_data(update_scrape, limit, download_files, verbose):
 
     else:
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        fetch_path = os.path.join(current_dir, '..', '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_data.csv')
+        fetch_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_data.csv')
         espn_df = pd.read_csv(fetch_path)
         espn_df = espn_df.drop(espn_df.columns[0], axis=1)
         return espn_df
@@ -81,7 +81,7 @@ def replace_names_espn(name):
 
 def add_espn_to_player_bios(espn_df, download_files, verbose):
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    fetch_path = os.path.join(current_dir, '..', '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
+    fetch_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
     skater_bios_df = pd.read_csv(fetch_path)
     skater_bios_df = skater_bios_df.drop(skater_bios_df.columns[0], axis=1)
 
@@ -95,7 +95,7 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
         print('Updated Player Bios:')
         print(merged_df)
     if download_files:
-        save_path = os.path.join(current_dir, '..', '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
+        save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
         merged_df.to_csv(save_path, index=True)
 
     # check for failed merges
@@ -105,7 +105,7 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
         print('Failed Merges:')
         print(failed_df)
     if download_files:
-        save_path = os.path.join(current_dir, '..', '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_failed_merge.csv')
+        save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_failed_merge.csv')
         failed_df.to_csv(save_path, index=True)
 
 def main():
