@@ -433,11 +433,20 @@ def push_to_supabase(table_name, year, verbose=False):
             'OTL': 'otl',
             'Goals For': 'goals_for',
             'Goals Against': 'goals_against',
+            'Presidents': 'presidents_trophy_prob',
+            'Playoffs': 'playoff_prob',
+            'Pts_90PI_low': 'pts_90pi_low',
+            'Pts_90PI_high': 'pts_90pi_high',
+            'P_60Pts': 'p_60pts',
+            'P_70Pts': 'p_70pts',
+            'P_80Pts': 'p_80pts',
+            'P_90Pts': 'p_90pts',
+            'P_100Pts': 'p_100pts',
+            'P_110Pts': 'p_110pts',
+            'P_120Pts': 'p_120pts'
         }
         df.rename(columns=rename_dict, inplace=True)
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
-        df['playoff_prob'] = 0.50
-        df['presidents_trophy_prob'] = 0.03125
         df['stanley_cup_prob'] = 0.03125
     elif table_name == 'player_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
@@ -453,6 +462,29 @@ def push_to_supabase(table_name, year, verbose=False):
             'Goals': 'goals',
             'Assists': 'assists',
             'Points': 'points',
+            'ArtRoss': 'art_ross',
+            'Rocket': 'rocket',
+            'Goals_90PI_low': 'goals_90pi_low',
+            'Goals_90PI_high': 'goals_90pi_high',
+            'Assists_90PI_low': 'assists_90pi_low',
+            'Assists_90PI_high': 'assists_90pi_high',
+            'Points_90PI_low': 'points_90pi_low',
+            'Points_90PI_high': 'points_90pi_high',
+            'P_10G': 'p_10g',
+            'P_20G': 'p_20g',
+            'P_30G': 'p_30g',
+            'P_40G': 'p_40g',
+            'P_50G': 'p_50g',
+            'P_60G': 'p_60g',
+            'P_25A': 'p_25a',
+            'P_50A': 'p_50a',
+            'P_75A': 'p_75a',
+            'P_100A': 'p_100a',
+            'P_50P': 'p_50p',
+            'P_75P': 'p_75p',
+            'P_100P': 'p_100p',
+            'P_125P': 'p_125p',
+            'P_150P': 'p_150p'
         }
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))

@@ -9,7 +9,10 @@ function Players() {
   const [teamFilter, setTeamFilter] = useState('');
   const [posFilter, setPosFilter] = useState('');
   const [selectedColumn, setSelectedColumn] = useState(null);
-  const [sortBy, setSortByState] = useState([]);
+  const [sortBy, setSortByState] = useState([
+    { id: 'points', desc: true },
+    { id: 'goals', desc: true }
+  ]);
   const [lastUpdated, setLastUpdated] = useState('');
 
   const columns = React.useMemo(
@@ -47,6 +50,48 @@ function Players() {
         Header: 'Points',
         accessor: 'points',
         Cell: ({ value }) => Math.round(value),
+      },
+      {
+        Header: 'Art Ross',
+        accessor: 'art_ross',
+        sortType: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return b - a;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
+      },
+      {
+        Header: 'Rocket',
+        accessor: 'rocket',
+        sortType: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.original[columnId]);
+          const b = parseFloat(rowB.original[columnId]);
+          return b - a;
+        },
+        Cell: ({ cell: { value }, column: { id } }) => {
+          const isSelected = id === sortBy.id;
+          const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
+          return (
+            <div 
+              className={isSelected ? 'selected-column' : ''} 
+              style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
+            >
+              {(parseFloat(value) * 100).toFixed(1)}%
+            </div>
+          );
+        },
       },
     ],
     [selectedColumn]
@@ -134,7 +179,7 @@ function Players() {
       initialState: {
         pageIndex: 0,
         pageSize: 25,
-        sortBy: sortBy.length > 0 ? sortBy : [
+        sortBy: [
           { id: 'points', desc: true },
           { id: 'goals', desc: true }
         ],
@@ -151,11 +196,12 @@ function Players() {
     const isDescending = ['games', 'goals', 'assists', 'points'].includes(column.id);
     if (selectedColumn === column.id) {
       setSelectedColumn(null);
-      setSortBy([]);
-      setSortByState([
+      const defaultSort = [
         { id: 'points', desc: true },
         { id: 'goals', desc: true }
-      ]);
+      ];
+      setSortBy(defaultSort);
+      setSortByState(defaultSort);
     } else {
       setSelectedColumn(column.id);
       const sortConfig = [

@@ -20,3 +20,4 @@ build/
 
 # IceAnalytics
 model/test/full_monte_carlo_skater_data.csv
+model/test/full_monte_carlo_team_data.csv

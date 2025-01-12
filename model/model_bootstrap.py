@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'atoi_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -42,7 +42,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping ATOI"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -50,19 +50,22 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
+
+        # Get total variance of actual ATOI
+        actual_variance = np.var(y)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['ATOI'] = residual_variance
+        json_data['ATOI'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -70,7 +73,8 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['ATOI']
+        residual_variance = json_data['ATOI']['Residual']
+        actual_variance = json_data['ATOI']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -133,7 +137,11 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
     combined_df['ATOI'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    if verbose:
+        print(f'ATOI | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
+    # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -161,13 +169,16 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
 def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'gp_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
         train_data = aggregate_skater_offence_training_data(projection_year)
         train_data = train_data.dropna(subset=['Y-0 Age'])
         train_data['PositionBool'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+        train_data['Y-3 Points'] = train_data['Y-3 GP']*train_data['Y-3 ATOI']*train_data['Y-3 Gper1kChunk']/1000*2
+        train_data['Y-2 Points'] = train_data['Y-2 GP']*train_data['Y-2 ATOI']*train_data['Y-2 Gper1kChunk']/1000*2
+        train_data['Y-1 Points'] = train_data['Y-1 GP']*train_data['Y-1 ATOI']*train_data['Y-1 Gper1kChunk']/1000*2
 
         features = ['Y-3 GP', 'Y-3 Points', 'Y-2 GP', 'Y-2 Points', 'Y-1 GP', 'Y-1 Points', 'Y-0 Age', 'PositionBool']
         target_var = 'Y-0 GP'
@@ -189,7 +200,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping GP"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -197,19 +208,22 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
+
+        # Get total variance of actual GP
+        actual_variance = np.var(y)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['GP'] = residual_variance
+        json_data['GP'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -217,7 +231,8 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['GP']
+        residual_variance = json_data['GP']['Residual']
+        actual_variance = json_data['GP']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -275,7 +290,11 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['GP'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    if verbose:
+        print(f'GP | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
+    # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -303,7 +322,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
 def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'goal_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -331,7 +350,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Goals"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -339,19 +358,22 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
+
+        # Get total variance of actual Gper1kChunk
+        actual_variance = np.var(y)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['Gper1kChunk'] = residual_variance
+        json_data['Gper1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -359,7 +381,8 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['Gper1kChunk']
+        residual_variance = json_data['Gper1kChunk']['Residual']
+        actual_variance = json_data['Gper1kChunk']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -424,7 +447,11 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
     combined_df['Gper1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    if verbose:
+        print(f'Gper1kChunk | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
+    # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -452,7 +479,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
 def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'a1_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -480,7 +507,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Primary Assists"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -488,19 +515,22 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
+
+        # Get total variance of actual A1per1kChunk
+        actual_variance = np.var(y)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['A1per1kChunk'] = residual_variance
+        json_data['A1per1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -508,7 +538,8 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['A1per1kChunk']
+        residual_variance = json_data['A1per1kChunk']['Residual']
+        actual_variance = json_data['A1per1kChunk']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -571,7 +602,11 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['A1per1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    if verbose:
+        print(f'A1per1kChunk | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
+    # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -599,7 +634,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
 def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, download_file, verbose):
 
     model_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'a2_bootstrapped_models.pkl')
-    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'residual_variance.json')
+    json_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projection Models', 'bootstraps', 'bootstrap_variance.json')
 
     # Retrain model if specified
     if retrain_model:
@@ -627,7 +662,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         }
 
         # Loop through the bootstrap samples, training new samples and storing in models list
-        models, discrepancies = [], []
+        models, cumulative_residuals = [], []
         bootstrap_samples = 500
         for i in tqdm(range(bootstrap_samples), desc="Bootstrapping Secondary Assists"):
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=i)
@@ -635,19 +670,22 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
             model = xgb.XGBRegressor(**params)
             model.fit(X_sample, y_sample)
             y_test_pred = model.predict(X_test)
-            errors = y_test - y_test_pred
-            discrepancies.extend(errors)
+            bootstrap_residuals = y_test - y_test_pred
+            cumulative_residuals.extend(bootstrap_residuals)
             models.append(model)
-        residual_variance = np.var(discrepancies)
+        residual_variance = np.var(cumulative_residuals)
+
+        # Get total variance of actual A2per1kChunk
+        actual_variance = np.var(y)
 
         # Download models
         models_dict = {f'model_{i}': model for i, model in enumerate(models)}
         joblib.dump(models_dict, model_path)
 
-        # Modify discrepancies json
+        # Modify bootstrap variance json
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        json_data['A2per1kChunk'] = residual_variance
+        json_data['A2per1kChunk'] = {'Residual': residual_variance, 'Actual': actual_variance}
         with open(json_path, 'w') as f:
             json.dump(json_data, f)
 
@@ -655,7 +693,8 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         # Load residual variance
         with open(json_path, 'r') as f:
             json_data = json.load(f)
-        residual_variance = json_data['A2per1kChunk']
+        residual_variance = json_data['A2per1kChunk']['Residual']
+        actual_variance = json_data['A2per1kChunk']['Actual']
 
         # Load models
         models_dict = joblib.load(model_path)
@@ -718,7 +757,11 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
     combined_df['A2per1kChunk'] = bootstrap_stdevs
 
     # Adjust for current season progress
-    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - combined_df['Y-0 GP']/82)
+    if verbose:
+        print(f'A2per1kChunk | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
+    # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
+    # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
+    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
     # Drop columns without Player ID
     bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
