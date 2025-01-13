@@ -460,6 +460,8 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
     fetch_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
     skater_bios_df = pd.read_csv(fetch_path)
     skater_bios_df = skater_bios_df.drop(skater_bios_df.columns[0], axis=1)
+    if 'EspnHeadshot' in skater_bios_df.columns:
+        skater_bios_df = skater_bios_df.drop(columns=['EspnHeadshot'])
 
     # strip and lowercase names for comparison
     skater_bios_df['playerStrippedEspn'] = skater_bios_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
@@ -467,6 +469,10 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
 
     # merge to update headshots for existing players
     merged_df = pd.merge(skater_bios_df, espn_df[['playerStrippedEspn', 'EspnHeadshot']], how='outer', on='playerStrippedEspn')
+
+    # remove duplicate by player id
+    merged_df = merged_df.drop_duplicates(subset='PlayerID', keep='first')
+
     if verbose:
         print('Updated Player Bios:')
         print(merged_df)
