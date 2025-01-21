@@ -651,7 +651,7 @@
 649,2024020650,2025-01-08T19:30:00,650,7,4,2,Washington Capitals,1,Vancouver Canucks
 650,2024020651,2025-01-08T19:30:00,651,7,3,3,Chicago Blackhawks,1,Colorado Avalanche
 651,2024020652,2025-01-08T22:00:00,652,7,3,1,Utah Hockey Club,4,Florida Panthers
-652,2024020653,2025-01-08T22:30:00,653,1,1,0,Los Angeles Kings,0,Calgary Flames
+652,2024020653,2025-04-17T22:30:00,653,1,1,0,Los Angeles Kings,0,Calgary Flames
 653,2024020654,2025-01-09T19:00:00,654,7,3,0,Ottawa Senators,4,Buffalo Sabres
 654,2024020655,2025-01-09T19:00:00,655,7,3,4,Tampa Bay Lightning,1,Boston Bruins
 655,2024020656,2025-01-09T19:00:00,656,7,4,3,New York Rangers,2,New Jersey Devils
@@ -686,64 +686,64 @@
 684,2024020685,2025-01-12T17:00:00,685,7,3,3,Ottawa Senators,2,Dallas Stars
 685,2024020686,2025-01-12T17:00:00,686,7,3,2,Pittsburgh Penguins,5,Tampa Bay Lightning
 686,2024020687,2025-01-12T17:00:00,687,7,4,2,Carolina Hurricanes,3,Anaheim Ducks
-687,2024020688,2025-01-12T20:00:00,688,3,2,1,Vegas Golden Knights,1,Minnesota Wild
-688,2024020689,2025-01-13T19:00:00,689,1,1,0,Philadelphia Flyers,0,Florida Panthers
-689,2024020690,2025-01-13T19:30:00,690,1,1,0,Chicago Blackhawks,0,Calgary Flames
-690,2024020691,2025-01-13T21:30:00,691,1,1,0,Edmonton Oilers,0,Los Angeles Kings
-691,2024020692,2025-01-14T19:00:00,692,1,1,0,Boston Bruins,0,Tampa Bay Lightning
-692,2024020693,2025-01-14T19:00:00,693,1,1,0,Toronto Maple Leafs,0,Dallas Stars
-693,2024020694,2025-01-14T19:00:00,694,1,1,0,Detroit Red Wings,0,San Jose Sharks
-694,2024020695,2025-01-14T19:30:00,695,1,1,0,New Jersey Devils,0,Florida Panthers
-695,2024020696,2025-01-14T19:00:00,696,1,1,0,Pittsburgh Penguins,0,Seattle Kraken
-696,2024020697,2025-01-14T19:00:00,697,1,1,0,Washington Capitals,0,Anaheim Ducks
-697,2024020698,2025-01-14T19:00:00,698,1,1,0,Columbus Blue Jackets,0,Philadelphia Flyers
-698,2024020699,2025-01-14T19:30:00,699,1,1,0,New York Islanders,0,Ottawa Senators
-699,2024020700,2025-01-14T20:00:00,700,1,1,0,St. Louis Blues,0,Calgary Flames
-700,2024020701,2025-01-14T20:00:00,701,1,1,0,Nashville Predators,0,Vegas Golden Knights
-701,2024020702,2025-01-14T20:00:00,702,1,1,0,Winnipeg Jets,0,Vancouver Canucks
-702,2024020703,2025-01-14T21:00:00,703,1,1,0,Colorado Avalanche,0,New York Rangers
-703,2024020704,2025-01-14T21:00:00,704,1,1,0,Utah Hockey Club,0,Montréal Canadiens
-704,2024020705,2025-01-15T18:00:00,705,1,1,0,Buffalo Sabres,0,Carolina Hurricanes
-705,2024020706,2025-01-15T20:30:00,706,1,1,0,Minnesota Wild,0,Edmonton Oilers
-706,2024020707,2025-01-16T19:00:00,707,1,1,0,Toronto Maple Leafs,0,New Jersey Devils
-707,2024020708,2025-01-16T19:00:00,708,1,1,0,Ottawa Senators,0,Washington Capitals
-708,2024020709,2025-01-16T19:00:00,709,1,1,0,Tampa Bay Lightning,0,Anaheim Ducks
-709,2024020710,2025-01-16T19:00:00,710,1,1,0,Florida Panthers,0,Detroit Red Wings
-710,2024020711,2025-01-16T19:00:00,711,1,1,0,Columbus Blue Jackets,0,San Jose Sharks
-711,2024020712,2025-01-16T19:30:00,712,1,1,0,New York Islanders,0,Philadelphia Flyers
-712,2024020713,2025-01-16T20:00:00,713,1,1,0,St. Louis Blues,0,Calgary Flames
-713,2024020714,2025-01-16T20:00:00,714,1,1,0,Nashville Predators,0,Chicago Blackhawks
-714,2024020715,2025-01-16T20:00:00,715,1,1,0,Dallas Stars,0,Montréal Canadiens
-715,2024020716,2025-01-16T20:00:00,716,1,1,0,Winnipeg Jets,0,Seattle Kraken
-716,2024020717,2025-01-16T21:00:00,717,1,1,0,Utah Hockey Club,0,New York Rangers
-717,2024020718,2025-01-16T21:30:00,718,1,1,0,Colorado Avalanche,0,Edmonton Oilers
-718,2024020719,2025-01-16T22:00:00,719,1,1,0,Vancouver Canucks,0,Los Angeles Kings
-719,2024020720,2025-01-17T19:00:00,720,1,1,0,Buffalo Sabres,0,Pittsburgh Penguins
-720,2024020721,2025-01-17T19:00:00,721,1,1,0,Carolina Hurricanes,0,Vegas Golden Knights
-721,2024020722,2025-01-18T12:30:00,722,1,1,0,New Jersey Devils,0,Philadelphia Flyers
-722,2024020723,2025-01-18T15:00:00,723,1,1,0,Ottawa Senators,0,Boston Bruins
-723,2024020724,2025-01-18T16:00:00,724,1,1,0,Colorado Avalanche,0,Dallas Stars
-724,2024020725,2025-01-18T18:00:00,725,1,1,0,Florida Panthers,0,Anaheim Ducks
-725,2024020726,2025-01-18T19:00:00,726,1,1,0,Montréal Canadiens,0,Toronto Maple Leafs
-726,2024020727,2025-01-18T19:00:00,727,1,1,0,Tampa Bay Lightning,0,Detroit Red Wings
-727,2024020728,2025-01-18T19:00:00,728,1,1,0,New York Rangers,0,Columbus Blue Jackets
-728,2024020729,2025-01-18T19:00:00,729,1,1,0,Washington Capitals,0,Pittsburgh Penguins
-729,2024020730,2025-01-18T19:00:00,730,1,1,0,Winnipeg Jets,0,Calgary Flames
-730,2024020731,2025-01-18T19:30:00,731,1,1,0,New York Islanders,0,San Jose Sharks
-731,2024020732,2025-01-18T20:00:00,732,1,1,0,Chicago Blackhawks,0,Vegas Golden Knights
-732,2024020733,2025-01-18T20:00:00,733,1,1,0,Nashville Predators,0,Minnesota Wild
-733,2024020734,2025-01-18T21:00:00,734,1,1,0,Utah Hockey Club,0,St. Louis Blues
-734,2024020735,2025-01-18T22:00:00,735,1,1,0,Vancouver Canucks,0,Edmonton Oilers
-735,2024020736,2025-01-18T22:00:00,736,1,1,0,Seattle Kraken,0,Los Angeles Kings
-736,2024020737,2025-01-19T13:00:00,737,1,1,0,New Jersey Devils,0,Ottawa Senators
-737,2024020738,2025-01-19T19:00:00,738,1,1,0,Montréal Canadiens,0,New York Rangers
-738,2024020739,2025-01-19T20:00:00,739,1,1,0,Dallas Stars,0,Detroit Red Wings
-739,2024020740,2025-01-20T13:00:00,740,1,1,0,Boston Bruins,0,San Jose Sharks
-740,2024020741,2025-01-20T15:00:00,741,1,1,0,Colorado Avalanche,0,Minnesota Wild
-741,2024020742,2025-01-20T16:00:00,742,1,1,0,Seattle Kraken,0,Buffalo Sabres
-742,2024020743,2025-01-20T18:00:00,743,1,1,0,Vegas Golden Knights,0,St. Louis Blues
-743,2024020744,2025-01-20T19:30:00,744,1,1,0,Toronto Maple Leafs,0,Tampa Bay Lightning
-744,2024020745,2025-01-20T19:30:00,745,1,1,0,New York Islanders,0,Columbus Blue Jackets
+687,2024020688,2025-01-12T20:00:00,688,7,3,4,Vegas Golden Knights,1,Minnesota Wild
+688,2024020689,2025-01-13T19:00:00,689,7,3,4,Philadelphia Flyers,3,Florida Panthers
+689,2024020690,2025-01-13T19:30:00,690,7,3,2,Chicago Blackhawks,5,Calgary Flames
+690,2024020691,2025-01-13T21:30:00,691,7,3,1,Edmonton Oilers,0,Los Angeles Kings
+691,2024020692,2025-01-14T19:00:00,692,7,3,6,Boston Bruins,2,Tampa Bay Lightning
+692,2024020693,2025-01-14T19:00:00,693,7,3,1,Toronto Maple Leafs,4,Dallas Stars
+693,2024020694,2025-01-14T19:00:00,694,7,3,3,Detroit Red Wings,6,San Jose Sharks
+694,2024020695,2025-01-14T19:30:00,695,7,5,1,New Jersey Devils,2,Florida Panthers
+695,2024020696,2025-01-14T19:00:00,696,7,3,2,Pittsburgh Penguins,4,Seattle Kraken
+696,2024020697,2025-01-14T19:00:00,697,7,3,3,Washington Capitals,0,Anaheim Ducks
+697,2024020698,2025-01-14T19:00:00,698,7,5,3,Columbus Blue Jackets,2,Philadelphia Flyers
+698,2024020699,2025-01-14T19:30:00,699,7,3,0,New York Islanders,2,Ottawa Senators
+699,2024020700,2025-01-14T20:00:00,700,7,3,2,St. Louis Blues,1,Calgary Flames
+700,2024020701,2025-01-14T20:00:00,701,7,3,5,Nashville Predators,3,Vegas Golden Knights
+701,2024020702,2025-01-14T20:00:00,702,7,3,6,Winnipeg Jets,1,Vancouver Canucks
+702,2024020703,2025-01-14T21:00:00,703,7,4,3,Colorado Avalanche,2,New York Rangers
+703,2024020704,2025-01-14T21:00:00,704,7,3,3,Utah Hockey Club,5,Montréal Canadiens
+704,2024020705,2025-01-15T18:00:00,705,7,3,4,Buffalo Sabres,2,Carolina Hurricanes
+705,2024020706,2025-01-15T20:30:00,706,7,3,3,Minnesota Wild,5,Edmonton Oilers
+706,2024020707,2025-01-16T19:00:00,707,7,4,4,Toronto Maple Leafs,3,New Jersey Devils
+707,2024020708,2025-01-16T19:00:00,708,7,4,0,Ottawa Senators,1,Washington Capitals
+708,2024020709,2025-01-16T19:00:00,709,7,5,4,Tampa Bay Lightning,3,Anaheim Ducks
+709,2024020710,2025-01-16T19:00:00,710,7,3,2,Florida Panthers,5,Detroit Red Wings
+710,2024020711,2025-01-16T19:00:00,711,7,3,4,Columbus Blue Jackets,1,San Jose Sharks
+711,2024020712,2025-01-16T19:30:00,712,7,3,3,New York Islanders,5,Philadelphia Flyers
+712,2024020713,2025-01-16T20:00:00,713,7,3,4,St. Louis Blues,1,Calgary Flames
+713,2024020714,2025-01-16T20:00:00,714,7,5,3,Nashville Predators,2,Chicago Blackhawks
+714,2024020715,2025-01-16T20:00:00,715,7,3,1,Dallas Stars,3,Montréal Canadiens
+715,2024020716,2025-01-16T20:00:00,716,7,3,2,Winnipeg Jets,1,Seattle Kraken
+716,2024020717,2025-01-16T21:00:00,717,7,3,3,Utah Hockey Club,5,New York Rangers
+717,2024020718,2025-01-16T21:30:00,718,7,3,3,Colorado Avalanche,4,Edmonton Oilers
+718,2024020719,2025-01-16T22:00:00,719,7,3,1,Vancouver Canucks,5,Los Angeles Kings
+719,2024020720,2025-01-17T19:00:00,720,7,3,2,Buffalo Sabres,5,Pittsburgh Penguins
+720,2024020721,2025-01-17T19:00:00,721,7,3,3,Carolina Hurricanes,2,Vegas Golden Knights
+721,2024020722,2025-01-18T12:30:00,722,7,3,1,New Jersey Devils,3,Philadelphia Flyers
+722,2024020723,2025-01-18T15:00:00,723,7,5,6,Ottawa Senators,5,Boston Bruins
+723,2024020724,2025-01-18T16:00:00,724,7,3,6,Colorado Avalanche,3,Dallas Stars
+724,2024020725,2025-01-18T18:00:00,725,7,3,3,Florida Panthers,0,Anaheim Ducks
+725,2024020726,2025-01-18T19:00:00,726,7,3,3,Montréal Canadiens,7,Toronto Maple Leafs
+726,2024020727,2025-01-18T19:00:00,727,7,3,5,Tampa Bay Lightning,1,Detroit Red Wings
+727,2024020728,2025-01-18T19:00:00,728,7,5,1,New York Rangers,0,Columbus Blue Jackets
+728,2024020729,2025-01-18T19:00:00,729,7,3,4,Washington Capitals,1,Pittsburgh Penguins
+729,2024020730,2025-01-18T19:00:00,730,7,3,1,Winnipeg Jets,3,Calgary Flames
+730,2024020731,2025-01-18T19:30:00,731,7,3,4,New York Islanders,1,San Jose Sharks
+731,2024020732,2025-01-18T20:00:00,732,7,3,5,Chicago Blackhawks,3,Vegas Golden Knights
+732,2024020733,2025-01-18T20:00:00,733,7,3,6,Nashville Predators,2,Minnesota Wild
+733,2024020734,2025-01-18T21:00:00,734,7,3,4,Utah Hockey Club,2,St. Louis Blues
+734,2024020735,2025-01-18T22:00:00,735,7,3,3,Vancouver Canucks,2,Edmonton Oilers
+735,2024020736,2025-01-18T22:00:00,736,7,3,4,Seattle Kraken,2,Los Angeles Kings
+736,2024020737,2025-01-19T13:00:00,737,7,3,1,New Jersey Devils,2,Ottawa Senators
+737,2024020738,2025-01-19T19:00:00,738,7,4,5,Montréal Canadiens,4,New York Rangers
+738,2024020739,2025-01-19T20:00:00,739,7,3,4,Dallas Stars,1,Detroit Red Wings
+739,2024020740,2025-01-20T13:00:00,740,7,3,6,Boston Bruins,3,San Jose Sharks
+740,2024020741,2025-01-20T15:00:00,741,7,3,1,Colorado Avalanche,3,Minnesota Wild
+741,2024020742,2025-01-20T16:00:00,742,6,3,6,Seattle Kraken,4,Buffalo Sabres
+742,2024020743,2025-01-20T18:00:00,743,3,1,1,Vegas Golden Knights,2,St. Louis Blues
+743,2024020744,2025-01-20T19:30:00,744,2,1,0,Toronto Maple Leafs,0,Tampa Bay Lightning
+744,2024020745,2025-01-20T19:30:00,745,2,1,0,New York Islanders,0,Columbus Blue Jackets
 745,2024020746,2025-01-20T20:30:00,746,1,1,0,Chicago Blackhawks,0,Carolina Hurricanes
 746,2024020747,2025-01-20T21:30:00,747,1,1,0,Utah Hockey Club,0,Winnipeg Jets
 747,2024020748,2025-01-20T22:30:00,748,1,1,0,Los Angeles Kings,0,Pittsburgh Penguins
