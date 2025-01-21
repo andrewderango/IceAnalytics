@@ -272,7 +272,7 @@ def scrape_nhlapi_data(start_year, end_year, bios, on_ice, projection_year, seas
                 'Position': [player['position']],
                 'Headshot': [player['headshot']],
                 'Team Logo': [player['teamLogo']],
-                'Jersey Number': [player['sweaterNumber']]
+                'Jersey Number': [player.get('sweaterNumber', 'N/A')]
             })
             df = pd.concat([df, new_row], ignore_index=True)
 
