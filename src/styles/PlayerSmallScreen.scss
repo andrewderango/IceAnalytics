@@ -1,0 +1,337 @@
+.player {
+    color: white;
+    background-color: #111;
+    padding: 0px;
+    margin: 10px auto;
+  
+    .header-bar {
+      height: 115px;
+      width: calc(100% + 40px);
+      margin: -10px -20px -20px -20px;
+      background-color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+
+      .player-headshot {
+        height: 115px;
+        width: auto;
+      }
+
+      .player-headshot-name {
+        display: flex;
+        align-items: center;
+      }
+
+      .player-name {
+        flex-grow: 0;
+        display: inline-block;
+        text-align: left;
+        font-size: 22px;
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        color: white;
+        margin-left: 0px;
+        max-width: calc(100vw - 159px);
+
+        .player-details {
+          font-size: 12px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          margin-top: 5px;
+        }
+      }
+
+    }
+
+    .info-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      // background-color: rgba(218, 165, 32, 0.75); // low alpha goldenrod
+      background-color: #333;
+      padding: 0 10px 0px 5px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid #444;
+
+      .player-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .player-age,
+        .player-position {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          margin: 0 10px;
+
+          .label {
+            font-size: 10px;
+            color: #777;
+            margin-right: 5px;
+          }
+        }
+      }
+
+      .team-logo {
+        height: 32px;
+        width: 32px;
+        margin: 0px 0;
+      }
+    }
+
+    .content {
+      padding: 20px;
+      background-color: #111;
+      margin-top: 0px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .left-content,
+      .right-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .right-content {
+        margin-top: 20px;
+      }
+
+      .projections,
+      .probabilities,
+      .chart-container {
+        flex-grow: 1;
+      }
+
+      .projections {
+        border: 1px solid #444;
+        padding: 20px 15px 15px 15px;
+        margin-top: 20px;
+        position: relative;
+
+        .header {
+          position: absolute;
+          top: -10px;
+          left: 20px;
+          background-color: #111;
+          padding: 0 10px;
+          font-size: 16px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: white;
+          width: auto;
+          z-index: 1;
+        }
+
+        .projections-row {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 10px;
+        }
+
+        .awards-row {
+          display: flex;
+          justify-content: space-around;
+        }
+
+        .projection-item {
+          text-align: center;
+          font-size: 18px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          background-color: #222;
+
+          padding: 10px;
+          @media (max-width: 400px) {
+            padding: 10px 5px;
+          }
+
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          width: 20%;
+          margin: 0 5px;
+          min-width: 10%;
+
+          .label {
+            font-size: 10px;
+            color: #777;
+            margin-top: 5px;
+          }
+        }
+
+        .award-item {
+          text-align: center;
+          font-size: 18px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: #aaa;
+          background-color: #222;
+          padding: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          width: 50%;
+          margin: 10px 5px;
+          min-width: 100px;
+
+          .label {
+            font-size: 10px;
+            color: #777;
+            margin-top: 5px;
+          }
+        }
+      }
+
+      .probabilities {
+        margin-top: 40px;
+        border: 1px solid #444;
+        padding: 20px 15px 15px 15px;
+        background-color: #111;
+        position: relative;
+        white-space: pre-wrap;
+        text-align: center;
+
+        .header {
+          position: absolute;
+          top: -10px;
+          left: 20px;
+          background-color: #111;
+          padding: 0 10px;
+          font-size: 16px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: white;
+          width: auto;
+          z-index: 1;
+        }
+
+        .tabs {
+          display: flex;
+          justify-content: space-around;
+
+          .tab {
+            font-size: 14px;
+            font-family: 'Sweet Sans Pro Regular', sans-serif;
+            color: #aaa;
+            padding: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            &.active {
+              color: white;
+              border-bottom: 2px solid #daa520;
+            }
+          }
+        }
+
+        .probability-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          white-space: pre-wrap;
+          text-align: center;
+
+          .benchmarks-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            width: 100%;
+          }
+
+          .pi-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+
+            .pi-item {
+              text-align: center;
+              font-size: 18px;
+              font-family: 'Sweet Sans Pro Regular', sans-serif;
+              color: #aaa;
+              background-color: #222;
+              padding: 10px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+              width: 50%;
+              margin: 0 5px;
+              min-width: 100px;
+
+              .label {
+                font-size: 10px;
+                color: #777;
+                margin-top: 5px;
+              }
+            }
+          }
+
+          .benchmark-item {
+            text-align: center;
+            
+            font-size: 12px;
+            @media (max-width: 400px) {
+              font-size: 11px;
+            }
+            @media (max-width: 380px) {
+              font-size: 10px;
+            }
+
+            font-family: 'Sweet Sans Pro Regular', sans-serif;
+            color: #aaa;
+            background-color: #222;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 75px;
+            width: 20%;
+            margin: 10px 5px;
+            min-width: 10%;
+            white-space: pre-wrap;
+
+            .label {
+              font-size: 10px;
+              color: #777;
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+
+      .chart-container {
+        border: 1px solid #444;
+        padding: 20px 15px 15px 15px;
+        margin-top: 20px;
+        background-color: #111;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 400px;
+
+        .header {
+          position: absolute;
+          top: -10px;
+          left: 20px;
+          background-color: #111;
+          padding: 0 10px;
+          font-size: 16px;
+          font-family: 'Sweet Sans Pro Regular', sans-serif;
+          color: white;
+          width: auto;
+          z-index: 1;
+        }
+      }
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+  
+    p {
+      margin: 5px 0;
+      strong {
+        color: #daa520;
+      }
+    }
+  }
