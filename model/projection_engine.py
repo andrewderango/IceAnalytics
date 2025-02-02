@@ -452,14 +452,14 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
 
     # presidents trophy calculation
     monte_carlo_team_df['Presidents'] = 0
-    for sim in tqdm(range(1, simulations + 1), desc="Monte Carlo Presidents Trophy Odds"):
+    for sim in range(1, simulations + 1):
         max_points_team = monte_carlo_team_df.loc[monte_carlo_team_df[f'{sim}_Pts'].idxmax(), 'Abbreviation']
         monte_carlo_team_df.loc[monte_carlo_team_df['Abbreviation'] == max_points_team, 'Presidents'] += 1
     monte_carlo_team_df['Presidents'] /= simulations
 
     # playoff odds calculation
     monte_carlo_team_df['Playoffs'] = 0
-    for sim in tqdm(range(1, simulations + 1), desc="Monte Carlo Playoff Odds"):
+    for sim in range(1, simulations + 1):
 
         # get top 3 teams from each division
         division_teams = monte_carlo_team_df[monte_carlo_team_df['Division'] == 'Atlantic'].nlargest(3, f'{sim}_Pts')['Abbreviation'].tolist()

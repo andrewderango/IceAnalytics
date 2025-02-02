@@ -5,7 +5,6 @@ import Games from './pages/Games';
 import Players from './pages/Players';
 import Teams from './pages/Teams';
 import About from './pages/About';
-import Player from './pages/Player';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import NotFound from './pages/NotFound';
@@ -20,7 +19,6 @@ function App() {
         <Route path="/players" component={Players} />
         <Route path="/teams" component={Teams} />
         <Route path="/about" component={About} />
-        <Route path="/player/:playerId" component={Player} />
         <Route exact path="/" render={() => <Redirect to="/home" />} />
         <Route component={NotFound} />
       </Switch>

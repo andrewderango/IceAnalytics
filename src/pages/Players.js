@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import { useHistory, Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Players.scss';
 
@@ -15,18 +14,12 @@ function Players() {
     { id: 'goals', desc: true }
   ]);
   const [lastUpdated, setLastUpdated] = useState('');
-  const history = useHistory();
 
   const columns = React.useMemo(
     () => [
       {
         Header: 'Player',
         accessor: 'player',
-        Cell: ({ row }) => (
-          <Link to={`/player/${row.original.player_id}`}>
-            {row.original.player}
-          </Link>
-        ),
       },
       {
         Header: 'Team',
@@ -221,10 +214,6 @@ function Players() {
     }
   };
 
-  const handleRowClick = (playerId) => {
-    history.push(`/player/${playerId}`);
-  };
-
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min(startRow + pageSize - 1, filteredData.length);
 
@@ -281,7 +270,7 @@ function Players() {
             {page.map(row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} onClick={() => handleRowClick(row.original.player_id)}>
+                <tr {...row.getRowProps()}>
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps({
