@@ -355,7 +355,25 @@ def handle_duplicate_names(row):
             return 'colinwhiteC'
         elif row['Position'] == 'D':
             return 'colinwhiteD'
+    elif row['Player'] == 'Elias Pettersson':
+        if 'C' in row['Position']:
+            return 'eliaspetterssonC'
+        elif row['Position'] == 'D':
+            return 'eliaspetterssonD'
     return row['playerStripped']
+
+def handle_duplicate_names_espn(row):
+    if row['Player'] == 'Sebastian Aho':
+        if 'C' in row['Position'] or 'R' in row['Position']:
+            return 'sebastianahoC'
+        elif row['Position'] == 'D':
+            return 'sebastianahoD'
+    elif row['Player'] == 'Elias Pettersson':
+        if 'C' in row['Position']:
+            return 'eliaspetterssonC'
+        elif row['Position'] == 'D':
+            return 'eliaspetterssonD'
+    return row['playerStrippedEspn']
 
 def get_season_state(projection_year):
     response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
@@ -408,6 +426,7 @@ def pull_espn_data(update_scrape, limit, download_files, verbose):
             for athlete in data.get("athletes", []):
                 athlete_info = {
                     "Player": athlete.get('athlete', {}).get('displayName'),
+                    "Position": athlete.get('athlete', {}).get('position', {}).get('abbreviation'),
                     "EspnId": athlete.get('athlete', {}).get('id'),
                     "EspnHeadshot": athlete.get('athlete', {}).get('headshot', {}).get('href'),
                 }
@@ -466,6 +485,8 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
     # strip and lowercase names for comparison
     skater_bios_df['playerStrippedEspn'] = skater_bios_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
     espn_df['playerStrippedEspn'] = espn_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
+    skater_bios_df['playerStrippedEspn'] = skater_bios_df.apply(handle_duplicate_names_espn, axis=1)
+    espn_df['playerStrippedEspn'] = espn_df.apply(handle_duplicate_names_espn, axis=1)
 
     # merge to update headshots for existing players
     merged_df = pd.merge(skater_bios_df, espn_df[['playerStrippedEspn', 'EspnHeadshot']], how='outer', on='playerStrippedEspn')
@@ -611,6 +632,14 @@ def push_to_supabase(table_name, year, verbose=False):
         player_bios_df['jersey_number'] = player_bios_df['jersey_number'].fillna(0)
         player_bios_df['jersey_number'] = player_bios_df['jersey_number'].astype(int)
         df = df.merge(player_bios_df, on='player_id', how='left')
+
+        # fill in missing values
+        df['goals_90pi_low'] = df['goals_90pi_low'].fillna(0)
+        df['goals_90pi_high'] = df['goals_90pi_high'].fillna(0)
+        df['assists_90pi_low'] = df['assists_90pi_low'].fillna(0)
+        df['assists_90pi_high'] = df['assists_90pi_high'].fillna(0)
+        df['points_90pi_low'] = df['points_90pi_low'].fillna(0)
+        df['points_90pi_high'] = df['points_90pi_high'].fillna(0)
 
         # merge in team names
         team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))

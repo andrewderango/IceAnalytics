@@ -1028,9 +1028,10 @@ def display_inferences(projection_year, player_stat_df, bootstrap_df, inference_
     player_stat_df = player_stat_df[['PlayerID', 'Player', 'Position', 'Team', 'Age', 'ATOI', 'iG/60', 'iA1/60', 'iA2/60', 'iGoals', 'iPoints']]
     player_stat_df = player_stat_df.sort_values(by='iPoints', ascending=False)
     player_stat_df = player_stat_df.reset_index(drop=True)
-    # print(player_stat_df.to_string())
-    print(player_stat_df.head(50))
-    # print(player_stat_df.info())
+    if verbose:
+        # print(player_stat_df.to_string())
+        print(player_stat_df.head(50))
+        # print(player_stat_df.info())
 
     if download_file:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
