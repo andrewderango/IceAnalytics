@@ -11,6 +11,8 @@ from sklearn.preprocessing import PolynomialFeatures, MinMaxScaler
 def aggregate_skater_offence_training_data(projection_year):
     file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data')
     files = sorted(os.listdir(file_path))
+    files.remove('2023-2024_skater_data.csv')
+    files.remove('2024-2025_skater_data.csv')
     for file in files:
         if file[-15:] != 'skater_data.csv':
             files.remove(file) # Remove files like .DS_Store or other unexpected files
