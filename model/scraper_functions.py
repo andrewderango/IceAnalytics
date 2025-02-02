@@ -362,6 +362,19 @@ def handle_duplicate_names(row):
             return 'eliaspetterssonD'
     return row['playerStripped']
 
+def handle_duplicate_names_espn(row):
+    if row['Player'] == 'Sebastian Aho':
+        if 'C' in row['Position'] or 'R' in row['Position']:
+            return 'sebastianahoC'
+        elif row['Position'] == 'D':
+            return 'sebastianahoD'
+    elif row['Player'] == 'Elias Pettersson':
+        if 'C' in row['Position']:
+            return 'eliaspetterssonC'
+        elif row['Position'] == 'D':
+            return 'eliaspetterssonD'
+    return row['playerStrippedEspn']
+
 def get_season_state(projection_year):
     response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
     data = response.json()
@@ -413,6 +426,7 @@ def pull_espn_data(update_scrape, limit, download_files, verbose):
             for athlete in data.get("athletes", []):
                 athlete_info = {
                     "Player": athlete.get('athlete', {}).get('displayName'),
+                    "Position": athlete.get('athlete', {}).get('position', {}).get('abbreviation'),
                     "EspnId": athlete.get('athlete', {}).get('id'),
                     "EspnHeadshot": athlete.get('athlete', {}).get('headshot', {}).get('href'),
                 }
@@ -471,6 +485,8 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
     # strip and lowercase names for comparison
     skater_bios_df['playerStrippedEspn'] = skater_bios_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
     espn_df['playerStrippedEspn'] = espn_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
+    skater_bios_df['playerStrippedEspn'] = skater_bios_df.apply(handle_duplicate_names_espn, axis=1)
+    espn_df['playerStrippedEspn'] = espn_df.apply(handle_duplicate_names_espn, axis=1)
 
     # merge to update headshots for existing players
     merged_df = pd.merge(skater_bios_df, espn_df[['playerStrippedEspn', 'EspnHeadshot']], how='outer', on='playerStrippedEspn')
