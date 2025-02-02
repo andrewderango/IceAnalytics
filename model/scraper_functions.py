@@ -355,6 +355,11 @@ def handle_duplicate_names(row):
             return 'colinwhiteC'
         elif row['Position'] == 'D':
             return 'colinwhiteD'
+    elif row['Player'] == 'Elias Pettersson':
+        if 'C' in row['Position']:
+            return 'eliaspetterssonC'
+        elif row['Position'] == 'D':
+            return 'eliaspetterssonD'
     return row['playerStripped']
 
 def get_season_state(projection_year):
