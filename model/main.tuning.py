@@ -46,8 +46,7 @@ def main():
     # scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
 
     # Train models
-    atoi_model = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=True, verbose=True)
-    quit()
+    atoi_model = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     gp_model_data = train_gp_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     goal_model = train_goal_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
@@ -55,6 +54,7 @@ def main():
     team_ga_model = train_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     skater_xga_model = train_skater_xga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
     skater_ga_model = train_skater_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    quit()
 
     # Make player inferences
     player_stat_df = pd.DataFrame()
