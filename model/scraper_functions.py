@@ -633,6 +633,14 @@ def push_to_supabase(table_name, year, verbose=False):
         player_bios_df['jersey_number'] = player_bios_df['jersey_number'].astype(int)
         df = df.merge(player_bios_df, on='player_id', how='left')
 
+        # fill in missing values
+        df['goals_90pi_low'] = df['goals_90pi_low'].fillna(0)
+        df['goals_90pi_high'] = df['goals_90pi_high'].fillna(0)
+        df['assists_90pi_low'] = df['assists_90pi_low'].fillna(0)
+        df['assists_90pi_high'] = df['assists_90pi_high'].fillna(0)
+        df['points_90pi_low'] = df['points_90pi_low'].fillna(0)
+        df['points_90pi_high'] = df['points_90pi_high'].fillna(0)
+
         # merge in team names
         team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
         team_data = team_data[['Abbreviation', 'Team Name']]
