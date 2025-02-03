@@ -62,10 +62,12 @@ def main():
     player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=False, verbose=False)
     player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=False, verbose=False)
     player_stat_df = a2_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a2_model=a2_model, download_file=False, verbose=False)
+    print(player_stat_df)
     player_stat_df = savitzky_golay_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
     player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=False, verbose=False)
     player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=False, verbose=False)
     print(player_stat_df)
+    quit()
 
     # Bootstrap player inferences
     bootstrap_df = pd.DataFrame()
@@ -75,7 +77,6 @@ def main():
     bootstrap_df = bootstrap_a1_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
     display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='REMAIN_82', download_file=True, verbose=True) ###
-    quit()
 
     # Make team inferences
     team_stat_df = pd.DataFrame()
