@@ -385,7 +385,8 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     except TypeError:
         data = combined_df[features].values
         predictions = goal_model.predict(data)
-    combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
+    # combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. Gper1kChunk'] = predictions
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. Gper1kChunk', ascending=False, inplace=True)
     combined_df = combined_df.reset_index(drop=True)
