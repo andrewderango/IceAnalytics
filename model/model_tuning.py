@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import xgboost as xgb
 from sklearn.svm import SVR
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.linear_model import Ridge, Lasso, ElasticNet
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import KFold
@@ -89,9 +90,6 @@ def tune_goal_model(projection_year, model, verbose):
 
     train_data = aggregate_skater_offence_training_data(projection_year)
     train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
-    
-    if verbose:
-        print(train_data)
 
     # Define the feature columns
     train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
@@ -141,6 +139,22 @@ def tune_goal_model(projection_year, model, verbose):
             random_state=42
         )
 
+    elif model == 'neural_net2':
+        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-0 Age', 'Position']
+        model = MLPRegressor(
+            hidden_layer_sizes=(128, 64, 32),
+            max_iter=2000,
+            early_stopping=True,
+            validation_fraction=0.035,
+            learning_rate='adaptive',
+            learning_rate_init=0.005,
+            alpha=0.01,
+            solver='adam',
+            activation='relu', 
+            batch_size=64,
+            random_state=42
+        )
+
     elif model == 'support_vector':
         feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
         model = SVR(
@@ -181,5 +195,428 @@ def tune_goal_model(projection_year, model, verbose):
     
     return model
 
+def tune_a1_model(projection_year, model, verbose):
+
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+
+    # Define the feature columns
+    train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-0 Age', 'Position']
+
+    if model == 'xgboost':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        n_estimators = 50
+        learning_rate = 0.1
+        max_depth = 3
+        min_child_weight = 1
+        subsample = 1.0
+        colsample_bytree = 1.0
+        model = xgb.XGBRegressor(
+            objective='reg:squarederror',
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            max_depth=max_depth,
+            min_child_weight=min_child_weight,
+            subsample=subsample,
+            colsample_bytree=colsample_bytree,
+            verbosity=0
+        )
+    
+    elif model == 'ridge':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        model = Ridge(alpha=0.001)
+
+    elif model == 'lasso':
+        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        model = Lasso(alpha=0.001)
+
+    elif model == 'elastic_net':
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-0 Age', 'Position']
+        model = ElasticNet(alpha=0.001, l1_ratio=0.5)
+
+    elif model == 'neural_net':
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = MLPRegressor(
+            hidden_layer_sizes=(60, 30, 15),
+            max_iter=2000,
+            early_stopping=True,
+            validation_fraction=0.05,
+            learning_rate='adaptive',
+            learning_rate_init=0.005,
+            alpha=0.00001,
+            solver='adam',
+            activation='relu', 
+            batch_size=64,
+            random_state=42
+        )
+
+    elif model == 'support_vector':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = SVR(
+            kernel='rbf', 
+            C=1.0, 
+            epsilon=1.0,
+            gamma='scale'
+        )
+
+    # Drop rows with missing values of features
+    train_data = train_data.dropna(subset=feature_cols)
+
+    # Separate the features and the target
+    X = train_data[feature_cols]
+    y = train_data['Y-0 A1per1kChunk']
+
+    # Perform 10-fold cross-validation
+    kf = KFold(n_splits=10, shuffle=True, random_state=42)
+    mse_scores = []
+    mae_scores = []
+
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        mse_scores.append(mean_squared_error(y_test, y_pred))
+        mae_scores.append(mean_absolute_error(y_test, y_pred))
+
+    if verbose:
+        print(f'Mean A1/60 MSE: {sum(mse_scores) / len(mse_scores) * 9/625}')
+        print(f'Mean A1/60 MAE: {sum(mae_scores) / len(mae_scores) * 3/25}')
+
+    # Train the model on the full dataset
+    model.fit(X, y)
+    
+    return model
+
+def tune_a2_model(projection_year, model, verbose):
+
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+
+    # Define the feature columns
+    train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-0 Age', 'Position']
+
+    if model == 'xgboost':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        n_estimators = 50
+        learning_rate = 0.1
+        max_depth = 3
+        min_child_weight = 1
+        subsample = 1.0
+        colsample_bytree = 1.0
+        model = xgb.XGBRegressor(
+            objective='reg:squarederror',
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            max_depth=max_depth,
+            min_child_weight=min_child_weight,
+            subsample=subsample,
+            colsample_bytree=colsample_bytree,
+            verbosity=0
+        )
+    
+    elif model == 'ridge':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        model = Ridge(alpha=0.001)
+
+    elif model == 'lasso':
+        feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        model = Lasso(alpha=0.001)
+
+    elif model == 'elastic_net':
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-0 Age', 'Position']
+        model = ElasticNet(alpha=0.01, l1_ratio=0.35)
+
+    elif model == 'neural_net':
+        feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = MLPRegressor(
+            hidden_layer_sizes=(60, 30, 15),
+            max_iter=2000,
+            early_stopping=True,
+            validation_fraction=0.05,
+            learning_rate='adaptive',
+            learning_rate_init=0.005,
+            alpha=0.00001,
+            solver='adam',
+            activation='relu', 
+            batch_size=64,
+            random_state=42
+        )
+
+    elif model == 'support_vector':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = SVR(
+            kernel='rbf', 
+            C=1.0, 
+            epsilon=1.20,
+            gamma='scale'
+        )
+
+    # Drop rows with missing values of features
+    train_data = train_data.dropna(subset=feature_cols)
+
+    # Separate the features and the target
+    X = train_data[feature_cols]
+    y = train_data['Y-0 A2per1kChunk']
+
+    # Perform 10-fold cross-validation
+    kf = KFold(n_splits=10, shuffle=True, random_state=42)
+    mse_scores = []
+    mae_scores = []
+
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        mse_scores.append(mean_squared_error(y_test, y_pred))
+        mae_scores.append(mean_absolute_error(y_test, y_pred))
+
+    if verbose:
+        print(f'Mean A2/60 MSE: {sum(mse_scores) / len(mse_scores) * 9/625}')
+        print(f'Mean A2/60 MAE: {sum(mae_scores) / len(mae_scores) * 3/25}')
+
+    # Train the model on the full dataset
+    model.fit(X, y)
+    
+    return model
+
+def tune_atoi_model(projection_year, model, verbose):
+
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+
+    # Define the feature columns
+    train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    train_data['Y-3 Pper1kChunk'] = train_data['Y-3 Gper1kChunk'] + train_data['Y-3 A1per1kChunk'] + train_data['Y-3 A2per1kChunk']
+    train_data['Y-2 Pper1kChunk'] = train_data['Y-2 Gper1kChunk'] + train_data['Y-2 A1per1kChunk'] + train_data['Y-2 A2per1kChunk']
+    train_data['Y-1 Pper1kChunk'] = train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']    
+    train_data['Y-3 PperGame'] = train_data['Y-3 Pper1kChunk']*train_data['Y-3 ATOI']/1000*2
+    train_data['Y-2 PperGame'] = train_data['Y-2 Pper1kChunk']*train_data['Y-2 ATOI']/1000*2
+    train_data['Y-1 PperGame'] = train_data['Y-1 Pper1kChunk']*train_data['Y-1 ATOI']/1000*2
+    feature_cols = ['Y-3 PperGame', 'Y-2 PperGame', 'Y-1 PperGame', 'Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-3 Pper1kChunk', 'Y-2 Pper1kChunk', 'Y-1 Pper1kChunk', 'Y-0 Age', 'Position']
+
+    if model == 'xgboost':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        n_estimators = 50
+        learning_rate = 0.1
+        max_depth = 3
+        min_child_weight = 1
+        subsample = 1.0
+        colsample_bytree = 1.0
+        model = xgb.XGBRegressor(
+            objective='reg:squarederror',
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            max_depth=max_depth,
+            min_child_weight=min_child_weight,
+            subsample=subsample,
+            colsample_bytree=colsample_bytree,
+            verbosity=0
+        )
+    
+    elif model == 'ridge':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        model = Ridge(alpha=0.001)
+
+    elif model == 'lasso':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        model = Lasso(alpha=0.001)
+
+    elif model == 'elastic_net':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-0 Age', 'Position']
+        model = ElasticNet(alpha=0.0008, l1_ratio=0.50)
+
+    elif model == 'neural_net':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = MLPRegressor(
+            hidden_layer_sizes=(60, 30, 15),
+            max_iter=2000,
+            early_stopping=True,
+            validation_fraction=0.05,
+            learning_rate='adaptive',
+            learning_rate_init=0.005,
+            alpha=0.00001,
+            solver='adam',
+            activation='relu', 
+            batch_size=64,
+            random_state=42
+        )
+
+    elif model == 'support_vector':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = SVR(
+            kernel='rbf', 
+            C=1.0, 
+            epsilon=1.20,
+            gamma='scale'
+        )
+
+    # Drop rows with missing values of features
+    train_data = train_data.dropna(subset=feature_cols)
+
+    # Separate the features and the target
+    X = train_data[feature_cols]
+    y = train_data['Y-0 ATOI']
+
+    # Perform 10-fold cross-validation
+    kf = KFold(n_splits=10, shuffle=True, random_state=42)
+    mse_scores = []
+    mae_scores = []
+
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        mse_scores.append(mean_squared_error(y_test, y_pred))
+        mae_scores.append(mean_absolute_error(y_test, y_pred))
+
+    if verbose:
+        print(f'Mean ATOI MSE: {sum(mse_scores) / len(mse_scores)}')
+        print(f'Mean ATOI MAE: {sum(mae_scores) / len(mae_scores)}')
+
+    # Train the model on the full dataset
+    model.fit(X, y)
+    
+    return model
+
+def tune_gp_model(projection_year, model, verbose):
+
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+
+    # Define the feature columns
+    train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    train_data['Y-3 Pper1kChunk'] = train_data['Y-3 Gper1kChunk'] + train_data['Y-3 A1per1kChunk'] + train_data['Y-3 A2per1kChunk']
+    train_data['Y-2 Pper1kChunk'] = train_data['Y-2 Gper1kChunk'] + train_data['Y-2 A1per1kChunk'] + train_data['Y-2 A2per1kChunk']
+    train_data['Y-1 Pper1kChunk'] = train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']    
+    train_data['Y-3 PperGame'] = train_data['Y-3 Pper1kChunk']*train_data['Y-3 ATOI']/1000*2
+    train_data['Y-2 PperGame'] = train_data['Y-2 Pper1kChunk']*train_data['Y-2 ATOI']/1000*2
+    train_data['Y-1 PperGame'] = train_data['Y-1 Pper1kChunk']*train_data['Y-1 ATOI']/1000*2
+    feature_cols = ['Y-3 PperGame', 'Y-2 PperGame', 'Y-1 PperGame', 'Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-3 Pper1kChunk', 'Y-2 Pper1kChunk', 'Y-1 Pper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+
+    if model == 'xgboost':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        n_estimators = 50
+        learning_rate = 0.1
+        max_depth = 3
+        min_child_weight = 1
+        subsample = 1.0
+        colsample_bytree = 1.0
+        model = xgb.XGBRegressor(
+            objective='reg:squarederror',
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            max_depth=max_depth,
+            min_child_weight=min_child_weight,
+            subsample=subsample,
+            colsample_bytree=colsample_bytree,
+            verbosity=0
+        )
+    
+    elif model == 'ridge':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-0 Age', 'Position']
+        model = Ridge(alpha=0.001)
+
+    elif model == 'lasso':
+        # feature_cols = ['Y-3 Gper1kChunk', 'Y-2 Gper1kChunk', 'Y-1 Gper1kChunk', 'Y-3 xGper1kChunk', 'Y-2 xGper1kChunk', 'Y-1 xGper1kChunk', 'Y-3 SHper1kChunk', 'Y-2 SHper1kChunk', 'Y-1 SHper1kChunk', 'Y-3 iCFper1kChunk', 'Y-2 iCFper1kChunk', 'Y-1 iCFper1kChunk', 'Y-3 RAper1kChunk', 'Y-2 RAper1kChunk', 'Y-1 RAper1kChunk', 'Y-0 Age', 'Position']
+        model = Lasso(alpha=0.001)
+
+    elif model == 'elastic_net':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-3 RCper1kChunk', 'Y-2 RCper1kChunk', 'Y-1 RCper1kChunk', 'Y-0 Age', 'Position']
+        model = ElasticNet(alpha=0.005, l1_ratio=0.50)
+
+    elif model == 'neural_net':
+        feature_cols = ['Y-3 PperGame', 'Y-2 PperGame', 'Y-1 PperGame', 'Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-3 Pper1kChunk', 'Y-2 Pper1kChunk', 'Y-1 Pper1kChunk', 'Y-3 GP', 'Y-2 GP', 'Y-1 GP', 'Y-0 Age', 'Position']
+        model = MLPRegressor(
+            hidden_layer_sizes=(60, 30, 15),
+            max_iter=2000,
+            early_stopping=True,
+            validation_fraction=0.05,
+            learning_rate='adaptive',
+            learning_rate_init=0.005,
+            alpha=0.00001,
+            solver='adam',
+            activation='relu', 
+            batch_size=64,
+            random_state=42
+        )
+
+    elif model == 'support_vector':
+        # feature_cols = ['Y-3 A1per1kChunk', 'Y-2 A1per1kChunk', 'Y-1 A1per1kChunk', 'Y-3 A2per1kChunk', 'Y-2 A2per1kChunk', 'Y-1 A2per1kChunk', 'Y-0 Age', 'Position']
+        model = SVR(
+            kernel='rbf', 
+            C=1.0, 
+            epsilon=1.20,
+            gamma='scale'
+        )
+
+    # Drop rows with missing values of features
+    train_data = train_data.dropna(subset=feature_cols)
+
+    # Separate the features and the target
+    X = train_data[feature_cols]
+    y = train_data['Y-0 GP']
+
+    # Perform 10-fold cross-validation
+    kf = KFold(n_splits=10, shuffle=True, random_state=42)
+    mse_scores = []
+    mae_scores = []
+
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        mse_scores.append(mean_squared_error(y_test, y_pred))
+        mae_scores.append(mean_absolute_error(y_test, y_pred))
+
+    if verbose:
+        print(f'Mean GP MSE: {sum(mse_scores) / len(mse_scores)}')
+        print(f'Mean GP MAE: {sum(mae_scores) / len(mae_scores)}')
+
+    # Train the model on the full dataset
+    model.fit(X, y)
+    
+    return model
+
+# compute MSE and MAE for P/60 using the models
+def compute_p60_metrics(projection_year, goal_model, a1_model, a2_model, atoi_model, gp_model):
+
+    train_data = aggregate_skater_offence_training_data(projection_year)
+    train_data = train_data.loc[(train_data['Y-3 GP'] >= 30) & (train_data['Y-2 GP'] >= 30) & (train_data['Y-1 GP'] >= 30) & (train_data['Y-0 GP'] >= 30)]
+
+    # make predictions for each model
+    train_data['Position'] = train_data['Position'].apply(lambda x: 0 if x == 'D' else 1)
+    train_data['Y-3 Pper1kChunk'] = train_data['Y-3 Gper1kChunk'] + train_data['Y-3 A1per1kChunk'] + train_data['Y-3 A2per1kChunk']
+    train_data['Y-2 Pper1kChunk'] = train_data['Y-2 Gper1kChunk'] + train_data['Y-2 A1per1kChunk'] + train_data['Y-2 A2per1kChunk']
+    train_data['Y-1 Pper1kChunk'] = train_data['Y-1 Gper1kChunk'] + train_data['Y-1 A1per1kChunk'] + train_data['Y-1 A2per1kChunk']
+    train_data['Y-3 PperGame'] = train_data['Y-3 Pper1kChunk']*train_data['Y-3 ATOI']/1000*2
+    train_data['Y-2 PperGame'] = train_data['Y-2 Pper1kChunk']*train_data['Y-2 ATOI']/1000*2
+    train_data['Y-1 PperGame'] = train_data['Y-1 Pper1kChunk']*train_data['Y-1 ATOI']/1000*2
+    feature_cols = ['Y-3 PperGame', 'Y-2 PperGame', 'Y-1 PperGame', 'Y-3 ATOI', 'Y-2 ATOI', 'Y-1 ATOI', 'Y-3 Pper1kChunk', 'Y-2 Pper1kChunk', 'Y-1 Pper1kChunk', 'Y-0 Age', 'Position']
+
+    train_data = train_data.dropna(subset=feature_cols)
+    X = train_data[feature_cols]
+    y = train_data['Y-0 Pper1kChunk']
+
 PROJECTION_YEAR = 2025
-goal_model = tune_goal_model(projection_year=PROJECTION_YEAR, model='neural_net2', verbose=True)
+goal_model = tune_goal_model(projection_year=PROJECTION_YEAR, model='support_vector', verbose=True)
+a1_model = tune_a1_model(projection_year=PROJECTION_YEAR, model='elastic_net', verbose=True)
+a2_model = tune_a2_model(projection_year=PROJECTION_YEAR, model='elastic_net', verbose=True)
+atoi_model = tune_atoi_model(projection_year=PROJECTION_YEAR, model='elastic_net', verbose=True)
+gp_model = tune_gp_model(projection_year=PROJECTION_YEAR, model='neural_net', verbose=True)
+compute_p60_metrics(projection_year=PROJECTION_YEAR, goal_model=goal_model, a1_model=a1_model, a2_model=a2_model, atoi_model=atoi_model, gp_model=gp_model)
