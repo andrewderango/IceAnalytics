@@ -890,30 +890,30 @@
 888,2024020889,2025-02-08T22:00:00,889,7,3,3,San Jose Sharks,8,Dallas Stars
 889,2024020890,2025-02-09T12:30:00,890,7,5,4,Washington Capitals,5,Utah Hockey Club
 890,2024020891,2025-02-09T13:00:00,891,7,3,3,Montréal Canadiens,5,Tampa Bay Lightning
-891,2024020892,2025-02-22T13:00:00,892,1,1,0,Philadelphia Flyers,0,Edmonton Oilers
-892,2024020893,2025-02-22T15:00:00,893,1,1,0,Pittsburgh Penguins,0,Washington Capitals
-893,2024020894,2025-02-22T12:30:00,894,1,1,0,Detroit Red Wings,0,Minnesota Wild
-894,2024020895,2025-02-22T17:30:00,895,1,1,0,Buffalo Sabres,0,New York Rangers
-895,2024020896,2025-02-22T18:00:00,896,1,1,0,Florida Panthers,0,Seattle Kraken
-896,2024020897,2025-02-22T18:00:00,897,1,1,0,New Jersey Devils,0,Dallas Stars
-897,2024020898,2025-02-22T18:00:00,898,1,1,0,Nashville Predators,0,Colorado Avalanche
-898,2024020899,2025-02-22T19:00:00,899,1,1,0,Boston Bruins,0,Anaheim Ducks
-899,2024020900,2025-02-22T19:00:00,900,1,1,0,Toronto Maple Leafs,0,Carolina Hurricanes
-900,2024020901,2025-02-22T19:00:00,901,1,1,0,Ottawa Senators,0,Montréal Canadiens
-901,2024020902,2025-02-22T19:00:00,902,1,1,0,Columbus Blue Jackets,0,Chicago Blackhawks
-902,2024020903,2025-02-22T19:00:00,903,1,1,0,St. Louis Blues,0,Winnipeg Jets
-903,2024020904,2025-02-22T21:00:00,904,1,1,0,Los Angeles Kings,0,Utah Hockey Club
-904,2024020905,2025-02-22T22:00:00,905,1,1,0,Vegas Golden Knights,0,Vancouver Canucks
-905,2024020906,2025-02-23T13:00:00,906,1,1,0,Washington Capitals,0,Edmonton Oilers
-906,2024020907,2025-02-23T15:30:00,907,1,1,0,Pittsburgh Penguins,0,New York Rangers
-907,2024020908,2025-02-23T18:00:00,908,1,1,0,Detroit Red Wings,0,Anaheim Ducks
-908,2024020909,2025-02-23T18:00:00,909,1,1,0,Tampa Bay Lightning,0,Seattle Kraken
-909,2024020910,2025-02-23T18:00:00,910,1,1,0,St. Louis Blues,0,Colorado Avalanche
-910,2024020911,2025-02-23T18:00:00,911,1,1,0,Nashville Predators,0,New Jersey Devils
-911,2024020912,2025-02-23T19:00:00,912,1,1,0,Chicago Blackhawks,0,Toronto Maple Leafs
-912,2024020913,2025-02-23T19:30:00,913,1,1,0,New York Islanders,0,Dallas Stars
-913,2024020914,2025-02-23T20:00:00,914,1,1,0,Calgary Flames,0,San Jose Sharks
-914,2024020915,2025-02-23T20:00:00,915,1,1,0,Utah Hockey Club,0,Vancouver Canucks
+891,2024020892,2025-02-22T13:00:00,892,7,3,6,Philadelphia Flyers,3,Edmonton Oilers
+892,2024020893,2025-02-22T15:00:00,893,7,3,3,Pittsburgh Penguins,8,Washington Capitals
+893,2024020894,2025-02-22T12:30:00,894,7,4,3,Detroit Red Wings,4,Minnesota Wild
+894,2024020895,2025-02-22T17:30:00,895,7,3,8,Buffalo Sabres,2,New York Rangers
+895,2024020896,2025-02-22T18:00:00,896,7,3,1,Florida Panthers,2,Seattle Kraken
+896,2024020897,2025-02-22T18:00:00,897,7,3,2,New Jersey Devils,4,Dallas Stars
+897,2024020898,2025-02-22T18:00:00,898,7,3,2,Nashville Predators,1,Colorado Avalanche
+898,2024020899,2025-02-22T19:00:00,899,7,4,2,Boston Bruins,3,Anaheim Ducks
+899,2024020900,2025-02-22T19:00:00,900,7,3,6,Toronto Maple Leafs,3,Carolina Hurricanes
+900,2024020901,2025-02-22T19:00:00,901,7,3,2,Ottawa Senators,5,Montréal Canadiens
+901,2024020902,2025-02-22T19:00:00,902,7,3,5,Columbus Blue Jackets,1,Chicago Blackhawks
+902,2024020903,2025-02-22T19:00:00,903,7,5,3,St. Louis Blues,4,Winnipeg Jets
+903,2024020904,2025-02-22T21:00:00,904,7,3,5,Los Angeles Kings,3,Utah Hockey Club
+904,2024020905,2025-02-22T22:00:00,905,7,3,3,Vegas Golden Knights,1,Vancouver Canucks
+905,2024020906,2025-02-23T13:00:00,906,7,3,7,Washington Capitals,3,Edmonton Oilers
+906,2024020907,2025-02-23T15:30:00,907,7,3,3,Pittsburgh Penguins,5,New York Rangers
+907,2024020908,2025-02-23T18:00:00,908,6,4,5,Detroit Red Wings,4,Anaheim Ducks
+908,2024020909,2025-02-23T18:00:00,909,7,3,4,Tampa Bay Lightning,1,Seattle Kraken
+909,2024020910,2025-02-23T18:00:00,910,7,3,3,St. Louis Blues,1,Colorado Avalanche
+910,2024020911,2025-02-23T18:00:00,911,6,3,0,Nashville Predators,5,New Jersey Devils
+911,2024020912,2025-02-23T19:00:00,912,4,3,2,Chicago Blackhawks,5,Toronto Maple Leafs
+912,2024020913,2025-02-23T19:30:00,913,3,2,2,New York Islanders,4,Dallas Stars
+913,2024020914,2025-02-23T20:00:00,914,3,2,2,Calgary Flames,1,San Jose Sharks
+914,2024020915,2025-02-23T20:00:00,915,3,2,1,Utah Hockey Club,1,Vancouver Canucks
 915,2024020916,2025-02-24T19:30:00,916,1,1,0,Winnipeg Jets,0,San Jose Sharks
 916,2024020917,2025-02-24T22:30:00,917,1,1,0,Los Angeles Kings,0,Vegas Golden Knights
 917,2024020918,2025-02-25T19:00:00,918,1,1,0,Boston Bruins,0,Toronto Maple Leafs
@@ -935,8 +935,8 @@
 933,2024020934,2025-02-27T19:00:00,934,1,1,0,Montréal Canadiens,0,San Jose Sharks
 934,2024020935,2025-02-27T19:00:00,935,1,1,0,Detroit Red Wings,0,Columbus Blue Jackets
 935,2024020936,2025-02-27T19:00:00,936,1,1,0,Tampa Bay Lightning,0,Calgary Flames
-936,2024020937,2025-02-27T19:30:00,937,1,1,0,Florida Panthers,0,Edmonton Oilers
-937,2024020938,2025-02-27T19:00:00,938,1,1,0,Pittsburgh Penguins,0,Philadelphia Flyers
+936,2024020937,2025-02-27T19:00:00,937,1,1,0,Florida Panthers,0,Edmonton Oilers
+937,2024020938,2025-02-27T19:30:00,938,1,1,0,Pittsburgh Penguins,0,Philadelphia Flyers
 938,2024020939,2025-02-27T19:00:00,939,1,1,0,Washington Capitals,0,St. Louis Blues
 939,2024020940,2025-02-27T19:00:00,940,1,1,0,Carolina Hurricanes,0,Buffalo Sabres
 940,2024020941,2025-02-27T20:00:00,941,1,1,0,Nashville Predators,0,Winnipeg Jets
