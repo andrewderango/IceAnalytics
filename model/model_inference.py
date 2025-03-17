@@ -1315,7 +1315,10 @@ def generate_savgol_goal_inferences(projection_year, player_stat_df, fwd_model, 
 
     # merge inferences into player_stat_df
     merged_df = pd.merge(player_stat_df, young_combined_df[['PlayerID', 'Gper1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated'))
-    player_stat_df['Gper1kChunk'] = merged_df['Gper1kChunk_updated'].combine_first(merged_df['Gper1kChunk'])
+    merged_df['Gper1kChunk'] = merged_df['Gper1kChunk_updated'].combine_first(merged_df['Gper1kChunk'])
+    player_stat_df = pd.merge(player_stat_df, merged_df[['PlayerID', 'Gper1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated')) 
+    player_stat_df['Gper1kChunk'] = player_stat_df['Gper1kChunk_updated'].combine_first(player_stat_df['Gper1kChunk'])
+    player_stat_df = player_stat_df.drop(columns=['Gper1kChunk_updated'])
 
     return player_stat_df
 
@@ -1422,7 +1425,10 @@ def generate_savgol_a1_inferences(projection_year, player_stat_df, fwd_model, df
 
     # merge inferences into player_stat_df
     merged_df = pd.merge(player_stat_df, young_combined_df[['PlayerID', 'A1per1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated'))
-    player_stat_df['A1per1kChunk'] = merged_df['A1per1kChunk_updated'].combine_first(merged_df['A1per1kChunk'])
+    merged_df['A1per1kChunk'] = merged_df['A1per1kChunk_updated'].combine_first(merged_df['A1per1kChunk'])
+    player_stat_df = pd.merge(player_stat_df, merged_df[['PlayerID', 'A1per1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated')) 
+    player_stat_df['A1per1kChunk'] = player_stat_df['A1per1kChunk_updated'].combine_first(player_stat_df['A1per1kChunk'])
+    player_stat_df = player_stat_df.drop(columns=['A1per1kChunk_updated'])
 
     return player_stat_df
 
@@ -1529,6 +1535,9 @@ def generate_savgol_a2_inferences(projection_year, player_stat_df, fwd_model, df
 
     # merge inferences into player_stat_df
     merged_df = pd.merge(player_stat_df, young_combined_df[['PlayerID', 'A2per1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated'))
-    player_stat_df['A2per1kChunk'] = merged_df['A2per1kChunk_updated'].combine_first(merged_df['A2per1kChunk'])
-
+    merged_df['A2per1kChunk'] = merged_df['A2per1kChunk_updated'].combine_first(merged_df['A2per1kChunk'])
+    player_stat_df = pd.merge(player_stat_df, merged_df[['PlayerID', 'A2per1kChunk']], on='PlayerID', how='left', suffixes=('', '_updated')) 
+    player_stat_df['A2per1kChunk'] = player_stat_df['A2per1kChunk_updated'].combine_first(player_stat_df['A2per1kChunk'])
+    player_stat_df = player_stat_df.drop(columns=['A2per1kChunk_updated'])
+    
     return player_stat_df
