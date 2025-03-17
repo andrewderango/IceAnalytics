@@ -47,6 +47,11 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^9.2.0"
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-router-dom": "^5.3.3",
+    "eslint": "^9.2.0",
+    "typescript": "^5.8.2",
+    "@types/react-table": "^7.7.9"
   }
 }

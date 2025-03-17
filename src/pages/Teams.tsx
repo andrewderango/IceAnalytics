@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, Column } from 'react-table';
 import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
 
 function Teams() {
-  const [data, setData] = useState([]);
-  const [sortBy, setSortBy] = useState({ id: null, desc: false });
+  const [data, setData] = useState<any[]>([]);
+  const [sortBy, setSortBy] = useState<{ id: string | null; desc: boolean }>({ id: null, desc: false });
   const [lastUpdated, setLastUpdated] = useState('');
 
   useEffect(() => {
@@ -40,11 +40,11 @@ function Teams() {
     
           if (window.innerWidth < 600) {
             // MM/DD/YY for mobile
-            const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+            const options: Intl.DateTimeFormatOptions = { year: '2-digit', month: '2-digit', day: '2-digit' };
             formattedDate = timestamp.toLocaleDateString('en-US', options);
           } else {
             // full date otherwise
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
             formattedDate = timestamp.toLocaleDateString('en-US', options);
           }
     
@@ -60,18 +60,18 @@ function Teams() {
     fetchMetadata();
   }, []);
 
-  const columns = useMemo(
+  const columns: Column<any>[] = useMemo(
     () => [
       {
         Header: 'Logo',
         accessor: 'logo',
-        Cell: ({ value }) => <img src={value} alt="logo" className="team-logo" />,
+        Cell: ({ value }: { value: string }) => <img src={value} alt="logo" className="team-logo" />,
         sticky: 'left',
       },
       {
         Header: 'Team',
         accessor: 'team',
-        Cell: ({ cell: { value } }) => (
+        Cell: ({ cell: { value } }: { cell: { value: string } }) => (
           <div style={{ minWidth: '150px' }}>
             {value}
           </div>
@@ -80,42 +80,42 @@ function Teams() {
       {
         Header: 'Wins',
         accessor: 'wins',
-        Cell: ({ cell: { value } }) => Math.round(value),
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => Math.round(value),
       },
       {
         Header: 'Losses',
         accessor: 'losses',
-        Cell: ({ cell: { value } }) => Math.round(value),
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => Math.round(value),
       },
       {
         Header: 'OTL',
         accessor: 'otl',
-        Cell: ({ cell: { value } }) => Math.round(value),
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => Math.round(value),
       },
       {
         Header: 'Points',
         accessor: 'points',
-        Cell: ({ cell: { value } }) => Math.round(value),
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => Math.round(value),
       },
       {
         Header: 'GF',
         accessor: 'goals_for',
-        Cell: ({ cell: { value } }) => Math.round(value),
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => Math.round(value),
       },
       {
         Header: 'GA',
         accessor: 'goals_against',
-        Cell: ({ cell: { value } }) => Math.round(value),
+        Cell: ({ cell: { value } }: { cell: { value: number } }) => Math.round(value),
       },
       {
         Header: 'Playoffs',
         accessor: 'playoff_prob',
-        sortType: (rowA, rowB, columnId, desc) => {
+        sortType: (rowA: any, rowB: any, columnId: string, desc: boolean) => {
           const a = parseFloat(rowA.original[columnId]);
           const b = parseFloat(rowB.original[columnId]);
           return desc ? b - a : a - b;
         },
-        Cell: ({ cell: { value }, column: { id } }) => {
+        Cell: ({ cell: { value }, column: { id } }: { cell: { value: string }, column: { id: string } }) => {
           const isSelected = id === sortBy.id;
           const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
           return (
@@ -131,12 +131,12 @@ function Teams() {
       {
         Header: "Presidents' Trophy",
         accessor: 'presidents_trophy_prob',
-        sortType: (rowA, rowB, columnId, desc) => {
+        sortType: (rowA: any, rowB: any, columnId: string, desc: boolean) => {
           const a = parseFloat(rowA.original[columnId]);
           const b = parseFloat(rowB.original[columnId]);
           return desc ? b - a : a - b;
         },
-        Cell: ({ cell: { value }, column: { id } }) => {
+        Cell: ({ cell: { value }, column: { id } }: { cell: { value: string }, column: { id: string } }) => {
           const isSelected = id === sortBy.id;
           const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
           return (
@@ -149,31 +149,11 @@ function Teams() {
           );
         },
       },
-      // {
-      //   Header: 'Stanley Cup',
-      //   accessor: 'stanley_cup_prob',
-      //   sortType: (rowA, rowB, columnId, desc) => {
-      //     const a = parseFloat(rowA.original[columnId]);
-      //     const b = parseFloat(rowB.original[columnId]);
-      //     return desc ? b - a : a - b;
-      //   },
-      //   Cell: ({ cell: { value }, column: { id } }) => {
-      //     const isSelected = id === sortBy.id;
-      //     const color = `rgba(138, 125, 91, ${parseFloat(value) * 0.9 + 0.1})`;
-      //     return (
-      //       <div 
-      //         className={isSelected ? 'selected-column' : ''} 
-      //         style={{ color: 'white', backgroundColor: color, padding: '5px', borderRadius: '5px', width: '75px', margin: 'auto', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)'}}
-      //       >
-      //         {(parseFloat(value) * 100).toFixed(1)}%
-      //       </div>
-      //     );
-      //   },
     ],
     [sortBy]
   );
 
-  const handleSort = (columnId) => {
+  const handleSort = (columnId: string) => {
     setSortBy(prev => {
       if (prev.id === columnId) {
         return { id: null, desc: false };
@@ -192,8 +172,8 @@ function Teams() {
     if (!id) return data;
 
     const sorted = [...data].sort((a, b) => {
-      let aValue = a[id];
-      let bValue = b[id];
+      let aValue: any = a[id];
+      let bValue: any = b[id];
 
       if (id === 'playoff_prob' || id === 'presidents_trophy_prob' || id === 'stanley_cup_prob') {
         aValue = parseFloat(aValue);
@@ -249,7 +229,7 @@ function Teams() {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
+                  {row.cells.map((cell: any) => (
                     <td
                       {...cell.getCellProps({
                         style: {
