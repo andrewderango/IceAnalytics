@@ -1,7 +1,7 @@
 ,Player,Team,Position,Age,Date of Birth,Birth City,Birth State/Province,Birth Country,Nationality,Height (in),Weight (lbs),Draft Year,Draft Team,Draft Round,Round Pick,Overall Draft Position
 0,Marc-Andre Fleury,MIN,G,40,1984-11-28,Sorel,QC,CAN,CAN,74,185,2003,PIT,1,1,1
 1,Jonathan Quick,NYR,G,39,1986-01-21,Milford,CT,USA,USA,73,220,2005,L.A,3,11,72
-2,James Reimer,"ANA, BUF",G,36,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99
+2,James Reimer,"ANA, BUF",G,37,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99
 3,Semyon Varlamov,NYI,G,36,1988-04-27,Samara,,RUS,RUS,74,206,2006,WSH,1,23,23
 4,Jacob Markstrom,N.J,G,35,1990-01-31,Gävle,,SWE,SWE,78,207,2008,FLA,2,1,31
 5,Jake Allen,N.J,G,34,1990-08-07,Fredericton,NB,CAN,CAN,74,195,2008,STL,2,4,34
@@ -13,7 +13,7 @@
 11,Scott Wedgewood,"COL, NSH",G,32,1992-08-14,Brampton,ON,CAN,CAN,74,205,2010,N.J,3,24,84
 12,Philipp Grubauer,SEA,G,33,1991-11-25,Rosenheim,,DEU,DEU,73,188,2010,WSH,4,22,112
 13,Louis Domingue,NYR,G,33,1992-03-06,St-Hyacinthe,QC,CAN,CAN,75,208,2010,PHX,5,18,138
-14,Petr Mrazek,CHI,G,33,1992-02-14,Ostrava,,CZE,CZE,74,188,2010,DET,5,21,141
+14,Petr Mrazek,"CHI, DET",G,33,1992-02-14,Ostrava,,CZE,CZE,74,188,2010,DET,5,21,141
 15,Frederik Andersen,CAR,G,35,1989-10-02,Herning,,DNK,DNK,76,238,2012,ANA,3,26,87
 16,Anton Forsberg,OTT,G,32,1992-11-27,Härnösand,,SWE,SWE,75,193,2011,CBJ,7,7,188
 17,Jordan Binnington,STL,G,31,1993-07-11,Richmond Hill,ON,CAN,CAN,74,172,2011,STL,3,27,88
@@ -36,7 +36,7 @@
 34,Jonas Johansson,T.B,G,29,1995-09-19,Gävle,,SWE,SWE,77,220,2014,BUF,3,1,61
 35,Elvis Merzlikins,CBJ,G,30,1994-04-13,Riga,,LVA,LVA,75,183,2014,CBJ,3,16,76
 36,Ilya Sorokin,NYI,G,29,1995-08-04,Mezhdurechensk,,RUS,RUS,75,195,2014,NYI,3,18,78
-37,Ville Husso,DET,G,30,1995-02-06,Helsinki,,FIN,FIN,75,200,2014,STL,4,4,94
+37,Ville Husso,"ANA, DET",G,30,1995-02-06,Helsinki,,FIN,FIN,75,200,2014,STL,4,4,94
 38,Kaapo Kahkonen,COL,G,28,1996-08-16,Helsinki,,FIN,FIN,74,217,2014,MIN,4,19,109
 39,Igor Shesterkin,NYR,G,29,1995-12-30,Moscow,,RUS,RUS,73,189,2014,NYR,4,28,118
 40,Mackenzie Blackwood,"COL, S.J",G,28,1996-12-09,Thunder Bay,ON,CAN,CAN,76,225,2015,N.J,2,12,42
@@ -67,7 +67,7 @@
 65,Lukas Dostal,ANA,G,24,2000-06-22,Brno,,CZE,CZE,74,174,2018,ANA,3,23,85
 66,Kevin Lankinen,VAN,G,29,1995-04-28,Helsinki,,FIN,FIN,74,190,-,-,-,-,-
 67,Joel Hofer,STL,G,24,2000-07-30,Winnipeg,MB,CAN,CAN,77,179,2018,STL,4,14,107
-68,Justus Annunen,"COL, NSH",G,24,2000-03-11,Kempele,,FIN,FIN,76,210,-,-,-,-,-
+68,Justus Annunen,"COL, NSH",G,25,2000-03-11,Kempele,,FIN,FIN,76,210,-,-,-,-,-
 69,Akira Schmid,VGK,G,24,2000-05-12,Bern,,CHE,CHE,77,205,2018,N.J,5,12,136
 70,Samuel Ersson,PHI,G,25,1999-10-20,Falun,,SWE,SWE,74,176,2018,PHI,5,19,143
 71,Spencer Knight,"CHI, FLA",G,23,2001-04-19,Stamford,CT,USA,USA,75,192,2019,FLA,1,13,13
@@ -90,6 +90,7 @@
 88,Arvid Soderblom,CHI,G,25,1999-08-19,Göteborg,,SWE,SWE,75,180,-,-,-,-,-
 89,Jet Greaves,CBJ,G,23,2001-03-30,Cambridge,ON,CAN,CAN,72,184,-,-,-,-,-
 90,Jaxson Stauber,UTA,G,25,1999-04-27,Wayzata,MN,USA,USA,75,174,-,-,-,-,-
-91,Nikke Kokko,SEA,G,20,2004-03-14,,,FIN,,75,184,2022,SEA,2,26,58
+91,Nikke Kokko,SEA,G,21,2004-03-14,,,FIN,,75,184,2022,SEA,2,26,58
 92,Dennis Hildeby,TOR,G,23,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122
 93,Yaniv Perets,CAR,G,25,2000-03-04,,,CAN,,73,181,-,-,-,-,-
+94,Georgi Romanov,S.J,G,25,1999-12-15,,,RUS,,77,207,-,-,-,-,-
