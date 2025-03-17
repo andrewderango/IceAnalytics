@@ -142,7 +142,7 @@
 140,Eddie Lack,"CGY, N.J",G,35,1988-01-05,Norrtälje,,SWE,SWE,76,187,-,-,-,-,-,2017-2018,eddielack
 141,Andrew Hammond,"MTL, N.J",G,35,1988-02-11,Surrey,BC,CAN,CAN,74,215,-,-,-,-,-,2021-2022,andrewhammond
 142,Riku Helenius,T.B,G,35,1988-03-01,Palkane,,FIN,FIN,75,211,2006,T.B,1,15,15,2008-2009,rikuhelenius
-143,James Reimer,"ANA, BUF",G,36,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99,2024-2025,jamesreimer
+143,James Reimer,"ANA, BUF",G,37,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99,2024-2025,jamesreimer
 144,Michal Neuvirth,PHI,G,35,1988-03-23,Ústí nad Labem,,CZE,CZE,73,209,2006,WSH,2,4,34,2018-2019,michalneuvirth
 145,Leland Irving,CGY,G,35,1988-04-11,Barrhead,AB,CAN,CAN,72,177,2006,CGY,1,26,26,2012-2013,lelandirving
 146,Semyon Varlamov,NYI,G,36,1988-04-27,Samara,,RUS,RUS,74,206,2006,WSH,1,23,23,2024-2025,semyonvarlamov
@@ -197,8 +197,8 @@
 195,Pheonix Copley,L.A,G,33,1992-01-18,North Pole,AK,USA,USA,76,200,-,-,-,-,-,2024-2025,pheonixcopley
 196,Tyler Bunz,EDM,G,31,1992-02-11,Regina,SK,CAN,CAN,73,205,2010,EDM,5,1,121,2014-2015,tylerbunz
 197,Matthew O'Connor,OTT,G,31,1992-02-14,Sault Ste. Marie,ON,CAN,CAN,78,188,-,-,-,-,-,2015-2016,mattoconnor
-198,Petr Mrazek,CHI,G,32,1992-02-14,Ostrava,,CZE,CZE,74,188,2010,DET,5,21,141,2024-2025,petrmrazek
-199,Louis Domingue,NYR,G,32,1992-03-06,St-Hyacinthe,QC,CAN,CAN,75,208,2010,PHX,5,18,138,2024-2025,louisdomingue
+198,Petr Mrazek,"CHI, DET",G,33,1992-02-14,Ostrava,,CZE,CZE,74,188,2010,DET,5,21,141,2024-2025,petrmrazek
+199,Louis Domingue,NYR,G,33,1992-03-06,St-Hyacinthe,QC,CAN,CAN,75,208,2010,PHX,5,18,138,2024-2025,louisdomingue
 200,Kent Simpson,CHI,G,31,1992-03-26,Edmonton,AB,CAN,CAN,74,209,2010,CHI,2,28,58,2013-2014,kentsimpson
 201,Calvin Pickard,EDM,G,32,1992-04-15,Moncton,NB,CAN,CAN,73,210,2010,COL,2,19,49,2024-2025,calvinpickard
 202,Jason Kasdorf,BUF,G,31,1992-05-18,Winnipeg,MB,CAN,CAN,76,205,2011,WPG,6,6,157,2015-2016,jasonkasdorf
@@ -241,7 +241,7 @@
 239,Andrei Vasilevskiy,T.B,G,30,1994-07-25,Tyumen,,RUS,RUS,76,220,2012,T.B,1,19,19,2024-2025,andreivasilevskiy
 240,Cal Petersen,PHI,G,29,1994-10-19,Waterloo,IA,USA,USA,74,185,2013,BUF,5,8,129,2023-2024,calpetersen
 241,Marcus Hogberg,NYI,G,30,1994-11-25,Orebro,,SWE,SWE,77,222,2013,OTT,3,17,78,2024-2025,marcushogberg
-242,Ville Husso,DET,G,29,1995-02-06,Helsinki,,FIN,FIN,75,200,2014,STL,4,4,94,2024-2025,villehusso
+242,Ville Husso,"ANA, DET",G,30,1995-02-06,Helsinki,,FIN,FIN,75,200,2014,STL,4,4,94,2024-2025,villehusso
 243,Ken Appleby,N.J,G,28,1995-04-10,North Bay,ON,CAN,CAN,77,210,-,-,-,-,-,2017-2018,kenappleby
 244,Kenneth Appleby,NYI,G,29,1995-04-10,North Bay,ON,CAN,CAN,77,210,-,-,-,-,-,2023-2024,kennethappleby
 245,Juuse Saros,NSH,G,29,1995-04-19,Forssa,,FIN,FIN,71,180,2013,NSH,4,8,99,2024-2025,juusesaros
@@ -259,8 +259,8 @@
 257,Thatcher Demko,VAN,G,29,1995-12-08,San Diego,CA,USA,USA,76,192,2014,VAN,2,6,36,2024-2025,thatcherdemko
 258,Igor Shesterkin,NYR,G,29,1995-12-30,Moscow,,RUS,RUS,73,189,2014,NYR,4,28,118,2024-2025,igorshesterkin
 259,Alex Nedeljkovic,PIT,G,29,1996-01-07,Parma,OH,USA,USA,72,208,2014,CAR,2,7,37,2024-2025,alexnedeljkovic
-260,Vitek Vanecek,S.J,G,29,1996-01-09,Havlickuv Brod,,CZE,CZE,74,184,2014,WSH,2,9,39,2024-2025,vitekvanecek
-261,Alexandar Georgiev,"COL, S.J",G,28,1996-02-10,Moscow,,RUS,RUS,73,178,-,-,-,-,-,2024-2025,alexandargeorgiev
+260,Vitek Vanecek,"FLA, S.J",G,29,1996-01-09,Havlickuv Brod,,CZE,CZE,74,184,2014,WSH,2,9,39,2024-2025,vitekvanecek
+261,Alexandar Georgiev,"COL, S.J",G,29,1996-02-10,Moscow,,RUS,RUS,73,178,-,-,-,-,-,2024-2025,alexandargeorgiev
 262,Gilles Senn,N.J,G,27,1996-03-01,Bülach,,CHE,CHE,77,191,2017,N.J,5,5,129,2019-2020,gillessenn
 263,Brandon Halverson,NYR,G,27,1996-03-29,Traverse City,MI,USA,USA,76,210,2014,NYR,2,29,59,2017-2018,brandonhalverson
 264,Adin Hill,VGK,G,28,1996-05-11,Comox,BC,CAN,CAN,76,215,2015,ARI,3,15,76,2024-2025,adinhill
@@ -272,67 +272,70 @@
 270,Sam Montembeault,MTL,G,28,1996-10-30,Bécancour,QC,CAN,CAN,75,214,2015,FLA,3,16,77,2024-2025,sammontembeault
 271,Ivan Fedotov,PHI,G,28,1996-11-28,Russia,,RUS,RUS,78,188,2015,PHI,7,7,188,2024-2025,ivanfedotov
 272,Mackenzie Blackwood,"COL, S.J",G,28,1996-12-09,Thunder Bay,ON,CAN,CAN,76,225,2015,N.J,2,12,42,2024-2025,mackenzieblackwood
-273,Felix Sandstrom,PHI,G,27,1997-01-12,Gävle,,SWE,SWE,74,191,2015,PHI,3,9,70,2023-2024,felixsandstrom
-274,Veini Vehvilainen,CBJ,G,26,1997-02-13,Jyväskylä,,FIN,FIN,72,181,2018,CBJ,6,18,173,2020-2021,veinivehvilainen
-275,Ilya Samsonov,VGK,G,27,1997-02-22,Magnitogorsk,,RUS,RUS,75,214,2015,WSH,1,22,22,2024-2025,ilyasamsonov
-276,Logan Thompson,WSH,G,27,1997-02-25,Calgary,AB,CAN,CAN,76,205,-,-,-,-,-,2024-2025,loganthompson
-277,Connor Ingram,UTA,G,27,1997-03-31,Saskatoon,SK,CAN,CAN,74,196,2016,T.B,3,27,88,2024-2025,connoringram
-278,Adam Werner,COL,G,26,1997-05-02,Mariestad,,SWE,SWE,77,205,2016,COL,5,10,131,2019-2020,adamwerner
-279,Adam Huska,NYR,G,26,1997-05-12,Slovakia,,SVK,SVK,76,214,2015,NYR,7,3,184,2021-2022,adamhuska
-280,Devin Cooley,S.J,G,27,1997-05-25,Los Gatos,CA,USA,USA,77,192,-,-,-,-,-,2023-2024,devincooley
-281,Michael McNiven,MTL,G,26,1997-07-09,Winnipeg,MB,CAN,CAN,73,199,-,-,-,-,-,2021-2022,michaelmcniven
-282,Dan Vladar,CGY,G,27,1997-08-20,Prague,,CZE,CZE,77,209,2015,BOS,3,14,75,2024-2025,danvladar
-283,Zach Sawchenko,S.J,G,25,1997-12-30,Calgary,AB,CAN,CAN,73,185,-,-,-,-,-,2021-2022,zachsawchenko
-284,Dylan Wells,CHI,G,25,1998-01-03,St. Catharines,ON,CAN,CAN,74,190,2016,EDM,5,2,123,2022-2023,dylanwells
-285,Jack LaFontaine,CAR,G,25,1998-01-06,Mississauga,ON,CAN,CAN,74,204,2016,CAR,3,14,75,2021-2022,jacklafontaine
-286,Josef Korenar,ARI,G,25,1998-01-31,Pelhrimov,,CZE,,73,185,-,-,-,-,-,2021-2022,josefkorenar
-287,Matt Murray,DAL,G,26,1998-02-02,St. Albert,AB,CAN,CAN,73,200,-,-,-,-,-,2023-2024,mattmurray
-288,Filip Gustavsson,MIN,G,26,1998-06-07,Skellefteå,,SWE,SWE,74,184,2016,PIT,2,25,55,2024-2025,filipgustavsson
-289,Alexei Melnichuk,S.J,G,25,1998-06-29,St. Petersburg,,RUS,RUS,74,201,-,-,-,-,-,2020-2021,alexeimelnichuk
-290,Joseph Woll,TOR,G,26,1998-07-12,Dardenne Prairie,MO,USA,USA,75,203,2016,TOR,3,1,62,2024-2025,josephwoll
-291,Carter Hart,PHI,G,25,1998-08-13,Sherwood Park,AB,CAN,CAN,74,181,2016,PHI,2,18,48,2023-2024,carterhart
-292,Dylan Ferguson,OTT,G,25,1998-09-20,Lantzville,BC,CAN,CAN,74,194,2017,DAL,7,8,194,2022-2023,dylanferguson
-293,Kaden Fulcher,DET,G,25,1998-09-23,Brigden,ON,CAN,,74,210,-,-,-,-,-,2018-2019,kadenfulcher
-294,Stuart Skinner,EDM,G,26,1998-11-01,Edmonton,AB,CAN,CAN,76,206,2017,EDM,3,16,78,2024-2025,stuartskinner
-295,Jeremy Swayman,BOS,G,26,1998-11-24,Anchorage,AK,USA,USA,74,194,2017,BOS,4,18,111,2024-2025,jeremyswayman
-296,Jake Oettinger,DAL,G,26,1998-12-18,Lakeville,MN,USA,USA,77,220,2017,DAL,1,26,26,2024-2025,jakeoettinger
-297,Jiri Patera,VGK,G,25,1999-02-24,,,CZE,CZE,74,209,2017,VGK,6,6,161,2023-2024,jiripatera
-298,Ivan Prosvetov,COL,G,25,1999-03-05,Moscow,,RUS,RUS,77,195,2018,ARI,4,21,114,2023-2024,ivanprosvetov
-299,Ukko-Pekka Luukkonen,BUF,G,25,1999-03-09,Espoo,,FIN,FIN,77,217,2017,BUF,2,23,54,2024-2025,ukkopekkaluukkonen
-300,Daniil Tarasov,CBJ,G,25,1999-03-27,Novokuznetsk,,RUS,RUS,77,196,2017,CBJ,3,24,86,2024-2025,daniiltarasov
-301,Eetu Makiniemi,S.J,G,24,1999-04-19,Vantaa,,FIN,FIN,74,184,2017,CAR,4,11,104,2022-2023,eetumakiniemi
-302,Jaxson Stauber,UTA,G,25,1999-04-27,Wayzata,MN,USA,USA,75,174,-,-,-,-,-,2024-2025,jaxsonstauber
-303,Matt Villalta,ARI,G,25,1999-06-03,Kingston,ON,CAN,CAN,75,165,2017,L.A,3,10,72,2023-2024,mattvillalta
-304,Michael Dipietro,VAN,G,24,1999-06-09,Windsor,ON,CAN,CAN,72,200,2017,VAN,3,2,64,2021-2022,michaeldipietro
-305,Olle Eriksson Ek,ANA,G,24,1999-06-22,Karlstad,,SWE,SWE,75,189,2017,ANA,5,29,153,2022-2023,olleerikssonek
-306,Pyotr Kochetkov,CAR,G,25,1999-06-25,Penza,,RUS,RUS,75,205,2019,CAR,2,5,36,2024-2025,pyotrkochetkov
-307,Cayden Primeau,MTL,G,25,1999-08-11,Farmington Hills,MI,USA,USA,74,199,2017,MTL,7,13,199,2024-2025,caydenprimeau
-308,Arvid Soderblom,CHI,G,25,1999-08-19,Göteborg,,SWE,SWE,75,180,-,-,-,-,-,2024-2025,arvidsoderblom
-309,Samuel Ersson,PHI,G,25,1999-10-20,Falun,,SWE,SWE,74,176,2018,PHI,5,19,143,2024-2025,samuelersson
-310,Georgi Romanov,S.J,G,24,1999-12-15,,,RUS,,77,207,-,-,-,-,-,2023-2024,georgiromanov
-311,Yaniv Perets,CAR,G,24,2000-03-04,,,CAN,,73,181,-,-,-,-,-,2024-2025,yanivperets
-312,Justus Annunen,"COL, NSH",G,24,2000-03-11,Kempele,,FIN,FIN,76,210,-,-,-,-,-,2024-2025,justusannunen
-313,Akira Schmid,VGK,G,24,2000-05-12,Bern,,CHE,CHE,77,205,2018,N.J,5,12,136,2024-2025,akiraschmid
-314,Lukas Dostal,ANA,G,24,2000-06-22,Brno,,CZE,CZE,74,174,2018,ANA,3,23,85,2024-2025,lukasdostal
-315,Joel Hofer,STL,G,24,2000-07-30,Winnipeg,MB,CAN,CAN,77,179,2018,STL,4,14,107,2024-2025,joelhofer
-316,Kevin Mandolese,OTT,G,23,2000-08-22,Blainville,QC,CAN,CAN,76,180,2018,OTT,6,2,157,2022-2023,kevinmandolese
-317,Magnus Chrona,S.J,G,23,2000-08-28,,,SWE,,76,194,2018,T.B,5,28,152,2023-2024,magnuschrona
-318,Erik Portillo,L.A,G,24,2000-09-03,,,SWE,,78,218,2019,BUF,3,5,67,2024-2025,erikportillo
-319,Mads Sogaard,OTT,G,24,2000-12-13,Aalborg,,DNK,DNK,79,196,-,-,-,-,-,2024-2025,madssogaard
-320,Nico Daws,N.J,G,23,2000-12-22,Munich,,DEU,DEU,76,205,2020,N.J,3,22,84,2023-2024,nicodaws
-321,Trent Miner,COL,G,23,2001-02-05,Brandon,MB,CAN,CAN,73,185,2019,COL,7,16,202,2024-2025,trentminer
-322,Arturs Silovs,VAN,G,23,2001-03-22,,,LVA,LVA,76,203,2019,VAN,6,1,156,2024-2025,arturssilovs
-323,Jet Greaves,CBJ,G,23,2001-03-30,Cambridge,ON,CAN,CAN,72,184,-,-,-,-,-,2024-2025,jetgreaves
-324,Dustin Wolf,CGY,G,23,2001-04-16,Gilroy,CA,USA,USA,72,156,2019,CGY,7,28,214,2024-2025,dustinwolf
-325,Spencer Knight,FLA,G,23,2001-04-19,Stamford,CT,USA,USA,75,192,2019,FLA,1,13,13,2024-2025,spencerknight
-326,Jakub Dobes,MTL,G,23,2001-05-27,,,CZE,,76,205,2020,MTL,5,12,136,2024-2025,jakubdobes
-327,Hugo Alnefelt,T.B,G,22,2001-06-04,Danderyd,,SWE,SWE,74,177,2019,T.B,3,9,71,2021-2022,hugoalnefelt
-328,Dennis Hildeby,TOR,G,23,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122,2024-2025,dennishildeby
-329,Devon Levi,BUF,G,23,2001-12-27,Dollard-des-Ormeaux,QC,CAN,CAN,72,184,2020,FLA,7,26,212,2024-2025,devonlevi
-330,Aleksei Kolosov,PHI,G,23,2002-01-04,,,BLR,,73,185,2021,PHI,3,14,78,2024-2025,alekseikolosov
-331,Joel Blomqvist,PIT,G,23,2002-01-10,,,FIN,,74,183,2020,PIT,2,21,52,2024-2025,joelblomqvist
-332,Yaroslav Askarov,S.J,G,22,2002-06-16,Omsk,,RUS,RUS,75,178,2020,NSH,1,11,11,2024-2025,yaroslavaskarov
-333,Drew Commesso,CHI,G,22,2002-07-19,,,USA,,74,180,2020,CHI,2,15,46,2024-2025,drewcommesso
-334,Leevi Merilainen,OTT,G,22,2002-08-13,Oulu,,FIN,FIN,74,158,-,-,-,-,-,2024-2025,leevimerilainen
-335,Jesper Wallstedt,MIN,G,22,2002-11-14,Vasteras,,SWE,SWE,75,214,2021,MIN,1,20,20,2024-2025,jesperwallstedt
-336,Sebastian Cossa,DET,G,22,2002-11-21,Hamilton,ON,CAN,CAN,78,210,2021,DET,1,15,15,2024-2025,sebastiancossa
+273,Ales Stezka,SEA,G,28,1997-01-06,,,CZE,,76,190,2015,MIN,4,20,111,2024-2025,alesstezka
+274,Felix Sandstrom,PHI,G,27,1997-01-12,Gävle,,SWE,SWE,74,191,2015,PHI,3,9,70,2023-2024,felixsandstrom
+275,Veini Vehvilainen,CBJ,G,26,1997-02-13,Jyväskylä,,FIN,FIN,72,181,2018,CBJ,6,18,173,2020-2021,veinivehvilainen
+276,Ilya Samsonov,VGK,G,28,1997-02-22,Magnitogorsk,,RUS,RUS,75,214,2015,WSH,1,22,22,2024-2025,ilyasamsonov
+277,Logan Thompson,WSH,G,28,1997-02-25,Calgary,AB,CAN,CAN,76,205,-,-,-,-,-,2024-2025,loganthompson
+278,Connor Ingram,UTA,G,27,1997-03-31,Saskatoon,SK,CAN,CAN,74,196,2016,T.B,3,27,88,2024-2025,connoringram
+279,Adam Werner,COL,G,26,1997-05-02,Mariestad,,SWE,SWE,77,205,2016,COL,5,10,131,2019-2020,adamwerner
+280,Adam Huska,NYR,G,26,1997-05-12,Slovakia,,SVK,SVK,76,214,2015,NYR,7,3,184,2021-2022,adamhuska
+281,Devin Cooley,S.J,G,27,1997-05-25,Los Gatos,CA,USA,USA,77,192,-,-,-,-,-,2023-2024,devincooley
+282,Michael McNiven,MTL,G,26,1997-07-09,Winnipeg,MB,CAN,CAN,73,199,-,-,-,-,-,2021-2022,michaelmcniven
+283,Dan Vladar,CGY,G,27,1997-08-20,Prague,,CZE,CZE,77,209,2015,BOS,3,14,75,2024-2025,danvladar
+284,Zach Sawchenko,S.J,G,25,1997-12-30,Calgary,AB,CAN,CAN,73,185,-,-,-,-,-,2021-2022,zachsawchenko
+285,Dylan Wells,CHI,G,25,1998-01-03,St. Catharines,ON,CAN,CAN,74,190,2016,EDM,5,2,123,2022-2023,dylanwells
+286,Jack LaFontaine,CAR,G,25,1998-01-06,Mississauga,ON,CAN,CAN,74,204,2016,CAR,3,14,75,2021-2022,jacklafontaine
+287,Josef Korenar,ARI,G,25,1998-01-31,Pelhrimov,,CZE,,73,185,-,-,-,-,-,2021-2022,josefkorenar
+288,Matt Murray,DAL,G,26,1998-02-02,St. Albert,AB,CAN,CAN,73,200,-,-,-,-,-,2023-2024,mattmurray
+289,Filip Gustavsson,MIN,G,26,1998-06-07,Skellefteå,,SWE,SWE,74,184,2016,PIT,2,25,55,2024-2025,filipgustavsson
+290,Alexei Melnichuk,S.J,G,25,1998-06-29,St. Petersburg,,RUS,RUS,74,201,-,-,-,-,-,2020-2021,alexeimelnichuk
+291,Joseph Woll,TOR,G,26,1998-07-12,Dardenne Prairie,MO,USA,USA,75,203,2016,TOR,3,1,62,2024-2025,josephwoll
+292,Carter Hart,PHI,G,25,1998-08-13,Sherwood Park,AB,CAN,CAN,74,181,2016,PHI,2,18,48,2023-2024,carterhart
+293,Dylan Ferguson,OTT,G,25,1998-09-20,Lantzville,BC,CAN,CAN,74,194,2017,DAL,7,8,194,2022-2023,dylanferguson
+294,Kaden Fulcher,DET,G,25,1998-09-23,Brigden,ON,CAN,,74,210,-,-,-,-,-,2018-2019,kadenfulcher
+295,Stuart Skinner,EDM,G,26,1998-11-01,Edmonton,AB,CAN,CAN,76,206,2017,EDM,3,16,78,2024-2025,stuartskinner
+296,Jeremy Swayman,BOS,G,26,1998-11-24,Anchorage,AK,USA,USA,74,194,2017,BOS,4,18,111,2024-2025,jeremyswayman
+297,Jake Oettinger,DAL,G,26,1998-12-18,Lakeville,MN,USA,USA,77,220,2017,DAL,1,26,26,2024-2025,jakeoettinger
+298,Jiri Patera,VGK,G,25,1999-02-24,,,CZE,CZE,74,209,2017,VGK,6,6,161,2023-2024,jiripatera
+299,Ivan Prosvetov,COL,G,25,1999-03-05,Moscow,,RUS,RUS,77,195,2018,ARI,4,21,114,2023-2024,ivanprosvetov
+300,Ukko-Pekka Luukkonen,BUF,G,26,1999-03-09,Espoo,,FIN,FIN,77,217,2017,BUF,2,23,54,2024-2025,ukkopekkaluukkonen
+301,Daniil Tarasov,CBJ,G,25,1999-03-27,Novokuznetsk,,RUS,RUS,77,196,2017,CBJ,3,24,86,2024-2025,daniiltarasov
+302,Eetu Makiniemi,S.J,G,24,1999-04-19,Vantaa,,FIN,FIN,74,184,2017,CAR,4,11,104,2022-2023,eetumakiniemi
+303,Jaxson Stauber,UTA,G,25,1999-04-27,Wayzata,MN,USA,USA,75,174,-,-,-,-,-,2024-2025,jaxsonstauber
+304,Matt Villalta,ARI,G,25,1999-06-03,Kingston,ON,CAN,CAN,75,165,2017,L.A,3,10,72,2023-2024,mattvillalta
+305,Michael Dipietro,VAN,G,24,1999-06-09,Windsor,ON,CAN,CAN,72,200,2017,VAN,3,2,64,2021-2022,michaeldipietro
+306,Olle Eriksson Ek,ANA,G,24,1999-06-22,Karlstad,,SWE,SWE,75,189,2017,ANA,5,29,153,2022-2023,olleerikssonek
+307,Pyotr Kochetkov,CAR,G,25,1999-06-25,Penza,,RUS,RUS,75,205,2019,CAR,2,5,36,2024-2025,pyotrkochetkov
+308,Cayden Primeau,MTL,G,25,1999-08-11,Farmington Hills,MI,USA,USA,74,199,2017,MTL,7,13,199,2024-2025,caydenprimeau
+309,Arvid Soderblom,CHI,G,25,1999-08-19,Göteborg,,SWE,SWE,75,180,-,-,-,-,-,2024-2025,arvidsoderblom
+310,Samuel Ersson,PHI,G,25,1999-10-20,Falun,,SWE,SWE,74,176,2018,PHI,5,19,143,2024-2025,samuelersson
+311,Jakub Skarek,NYI,G,25,1999-11-10,Jihlava,,CZE,CZE,75,205,2018,NYI,3,10,72,2024-2025,jakubskarek
+312,Georgi Romanov,S.J,G,25,1999-12-15,,,RUS,,77,207,-,-,-,-,-,2024-2025,georgiromanov
+313,Yaniv Perets,CAR,G,25,2000-03-04,,,CAN,,73,181,-,-,-,-,-,2024-2025,yanivperets
+314,Justus Annunen,"COL, NSH",G,25,2000-03-11,Kempele,,FIN,FIN,76,210,-,-,-,-,-,2024-2025,justusannunen
+315,Akira Schmid,VGK,G,24,2000-05-12,Bern,,CHE,CHE,77,205,2018,N.J,5,12,136,2024-2025,akiraschmid
+316,Lukas Dostal,ANA,G,24,2000-06-22,Brno,,CZE,CZE,74,174,2018,ANA,3,23,85,2024-2025,lukasdostal
+317,Joel Hofer,STL,G,24,2000-07-30,Winnipeg,MB,CAN,CAN,77,179,2018,STL,4,14,107,2024-2025,joelhofer
+318,Kevin Mandolese,OTT,G,23,2000-08-22,Blainville,QC,CAN,CAN,76,180,2018,OTT,6,2,157,2022-2023,kevinmandolese
+319,Magnus Chrona,S.J,G,23,2000-08-28,,,SWE,,76,194,2018,T.B,5,28,152,2023-2024,magnuschrona
+320,Erik Portillo,L.A,G,24,2000-09-03,,,SWE,,78,218,2019,BUF,3,5,67,2024-2025,erikportillo
+321,Mads Sogaard,OTT,G,24,2000-12-13,Aalborg,,DNK,DNK,79,196,-,-,-,-,-,2024-2025,madssogaard
+322,Nico Daws,N.J,G,24,2000-12-22,Munich,,DEU,DEU,76,205,2020,N.J,3,22,84,2024-2025,nicodaws
+323,Trent Miner,COL,G,24,2001-02-05,Brandon,MB,CAN,CAN,73,185,2019,COL,7,16,202,2024-2025,trentminer
+324,Arturs Silovs,VAN,G,23,2001-03-22,,,LVA,LVA,76,203,2019,VAN,6,1,156,2024-2025,arturssilovs
+325,Jet Greaves,CBJ,G,23,2001-03-30,Cambridge,ON,CAN,CAN,72,184,-,-,-,-,-,2024-2025,jetgreaves
+326,Dustin Wolf,CGY,G,23,2001-04-16,Gilroy,CA,USA,USA,72,156,2019,CGY,7,28,214,2024-2025,dustinwolf
+327,Spencer Knight,"CHI, FLA",G,23,2001-04-19,Stamford,CT,USA,USA,75,192,2019,FLA,1,13,13,2024-2025,spencerknight
+328,Jakub Dobes,MTL,G,23,2001-05-27,,,CZE,,76,205,2020,MTL,5,12,136,2024-2025,jakubdobes
+329,Hugo Alnefelt,T.B,G,22,2001-06-04,Danderyd,,SWE,SWE,74,177,2019,T.B,3,9,71,2021-2022,hugoalnefelt
+330,Dennis Hildeby,TOR,G,23,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122,2024-2025,dennishildeby
+331,Devon Levi,BUF,G,23,2001-12-27,Dollard-des-Ormeaux,QC,CAN,CAN,72,184,2020,FLA,7,26,212,2024-2025,devonlevi
+332,Aleksei Kolosov,PHI,G,23,2002-01-04,,,BLR,,73,185,2021,PHI,3,14,78,2024-2025,alekseikolosov
+333,Joel Blomqvist,PIT,G,23,2002-01-10,,,FIN,,74,183,2020,PIT,2,21,52,2024-2025,joelblomqvist
+334,Yaroslav Askarov,S.J,G,22,2002-06-16,Omsk,,RUS,RUS,75,178,2020,NSH,1,11,11,2024-2025,yaroslavaskarov
+335,Drew Commesso,CHI,G,22,2002-07-19,,,USA,,74,180,2020,CHI,2,15,46,2024-2025,drewcommesso
+336,Leevi Merilainen,OTT,G,22,2002-08-13,Oulu,,FIN,FIN,74,158,-,-,-,-,-,2024-2025,leevimerilainen
+337,Jesper Wallstedt,MIN,G,22,2002-11-14,Vasteras,,SWE,SWE,75,214,2021,MIN,1,20,20,2024-2025,jesperwallstedt
+338,Sebastian Cossa,DET,G,22,2002-11-21,Hamilton,ON,CAN,CAN,78,210,2021,DET,1,15,15,2024-2025,sebastiancossa
+339,Nikke Kokko,SEA,G,21,2004-03-14,,,FIN,,75,184,2022,SEA,2,26,58,2024-2025,nikkekokko
