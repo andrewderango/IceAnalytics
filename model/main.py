@@ -9,7 +9,7 @@ from projection_engine import *
 def main():
     start_time = time.time()
     PROJECTION_YEAR = 2025
-    SIMULATIONS = 10000
+    SIMULATIONS = 2473
     season_state = get_season_state(PROJECTION_YEAR)
 
     # Update metadata.json
