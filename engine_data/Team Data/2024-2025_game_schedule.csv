@@ -1233,31 +1233,31 @@
 1231,2024021232,2025-04-07T22:30:00,1232,7,3,3,Anaheim Ducks,2,Edmonton Oilers
 1232,2024021233,2025-04-07T22:30:00,1233,7,3,1,Los Angeles Kings,2,Seattle Kraken
 1233,2024021234,2025-04-07T22:30:00,1234,7,3,2,San Jose Sharks,3,Calgary Flames
-1234,2024021235,2025-04-08T19:00:00,1235,1,1,0,Buffalo Sabres,0,Carolina Hurricanes
-1235,2024021236,2025-04-08T19:00:00,1236,1,1,0,Montréal Canadiens,0,Detroit Red Wings
-1236,2024021237,2025-04-08T19:00:00,1237,1,1,0,Florida Panthers,0,Toronto Maple Leafs
-1237,2024021238,2025-04-08T19:00:00,1238,1,1,0,New Jersey Devils,0,Boston Bruins
-1238,2024021239,2025-04-08T19:00:00,1239,1,1,0,Columbus Blue Jackets,0,Ottawa Senators
-1239,2024021240,2025-04-08T19:00:00,1240,1,1,0,Pittsburgh Penguins,0,Chicago Blackhawks
-1240,2024021241,2025-04-08T20:00:00,1241,1,1,0,Nashville Predators,0,New York Islanders
-1241,2024021242,2025-04-08T20:00:00,1242,1,1,0,Dallas Stars,0,Vancouver Canucks
-1242,2024021243,2025-04-08T21:00:00,1243,1,1,0,Utah Hockey Club,0,Seattle Kraken
-1243,2024021244,2025-04-08T21:30:00,1244,1,1,0,Colorado Avalanche,0,Vegas Golden Knights
-1244,2024021245,2025-04-09T19:00:00,1245,1,1,0,Tampa Bay Lightning,0,Toronto Maple Leafs
-1245,2024021246,2025-04-09T19:30:00,1246,1,1,0,New York Rangers,0,Philadelphia Flyers
-1246,2024021247,2025-04-09T20:00:00,1247,1,1,0,Minnesota Wild,0,San Jose Sharks
-1247,2024021248,2025-04-09T22:00:00,1248,1,1,0,Edmonton Oilers,0,St. Louis Blues
-1248,2024021249,2025-04-09T22:00:00,1249,1,1,0,Anaheim Ducks,0,Calgary Flames
-1249,2024021250,2025-04-10T19:00:00,1250,1,1,0,Boston Bruins,0,Chicago Blackhawks
-1250,2024021251,2025-04-10T19:00:00,1251,1,1,0,Florida Panthers,0,Detroit Red Wings
-1251,2024021252,2025-04-10T19:30:00,1252,1,1,0,Washington Capitals,0,Carolina Hurricanes
-1252,2024021253,2025-04-10T19:00:00,1253,1,1,0,Columbus Blue Jackets,0,Buffalo Sabres
-1253,2024021254,2025-04-10T19:30:00,1254,1,1,0,New York Islanders,0,New York Rangers
-1254,2024021255,2025-04-10T20:00:00,1255,1,1,0,Dallas Stars,0,Winnipeg Jets
-1255,2024021256,2025-04-10T21:00:00,1256,1,1,0,Colorado Avalanche,0,Vancouver Canucks
-1256,2024021257,2025-04-10T21:00:00,1257,1,1,0,Utah Hockey Club,0,Nashville Predators
-1257,2024021258,2025-04-10T22:00:00,1258,1,1,0,Vegas Golden Knights,0,Seattle Kraken
-1258,2024021259,2025-04-10T22:00:00,1259,1,1,0,Los Angeles Kings,0,Anaheim Ducks
+1234,2024021235,2025-04-08T19:00:00,1235,7,3,3,Buffalo Sabres,0,Carolina Hurricanes
+1235,2024021236,2025-04-08T19:00:00,1236,7,3,4,Montréal Canadiens,1,Detroit Red Wings
+1236,2024021237,2025-04-08T19:00:00,1237,7,3,3,Florida Panthers,1,Toronto Maple Leafs
+1237,2024021238,2025-04-08T19:00:00,1238,7,3,2,New Jersey Devils,7,Boston Bruins
+1238,2024021239,2025-04-08T19:00:00,1239,7,3,5,Columbus Blue Jackets,2,Ottawa Senators
+1239,2024021240,2025-04-08T19:00:00,1240,7,3,5,Pittsburgh Penguins,0,Chicago Blackhawks
+1240,2024021241,2025-04-08T20:00:00,1241,7,4,7,Nashville Predators,6,New York Islanders
+1241,2024021242,2025-04-08T20:00:00,1242,7,4,5,Dallas Stars,6,Vancouver Canucks
+1242,2024021243,2025-04-08T21:00:00,1243,7,3,7,Utah Hockey Club,1,Seattle Kraken
+1243,2024021244,2025-04-08T21:30:00,1244,7,5,3,Colorado Avalanche,2,Vegas Golden Knights
+1244,2024021245,2025-04-09T19:00:00,1245,7,4,3,Tampa Bay Lightning,4,Toronto Maple Leafs
+1245,2024021246,2025-04-09T19:30:00,1246,7,3,5,New York Rangers,8,Philadelphia Flyers
+1246,2024021247,2025-04-09T20:00:00,1247,7,4,8,Minnesota Wild,7,San Jose Sharks
+1247,2024021248,2025-04-09T22:00:00,1248,7,3,4,Edmonton Oilers,3,St. Louis Blues
+1248,2024021249,2025-04-09T22:00:00,1249,7,4,4,Anaheim Ducks,3,Calgary Flames
+1249,2024021250,2025-04-10T19:00:00,1250,7,3,2,Boston Bruins,5,Chicago Blackhawks
+1250,2024021251,2025-04-10T19:00:00,1251,7,3,4,Florida Panthers,1,Detroit Red Wings
+1251,2024021252,2025-04-10T19:30:00,1252,7,5,5,Washington Capitals,4,Carolina Hurricanes
+1252,2024021253,2025-04-10T19:00:00,1253,7,3,3,Columbus Blue Jackets,2,Buffalo Sabres
+1253,2024021254,2025-04-10T19:30:00,1254,7,3,2,New York Islanders,9,New York Rangers
+1254,2024021255,2025-04-10T20:00:00,1255,7,3,0,Dallas Stars,4,Winnipeg Jets
+1255,2024021256,2025-04-10T21:00:00,1256,7,3,1,Colorado Avalanche,4,Vancouver Canucks
+1256,2024021257,2025-04-10T21:00:00,1257,7,5,3,Utah Hockey Club,4,Nashville Predators
+1257,2024021258,2025-04-10T22:00:00,1258,7,3,2,Vegas Golden Knights,1,Seattle Kraken
+1258,2024021259,2025-04-10T22:00:00,1259,7,3,6,Los Angeles Kings,1,Anaheim Ducks
 1259,2024021260,2025-04-11T19:00:00,1260,1,1,0,Ottawa Senators,0,Montréal Canadiens
 1260,2024021261,2025-04-11T19:00:00,1261,1,1,0,Tampa Bay Lightning,0,Detroit Red Wings
 1261,2024021262,2025-04-11T19:00:00,1262,1,1,0,New Jersey Devils,0,Pittsburgh Penguins
@@ -1292,7 +1292,7 @@
 1290,2024021291,2025-04-15T19:00:00,1291,1,1,0,Boston Bruins,0,New Jersey Devils
 1291,2024021292,2025-04-15T19:00:00,1292,1,1,0,Buffalo Sabres,0,Toronto Maple Leafs
 1292,2024021293,2025-04-15T19:00:00,1293,1,1,0,Ottawa Senators,0,Chicago Blackhawks
-1293,2024021294,2025-04-15T19:00:00,1294,1,1,0,Tampa Bay Lightning,0,Florida Panthers
+1293,2024021294,2025-04-15T19:30:00,1294,1,1,0,Tampa Bay Lightning,0,Florida Panthers
 1294,2024021295,2025-04-15T19:00:00,1295,1,1,0,Philadelphia Flyers,0,Columbus Blue Jackets
 1295,2024021296,2025-04-15T20:00:00,1296,1,1,0,New York Islanders,0,Washington Capitals
 1296,2024021297,2025-04-15T20:00:00,1297,1,1,0,St. Louis Blues,0,Utah Hockey Club
