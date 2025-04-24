@@ -338,3 +338,13 @@
         }
     }
 }
+
+/* Add styles for the offseason message display */
+
+.offseason-message .offseason-image {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  max-height: 400px;
+}

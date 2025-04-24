@@ -23,7 +23,8 @@ function Games() {
     return (
       <div className="games offseason-message">
         <h1>Games</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 NHL projections!</p>
+        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
+        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
       </div>
     );
   }

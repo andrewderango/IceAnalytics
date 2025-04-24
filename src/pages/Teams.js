@@ -3,6 +3,7 @@ import { useTable, useSortBy } from 'react-table';
 import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
 import { offseason } from '../config/settings';
+import noGamesImage from '../assets/images/404.png';
 
 function Teams() {
   const [data, setData] = useState([]);
@@ -13,8 +14,8 @@ function Teams() {
     return (
       <div className="teams offseason-message">
         <h1>Teams</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 NHL projections!</p>
-        <div style={{ height: '55vh' }}></div>
+        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
+        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
       </div>
     );
   }
