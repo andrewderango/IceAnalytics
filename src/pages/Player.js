@@ -4,6 +4,7 @@ import supabase from '../supabaseClient';
 import { Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
 import '../styles/Player.scss';
+import { offseason } from '../config/settings';
 
 function Player() {
   const { playerId } = useParams();
@@ -16,6 +17,12 @@ function Player() {
   const [chartKey, setChartKey] = useState(0);
   const [isScreenSmallerThan1475, setIsScreenSmallerThan1475] = useState(window.innerWidth < 1475);
   const [isScreenSmallerThan1000, setIsScreenSmallerThan1000] = useState(window.innerWidth <= 1000);
+
+  useEffect(() => {
+    if (offseason) {
+      history.push('/not-found');
+    }
+  }, [history]);
 
   useEffect(() => {
     const fetchPlayer = async () => {
