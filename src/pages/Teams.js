@@ -2,11 +2,22 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
+import { offseason } from '../config/settings';
 
 function Teams() {
   const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState({ id: null, desc: false });
   const [lastUpdated, setLastUpdated] = useState('');
+
+  if (offseason) {
+    return (
+      <div className="teams offseason-message">
+        <h1>Teams</h1>
+        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 NHL projections!</p>
+        <div style={{ height: '55vh' }}></div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const fetchData = async () => {

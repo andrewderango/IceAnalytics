@@ -3,6 +3,7 @@ import '../styles/Games.scss';
 import { GridLoader } from 'react-spinners';
 import { createClient } from '@supabase/supabase-js';
 import noGamesImage from '../assets/images/404.png';
+import { offseason } from '../config/settings';
 
 function Games() {
   const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
@@ -17,6 +18,15 @@ function Games() {
   const [month, day, year] = estDate.split(',')[0].split('/');
   const date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   const [currentDate, setCurrentDate] = useState(date);
+
+  if (offseason) {
+    return (
+      <div className="games offseason-message">
+        <h1>Games</h1>
+        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 NHL projections!</p>
+      </div>
+    );
+  }
 
   const fetchData = async (fetchDate) => {
     const { data: games, error } = await supabase
