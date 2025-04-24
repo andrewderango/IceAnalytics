@@ -3,6 +3,8 @@ import { useTable, usePagination, useSortBy } from 'react-table';
 import { useHistory, Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Players.scss';
+import { offseason } from '../config/settings';
+import noGamesImage from '../assets/images/404.png';
 
 function Players() {
   const [data, setData] = useState([]);
@@ -16,6 +18,17 @@ function Players() {
   ]);
   const [lastUpdated, setLastUpdated] = useState('');
   const history = useHistory();
+
+  if (offseason) {
+    return (
+      <div className="players offseason-message">
+        <h1>Players</h1>
+        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
+        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
+        <div style={{ height: '55vh' }}></div>
+      </div>
+    );
+  }
 
   const columns = React.useMemo(
     () => [
