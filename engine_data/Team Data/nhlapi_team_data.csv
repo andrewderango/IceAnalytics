@@ -1,62 +1,63 @@
 ,TeamID,Team Name,Abbreviation,Active
-0,11,Atlanta Thrashers,ATL,False
-1,34,Hartford Whalers,HFD,False
-2,31,Minnesota North Stars,MNS,False
-3,32,Quebec Nordiques,QUE,False
-4,33,Winnipeg Jets (1979),WIN,False
-5,35,Colorado Rockies,CLR,False
-6,36,Ottawa Senators (1917),SEN,False
-7,37,Hamilton Tigers,HAM,False
-8,38,Pittsburgh Pirates,PIR,False
-9,39,Philadelphia Quakers,QUA,False
-10,40,Detroit Cougars,DCG,False
-11,41,Montreal Wanderers,MWN,False
-12,42,Quebec Bulldogs,QBD,False
-13,43,Montreal Maroons,MMR,False
-14,44,New York Americans,NYA,False
-15,45,St. Louis Eagles,SLE,False
-16,46,Oakland Seals,OAK,False
-17,47,Atlanta Flames,AFM,False
-18,48,Kansas City Scouts,KCS,False
-19,49,Cleveland Barons,CLE,False
-20,50,Detroit Falcons,DFL,False
-21,51,Brooklyn Americans,BRK,False
-22,56,California Golden Seals,CGS,False
-23,57,Toronto Arenas,TAN,False
-24,58,Toronto St. Patricks,TSP,False
-25,99,NHL,NHL,False
-26,17,Detroit Red Wings,DET,True
-27,6,Boston Bruins,BOS,True
-28,5,Pittsburgh Penguins,PIT,True
-29,14,Tampa Bay Lightning,TBL,True
-30,4,Philadelphia Flyers,PHI,True
-31,12,Carolina Hurricanes,CAR,True
-32,20,Calgary Flames,CGY,True
-33,8,Montréal Canadiens,MTL,True
-34,15,Washington Capitals,WSH,True
-35,23,Vancouver Canucks,VAN,True
-36,21,Colorado Avalanche,COL,True
-37,18,Nashville Predators,NSH,True
-38,24,Anaheim Ducks,ANA,True
-39,54,Vegas Golden Knights,VGK,True
-40,25,Dallas Stars,DAL,True
-41,27,Phoenix Coyotes,PHX,False
-42,16,Chicago Blackhawks,CHI,True
-43,3,New York Rangers,NYR,True
-44,13,Florida Panthers,FLA,True
-45,22,Edmonton Oilers,EDM,True
-46,30,Minnesota Wild,MIN,True
+0,32,Quebec Nordiques,QUE,False
+1,8,Montréal Canadiens,MTL,True
+2,58,Toronto St. Patricks,TSP,False
+3,7,Buffalo Sabres,BUF,True
+4,46,Oakland Seals,OAK,False
+5,48,Kansas City Scouts,KCS,False
+6,2,New York Islanders,NYI,True
+7,36,Ottawa Senators (1917),SEN,False
+8,70,To be determined,TBD,False
+9,11,Atlanta Thrashers,ATL,False
+10,45,St. Louis Eagles,SLE,False
+11,33,Winnipeg Jets (1979),WIN,False
+12,28,San Jose Sharks,SJS,True
+13,42,Quebec Bulldogs,QBD,False
+14,29,Columbus Blue Jackets,CBJ,True
+15,53,Arizona Coyotes,ARI,False
+16,13,Florida Panthers,FLA,True
+17,12,Carolina Hurricanes,CAR,True
+18,54,Vegas Golden Knights,VGK,True
+19,52,Winnipeg Jets,WPG,True
+20,18,Nashville Predators,NSH,True
+21,27,Phoenix Coyotes,PHX,False
+22,41,Montreal Wanderers,MWN,False
+23,39,Philadelphia Quakers,QUA,False
+24,37,Hamilton Tigers,HAM,False
+25,40,Detroit Cougars,DCG,False
+26,35,Colorado Rockies,CLR,False
+27,38,Pittsburgh Pirates,PIR,False
+28,34,Hartford Whalers,HFD,False
+29,1,New Jersey Devils,NJD,True
+30,9,Ottawa Senators,OTT,True
+31,21,Colorado Avalanche,COL,True
+32,44,New York Americans,NYA,False
+33,15,Washington Capitals,WSH,True
+34,31,Minnesota North Stars,MNS,False
+35,26,Los Angeles Kings,LAK,True
+36,99,NHL,NHL,False
+37,43,Montreal Maroons,MMR,False
+38,49,Cleveland Barons,CLE,False
+39,51,Brooklyn Americans,BRK,False
+40,50,Detroit Falcons,DFL,False
+41,56,California Golden Seals,CGS,False
+42,10,Toronto Maple Leafs,TOR,True
+43,22,Edmonton Oilers,EDM,True
+44,47,Atlanta Flames,AFM,False
+45,57,Toronto Arenas,TAN,False
+46,20,Calgary Flames,CGY,True
 47,19,St. Louis Blues,STL,True
-48,2,New York Islanders,NYI,True
-49,26,Los Angeles Kings,LAK,True
-50,70,To be determined,TBD,False
-51,7,Buffalo Sabres,BUF,True
-52,9,Ottawa Senators,OTT,True
-53,10,Toronto Maple Leafs,TOR,True
-54,1,New Jersey Devils,NJD,True
-55,52,Winnipeg Jets,WPG,True
+48,17,Detroit Red Wings,DET,True
+49,3,New York Rangers,NYR,True
+50,59,Utah Hockey Club,UTA,False
+51,68,Utah Mammoth,UTA,True
+52,24,Anaheim Ducks,ANA,True
+53,23,Vancouver Canucks,VAN,True
+54,4,Philadelphia Flyers,PHI,True
+55,16,Chicago Blackhawks,CHI,True
 56,55,Seattle Kraken,SEA,True
-57,28,San Jose Sharks,SJS,True
-58,53,Arizona Coyotes,ARI,False
-59,29,Columbus Blue Jackets,CBJ,True
-60,59,Utah Hockey Club,UTA,True
+57,5,Pittsburgh Penguins,PIT,True
+58,6,Boston Bruins,BOS,True
+59,30,Minnesota Wild,MIN,True
+60,25,Dallas Stars,DAL,True
+61,14,Tampa Bay Lightning,TBL,True

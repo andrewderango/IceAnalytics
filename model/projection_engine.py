@@ -139,7 +139,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
 
     # generate team uncertainty-based projections via monte carlo engine
-    team_proj_df = team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose)
+    team_proj_df = team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, game_proj_df, projection_year, simulations, download_files, verbose)
     
     if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
@@ -295,9 +295,14 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
         curr_a = existing_scoring_dict[row['PlayerID']][3]
         for sim in range(simulations):
             sim_gp = min(max(np.random.normal(row['Games Played'], np.sqrt(row['vGames Played'])), curr_gp), 82)
-            sim_ATOI = max(np.random.normal(row['ATOI'], np.sqrt(row['vATOI'])), curr_toi/sim_gp)
-            sim_Gper1kChunk = max(np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk'])), curr_g/(sim_ATOI*sim_gp/500))
-            sim_Aper1kChunk = max(np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk'])), curr_a/(sim_ATOI*sim_gp/500))
+            if sim_gp <= 0: 
+                sim_ATOI = 0
+                sim_Gper1kChunk = 0
+                sim_Aper1kChunk = 0
+            else: 
+                sim_ATOI = max(np.random.normal(row['ATOI'], np.sqrt(row['vATOI'])), curr_toi/sim_gp)
+                sim_Gper1kChunk = max(np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk'])), curr_g/(sim_ATOI*sim_gp/500))
+                sim_Aper1kChunk = max(np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk'])), curr_a/(sim_ATOI*sim_gp/500))
             sim_data[f'{sim+1}_goals'] = sim_Gper1kChunk * sim_ATOI * sim_gp / 500
             sim_data[f'{sim+1}_assists'] = sim_Aper1kChunk * sim_ATOI * sim_gp / 500
             sim_data[f'{sim+1}_points'] = sim_data[f'{sim+1}_goals'] + sim_data[f'{sim+1}_assists']
@@ -381,8 +386,7 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     return skater_proj_df
 
 # Generate team uncertainty-based projections via monte carlo engine
-def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose):
-    
+def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, schedule_df, projection_year, simulations, download_files, verbose):
     # create monte_carlo_team_df
     monte_carlo_team_df = copy.deepcopy(team_proj_df)
     existing_scoring_dict = copy.deepcopy(core_team_scoring_dict)
@@ -391,9 +395,10 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
     for team in existing_scoring_dict:
         existing_scoring_dict[team] = existing_scoring_dict[team][:-2]
 
-    # extract schedule_df from CSV, filter out games that have already been played
-    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Games', f'{projection_year}_game_projections.csv'), index_col=0)
-    schedule_df.drop(columns=['DatetimeEST', 'TimeEST'], inplace=True)
+    # filter out games that have already been played
+    schedule_df = schedule_df.copy()
+    if 'DatetimeEST' in schedule_df.columns:
+        schedule_df = schedule_df.drop(columns=['DatetimeEST', 'TimeEST'], errors='ignore')
     schedule_df = schedule_df[schedule_df['Home Win'] != 'True']
     schedule_df = schedule_df[schedule_df['Home Win'] != 'False']
 
@@ -405,7 +410,7 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
     simulation_results = []
     for sim in tqdm(range(simulations), desc="Monte Carlo Team Simulations"):
         sim_team_scoring_dict = copy.deepcopy(existing_scoring_dict)
-        
+
         # loop through each game
         for index, row in schedule_df.iterrows():
             home_team = row['Home Abbreviation']

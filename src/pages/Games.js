@@ -12,14 +12,18 @@ function Games() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState('');
+  const [minDate, setMinDate] = useState(null);
+  const [maxDate, setMaxDate] = useState(null);
+  const [datesLoaded, setDatesLoaded] = useState(false);
 
   // get the current date in EST
   const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
   const [month, day, year] = estDate.split(',')[0].split('/');
-  const date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-  const [currentDate, setCurrentDate] = useState(date);
+  const today = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  const [currentDate, setCurrentDate] = useState(today);
 
-  if (offseason) {
+  // Show offseason message if no valid dates loaded
+  if (offseason || (datesLoaded && (!minDate && !maxDate))) {
     return (
       <div className="games offseason-message">
         <h1>Games</h1>
@@ -29,6 +33,43 @@ function Games() {
     );
   }
 
+  // Fetch min/max game dates
+  const fetchMinMaxDates = async () => {
+    try {
+      const { data: minData, error: minError } = await supabase
+        .from('game_projections')
+        .select('date')
+        .order('date', { ascending: true })
+        .limit(1);
+      const { data: maxData, error: maxError } = await supabase
+        .from('game_projections')
+        .select('date')
+        .order('date', { ascending: false })
+        .limit(1);
+      if (minError || maxError) {
+        console.error('Error fetching min/max dates:', minError || maxError);
+        setDatesLoaded(true);
+        return;
+      }
+      if (minData.length > 0 && maxData.length > 0) {
+        setMinDate(minData[0].date);
+        setMaxDate(maxData[0].date);
+        setDatesLoaded(true);
+        // Clamp initial date to valid range
+        let initial = today;
+        if (initial < minData[0].date) initial = minData[0].date;
+        if (initial > maxData[0].date) initial = maxData[0].date;
+        setCurrentDate(initial);
+      } else {
+        setDatesLoaded(true);
+      }
+    } catch (err) {
+      console.error('Error fetching min/max dates:', err);
+      setDatesLoaded(true);
+    }
+  };
+
+  // Fetch games for a date
   const fetchData = async (fetchDate) => {
     const { data: games, error } = await supabase
       .from('game_projections')
@@ -79,21 +120,42 @@ function Games() {
     }
   };
 
+  // Fetch min/max dates on mount
   useEffect(() => {
-    fetchData(currentDate);
-    fetchMetadata();
-  }, [currentDate]);
+    fetchMinMaxDates();
+    // eslint-disable-next-line
+  }, []);
+
+  // Fetch games and metadata when currentDate changes and min/max loaded
+  useEffect(() => {
+    if (!datesLoaded || !minDate || !maxDate) return;
+    // Clamp currentDate to valid range
+    let clampedDate = currentDate;
+    if (currentDate < minDate) clampedDate = minDate;
+    if (currentDate > maxDate) clampedDate = maxDate;
+    if (clampedDate !== currentDate) setCurrentDate(clampedDate);
+    else {
+      setLoading(true);
+      fetchData(clampedDate);
+      fetchMetadata();
+    }
+    // eslint-disable-next-line
+  }, [currentDate, datesLoaded, minDate, maxDate]);
 
   const handlePrevDay = () => {
+    if (!minDate) return;
     const prevDate = new Date(currentDate);
     prevDate.setDate(prevDate.getDate() - 1);
-    setCurrentDate(prevDate.toISOString().split('T')[0]);
+    const prevStr = prevDate.toISOString().split('T')[0];
+    if (prevStr >= minDate) setCurrentDate(prevStr);
   };
 
   const handleNextDay = () => {
+    if (!maxDate) return;
     const nextDate = new Date(currentDate);
     nextDate.setDate(nextDate.getDate() + 1);
-    setCurrentDate(nextDate.toISOString().split('T')[0]);
+    const nextStr = nextDate.toISOString().split('T')[0];
+    if (nextStr <= maxDate) setCurrentDate(nextStr);
   };
 
   if (loading) {
@@ -109,16 +171,16 @@ function Games() {
       <h1>Games</h1>
       <h2>Projections last updated {lastUpdated}</h2>
       <div className="day-navigator">
-        <button onClick={handlePrevDay}>{'<'}</button>
+        <button onClick={handlePrevDay} disabled={!minDate || currentDate <= minDate}>{'<'}</button>
         <span className="date-display">
-          {new Date(new Date(currentDate).setDate(new Date(currentDate).getDate() + 1)).toLocaleDateString('en-US', {
+          {new Date(currentDate + 'T00:00:00').toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
             day: 'numeric',
           })}
         </span>
-        <button onClick={handleNextDay}>{'>'}</button>
+        <button onClick={handleNextDay} disabled={!maxDate || currentDate >= maxDate}>{'>'}</button>
       </div>
       {games.length === 0 ? (
         <div className="no-games-message">

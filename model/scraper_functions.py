@@ -62,7 +62,10 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
             if bios == False:
                 # Fill stats data with 0
                 numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
-                specific_columns = ['IPP', 'SH%', 'Faceoffs %']
+                specific_columns = ['xGF%', 'SCF%', 'HDCF%', 'HDGF%', 'MDCF%', 'MDGF%', 
+                                    'LDCF%', 'LDGF%', 'On-Ice SH%', 'On-Ice SV%', 'PDO',
+                                    'Off. Zone Start %', 'Off. Zone Faceoff %', 'SF%', 'GF%',
+                                    'IPP', 'SH%', 'Faceoffs %']
                 for column in df.columns:
                     if column in numeric_columns or column in specific_columns:
                         df[column] = 0
@@ -581,6 +584,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
         df['stanley_cup_prob'] = 0.03125
+
     elif table_name == 'player_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
         df = pd.read_csv(file_path)
@@ -649,6 +653,8 @@ def push_to_supabase(table_name, year, verbose=False):
 
         df = df.drop(columns=['TOI'])
         df = df.dropna(subset=['logo'])
+        df = df.drop_duplicates(subset=['player_id', 'team', 'position'])
+
     elif table_name == 'game_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Games', f'{year}_game_projections.csv')
         df = pd.read_csv(file_path)
@@ -692,6 +698,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
+
     elif table_name == 'last_update':
         metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
         with open(metadata_path, 'r') as f:

@@ -910,6 +910,8 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     combined_df.loc[combined_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
     combined_df.loc[combined_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
     combined_df.loc[combined_df['Team'] == 'Arizona Coyotes', 'Abbreviation'] = 'UTA'
+    combined_df.loc[combined_df['Team'] == 'Utah Hockey Club', 'Team'] = 'Utah Mammoth' ### temp !!!
+    combined_df.loc[combined_df['Team'] == 'Utah Mammoth', 'Abbreviation'] = 'UTA'
 
     combined_df = combined_df[['Team', 'Abbreviation', 'Proj. GA/GP']]
     combined_df.sort_values(by='Proj. GA/GP', ascending=False, inplace=True)
