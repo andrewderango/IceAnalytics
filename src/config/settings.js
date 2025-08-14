@@ -1,3 +1,3 @@
 // Global application settings
 
-export const offseason = true; // defines offseason mode for the site
+export const offseason = false; // defines offseason mode for the site
