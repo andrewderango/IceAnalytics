@@ -295,7 +295,7 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
         curr_a = existing_scoring_dict[row['PlayerID']][3]
         for sim in range(simulations):
             sim_gp = min(max(np.random.normal(row['Games Played'], np.sqrt(row['vGames Played'])), curr_gp), 82)
-            if sim_gp == 0: 
+            if sim_gp <= 0: 
                 sim_ATOI = 0
                 sim_Gper1kChunk = 0
                 sim_Aper1kChunk = 0

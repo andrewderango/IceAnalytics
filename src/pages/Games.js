@@ -23,7 +23,7 @@ function Games() {
   const [currentDate, setCurrentDate] = useState(today);
 
   // Show offseason message if no valid dates loaded
-  if (offseason || (datesLoaded && (!minDate || !maxDate))) {
+  if (offseason || (datesLoaded && (!minDate && !maxDate))) {
     return (
       <div className="games offseason-message">
         <h1>Games</h1>
