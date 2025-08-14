@@ -62,7 +62,10 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
             if bios == False:
                 # Fill stats data with 0
                 numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
-                specific_columns = ['IPP', 'SH%', 'Faceoffs %']
+                specific_columns = ['xGF%', 'SCF%', 'HDCF%', 'HDGF%', 'MDCF%', 'MDGF%', 
+                                    'LDCF%', 'LDGF%', 'On-Ice SH%', 'On-Ice SV%', 'PDO',
+                                    'Off. Zone Start %', 'Off. Zone Faceoff %', 'SF%', 'GF%',
+                                    'IPP', 'SH%', 'Faceoffs %']
                 for column in df.columns:
                     if column in numeric_columns or column in specific_columns:
                         df[column] = 0
