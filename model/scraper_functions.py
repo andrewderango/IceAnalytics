@@ -626,7 +626,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
-        
+
         # merge in ESPN headshots
         player_bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'))
         player_bios_df = player_bios_df[['PlayerID', 'EspnHeadshot', 'Jersey Number']]
@@ -674,6 +674,7 @@ def push_to_supabase(table_name, year, verbose=False):
             'Visitor Win': 'visitor_prob',
             'Overtime': 'overtime_prob',
         }
+
         df.rename(columns=rename_dict, inplace=True)
         df['home_prob'] = df['home_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
         df['visitor_prob'] = df['visitor_prob'].apply(lambda x: 1.0 if x == 'True' else 0.0 if x == 'False' else x)
@@ -698,6 +699,12 @@ def push_to_supabase(table_name, year, verbose=False):
         df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
         df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
         df = df.drop(columns=['Team'])
+
+        if not any((df['home_prob'] != 1.0) & (df['home_prob'] != 0.0)):
+            df['home_record'] = '0-0-0'
+            df['home_rank'] = '1st'
+            df['visitor_record'] = '0-0-0'
+            df['visitor_rank'] = '1st'
 
     elif table_name == 'last_update':
         metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
