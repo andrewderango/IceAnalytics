@@ -8,6 +8,7 @@ function Header() {
   // const [height, setHeight] = useState(window.innerHeight);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
+  const firstMenuItemRef = useRef();
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,6 +41,18 @@ function Header() {
     };
   }, [menuRef]);
 
+  // Lock body scroll when menu is open and focus first item
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+      // focus the first menu item for accessibility
+      setTimeout(() => firstMenuItemRef.current && firstMenuItemRef.current.focus(), 50);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   return (
     <header className="header">
       <div className="header-name">
@@ -61,20 +74,30 @@ function Header() {
           </ul>
         </nav>
       ) : (
-        <nav ref={menuRef}>
-          <button onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen}>
-            <i className="fas fa-bars"></i>
+        // Mobile nav: animated burger + slide-in panel + overlay
+        <nav className="mobile-nav" ref={menuRef}>
+          <button
+            className={`burger ${menuOpen ? 'open' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            <span />
+            <span />
+            <span />
           </button>
-          {menuOpen && (
+
+          <div className={`mobile-backdrop ${menuOpen ? 'visible' : ''}`} onClick={() => setMenuOpen(false)} />
+
+          <aside className={`mobile-panel ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
             <ul>
-              <li><NavLink to="/home" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>HOME</NavLink></li>
+              <li><NavLink innerRef={firstMenuItemRef} to="/home" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>HOME</NavLink></li>
               <li><NavLink to="/games" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>GAMES</NavLink></li>
               <li><NavLink to="/players" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>PLAYERS</NavLink></li>
               <li><NavLink to="/teams" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>TEAMS</NavLink></li>
               <li><NavLink to="/about" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>ABOUT</NavLink></li>
-              {/* <li><NavLink to="/badurl" activeStyle={{ color: 'goldenrod' }} onClick={() => setMenuOpen(false)}>{width}x{height}</NavLink></li> */}
             </ul>
-          )}
+          </aside>
         </nav>
       )}
     </header>
