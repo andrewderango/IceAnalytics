@@ -1,0 +1,314 @@
+.team-page {
+  padding: 24px;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
+  .team-hero {
+    margin-bottom: 24px;
+
+    .team-name {
+      margin: 0 auto 18px auto;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      width: 100%;
+      max-width: 920px; /* match hero-content */
+  /* prefer team's primary color when provided via --team-primary, otherwise fallback to subtle gradient */
+  background: var(--team-primary, linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)));
+      padding: 4px 18px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* center the combined logo+name */
+
+  color: var(--team-foreground, #fff);
+
+      .team-name-logo {
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+        margin-right: 12px;
+        display: inline-block;
+      }
+
+      .team-name-text { display: inline-block; }
+    }
+
+    .hero-content {
+  display: flex;
+  gap: 24px;
+  align-items: stretch; /* ensure children stretch to same height */
+  justify-content: center; /* center horizontally on the page */
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+
+      .hero-left {
+        flex-shrink: 0;
+        display: flex;
+        align-items: stretch; /* stretch to match right column height for precise alignment */
+        justify-content: center;
+
+        /* make an inner wrapper that fills the column height so the logo card can match heights */
+        .logo-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 220px; /* increased width to accommodate the stat card */
+          height: 100%;
+          max-height: 420px;
+          box-sizing: border-box;
+          background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+          padding: 12px;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+        }
+
+        .team-large-logo {
+          width: 100%;
+          max-width: 160px;
+          height: auto;
+          max-height: 88%;
+          object-fit: contain;
+          display: block;
+          margin: auto;
+        }
+        .left-record-card { 
+          width: 100%;
+          background: transparent; /* let .logo-wrap provide the background */
+          box-shadow: none;
+          padding: 0; /* logo-wrap handles padding */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          .stat-label { font-size: 12px; color: #cfc6a9; }
+          .stat-value { font-size: 20px; font-weight: 800; margin-top: 6px; }
+          .stat-sub { color: #bdbdbd; font-size: 12px; margin-top: 6px; font-weight: 600; }
+        }
+        
+      }
+
+  .hero-right {
+        flex: 1 1 360px;
+        max-width: 360px; /* make the stat area less wide */
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: space-between; /* push record to top and GF/GA to bottom to align with logo */
+
+        .hero-top {
+          .stat-card {
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
+
+        .hero-bottom {
+          display: flex;
+          gap: 12px;
+
+          /* use explicit widths so combined GF+GA width equals the record width exactly */
+          .stat-card {
+            box-sizing: border-box;
+            flex: none;
+            width: calc((100% - 12px) / 2);
+          }
+        }
+
+        .stat-card {
+          background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+          padding: 12px 14px; /* slightly tighter */
+          border-radius: 10px;
+          text-align: center;
+          box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          box-sizing: border-box;
+
+          .diff-pos { color: #58d68d; font-weight: 700; }
+          .diff-neg { color: #ff6b6b; font-weight: 700; }
+
+          .stat-label { font-size: 12px; color: #cfc6a9; }
+          .stat-value { font-size: 18px; font-weight: 700; margin-top: 6px; }
+          .stat-sub { color: #bdbdbd; font-size: 12px; margin-top: 6px; font-weight: 600; }
+        }
+      }
+      .hero-extra {
+        display: flex;
+        flex-direction: row; /* horizontal by default */
+        gap: 12px;
+        align-items: center;
+
+        .power-box {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          padding: 14px 24px;
+          border-radius: 12px;
+          background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+          box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+          align-items: flex-start;
+          justify-content: center;
+          height: 100%; /* fill the full hero-content height */
+          box-sizing: border-box;
+          .power-heading { font-size: 13px; color: #cfc6a9; font-weight: 400; margin-bottom: 8px; text-align: center; width: 100%; }
+          .power-row { display:flex; gap:24px; align-items:center; justify-content: center; width: 100%; }
+          .power-item { 
+            display:flex; 
+            flex-direction:column; 
+            align-items:center; 
+            gap: 4px;
+            
+            .power-caption { font-size: 12px; color: #cfc6a9; font-weight: 400; margin-top: 8px; text-align: center; display:block; }
+        }
+        }
+
+        .power-chart {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255,255,255,0.02);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+          position: relative;
+          overflow: visible;
+
+          &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: var(--ring, rgba(255,255,255,0.04));
+            /* mask out the center to make a ring */
+            -webkit-mask: radial-gradient(circle, transparent 34px, black 34px);
+            mask: radial-gradient(circle, transparent 34px, black 34px);
+            z-index: 1;
+            /* subtle soft shadow to give ring depth */
+            box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+            /* extra crisp outer shadow via drop-shadow filter for browsers that support it */
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+          }
+
+          .power-inner {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: transparent; /* inline style will set color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 2; /* above masked outer ring */
+          }
+
+          .power-value { font-size: 20px; font-weight: 800; color: #ffffff; }
+          .power-rank { font-size: 12px; font-weight: 600; color: #bdbdbd; margin-top: 6px; }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .team-hero {
+      .team-name { font-size: 24px; }
+      
+      .hero-content {
+        flex-direction: column;
+
+        .hero-left {
+          .logo-wrap { width: auto; height: auto; padding: 8px; }
+          .team-large-logo { width: 110px; height: 110px; max-height: none; }
+          .team-name-logo { width: 36px; height: 36px; }
+        }
+
+        .hero-right {
+          width: 100%;
+          max-width: none;
+        }
+        .hero-extra { flex-direction: row; gap: 12px; flex-wrap: wrap; justify-content: center; }
+      }
+    }
+  }
+
+  .team-roster {
+    h2 { margin-bottom: 12px; }
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+
+      .roster-section { 
+        background: rgba(255,255,255,0.02);
+        padding: 16px;
+        border-radius: 10px;
+
+        h3 { margin-top: 0; }
+
+        .player-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 12px;
+
+          .player-card {
+            background: rgba(0,0,0,0.25);
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; }
+            .player-name { font-weight: 600; }
+            .player-pos { color: #cfcfcf; font-size: 13px; }
+          }
+
+          .goalie-card img { width: 110px; height: 110px; }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .team-page .team-roster .roster-grid { grid-template-columns: 1fr; }
+}
+
+.team-projections {
+  margin: 20px 0 26px 0;
+
+  .projections-cards {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .proj-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding: 16px;
+      border-radius: 10px;
+      min-width: 200px;
+      flex: 1 1 240px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+
+      .label { color: #cfc6a9; font-size: 13px; }
+        .big { font-size: 22px; font-weight: 700; margin-top: 8px; }
+        .sub { color: #bdbdbd; margin-top: 6px; font-weight: 600 }
+        .rank { display:inline-block; background: rgba(218,165,32,0.12); color:#ffdca8; padding:4px 8px; border-radius:10px; margin-left:8px; font-weight:700 }
+    }
+
+    .leader-card .leading { display: flex; gap: 12px; align-items: center; }
+    .lead-headshot { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+    .lead-name { font-weight: 700; }
+    .lead-p { color: #bdbdbd; }
+  }
+}
+

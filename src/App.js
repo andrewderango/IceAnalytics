@@ -6,6 +6,7 @@ import Players from './pages/Players';
 import Teams from './pages/Teams';
 import About from './pages/About';
 import Player from './pages/Player';
+import Team from './pages/Team';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import NotFound from './pages/NotFound';
@@ -19,6 +20,7 @@ function App() {
         <Route path="/games" component={Games} />
         <Route path="/players" component={Players} />
         <Route path="/teams" component={Teams} />
+  <Route path="/team/:teamId" component={Team} />
         <Route path="/about" component={About} />
         <Route path="/player/:playerId" component={Player} />
         <Route exact path="/" render={() => <Redirect to="/home" />} />
