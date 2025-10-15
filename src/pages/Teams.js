@@ -262,7 +262,16 @@ function Teams() {
             {rows.map(row => {
               prepareRow(row);
               // determine a team identifier to use in URL - prefer team_abbr or team_id if present
-              const teamId = row.original.team_abbr || row.original.team_id || row.original.team;
+              const makeTeamId = (orig) => {
+                if (!orig) return null;
+                if (orig.team_abbr) return String(orig.team_abbr);
+                if (orig.team_id) return String(orig.team_id);
+                const name = String(orig.team || '').trim();
+                if (!name) return null;
+                // slugify fallback: lower-case, replace non-alnum with hyphens, trim hyphens
+                return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+              };
+              const teamId = makeTeamId(row.original);
               return (
                 <tr
                   {...row.getRowProps({

@@ -19,37 +19,35 @@ function Team() {
 
     const fetchTeam = async () => {
       try {
-        // try to match by team_abbr or team name
+        // interpret the route param as a team identifier (prefer team_abbr or team_id)
+        const decoded = decodeURIComponent(teamId);
         let { data: teamData, error } = await supabase
           .from('team_projections')
           .select('*')
-          .or(`team_abbr.eq.${teamId},team.eq.${teamId}`)
+          .or(`team_abbr.eq.${decoded},team_id.eq.${decoded}`)
           .limit(1);
 
-        if (error) {
-          console.error('Error fetching team:', error);
-        }
-
+        if (error) console.error('Error fetching team:', error);
         if (teamData && teamData.length > 0) {
           setTeam(teamData[0]);
         } else {
-          // as fallback, try searching by decoded teamId
-          const decoded = decodeURIComponent(teamId);
+          // fallback: convert slug-like ids (carolina-hurricanes) to a name and ilike match
+          const maybeName = decoded.replace(/[-_]+/g, ' ').trim();
           const { data: t2, error: e2 } = await supabase
             .from('team_projections')
             .select('*')
-            .ilike('team', `%${decoded}%`)
+            .ilike('team', `%${maybeName}%`)
             .limit(1);
           if (e2) console.error(e2);
           if (t2 && t2.length > 0) setTeam(t2[0]);
         }
 
-        // fetch roster players for this team
-        const teamKey = teamId;
+        // fetch roster players for this team using team_abbr/team_id when possible
+        const key = decodeURIComponent(teamId);
         const { data: players, error: pErr } = await supabase
           .from('player_projections')
           .select('*')
-          .or(`team.eq.${teamKey},team_name.eq.${teamKey}`);
+          .or(`team.eq.${key},team_abbr.eq.${key},team_id.eq.${key}`);
 
         if (pErr) console.error('Error fetching roster:', pErr);
         if (players) setRoster(players);
