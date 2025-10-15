@@ -9,6 +9,8 @@ function Team() {
   const history = useHistory();
   const [team, setTeam] = useState(null);
   const [roster, setRoster] = useState([]);
+  const [prevGames, setPrevGames] = useState([]);
+  const [nextGames, setNextGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,8 +30,10 @@ function Team() {
           .limit(1);
 
         if (error) console.error('Error fetching team:', error);
+        let resolvedTeam = null;
         if (teamData && teamData.length > 0) {
-          setTeam(teamData[0]);
+          resolvedTeam = teamData[0];
+          setTeam(resolvedTeam);
         } else {
           // fallback: convert slug-like ids (carolina-hurricanes) to a name and ilike match
           const maybeName = decoded.replace(/[-_]+/g, ' ').trim();
@@ -39,7 +43,10 @@ function Team() {
             .ilike('team', `%${maybeName}%`)
             .limit(1);
           if (e2) console.error(e2);
-          if (t2 && t2.length > 0) setTeam(t2[0]);
+          if (t2 && t2.length > 0) {
+            resolvedTeam = t2[0];
+            setTeam(resolvedTeam);
+          }
         }
 
         // fetch roster players for this team using team_abbr/team_id when possible
@@ -130,6 +137,47 @@ function Team() {
 
           // attach ranks to team state object for rendering
           setTeam(prev => ({ ...prev, _ranks: { ptsRank, gfRank, gaRank, ppRank, pkRank, currPtsRank, currGfRank, currGaRank, currPPRank, currPKRank, offenseRank, defenseRank, overallRank, totalTeams: allTeams.length } }));
+
+          // fetch previous 3 and next 3 games for this team from game_projections
+          try {
+            // current date in EST (YYYY-MM-DD) to match Games.js
+            const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+            const [m, d, y] = estDate.split(',')[0].split('/');
+            const today = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+
+            const teamAbbr = resolvedTeam && resolvedTeam.team_abbr ? resolvedTeam.team_abbr : null;
+            const teamName = resolvedTeam && resolvedTeam.team ? resolvedTeam.team : null;
+            const key = teamAbbr || teamName || decoded;
+
+            if (key) {
+              // include both 'abbrev' and 'abbr' variants seen in various tables
+              const orCond = `home_name.eq.${key},visitor_name.eq.${key},home_abbrev.eq.${key},visitor_abbrev.eq.${key},home_abbr.eq.${key},visitor_abbr.eq.${key}`;
+
+              const { data: prev, error: prevErr } = await supabase
+                .from('game_projections')
+                .select('*')
+                .or(orCond)
+                .lt('date', today)
+                .order('date', { ascending: false })
+                .limit(3);
+
+              if (prevErr) console.error('Error fetching previous games:', prevErr);
+              if (prev) setPrevGames(prev);
+
+              const { data: next, error: nextErr } = await supabase
+                .from('game_projections')
+                .select('*')
+                .or(orCond)
+                .gte('date', today)
+                .order('date', { ascending: true })
+                .limit(3);
+
+              if (nextErr) console.error('Error fetching next games:', nextErr);
+              if (next) setNextGames(next);
+            }
+          } catch (eg) {
+            console.error('Error fetching team games:', eg);
+          }
         }
       } catch (err) {
         console.error(err);
@@ -346,7 +394,37 @@ function Team() {
         </div>
       </div>
 
-      {/* Projections section - dedicated and clearly labeled */}
+        {/* Team games: previous 3 and next 3 */}
+        <div className="team-games">
+          <h2>Recent / Upcoming Games</h2>
+          <div className="games-split">
+            <div className="games-column previous">
+              <h3>Previous 3</h3>
+              {prevGames.length === 0 && <div className="note">No recent games available</div>}
+              {prevGames.map(g => (
+                <div className="mini-game" key={g.id}>
+                  <div className="mini-matchup">{g.visitor_name} @ {g.home_name}</div>
+                  <div className="mini-date">{g.date} {g.time_str}</div>
+                  <div className="mini-score">{g.visitor_score != null ? `${g.visitor_score} - ${g.home_score}` : 'N/A'}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="games-column next">
+              <h3>Next 3</h3>
+              {nextGames.length === 0 && <div className="note">No upcoming games available</div>}
+              {nextGames.map(g => (
+                <div className="mini-game" key={g.id}>
+                  <div className="mini-matchup">{g.visitor_name} @ {g.home_name}</div>
+                  <div className="mini-date">{g.date} {g.time_str}</div>
+                  <div className="mini-probs">{g.visitor_prob != null ? `${(g.visitor_prob * 100).toFixed(1)}% / ${(g.home_prob * 100).toFixed(1)}%` : 'N/A'}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Projections section - dedicated and clearly labeled */}
       <div className="team-projections">
         <h2>Projections</h2>
         <div className="projections-cards">
