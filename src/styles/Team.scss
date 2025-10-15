@@ -267,12 +267,25 @@
             align-items: center;
             text-align: center;
 
-            img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; }
+            .player-avatar {
+              width: 88px;
+              height: 88px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+              box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+              margin-bottom: 8px;
+            }
+
+            img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; }
             .player-name { font-weight: 600; }
             .player-pos { color: #cfcfcf; font-size: 13px; }
           }
 
-          .goalie-card img { width: 110px; height: 110px; }
+          .goalie-card .player-avatar { width: 110px; height: 110px; }
+          .goalie-card img { width: 106px; height: 106px; }
         }
       }
     }
@@ -306,7 +319,8 @@
     }
 
     .leader-card .leading { display: flex; gap: 12px; align-items: center; }
-    .lead-headshot { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+  .player-avatar.lead-avatar { width: 64px; height: 64px; }
+  .player-avatar.lead-avatar img.lead-headshot { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
     .lead-name { font-weight: 700; }
     .lead-p { color: #bdbdbd; }
   }

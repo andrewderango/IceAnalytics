@@ -4,7 +4,7 @@ import supabase from '../supabaseClient';
 import { Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
 import '../styles/Player.scss';
-import { offseason } from '../config/settings';
+import { offseason, season } from '../config/settings';
 
 function Player() {
   const { playerId } = useParams();
@@ -259,7 +259,7 @@ function Player() {
         <div className="player-headshot-name">
           {team_name && playerId && (
             <img
-              src={player.espn_headshot !== "N/A" ? player.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
+              src={`https://assets.nhle.com/mugs/nhl/${season}/${team}/${playerId}.png`}
               alt={`${playerName} headshot`}
               className="player-headshot"
             />

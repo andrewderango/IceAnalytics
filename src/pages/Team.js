@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Team.scss';
-import { offseason } from '../config/settings';
+import { offseason, season } from '../config/settings';
 
 function Team() {
   const { teamId } = useParams();
@@ -18,15 +18,15 @@ function Team() {
       history.push('/not-found');
       return;
     }
-
+    // fetchTeam: loads the team by `abbrev` (primary key) or falls back to fuzzy name match
     const fetchTeam = async () => {
       try {
-        // interpret the route param as a team identifier (prefer team_abbr or team_id)
+  // interpret the route param as a team identifier (prefer abbrev)
         const decoded = decodeURIComponent(teamId);
         let { data: teamData, error } = await supabase
           .from('team_projections')
           .select('*')
-          .or(`team_abbr.eq.${decoded},team_id.eq.${decoded}`)
+          .eq('abbrev', decoded)
           .limit(1);
 
         if (error) console.error('Error fetching team:', error);
@@ -49,12 +49,13 @@ function Team() {
           }
         }
 
-        // fetch roster players for this team using team_abbr/team_id when possible
-        const key = decodeURIComponent(teamId);
+        // fetch roster players for this team using the player_projections `team` column
+        // player_projections.team contains team abbreviations (e.g., TBL, COL). Prefer resolvedTeam.abbrev or the route param (which should be abbrev).
+        const rosterKey = (resolvedTeam && resolvedTeam.abbrev) ? resolvedTeam.abbrev : decodeURIComponent(teamId);
         const { data: players, error: pErr } = await supabase
           .from('player_projections')
           .select('*')
-          .or(`team.eq.${key},team_abbr.eq.${key},team_id.eq.${key}`);
+          .eq('team', rosterKey);
 
         if (pErr) console.error('Error fetching roster:', pErr);
         if (players) setRoster(players);
@@ -62,7 +63,7 @@ function Team() {
         // fetch all teams projections to compute NHL ranks
         const { data: allTeams, error: atErr } = await supabase
           .from('team_projections')
-          .select('team,team_abbr,points,goals_for,goals_against,pp_pct,pk_pct,current_pp_pct,current_pk_pct,offense_score,offensive_power,offence,defense_score,defensive_power,overall_score,power_score');
+          .select('team,abbrev,points,goals_for,goals_against');
 
         if (atErr) console.error('Error fetching all teams for ranks:', atErr);
         // compute ranks and attach to team object via local variables
@@ -87,10 +88,13 @@ function Team() {
             const currentPkSorted = [...allTeams].sort((a,b) => numeric((b.current_pk_pct ?? b.pk_pct ?? b.pk)) - numeric((a.current_pk_pct ?? a.pk_pct ?? a.pk)));
 
           const findIndex = (arr) => {
-            let idx = arr.findIndex(x => (team.team_abbr && x.team_abbr === team.team_abbr) || x.team === team.team);
+            // use the resolvedTeam (available in this scope) when matching ranks; fallback to component state `team` if necessary
+            const target = resolvedTeam || team;
+            if (!target) return null;
+            let idx = arr.findIndex(x => (target.abbrev && x.abbrev === target.abbrev) || x.team === target.team);
             if (idx === -1) {
               // try matching by team name substring
-              idx = arr.findIndex(x => x.team && team.team && x.team.toLowerCase().includes(team.team.toLowerCase()));
+              idx = arr.findIndex(x => x.team && target.team && x.team.toLowerCase().includes(target.team.toLowerCase()));
             }
             return idx === -1 ? null : idx + 1;
           };
@@ -145,13 +149,13 @@ function Team() {
             const [m, d, y] = estDate.split(',')[0].split('/');
             const today = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
 
-            const teamAbbr = resolvedTeam && resolvedTeam.team_abbr ? resolvedTeam.team_abbr : null;
+            const teamAbbr = resolvedTeam && resolvedTeam.abbrev ? resolvedTeam.abbrev : null;
             const teamName = resolvedTeam && resolvedTeam.team ? resolvedTeam.team : null;
             const key = teamAbbr || teamName || decoded;
 
             if (key) {
               // include both 'abbrev' and 'abbr' variants seen in various tables
-              const orCond = `home_name.eq.${key},visitor_name.eq.${key},home_abbrev.eq.${key},visitor_abbrev.eq.${key},home_abbr.eq.${key},visitor_abbr.eq.${key}`;
+              const orCond = `home_name.eq.${key},visitor_name.eq.${key},home_abbrev.eq.${key},visitor_abbrev.eq.${key}`;
 
               const { data: prev, error: prevErr } = await supabase
                 .from('game_projections')
@@ -192,10 +196,10 @@ function Team() {
   if (loading) return <div className="team-page">Loading...</div>;
   if (!team) return <div className="team-page">Team not found</div>;
 
-  // split roster by position
-  const forwards = roster.filter(p => p.position && p.position.startsWith('F'));
-  const defense = roster.filter(p => p.position && p.position.startsWith('D'));
-  const goalies = roster.filter(p => p.position && p.position.startsWith('G'));
+  // split roster by `pos` field from player_projections (values like D, C, LW, RW, G)
+  const forwards = roster.filter(p => p.position && !['D', 'G'].includes(String(p.position).toUpperCase()));
+  const defense = roster.filter(p => String(p.position).toUpperCase() === 'D');
+  const goalies = roster.filter(p => String(p.position).toUpperCase() === 'G');
 
   
 
@@ -250,9 +254,9 @@ function Team() {
   };
 
   return (
-    <div className="team-page">
+    <div className="team-page" style={teamNameStyle}>
       <div className="team-hero">
-        <h1 className="team-name" style={teamNameStyle}>
+        <h1 className="team-name">
           <img src={team.logo} alt={`${team.team} logo`} className="team-name-logo" />
           <span className="team-name-text">{team.team}</span>
         </h1>
@@ -263,7 +267,7 @@ function Team() {
               <div className="stat-card record-card left-record-card">
                 <div className="stat-label">Current Record</div>
                 <div className="stat-value">{`${Math.round(team.current_wins || team.wins || 0)} - ${Math.round(team.current_losses || team.losses || 0)} - ${Math.round(team.current_otl || team.otl || 0)}`}</div>
-                <div className="stat-sub">Rank: {team._ranks && team._ranks.currPtsRank ? `${team._ranks.currPtsRank}/${team._ranks.totalTeams}` : '—'}</div>
+                <div className="stat-sub">Rank: {team._ranks && team._ranks.currPtsRank ? `${ordinal(team._ranks.currPtsRank)}` : '—'}</div>
               </div>
             </div>
           </div>
@@ -306,7 +310,7 @@ function Team() {
                     return (
                       <>
                         <div className="stat-value">{pct.toFixed(1)}%</div>
-                        <div className="stat-sub">Rank: {team._ranks && team._ranks.currPPRank ? `${team._ranks.currPPRank}/${team._ranks.totalTeams}` : '—'}</div>
+                        <div className="stat-sub">Rank: {team._ranks && team._ranks.currPPRank ? `${ordinal(team._ranks.currPPRank)}` : '—'}</div>
                       </>
                     );
                   })()
@@ -322,7 +326,7 @@ function Team() {
                     return (
                       <>
                         <div className="stat-value">{pct.toFixed(1)}%</div>
-                        <div className="stat-sub">Rank: {team._ranks && team._ranks.currPKRank ? `${team._ranks.currPKRank}/${team._ranks.totalTeams}` : '—'}</div>
+                        <div className="stat-sub">Rank: {team._ranks && team._ranks.currPKRank ? `${ordinal(team._ranks.currPKRank)}` : '—'}</div>
                       </>
                     );
                   })()
@@ -401,8 +405,8 @@ function Team() {
             <div className="games-column previous">
               <h3>Previous 3</h3>
               {prevGames.length === 0 && <div className="note">No recent games available</div>}
-              {prevGames.map(g => (
-                <div className="mini-game" key={g.id}>
+              {prevGames.map((g, idx) => (
+                <div className="mini-game" key={g.id ?? `${g.date || 'd'}-${g.home_name || 'h'}-${g.visitor_name || 'v'}-${idx}`}>
                   <div className="mini-matchup">{g.visitor_name} @ {g.home_name}</div>
                   <div className="mini-date">{g.date} {g.time_str}</div>
                   <div className="mini-score">{g.visitor_score != null ? `${g.visitor_score} - ${g.home_score}` : 'N/A'}</div>
@@ -413,8 +417,8 @@ function Team() {
             <div className="games-column next">
               <h3>Next 3</h3>
               {nextGames.length === 0 && <div className="note">No upcoming games available</div>}
-              {nextGames.map(g => (
-                <div className="mini-game" key={g.id}>
+              {nextGames.map((g, idx) => (
+                <div className="mini-game" key={g.id ?? `${g.date || 'd'}-${g.home_name || 'h'}-${g.visitor_name || 'v'}-${idx}`}>
                   <div className="mini-matchup">{g.visitor_name} @ {g.home_name}</div>
                   <div className="mini-date">{g.date} {g.time_str}</div>
                   <div className="mini-probs">{g.visitor_prob != null ? `${(g.visitor_prob * 100).toFixed(1)}% / ${(g.home_prob * 100).toFixed(1)}%` : 'N/A'}</div>
@@ -436,19 +440,19 @@ function Team() {
           <div className="proj-card">
             <div className="label">Projected Points</div>
             <div className="big">{Math.round(team.points)}</div>
-            <div className="sub">Rank: {team._ranks && team._ranks.ptsRank ? `${team._ranks.ptsRank}/${team._ranks.totalTeams}` : '—'}</div>
+            <div className="sub">Rank: {team._ranks && team._ranks.ptsRank ? `${ordinal(team._ranks.ptsRank)}` : '—'}</div>
           </div>
 
           <div className="proj-card">
             <div className="label">Projected GF</div>
             <div className="big">{Math.round(team.goals_for)}</div>
-            <div className="sub">Rank: {team._ranks && team._ranks.gfRank ? `${team._ranks.gfRank}/${team._ranks.totalTeams}` : '—'}</div>
+            <div className="sub">Rank: {team._ranks && team._ranks.gfRank ? `${ordinal(team._ranks.gfRank)}` : '—'}</div>
           </div>
 
           <div className="proj-card">
             <div className="label">Projected GA</div>
             <div className="big">{Math.round(team.goals_against)}</div>
-            <div className="sub">Rank: {team._ranks && team._ranks.gaRank ? `${team._ranks.gaRank}/${team._ranks.totalTeams}` : '—'}</div>
+            <div className="sub">Rank: {team._ranks && team._ranks.gaRank ? `${ordinal(team._ranks.gaRank)}` : '—'}</div>
           </div>
 
           <div className="proj-card">
@@ -469,7 +473,9 @@ function Team() {
                 if (!leading) return <div className="note">No roster data available</div>;
                 return (
                   <div className="leading">
-                    <img className="lead-headshot" src={leading.espn_headshot && leading.espn_headshot !== 'N/A' ? leading.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${leading.team}/${leading.player_id}.png`} alt={leading.player} />
+                    <div className="player-avatar lead-avatar" style={{ background: teamPrimary }}>
+                      <img className="lead-headshot" src={`https://assets.nhle.com/mugs/nhl/${season}/${leading.team}/${leading.player_id}.png`} alt={leading.player} />
+                    </div>
                     <div className="lead-info">
                       <div className="lead-name">{leading.player}</div>
                       <div className="lead-p">Projected Points: {Math.round(leading.points || 0)}</div>
@@ -489,9 +495,11 @@ function Team() {
             <h3>Forwards</h3>
             <div className="player-grid">
               {forwards.length === 0 && <div className="note">No forwards found for this team.</div>}
-              {forwards.map(p => (
-                <div key={p.player_id || p.id || p.name} className="player-card">
-                  <img src={p.espn_headshot && p.espn_headshot !== 'N/A' ? p.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${p.team}/${p.player_id}.png`} alt={p.player} />
+              {forwards.map((p, idx) => (
+                <div key={p.player_id || p.id || p.name || `${p.team || 't'}-${p.player || 'p'}-${idx}`} className="player-card">
+                  <div className="player-avatar" style={{ background: teamPrimary }}>
+                    <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                  </div>
                   <div className="player-name">{p.player}</div>
                   <div className="player-pos">{p.position}</div>
                 </div>
@@ -503,9 +511,11 @@ function Team() {
             <h3>Defense</h3>
             <div className="player-grid">
               {defense.length === 0 && <div className="note">No defensemen found for this team.</div>}
-              {defense.map(p => (
-                <div key={p.player_id || p.id || p.name} className="player-card">
-                  <img src={p.espn_headshot && p.espn_headshot !== 'N/A' ? p.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${p.team}/${p.player_id}.png`} alt={p.player} />
+              {defense.map((p, idx) => (
+                <div key={p.player_id || p.id || p.name || `${p.team || 't'}-${p.player || 'p'}-${idx}`} className="player-card">
+                  <div className="player-avatar" style={{ background: teamPrimary }}>
+                    <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                  </div>
                   <div className="player-name">{p.player}</div>
                   <div className="player-pos">{p.position}</div>
                 </div>
@@ -517,9 +527,11 @@ function Team() {
             <h3>Goalies</h3>
             <div className="player-grid goalie-grid">
               {goalies.length === 0 && <div className="note">No goalies found for this team.</div>}
-              {goalies.map(p => (
-                <div key={p.player_id || p.id || p.name} className="player-card goalie-card">
-                  <img src={p.espn_headshot && p.espn_headshot !== 'N/A' ? p.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${p.team}/${p.player_id}.png`} alt={p.player} />
+              {goalies.map((p, idx) => (
+                <div key={p.player_id || p.id || p.name || `${p.team || 't'}-${p.player || 'p'}-${idx}`} className="player-card goalie-card">
+                  <div className="player-avatar goalie-avatar" style={{ background: teamPrimary }}>
+                    <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                  </div>
                   <div className="player-name">{p.player}</div>
                   <div className="player-pos">{p.position}</div>
                 </div>

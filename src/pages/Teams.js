@@ -261,15 +261,11 @@ function Teams() {
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row);
-              // determine a team identifier to use in URL - prefer team_abbr or team_id if present
+              // determine a team identifier to use in URL - strict: only use `abbrev` (e.g., TBL, CAR)
+              // do not fall back to slugified names; if abbrev is missing, don't link
               const makeTeamId = (orig) => {
                 if (!orig) return null;
-                if (orig.team_abbr) return String(orig.team_abbr);
-                if (orig.team_id) return String(orig.team_id);
-                const name = String(orig.team || '').trim();
-                if (!name) return null;
-                // slugify fallback: lower-case, replace non-alnum with hyphens, trim hyphens
-                return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                return orig.abbrev ? String(orig.abbrev) : null;
               };
               const teamId = makeTeamId(row.original);
               return (
