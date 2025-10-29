@@ -514,6 +514,42 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
         save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_failed_merge.csv')
         failed_df.to_csv(save_path, index=True)
 
+def fetch_current_team_stats_from_nhl_api(verbose=False):
+    url = "https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20252026%20and%20seasonId%3E=20252026"
+    
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        
+        teams_data = data.get('data', [])
+        if not teams_data:
+            if verbose:
+                print("No current team stats data returned from NHL API.")
+            return pd.DataFrame()
+        
+        current_stats = []
+        for team in teams_data:
+            current_stats.append({
+                'team': team.get('teamFullName'),
+                'current_wins': team.get('wins'),
+                'current_losses': team.get('losses'),
+                'current_otl': team.get('otLosses'),
+                'current_goals_for': team.get('goalsFor'),
+                'current_goals_against': team.get('goalsAgainst'),
+                'current_pp_pct': team.get('powerPlayPct'),
+                'current_pk_pct': team.get('penaltyKillPct'),
+                'current_points': team.get('points'),
+            })
+        
+        df = pd.DataFrame(current_stats)
+        return df
+    
+    except Exception as e:
+        if verbose:
+            print(f"Error fetching current team stats from NHL API: {e}")
+        return pd.DataFrame()
+
 def update_metadata(state, params):
 
     metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
@@ -584,6 +620,9 @@ def push_to_supabase(table_name, year, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
         df['stanley_cup_prob'] = 0.03125
+        
+        current_team_stats_df = fetch_current_team_stats_from_nhl_api(verbose=verbose)
+        df = df.merge(current_team_stats_df, on='team', how='left')
 
     elif table_name == 'player_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
