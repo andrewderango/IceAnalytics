@@ -63,7 +63,7 @@ function Team() {
         // fetch all teams projections to compute NHL ranks
         const { data: allTeams, error: atErr } = await supabase
           .from('team_projections')
-          .select('team,abbrev,points,goals_for,goals_against');
+          .select('team,abbrev,points,goals_for,goals_against,current_points,current_goals_for,current_goals_against,current_pp_pct,current_pk_pct,pp_pct,pk_pct');
 
         if (atErr) console.error('Error fetching all teams for ranks:', atErr);
         // compute ranks and attach to team object via local variables
