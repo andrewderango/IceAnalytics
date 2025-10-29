@@ -253,6 +253,38 @@ function Team() {
     return n + (s[(v-20)%10] || s[v] || s[0]);
   };
 
+  // helper: extract jersey number with common fallbacks
+  const getJerseyNumber = (p) => p.number || p.jersey || p.jersey_number || p.uniform_number || p.num || null;
+
+  // (removed) birth country helper per request
+
+  // helper: compute age from explicit age or birth_date
+  const getAge = (p) => {
+    if (p.age) return p.age;
+    const bd = p.birth_date || p.birthdate || p.dob || p.birth;
+    if (!bd) return null;
+    try {
+      const birth = new Date(bd);
+      if (isNaN(birth)) return null;
+      const now = new Date();
+      let age = now.getFullYear() - birth.getFullYear();
+      const m = now.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+      return age;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // helper: preferred projected stat with fallbacks
+  const pickStat = (p, keys) => {
+    for (const k of keys) {
+      if (p[k] !== undefined && p[k] !== null) return p[k];
+    }
+    return 0;
+  };
+
+
   return (
     <div className="team-page" style={teamNameStyle}>
       <div className="team-hero">
@@ -495,15 +527,58 @@ function Team() {
             <h3>Forwards</h3>
             <div className="player-grid">
               {forwards.length === 0 && <div className="note">No forwards found for this team.</div>}
-              {forwards.map((p, idx) => (
-                <div key={p.player_id || p.id || p.name || `${p.team || 't'}-${p.player || 'p'}-${idx}`} className="player-card">
-                  <div className="player-avatar" style={{ background: teamPrimary }}>
-                    <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+              {[...forwards].sort((a, b) => {
+                const pa = pickStat(a, ['points', 'proj_points', 'projected_points']);
+                const pb = pickStat(b, ['points', 'proj_points', 'projected_points']);
+                return (pb || 0) - (pa || 0);
+              }).map((p, idx) => {
+                const key = p.player_id || p.id || `${p.team || 't'}-${p.player || 'p'}-${idx}`;
+                const num = getJerseyNumber(p);
+                const age = getAge(p);
+                const projPoints = pickStat(p, ['points']);
+                const projGP = pickStat(p, ['games']);
+                const projGoals = pickStat(p, ['goals']);
+                const projAssists = pickStat(p, ['assists']);
+                return (
+                <div key={key} className="player-card">
+                  <div className="player-top">
+                    <div className="player-avatar">
+                      <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                    </div>
+                    <div className="player-info">
+                      <div className="player-name">{p.player}</div>
+                      <div className="player-sub">
+                        {(() => {
+                          const parts = [];
+                          parts.push(p.position || '—');
+                          if (num) parts.push(`#${num}`);
+                          parts.push(`${age != null ? age : '—'}yrs`);
+                          parts.push("6'0\"");
+                          return parts.join(' · ');
+                        })()}
+                      </div>
+                    </div>
                   </div>
-                  <div className="player-name">{p.player}</div>
-                  <div className="player-pos">{p.position}</div>
+                  <div className="player-stats">
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projGP || 0)}</div>
+                      <div className="stat-label">GP</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projGoals || 0)}</div>
+                      <div className="stat-label">G</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projAssists || 0)}</div>
+                      <div className="stat-label">A</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projPoints || 0)}</div>
+                      <div className="stat-label">P</div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              );})}
             </div>
           </div>
 
@@ -511,15 +586,58 @@ function Team() {
             <h3>Defense</h3>
             <div className="player-grid">
               {defense.length === 0 && <div className="note">No defensemen found for this team.</div>}
-              {defense.map((p, idx) => (
-                <div key={p.player_id || p.id || p.name || `${p.team || 't'}-${p.player || 'p'}-${idx}`} className="player-card">
-                  <div className="player-avatar" style={{ background: teamPrimary }}>
-                    <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+              {[...defense].sort((a, b) => {
+                const pa = pickStat(a, ['points', 'proj_points', 'projected_points', 'points_proj']);
+                const pb = pickStat(b, ['points', 'proj_points', 'projected_points', 'points_proj']);
+                return (pb || 0) - (pa || 0);
+              }).map((p, idx) => {
+                const key = p.player_id || p.id || `${p.team || 't'}-${p.player || 'p'}-${idx}`;
+                const num = getJerseyNumber(p);
+                const age = getAge(p);
+                const projGoals = pickStat(p, ['goals', 'proj_goals', 'projected_goals']);
+                const projAssists = pickStat(p, ['assists', 'proj_assists', 'projected_assists']);
+                const projPoints = pickStat(p, ['points', 'proj_points', 'projected_points']);
+                const projGP = pickStat(p, ['gp', 'proj_gp', 'projected_gp', 'games_played']);
+                return (
+                <div key={key} className="player-card">
+                  <div className="player-top">
+                    <div className="player-avatar">
+                      <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                    </div>
+                    <div className="player-info">
+                      <div className="player-name">{p.player}</div>
+                      <div className="player-sub">
+                        {(() => {
+                          const parts = [];
+                          parts.push(p.position || '—');
+                          if (num) parts.push(`#${num}`);
+                          parts.push(`${age != null ? age : '—'}yrs`);
+                          parts.push("6'0\"");
+                          return parts.join(' · ');
+                        })()}
+                      </div>
+                    </div>
                   </div>
-                  <div className="player-name">{p.player}</div>
-                  <div className="player-pos">{p.position}</div>
+                  <div className="player-stats">
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projGP || 0)}</div>
+                      <div className="stat-label">GP</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projGoals || 0)}</div>
+                      <div className="stat-label">G</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projAssists || 0)}</div>
+                      <div className="stat-label">A</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projPoints || 0)}</div>
+                      <div className="stat-label">P</div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              );})}
             </div>
           </div>
 
@@ -527,15 +645,58 @@ function Team() {
             <h3>Goalies</h3>
             <div className="player-grid goalie-grid">
               {goalies.length === 0 && <div className="note">No goalies found for this team.</div>}
-              {goalies.map((p, idx) => (
-                <div key={p.player_id || p.id || p.name || `${p.team || 't'}-${p.player || 'p'}-${idx}`} className="player-card goalie-card">
-                  <div className="player-avatar goalie-avatar" style={{ background: teamPrimary }}>
-                    <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+              {[...goalies].sort((a, b) => {
+                const pa = pickStat(a, ['points', 'proj_points', 'projected_points']);
+                const pb = pickStat(b, ['points', 'proj_points', 'projected_points']);
+                return (pb || 0) - (pa || 0);
+              }).map((p, idx) => {
+                const key = p.player_id || p.id || `${p.team || 't'}-${p.player || 'p'}-${idx}`;
+                const num = getJerseyNumber(p);
+                const age = getAge(p);
+                const projWins = pickStat(p, ['wins', 'proj_wins', 'projected_wins']);
+                const projSvPct = pickStat(p, ['sv_pct', 'save_pct', 'proj_sv_pct']);
+                const projGaa = pickStat(p, ['gaa', 'proj_gaa']);
+                const projGP = pickStat(p, ['gp', 'proj_gp', 'projected_gp', 'games_played']);
+                return (
+                <div key={key} className="player-card goalie-card">
+                  <div className="player-top">
+                    <div className="player-avatar goalie-avatar">
+                      <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                    </div>
+                    <div className="player-info">
+                      <div className="player-name">{p.player}</div>
+                      <div className="player-sub">
+                        {(() => {
+                          const parts = [];
+                          parts.push(p.position || '—');
+                          if (num) parts.push(`#${num}`);
+                          parts.push(`${age != null ? age : '—'}yrs`);
+                          parts.push("6'0\"");
+                          return parts.join(' · ');
+                        })()}
+                      </div>
+                    </div>
                   </div>
-                  <div className="player-name">{p.player}</div>
-                  <div className="player-pos">{p.position}</div>
+                  <div className="player-stats">
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projGP || 0)}</div>
+                      <div className="stat-label">GP</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{Math.round(projWins || 0)}</div>
+                      <div className="stat-label">W</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{typeof projSvPct === 'number' ? (projSvPct * 100).toFixed(1) : (projSvPct || '0.0')}</div>
+                      <div className="stat-label">SV%</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-num">{projGaa != null ? projGaa : '—'}</div>
+                      <div className="stat-label">GAA</div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              );})}
             </div>
           </div>
         </div>
