@@ -63,7 +63,7 @@ function Team() {
         // fetch all teams projections to compute NHL ranks
         const { data: allTeams, error: atErr } = await supabase
           .from('team_projections')
-          .select('team,abbrev,points,goals_for,goals_against,current_points,current_goals_for,current_goals_against,current_pp_pct,current_pk_pct,pp_pct,pk_pct');
+          .select('team,abbrev,points,goals_for,goals_against,current_points,current_goals_for,current_goals_against,current_pp_pct,current_pk_pct,current_wins,current_losses,current_otl,offense_score,defense_score,overall_score,playoff_prob');
 
         if (atErr) console.error('Error fetching all teams for ranks:', atErr);
         // compute ranks and attach to team object via local variables
@@ -81,11 +81,11 @@ function Team() {
           const currentGaSorted = [...allTeams].sort((a,b) => numeric((a.current_goals_against ?? a.goals_against)) - numeric((b.current_goals_against ?? b.goals_against)));
 
             // PP/PK ranks (higher PP% is better; higher PK% is better)
-            const projectedPpSorted = [...allTeams].sort((a,b) => numeric(b.pp_pct ?? b.pp) - numeric(a.pp_pct ?? a.pp));
-            const projectedPkSorted = [...allTeams].sort((a,b) => numeric(b.pk_pct ?? b.pk) - numeric(a.pk_pct ?? a.pk));
+            const projectedPpSorted = [...allTeams].sort((a,b) => numeric(b.current_pp_pct ?? 0) - numeric(a.current_pp_pct ?? 0));
+            const projectedPkSorted = [...allTeams].sort((a,b) => numeric(b.current_pk_pct ?? 0) - numeric(a.current_pk_pct ?? 0));
 
-            const currentPpSorted = [...allTeams].sort((a,b) => numeric((b.current_pp_pct ?? b.pp_pct ?? b.pp)) - numeric((a.current_pp_pct ?? a.pp_pct ?? a.pp)));
-            const currentPkSorted = [...allTeams].sort((a,b) => numeric((b.current_pk_pct ?? b.pk_pct ?? b.pk)) - numeric((a.current_pk_pct ?? a.pk_pct ?? a.pk)));
+            const currentPpSorted = [...allTeams].sort((a,b) => numeric(b.current_pp_pct ?? 0) - numeric(a.current_pp_pct ?? 0));
+            const currentPkSorted = [...allTeams].sort((a,b) => numeric(b.current_pk_pct ?? 0) - numeric(a.current_pk_pct ?? 0));
 
           const findIndex = (arr) => {
             // use the resolvedTeam (available in this scope) when matching ranks; fallback to component state `team` if necessary
@@ -99,7 +99,7 @@ function Team() {
             return idx === -1 ? null : idx + 1;
           };
 
-            // compute power percents for ranks (use same fallbacks as in rendering)
+            // compute power percents for ranks (use current stats when available, otherwise projected)
             const toPct = v => {
               const n = parseFloat(v);
               if (!isFinite(n)) return 0;
@@ -108,11 +108,19 @@ function Team() {
 
             const offenseList = allTeams.map(t => ({
               ...t,
-              offensePct: t.offense_score != null ? toPct(t.offense_score) : (t.goals_for && t.goals_against ? Math.round((t.goals_for / (t.goals_for + t.goals_against)) * 100) : 0)
+              offensePct: t.offense_score != null ? toPct(t.offense_score) : (
+                (t.current_goals_for && t.current_goals_against) 
+                  ? Math.round((t.current_goals_for / (t.current_goals_for + t.current_goals_against)) * 100) 
+                  : (t.goals_for && t.goals_against ? Math.round((t.goals_for / (t.goals_for + t.goals_against)) * 100) : 0)
+              )
             }));
             const defenseList = allTeams.map(t => ({
               ...t,
-              defensePct: t.defense_score != null ? toPct(t.defense_score) : (t.goals_for && t.goals_against ? Math.round((1 - (t.goals_against / (t.goals_for + t.goals_against))) * 100) : 0)
+              defensePct: t.defense_score != null ? toPct(t.defense_score) : (
+                (t.current_goals_for && t.current_goals_against)
+                  ? Math.round((1 - (t.current_goals_against / (t.current_goals_for + t.current_goals_against))) * 100)
+                  : (t.goals_for && t.goals_against ? Math.round((1 - (t.goals_against / (t.goals_for + t.goals_against))) * 100) : 0)
+              )
             }));
             const overallList = allTeams.map(t => ({
               ...t,
@@ -337,7 +345,7 @@ function Team() {
                 <div className="stat-label">PP%</div>
                 {
                   (() => {
-                    const raw = team.current_pp_pct ?? team.pp_pct ?? team.pp ?? 0;
+                    const raw = team.current_pp_pct ?? 0;
                     const pct = (parseFloat(raw) || 0) > 1 ? (parseFloat(raw)) : (parseFloat(raw) * 100);
                     return (
                       <>
@@ -353,7 +361,7 @@ function Team() {
                 <div className="stat-label">PK%</div>
                 {
                   (() => {
-                    const raw = team.current_pk_pct ?? team.pk_pct ?? team.pk ?? 0;
+                    const raw = team.current_pk_pct ?? 0;
                     const pct = (parseFloat(raw) || 0) > 1 ? (parseFloat(raw)) : (parseFloat(raw) * 100);
                     return (
                       <>
@@ -382,9 +390,17 @@ function Team() {
               const defenseRaw = team.defense_score ?? team.defensive_power ?? null;
               const overallRaw = team.overall_score ?? team.power_score ?? null;
 
-              // sensible fallbacks
-              const offensePct = offenseRaw != null ? toPct(offenseRaw) : (team.goals_for && team.goals_against ? Math.round((team.goals_for / (team.goals_for + team.goals_against)) * 100) : Math.round((parseFloat(team.playoff_prob || 0) * 100)));
-              const defensePct = defenseRaw != null ? toPct(defenseRaw) : (team.goals_for && team.goals_against ? Math.round((1 - (team.goals_against / (team.goals_for + team.goals_against))) * 100) : Math.round((1 - parseFloat(team.playoff_prob || 0)) * 100));
+              // sensible fallbacks (use current stats when available, otherwise projected)
+              const offensePct = offenseRaw != null ? toPct(offenseRaw) : (
+                (team.current_goals_for && team.current_goals_against) 
+                  ? Math.round((team.current_goals_for / (team.current_goals_for + team.current_goals_against)) * 100)
+                  : (team.goals_for && team.goals_against ? Math.round((team.goals_for / (team.goals_for + team.goals_against)) * 100) : Math.round((parseFloat(team.playoff_prob || 0) * 100)))
+              );
+              const defensePct = defenseRaw != null ? toPct(defenseRaw) : (
+                (team.current_goals_for && team.current_goals_against)
+                  ? Math.round((1 - (team.current_goals_against / (team.current_goals_for + team.current_goals_against))) * 100)
+                  : (team.goals_for && team.goals_against ? Math.round((1 - (team.goals_against / (team.goals_for + team.goals_against))) * 100) : Math.round((1 - parseFloat(team.playoff_prob || 0)) * 100))
+              );
               const overallPct = overallRaw != null ? toPct(overallRaw) : Math.round((parseFloat(team.playoff_prob || 0) * 100));
 
               const makeChart = (key, label, pct, _color, rank) => {
