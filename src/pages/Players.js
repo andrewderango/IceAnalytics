@@ -36,7 +36,7 @@ function Players() {
         Header: 'Player',
         accessor: 'player',
         Cell: ({ row }) => (
-          <Link to={`/player/${row.original.player_id}`}>
+          <Link to={`/player/${row.original.player_id}`} className="player-name-cell">
             {row.original.player}
           </Link>
         ),
