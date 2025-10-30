@@ -1044,9 +1044,9 @@ def display_inferences(projection_year, player_stat_df, bootstrap_df, inference_
             print(f'{projection_year}_skater_metaprojections.csv has been downloaded to the following directory: {export_path}')
 
 def savitzky_golvay_calibration(projection_year, player_stat_df):
-    player_stat_df = savgol_goal_calibration(projection_year, player_stat_df)
-    player_stat_df = savgol_a1_calibration(projection_year, player_stat_df)
-    player_stat_df = savgol_a2_calibration(projection_year, player_stat_df)
+    # player_stat_df = savgol_goal_calibration(projection_year, player_stat_df)
+    # player_stat_df = savgol_a1_calibration(projection_year, player_stat_df)
+    # player_stat_df = savgol_a2_calibration(projection_year, player_stat_df)
     player_stat_df = gp_inference_calibration(projection_year, player_stat_df)
 
     return player_stat_df

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTable, useSortBy } from 'react-table';
 import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
@@ -9,6 +10,7 @@ function Teams() {
   const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState({ id: null, desc: false });
   const [lastUpdated, setLastUpdated] = useState('');
+  const history = useHistory();
 
   if (offseason) {
     return (
@@ -84,7 +86,7 @@ function Teams() {
         Header: 'Team',
         accessor: 'team',
         Cell: ({ cell: { value } }) => (
-          <div style={{ minWidth: '150px' }}>
+          <div className="team-name-cell" style={{ minWidth: '150px' }}>
             {value}
           </div>
         ),
@@ -259,13 +261,26 @@ function Teams() {
           <tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row);
+              // determine a team identifier to use in URL - strict: only use `abbrev` (e.g., TBL, CAR)
+              // do not fall back to slugified names; if abbrev is missing, don't link
+              const makeTeamId = (orig) => {
+                if (!orig) return null;
+                return orig.abbrev ? String(orig.abbrev) : null;
+              };
+              const teamId = makeTeamId(row.original);
               return (
-                <tr {...row.getRowProps()}>
+                <tr
+                  {...row.getRowProps({
+                    onClick: () => {
+                      if (teamId) history.push(`/team/${encodeURIComponent(teamId)}`);
+                    },
+                    style: { cursor: teamId ? 'pointer' : 'default' }
+                  })}
+                >
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps({
                         style: {
-                          cursor: 'pointer',
                           backgroundColor: sortBy.id === cell.column.id ? 'rgba(218, 165, 32, 0.15)' : undefined,
                           position: cell.column.sticky ? 'sticky' : undefined,
                           left: cell.column.sticky ? 0 : undefined,
