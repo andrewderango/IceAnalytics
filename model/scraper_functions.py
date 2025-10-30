@@ -624,6 +624,12 @@ def push_to_supabase(table_name, year, verbose=False):
         current_team_stats_df = fetch_current_team_stats_from_nhl_api(verbose=verbose)
         df = df.merge(current_team_stats_df, on='team', how='left')
 
+        df['gf%'] = (df['goals_for'] / (df['goals_for'] + df['goals_against']) * 100)
+        df['offense_score'] = ((df['goals_for'] - df['goals_for'].min()) / (df['goals_for'].max() - df['goals_for'].min()) * 100).round(0).astype(int)
+        df['defense_score'] = ((df['goals_against'].max() - df['goals_against']) / (df['goals_against'].max() - df['goals_against'].min()) * 100).round(0).astype(int)
+        df['overall_score'] = (((df['gf%'] - df['gf%'].min()) / (df['gf%'].max() - df['gf%'].min())) * 100).round(0).astype(int)
+        df = df.drop(columns=['gf%'])
+
     elif table_name == 'player_projections':
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(year), 'Skaters', f'{year}_skater_projections.csv')
         df = pd.read_csv(file_path)
