@@ -458,7 +458,7 @@ function Team() {
                 const projGoals = pickStat(p, ['goals']);
                 const projAssists = pickStat(p, ['assists']);
                 return (
-                <div key={key} className="player-card">
+                <div key={key} className="player-card" onClick={() => history.push(`/player/${p.player_id}`)} style={{ cursor: 'pointer' }}>
                   <div className="player-top">
                     <div className="player-avatar">
                       <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
@@ -516,7 +516,7 @@ function Team() {
                 const projPoints = pickStat(p, ['points', 'proj_points', 'projected_points']);
                 const projGP = pickStat(p, ['games']);
                 return (
-                <div key={key} className="player-card">
+                <div key={key} className="player-card" onClick={() => history.push(`/player/${p.player_id}`)} style={{ cursor: 'pointer' }}>
                   <div className="player-top">
                     <div className="player-avatar">
                       <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
