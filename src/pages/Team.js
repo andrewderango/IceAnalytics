@@ -168,7 +168,7 @@ function Team() {
   
 
   // derive a primary color from available team fields and a readable foreground color
-  const teamPrimaryRaw = team.primary_color || team.color || team.team_color || team.color_primary || team.hex || team.hex_color || '#B01829'; // change to null ###!!!
+  const teamPrimaryRaw = team.primary_color || '#555555'; // fallback to default grey if no color set
   const parseHex = (s) => {
     if (!s) return null;
     const hex = s.trim();
@@ -414,19 +414,16 @@ function Team() {
           <div className="proj-card">
             <div className="label">Projected Points</div>
             <div className="big">{Math.round(team.points)}</div>
-            <div className="sub">Rank: {team._ranks && team._ranks.ptsRank ? `${ordinal(team._ranks.ptsRank)}` : '—'}</div>
           </div>
 
           <div className="proj-card">
             <div className="label">Projected GF</div>
             <div className="big">{Math.round(team.goals_for)}</div>
-            <div className="sub">Rank: {team._ranks && team._ranks.gfRank ? `${ordinal(team._ranks.gfRank)}` : '—'}</div>
           </div>
 
           <div className="proj-card">
             <div className="label">Projected GA</div>
             <div className="big">{Math.round(team.goals_against)}</div>
-            <div className="sub">Rank: {team._ranks && team._ranks.gaRank ? `${ordinal(team._ranks.gaRank)}` : '—'}</div>
           </div>
 
           <div className="proj-card">
