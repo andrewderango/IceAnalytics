@@ -700,6 +700,10 @@ def push_to_supabase(table_name, year, verbose=False):
         team_data.rename(columns={'Abbreviation': 'team', 'Team Name': 'team_name'}, inplace=True)
         df = df.merge(team_data, on='team', how='left')
 
+
+        df['atoi'] = (df['TOI'] / df['games']).fillna(0)
+        df['goals_per60'] = ((df['goals'] / df['TOI']) * 60).fillna(0)
+        df['assists_per60'] = ((df['assists'] / df['TOI']) * 60).fillna(0)
         df = df.drop(columns=['TOI'])
         df = df.dropna(subset=['logo'])
         df = df.drop_duplicates(subset=['player_id', 'team', 'position'])

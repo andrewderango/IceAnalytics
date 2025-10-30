@@ -223,7 +223,7 @@ def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, c
             player_goal_ratio = (home_row['Gper1kChunk']*home_row['ATOI']*home_row['GPprb'])/home_scoring_dotproduct
             player_assist_ratio = (home_row['Aper1kChunk']*home_row['ATOI']*home_row['GPprb'])/home_assisting_dotproduct * (a1_probability + a2_probability)
             player_scoring_dict[player_id][0] += home_row['GPprb']
-            player_scoring_dict[player_id][1] += home_row['ATOI']
+            player_scoring_dict[player_id][1] += home_row['ATOI'] * home_row['GPprb']
             player_scoring_dict[player_id][2] += ((home_row['Gper1kChunk'] / 1000 * 2 * home_row['ATOI'])*0.897806 + (player_goal_ratio * home_weighted_avg * 120)*0.102194) * home_row['GPprb'] ###
             player_scoring_dict[player_id][3] += ((home_row['Aper1kChunk'] / 1000 * 2 * home_row['ATOI'])*0.897806 + (player_assist_ratio * home_weighted_avg * 120)*0.102194) * home_row['GPprb'] ###
 
@@ -232,7 +232,7 @@ def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, c
             player_goal_ratio = (visitor_row['Gper1kChunk']*visitor_row['ATOI']*visitor_row['GPprb'])/visitor_scoring_dotproduct
             player_assist_ratio = (visitor_row['Aper1kChunk']*visitor_row['ATOI']*visitor_row['GPprb'])/visitor_assisting_dotproduct
             player_scoring_dict[player_id][0] += visitor_row['GPprb']
-            player_scoring_dict[player_id][1] += visitor_row['ATOI']
+            player_scoring_dict[player_id][1] += visitor_row['ATOI'] * visitor_row['GPprb']
             player_scoring_dict[player_id][2] += ((visitor_row['Gper1kChunk'] / 1000 * 2 * visitor_row['ATOI'])*0.897806 + (player_goal_ratio * visitor_weighted_avg * 120)*0.102194) * visitor_row['GPprb'] ###
             player_scoring_dict[player_id][3] += ((visitor_row['Aper1kChunk'] / 1000 * 2 * visitor_row['ATOI'])*0.897806 + (player_assist_ratio * visitor_weighted_avg * 120)*0.102194) * visitor_row['GPprb'] ###
 
