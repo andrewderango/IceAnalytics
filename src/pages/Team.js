@@ -9,8 +9,6 @@ function Team() {
   const history = useHistory();
   const [team, setTeam] = useState(null);
   const [roster, setRoster] = useState([]);
-  const [prevGames, setPrevGames] = useState([]);
-  const [nextGames, setNextGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -149,47 +147,6 @@ function Team() {
 
           // attach ranks to team state object for rendering
           setTeam(prev => ({ ...prev, _ranks: { ptsRank, gfRank, gaRank, ppRank, pkRank, currPtsRank, currGfRank, currGaRank, currPPRank, currPKRank, offenseRank, defenseRank, overallRank, totalTeams: allTeams.length } }));
-
-          // fetch previous 3 and next 3 games for this team from game_projections
-          try {
-            // current date in EST (YYYY-MM-DD) to match Games.js
-            const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-            const [m, d, y] = estDate.split(',')[0].split('/');
-            const today = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
-
-            const teamAbbr = resolvedTeam && resolvedTeam.abbrev ? resolvedTeam.abbrev : null;
-            const teamName = resolvedTeam && resolvedTeam.team ? resolvedTeam.team : null;
-            const key = teamAbbr || teamName || decoded;
-
-            if (key) {
-              // include both 'abbrev' and 'abbr' variants seen in various tables
-              const orCond = `home_name.eq.${key},visitor_name.eq.${key},home_abbrev.eq.${key},visitor_abbrev.eq.${key}`;
-
-              const { data: prev, error: prevErr } = await supabase
-                .from('game_projections')
-                .select('*')
-                .or(orCond)
-                .lt('date', today)
-                .order('date', { ascending: false })
-                .limit(3);
-
-              if (prevErr) console.error('Error fetching previous games:', prevErr);
-              if (prev) setPrevGames(prev);
-
-              const { data: next, error: nextErr } = await supabase
-                .from('game_projections')
-                .select('*')
-                .or(orCond)
-                .gte('date', today)
-                .order('date', { ascending: true })
-                .limit(3);
-
-              if (nextErr) console.error('Error fetching next games:', nextErr);
-              if (next) setNextGames(next);
-            }
-          } catch (eg) {
-            console.error('Error fetching team games:', eg);
-          }
         }
       } catch (err) {
         console.error(err);
@@ -207,7 +164,6 @@ function Team() {
   // split roster by `pos` field from player_projections (values like D, C, LW, RW, G)
   const forwards = roster.filter(p => p.position && !['D', 'G'].includes(String(p.position).toUpperCase()));
   const defense = roster.filter(p => String(p.position).toUpperCase() === 'D');
-  const goalies = roster.filter(p => String(p.position).toUpperCase() === 'G');
 
   
 
@@ -446,36 +402,6 @@ function Team() {
         </div>
       </div>
 
-        {/* Team games: previous 3 and next 3 */}
-        <div className="team-games">
-          <h2>Recent / Upcoming Games</h2>
-          <div className="games-split">
-            <div className="games-column previous">
-              <h3>Previous 3</h3>
-              {prevGames.length === 0 && <div className="note">No recent games available</div>}
-              {prevGames.map((g, idx) => (
-                <div className="mini-game" key={g.id ?? `${g.date || 'd'}-${g.home_name || 'h'}-${g.visitor_name || 'v'}-${idx}`}>
-                  <div className="mini-matchup">{g.visitor_name} @ {g.home_name}</div>
-                  <div className="mini-date">{g.date} {g.time_str}</div>
-                  <div className="mini-score">{g.visitor_score != null ? `${g.visitor_score} - ${g.home_score}` : 'N/A'}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="games-column next">
-              <h3>Next 3</h3>
-              {nextGames.length === 0 && <div className="note">No upcoming games available</div>}
-              {nextGames.map((g, idx) => (
-                <div className="mini-game" key={g.id ?? `${g.date || 'd'}-${g.home_name || 'h'}-${g.visitor_name || 'v'}-${idx}`}>
-                  <div className="mini-matchup">{g.visitor_name} @ {g.home_name}</div>
-                  <div className="mini-date">{g.date} {g.time_str}</div>
-                  <div className="mini-probs">{g.visitor_prob != null ? `${(g.visitor_prob * 100).toFixed(1)}% / ${(g.home_prob * 100).toFixed(1)}%` : 'N/A'}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Projections section - dedicated and clearly labeled */}
       <div className="team-projections">
         <h2>Projections</h2>
@@ -511,27 +437,6 @@ function Team() {
           <div className="proj-card">
             <div className="label">President's Trophy Odds</div>
             <div className="big">{(parseFloat(team.presidents_trophy_prob || 0) * 100).toFixed(2)}%</div>
-          </div>
-
-          <div className="proj-card leader-card">
-            <div className="label">Leading Scorer (Projected)</div>
-            {
-              (() => {
-                const leading = roster && roster.length ? roster.reduce((best, p) => ((p.points || 0) > (best.points || 0) ? p : best), roster[0]) : null;
-                if (!leading) return <div className="note">No roster data available</div>;
-                return (
-                  <div className="leading">
-                    <div className="player-avatar lead-avatar" style={{ background: teamPrimary }}>
-                      <img className="lead-headshot" src={`https://assets.nhle.com/mugs/nhl/${season}/${leading.team}/${leading.player_id}.png`} alt={leading.player} />
-                    </div>
-                    <div className="lead-info">
-                      <div className="lead-name">{leading.player}</div>
-                      <div className="lead-p">Projected Points: {Math.round(leading.points || 0)}</div>
-                    </div>
-                  </div>
-                );
-              })()
-            }
           </div>
         </div>
       </div>
@@ -569,7 +474,6 @@ function Team() {
                           parts.push(p.position || '—');
                           if (num) parts.push(`#${num}`);
                           parts.push(`${age != null ? age : '—'}yrs`);
-                          parts.push("6'0\"");
                           return parts.join(' · ');
                         })()}
                       </div>
@@ -628,7 +532,6 @@ function Team() {
                           parts.push(p.position || '—');
                           if (num) parts.push(`#${num}`);
                           parts.push(`${age != null ? age : '—'}yrs`);
-                          parts.push("6'0\"");
                           return parts.join(' · ');
                         })()}
                       </div>
@@ -650,65 +553,6 @@ function Team() {
                     <div className="stat">
                       <div className="stat-num">{Math.round(projPoints || 0)}</div>
                       <div className="stat-label">P</div>
-                    </div>
-                  </div>
-                </div>
-              );})}
-            </div>
-          </div>
-
-          <div className="roster-section">
-            <h3>Goalies</h3>
-            <div className="player-grid goalie-grid">
-              {goalies.length === 0 && <div className="note">No goalies found for this team.</div>}
-              {[...goalies].sort((a, b) => {
-                const pa = pickStat(a, ['points', 'proj_points', 'projected_points']);
-                const pb = pickStat(b, ['points', 'proj_points', 'projected_points']);
-                return (pb || 0) - (pa || 0);
-              }).map((p, idx) => {
-                const key = p.player_id || p.id || `${p.team || 't'}-${p.player || 'p'}-${idx}`;
-                const num = getJerseyNumber(p);
-                const age = getAge(p);
-                const projWins = pickStat(p, ['wins', 'proj_wins', 'projected_wins']);
-                const projSvPct = pickStat(p, ['sv_pct', 'save_pct', 'proj_sv_pct']);
-                const projGaa = pickStat(p, ['gaa', 'proj_gaa']);
-                const projGP = pickStat(p, ['gp', 'proj_gp', 'projected_gp', 'games_played']);
-                return (
-                <div key={key} className="player-card goalie-card">
-                  <div className="player-top">
-                    <div className="player-avatar goalie-avatar">
-                      <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
-                    </div>
-                    <div className="player-info">
-                      <div className="player-name">{p.player}</div>
-                      <div className="player-sub">
-                        {(() => {
-                          const parts = [];
-                          parts.push(p.position || '—');
-                          if (num) parts.push(`#${num}`);
-                          parts.push(`${age != null ? age : '—'}yrs`);
-                          parts.push("6'0\"");
-                          return parts.join(' · ');
-                        })()}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="player-stats">
-                    <div className="stat">
-                      <div className="stat-num">{Math.round(projGP || 0)}</div>
-                      <div className="stat-label">GP</div>
-                    </div>
-                    <div className="stat">
-                      <div className="stat-num">{Math.round(projWins || 0)}</div>
-                      <div className="stat-label">W</div>
-                    </div>
-                    <div className="stat">
-                      <div className="stat-num">{typeof projSvPct === 'number' ? (projSvPct * 100).toFixed(1) : (projSvPct || '0.0')}</div>
-                      <div className="stat-label">SV%</div>
-                    </div>
-                    <div className="stat">
-                      <div className="stat-num">{projGaa != null ? projGaa : '—'}</div>
-                      <div className="stat-label">GAA</div>
                     </div>
                   </div>
                 </div>
