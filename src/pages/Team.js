@@ -514,7 +514,7 @@ function Team() {
                 const projGoals = pickStat(p, ['goals', 'proj_goals', 'projected_goals']);
                 const projAssists = pickStat(p, ['assists', 'proj_assists', 'projected_assists']);
                 const projPoints = pickStat(p, ['points', 'proj_points', 'projected_points']);
-                const projGP = pickStat(p, ['gp', 'proj_gp', 'projected_gp', 'games_played']);
+                const projGP = pickStat(p, ['games']);
                 return (
                 <div key={key} className="player-card">
                   <div className="player-top">
