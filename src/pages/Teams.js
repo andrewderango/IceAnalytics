@@ -31,7 +31,7 @@ function Teams() {
       if (error) {
         console.error('Error fetching data:', error);
       } else {
-        console.log('Fetched data:', teams);
+        // console.log('Fetched data:', teams);
         setData(teams);
       }
     };

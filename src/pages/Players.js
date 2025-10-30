@@ -125,7 +125,7 @@ function Players() {
       if (error) {
         console.error('Error fetching data:', error);
       } else {
-        console.log('Fetched data:', players);
+        // console.log('Fetched data:', players);
         setData(players);
       }
     };

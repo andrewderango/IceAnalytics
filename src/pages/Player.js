@@ -58,7 +58,7 @@ function Player() {
         history.push('/not-found');
       } else {
         setPlayer(data[0]);
-        console.log('Player details:', data[0]); // temp for debugging
+        // console.log('Player details:', data[0]); // temp for debugging
       }
       setLoading(false);
     };
