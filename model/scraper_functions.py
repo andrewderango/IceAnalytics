@@ -621,6 +621,10 @@ def push_to_supabase(table_name, year, verbose=False):
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['abbrev'] + '_dark.svg'
         df['stanley_cup_prob'] = 0.03125
         
+        team_colors_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhl_team_colors.csv')
+        team_colors_df = pd.read_csv(team_colors_path)
+        df = df.merge(team_colors_df[['abbrev', 'primary_color']], on='abbrev', how='left')
+        
         current_team_stats_df = fetch_current_team_stats_from_nhl_api(verbose=verbose)
         df = df.merge(current_team_stats_df, on='team', how='left')
 
