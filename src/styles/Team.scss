@@ -277,24 +277,268 @@
     }
   }
 
-  @media (max-width: 768px) {
+  /* Tablet and smaller desktop screens */
+  @media (max-width: 1100px) {
     .team-hero {
-      .team-name { font-size: 24px; }
+      .hero-content {
+        flex-wrap: wrap;
+        
+        .hero-left {
+          .logo-wrap {
+            width: 240px;
+            height: 189px;
+          }
+        }
+
+        .hero-right {
+          flex: 1 1 360px;
+          max-width: none;
+        }
+
+        .hero-extra {
+          flex: 1 1 100%;
+          width: 100%;
+          
+          .power-box {
+            padding: 14px 20px;
+          }
+        }
+      }
+    }
+  }
+
+  /* Mobile and small tablets */
+  @media (max-width: 768px) {
+    padding: 16px 20px;
+
+    .team-hero {
+      .team-name { 
+        font-size: 22px; 
+        padding: 10px 16px;
+        
+        .team-name-logo { 
+          width: 48px; 
+          height: 48px; 
+          margin-right: 10px;
+        }
+      }
       
       .hero-content {
         flex-direction: column;
+        gap: 16px;
 
         .hero-left {
-          .logo-wrap { width: auto; height: auto; padding: 8px; }
-          .team-large-logo { width: 110px; height: 110px; max-height: none; }
-          .team-name-logo { width: 36px; height: 36px; }
+          width: 100%;
+          
+          .logo-wrap { 
+            width: 100%; 
+            height: 100px; 
+            padding: 20px;
+          }
         }
 
         .hero-right {
           width: 100%;
           max-width: none;
+          flex: 1 1 auto;
+          
+          .hero-top .stat-card {
+            padding: 12px 14px;
+          }
+          
+          .hero-bottom .stat-card {
+            padding: 12px 14px;
+          }
         }
-        .hero-extra { flex-direction: row; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        
+        .hero-extra { 
+          width: 100%;
+          
+          .power-box {
+            padding: 14px 16px;
+            
+            .power-row {
+              gap: 20px;
+            }
+            
+            .power-chart {
+              width: 85px;
+              height: 85px;
+              
+              &::before {
+                -webkit-mask: radial-gradient(circle, transparent 29px, black 29px);
+                mask: radial-gradient(circle, transparent 29px, black 29px);
+              }
+              
+              .power-inner {
+                width: 58px;
+                height: 58px;
+              }
+              
+              .power-value { font-size: 18px; }
+              .power-rank { font-size: 11px; margin-top: 4px; }
+            }
+          }
+        }
+      }
+    }
+    
+    .team-projections {
+      .projections-cards {
+        gap: 12px;
+        
+        .proj-card {
+          min-width: 160px;
+          flex: 1 1 calc(50% - 6px);
+          padding: 14px 12px;
+          
+          .label { font-size: 11px; }
+          .big { font-size: 20px; margin-top: 6px; }
+        }
+      }
+    }
+  }
+
+  /* Extra small mobile devices */
+  @media (max-width: 480px) {
+    padding: 12px 16px;
+    
+    .team-hero {
+      .team-name {
+        font-size: 20px;
+        padding: 8px 12px;
+        
+        .team-name-logo {
+          width: 40px;
+          height: 40px;
+          margin-right: 8px;
+        }
+      }
+      
+      .hero-content {
+        gap: 12px;
+        
+        .hero-left {
+          .logo-wrap {
+            padding: 16px;
+            min-height: 180px;
+          }
+        }
+        
+        .hero-right {
+          .stat-card {
+            .stat-label { font-size: 11px; }
+            .stat-value { font-size: 16px; }
+            .stat-sub { font-size: 10px; }
+          }
+        }
+        
+        .hero-extra {
+          .power-box {
+            padding: 12px;
+            
+            .power-heading { font-size: 12px; margin-bottom: 6px; }
+            
+            .power-row {
+              gap: 16px;
+              flex-wrap: wrap;
+            }
+            
+            .power-chart {
+              width: 75px;
+              height: 75px;
+              
+              &::before {
+                -webkit-mask: radial-gradient(circle, transparent 26px, black 26px);
+                mask: radial-gradient(circle, transparent 26px, black 26px);
+              }
+              
+              .power-inner {
+                width: 52px;
+                height: 52px;
+              }
+              
+              .power-value { font-size: 16px; }
+              .power-rank { font-size: 10px; margin-top: 3px; }
+            }
+            
+            .power-item .power-caption {
+              font-size: 11px;
+              margin-top: 6px;
+            }
+          }
+        }
+      }
+    }
+    
+    .team-projections {
+      margin: 20px 0 24px 0;
+      
+      h2 { font-size: 20px; margin-bottom: 12px; }
+      
+      .projections-cards {
+        gap: 10px;
+        
+        .proj-card {
+          min-width: 140px;
+          flex: 1 1 100%;
+          padding: 12px 10px;
+          
+          .label { font-size: 10px; }
+          .big { font-size: 18px; margin-top: 5px; }
+        }
+      }
+    }
+    
+    .team-roster {
+      h2 { font-size: 20px; margin-bottom: 12px; }
+      
+      .roster-grid {
+        gap: 16px;
+        
+        .roster-section {
+          padding: 16px;
+          
+          h3 { font-size: 16px; margin-bottom: 12px; }
+          
+          .player-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            
+            .player-card {
+              padding: 10px;
+              
+              .player-avatar {
+                width: 50px;
+                height: 50px;
+                flex: 0 0 50px;
+              }
+              
+              img {
+                width: 50px;
+                height: 50px;
+              }
+              
+              .player-info {
+                .player-name { font-size: 14px; }
+                .player-sub { font-size: 11px; gap: 6px; }
+              }
+              
+              .player-stats {
+                gap: 12px;
+                margin-top: 10px;
+                padding-top: 8px;
+                
+                .stat {
+                  min-width: 35px;
+                  
+                  .stat-num { font-size: 15px; }
+                  .stat-label { font-size: 9px; }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
