@@ -158,8 +158,28 @@ function Team() {
     fetchTeam();
   }, [teamId, history]);
 
-  if (loading) return <div className="team-page">Loading...</div>;
-  if (!team) return <div className="team-page">Team not found</div>;
+  if (loading) {
+    return (
+      <div className="team-page">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Loading team data...</div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!team) {
+    return (
+      <div className="team-page">
+        <div className="not-found-container">
+          <div className="not-found-icon">🏒</div>
+          <h2>Team Not Found</h2>
+          <p>The team you're looking for doesn't exist or couldn't be loaded.</p>
+        </div>
+      </div>
+    );
+  }
 
   // split roster by `pos` field from player_projections (values like D, C, LW, RW, G)
   const forwards = roster.filter(p => p.position && !['D', 'G'].includes(String(p.position).toUpperCase()));
