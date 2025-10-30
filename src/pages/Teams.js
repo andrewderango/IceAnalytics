@@ -86,7 +86,7 @@ function Teams() {
         Header: 'Team',
         accessor: 'team',
         Cell: ({ cell: { value } }) => (
-          <div style={{ minWidth: '150px' }}>
+          <div className="team-name-cell" style={{ minWidth: '150px' }}>
             {value}
           </div>
         ),
