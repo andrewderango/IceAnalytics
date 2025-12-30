@@ -29,6 +29,15 @@ interface GameUpdate {
   overtime_prob: number;
 }
 
+interface StandingsTeam {
+  teamAbbrev: { default: string };
+  wins: number;
+  losses: number;
+  otLosses: number;
+  points: number;
+  leagueSequence: number;
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -167,6 +176,76 @@ serve(async (req) => {
     console.log(
       `Successfully updated ${updatedCount}/${gameUpdates.length} games in game_projections table`
     );
+
+    // Fetch current standings and update all game records
+    console.log("Fetching current NHL standings...");
+    const standingsResponse = await fetch("https://api-web.nhle.com/v1/standings/now");
+    
+    if (!standingsResponse.ok) {
+      console.error("Failed to fetch standings, skipping record updates");
+    } else {
+      const standingsData = await standingsResponse.json();
+      const standings: StandingsTeam[] = standingsData.standings;
+      
+      // Create a map of team abbrev to record/rank
+      const teamRecords = new Map<string, { record: string; rank: string }>();
+      
+      standings.forEach((team) => {
+        const abbrev = team.teamAbbrev.default;
+        const record = `${team.wins}-${team.losses}-${team.otLosses}`;
+        const rank = team.leagueSequence;
+        const rankSuffix = rank === 1 ? "st" : rank === 2 ? "nd" : rank === 3 ? "rd" : "th";
+        
+        teamRecords.set(abbrev, {
+          record,
+          rank: `${rank}${rankSuffix}`
+        });
+      });
+      
+      console.log(`Fetched standings for ${teamRecords.size} teams`);
+      
+      // Update all games with current records and ranks
+      let recordUpdateCount = 0;
+      const recordErrors: string[] = [];
+      
+      for (const [abbrev, data] of teamRecords.entries()) {
+        // Update home team records
+        const { error: homeError } = await supabase
+          .from("game_projections")
+          .update({
+            home_record: data.record,
+            home_rank: data.rank,
+          })
+          .eq("home_abbrev", abbrev);
+        
+        if (homeError) {
+          recordErrors.push(`Home ${abbrev}: ${homeError.message}`);
+        } else {
+          recordUpdateCount++;
+        }
+        
+        // Update visitor team records
+        const { error: visitorError } = await supabase
+          .from("game_projections")
+          .update({
+            visitor_record: data.record,
+            visitor_rank: data.rank,
+          })
+          .eq("visitor_abbrev", abbrev);
+        
+        if (visitorError) {
+          recordErrors.push(`Visitor ${abbrev}: ${visitorError.message}`);
+        } else {
+          recordUpdateCount++;
+        }
+      }
+      
+      if (recordErrors.length > 0) {
+        console.error(`Record update errors: ${recordErrors.join("; ")}`);
+      }
+      
+      console.log(`Updated records for ${recordUpdateCount} team entries`);
+    }
 
     return new Response(
       JSON.stringify({
