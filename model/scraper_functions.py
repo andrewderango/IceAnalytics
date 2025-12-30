@@ -737,23 +737,51 @@ def push_to_supabase(table_name, year, verbose=False):
         df['home_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['home_abbrev'] + '_dark.svg'
         df['visitor_logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['visitor_abbrev'] + '_dark.svg'
 
-        # Add team records and ranks
-        standings_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Team Data', f'{year-1}-{year}_team_data.csv'))
-        standings_df = standings_df.drop(standings_df.columns[0], axis=1)
-        standings_df['record'] = standings_df['W'].astype(str) + '-' + standings_df['L'].astype(str) + '-' + standings_df['OTL'].astype(str)
-        standings_df = standings_df.sort_values(by=['Points', 'Point %', 'GP', 'ROW'], ascending=[False, False, True, False])
-        standings_df['rank'] = standings_df.reset_index().index + 1
-        standings_df['rank'] = standings_df['rank'].apply(lambda x: f"{x}{'th' if 10 <= x % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(x % 10, 'th')}")
-        team_replacement_dict = {'Utah Utah HC': 'Utah Hockey Club', 'Montreal Canadiens': 'Montréal Canadiens', 'St Louis Blues': 'St. Louis Blues'}
-        standings_df['Team'] = standings_df['Team'].replace(team_replacement_dict)
-        df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='home_name', right_on='Team', how='left')
-        df = df.rename(columns={'record': 'home_record', 'rank': 'home_rank'})
-        df = df.drop(columns=['Team'])
-        df = df.merge(standings_df[['Team', 'record', 'rank']], left_on='visitor_name', right_on='Team', how='left')
-        df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
-        df = df.drop(columns=['Team'])
-
-        if not any((df['home_prob'] != 1.0) & (df['home_prob'] != 0.0)):
+        # add team records and ranks from NHL API
+        try:
+            standings_response = requests.get('https://api-web.nhle.com/v1/standings/now')
+            standings_data = standings_response.json()
+            
+            standings_list = []
+            for team in standings_data['standings']:
+                abbrev = team['teamAbbrev']['default']
+                wins = team['wins']
+                losses = team['losses']
+                ot_losses = team['otLosses']
+                rank = team['leagueSequence']
+                
+                if rank == 1:
+                    rank_suffix = 'st'
+                elif rank == 2:
+                    rank_suffix = 'nd'
+                elif rank == 3:
+                    rank_suffix = 'rd'
+                else:
+                    rank_suffix = 'th'
+                
+                standings_list.append({
+                    'abbrev': abbrev,
+                    'record': f'{wins}-{losses}-{ot_losses}',
+                    'rank': f'{rank}{rank_suffix}'
+                })
+            
+            standings_df = pd.DataFrame(standings_list)
+            
+            df = df.merge(standings_df[['abbrev', 'record', 'rank']], left_on='home_abbrev', right_on='abbrev', how='left')
+            df = df.rename(columns={'record': 'home_record', 'rank': 'home_rank'})
+            df = df.drop(columns=['abbrev'])
+            df = df.merge(standings_df[['abbrev', 'record', 'rank']], left_on='visitor_abbrev', right_on='abbrev', how='left')
+            df = df.rename(columns={'record': 'visitor_record', 'rank': 'visitor_rank'})
+            df = df.drop(columns=['abbrev'])
+            
+            if verbose:
+                print(f"Updated standings from NHL API for {len(standings_list)} teams")
+                
+        except Exception as e:
+            if verbose:
+                print(f"Failed to fetch standings from NHL API, using fallback: {e}")
+            
+            # fallback to default values if API fails
             df['home_record'] = '0-0-0'
             df['home_rank'] = '1st'
             df['visitor_record'] = '0-0-0'
