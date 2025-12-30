@@ -28,7 +28,7 @@ body, html {
     // Hero Section
     .hero-section {
         position: relative;
-        min-height: 100vh;
+        height: calc(100vh - 60px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -37,6 +37,7 @@ body, html {
 
         @media (max-width: 1000px) {
             min-height: auto;
+            height: auto;
             padding: 60px 0 80px;
         }
 
@@ -70,10 +71,6 @@ body, html {
             grid-template-columns: 1.1fr 0.9fr;
             align-items: center;
             gap: 100px;
-
-            @media (min-width: 1001px) {
-                margin-top: -80px;
-            }
 
             @media (max-width: 1400px) {
                 max-width: 1400px;
@@ -202,7 +199,7 @@ body, html {
 
         .scroll-indicator {
             position: absolute;
-            bottom: 80px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
