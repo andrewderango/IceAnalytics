@@ -55,12 +55,12 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="header-name">
+      <NavLink to="/home" className="header-name">
         <img src={logo} alt="Logo" />
         <h1>
           <span className="header-accent">ICE</span>ANALYTICS
         </h1>
-      </div>
+      </NavLink>
       {width >= 1000 ? (
         <nav>
           <ul>
