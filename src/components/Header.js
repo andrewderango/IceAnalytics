@@ -58,8 +58,7 @@ function Header() {
       <div className="header-name">
         <img src={logo} alt="Logo" />
         <h1>
-          I<span style={{ fontSize: 'smaller' }}>CE</span>
-          A<span style={{ fontSize: 'smaller' }}>NALYTICS</span>
+          <span className="header-accent">ICE</span>ANALYTICS
         </h1>
       </div>
       {width >= 1000 ? (

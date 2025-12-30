@@ -153,7 +153,7 @@ function Home() {
         <div className="cta-content">
           <h2 className="cta-title">Experience the Future of Hockey Analytics</h2>
           <p className="cta-description">
-            Explore player, team, and game projections powered by our predictive modeling engine analytics engine. Open-source, transparent, and built for enthusiasts.
+            Explore player, team, and game projections powered by our predictive modeling engine. Open-source, transparent, and built for enthusiasts.
           </p>
           <div className="cta-actions">
             <button className="btn-primary" onClick={() => window.location.href='/games'}>
