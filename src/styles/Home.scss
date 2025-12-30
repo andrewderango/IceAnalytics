@@ -71,6 +71,10 @@ body, html {
             align-items: center;
             gap: 100px;
 
+            @media (min-width: 1001px) {
+                margin-top: -80px;
+            }
+
             @media (max-width: 1400px) {
                 max-width: 1400px;
                 padding: 0 80px;
