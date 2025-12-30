@@ -151,7 +151,7 @@ function Home() {
 
       <section className="cta-section">
         <div className="cta-content">
-          <h2 className="cta-title">Experience the Future of Hockey Analytics</h2>
+          <h2 className="cta-title">The Future of Hockey Analytics</h2>
           <p className="cta-description">
             Explore player, team, and game projections powered by our predictive modeling engine. Open-source, transparent, and built for enthusiasts.
           </p>

@@ -1,16 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import supabase from '../supabaseClient';
 import '../styles/Footer.scss';
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+  const [lastUpdated, setLastUpdated] = useState('');
+
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('last_update')
+          .select('datetime')
+          .order('datetime', { ascending: false })
+          .limit(1);
+    
+        if (error) {
+          console.error('Error fetching metadata:', error);
+          return;
+        }
+    
+        if (data.length > 0) {
+          const timestamp = new Date(data[0].datetime);
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          const formattedDate = timestamp.toLocaleDateString('en-US', options);
+          setLastUpdated(formattedDate);
+        }
+      } catch (error) {
+        console.error('Error fetching metadata:', error);
+      }
+    };
+    fetchMetadata();
+  }, []);
+  
   return (
     <footer className="footer">
-      <p>&copy; {new Date().getFullYear()} IceAnalytics</p>
-      {/* <p>&copy; {new Date().getFullYear()}&nbsp;I
-          <span style={{ fontSize: 'smaller' }}>CE</span>
-          A<span style={{ fontSize: 'smaller' }}>NALYTICS</span>
-      </p> */}
-      <p className="small-text">The source code for this project is released under the GNU General Public License v3.0 (GPL v3), a widely used open-source license that ensures the freedom to use, modify, and distribute the software. This license promotes collaboration and innovation by allowing anyone to access and contribute to the codebase. By releasing the source code under the GPL v3, the aim is to foster transparency, encourage community involvement, and support the principles of free software. For more information on the license terms and conditions, please refer to the full text available <a href="https://www.gnu.org/licenses/gpl-3.0.html">here</a>. To explore and contribute to the source code, visit the GitHub repository <a href="https://github.com/andrewderango/IceAnalytics">here</a>.</p>
-      <p><a href="https://github.com/andrewderango/IceAnalytics/blob/main/LICENSE">License</a> | <a href="https://github.com/andrewderango/IceAnalytics">Source Code</a> | <a href="https://github.com/andrewderango/IceAnalytics/releases">Releases</a> |  <a href="/about">About</a></p>
+      <div className="footer-container">
+        <div className="footer-content">
+          <div className="footer-section footer-brand">
+            <h3 className="footer-logo">IceAnalytics</h3>
+            <p className="footer-tagline">Advanced NHL projections and analytics powered by a predictive modeling engine</p>
+            <p className="footer-contact">Contact: <a href="mailto:hello@iceanalytics.ca">hello@iceanalytics.ca</a></p>
+          </div>
+          
+          <div className="footer-section footer-links">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="https://github.com/andrewderango/IceAnalytics" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+              <li><a href="https://github.com/andrewderango/IceAnalytics/releases" target="_blank" rel="noopener noreferrer">Releases</a></li>
+            </ul>
+          </div>
+          
+          <div className="footer-section footer-links">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="https://github.com/andrewderango/IceAnalytics/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GPL v3 License</a></li>
+              <li><a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">License Terms</a></li>
+              <li><a href="https://github.com/andrewderango/IceAnalytics/issues" target="_blank" rel="noopener noreferrer">Report Issues</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="footer-bottom">
+          <div className="footer-copyright">
+            <p>&copy; {currentYear} IceAnalytics. All rights reserved.</p>
+          </div>
+          <div className="footer-meta">
+            {lastUpdated && <p className="footer-updated">Projections last updated {lastUpdated}</p>}
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
