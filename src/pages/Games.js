@@ -107,7 +107,7 @@ function Games() {
           formattedDate = timestamp.toLocaleDateString('en-US', options);
         } else {
           // full date otherwise
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
           formattedDate = timestamp.toLocaleDateString('en-US', options);
         }
 

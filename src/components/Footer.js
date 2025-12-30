@@ -22,7 +22,7 @@ function Footer() {
     
         if (data.length > 0) {
           const timestamp = new Date(data[0].datetime);
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
           const formattedDate = timestamp.toLocaleDateString('en-US', options);
           setLastUpdated(formattedDate);
         }
