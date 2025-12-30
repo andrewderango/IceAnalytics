@@ -14,11 +14,26 @@
     box-sizing: border-box;
     background: rgba(10, 10, 10, 0.85);
     backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(218, 165, 32, 0.1);
+    border-bottom: 1px solid rgba(218, 165, 32, 0.15);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     transition: all 0.3s ease;
 
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(218, 165, 32, 0.2) 20%,
+            rgba(218, 165, 32, 0.4) 50%, 
+            rgba(218, 165, 32, 0.2) 80%,
+            transparent 100%
+        );
+    }
 
     .header-name {
         display: flex;
@@ -26,10 +41,6 @@
         gap: 16px;
         cursor: pointer;
         transition: transform 0.2s ease;
-
-        &:hover {
-            transform: translateX(2px);
-        }
 
         img {
             width: 40px;
