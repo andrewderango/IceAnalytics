@@ -411,6 +411,12 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, schedule_df, p
     for sim in tqdm(range(simulations), desc="Monte Carlo Team Simulations"):
         sim_team_scoring_dict = copy.deepcopy(existing_scoring_dict)
 
+        # Generate season-level strength modifiers for each team
+        strength_uncertainty = 0.62215946
+        team_strength_modifiers = {}
+        for team in monte_carlo_team_df['Abbreviation']:
+            team_strength_modifiers[team] = np.random.lognormal(mean=0, sigma=strength_uncertainty)
+
         # loop through each game
         for index, row in schedule_df.iterrows():
             home_team = row['Home Abbreviation']
@@ -419,14 +425,26 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, schedule_df, p
             visitor_prob = float(row['Visitor Win'])
             ot_prob = float(row['Overtime'])
 
-            home_reg_prob = home_prob * (1 - ot_prob)
-            visitor_reg_prob = visitor_prob * (1 - ot_prob)
-            home_ot_prob = home_prob * ot_prob
-            visitor_ot_prob = visitor_prob * ot_prob
+            home_strength = team_strength_modifiers[home_team]
+            visitor_strength = team_strength_modifiers[visitor_team]
+            
+            if visitor_prob > 0:
+                home_odds = home_prob / visitor_prob
+            else:
+                home_odds = 10
+            adjusted_odds = home_odds * (home_strength / visitor_strength)
+            home_prob_sim = adjusted_odds / (1 + adjusted_odds)
+            home_prob_sim = np.clip(home_prob_sim, 0.01, 0.99)
+            visitor_prob_sim = 1 - home_prob_sim
+            
+            home_reg_prob = home_prob_sim * (1 - ot_prob)
+            visitor_reg_prob = visitor_prob_sim * (1 - ot_prob)
+            home_ot_prob = home_prob_sim * ot_prob
+            visitor_ot_prob = visitor_prob_sim * ot_prob
 
             r = np.random.random()
 
-            # Determine the game outcome based on the random draw
+            # determine the game outcome based on the random draw
             if r < home_reg_prob:
                 sim_team_scoring_dict[home_team][0] += 1
                 sim_team_scoring_dict[visitor_team][1] += 1

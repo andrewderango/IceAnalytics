@@ -55,13 +55,12 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="header-name">
+      <NavLink to="/home" className="header-name">
         <img src={logo} alt="Logo" />
         <h1>
-          I<span style={{ fontSize: 'smaller' }}>CE</span>
-          A<span style={{ fontSize: 'smaller' }}>NALYTICS</span>
+          <span className="header-accent">ICE</span>ANALYTICS
         </h1>
-      </div>
+      </NavLink>
       {width >= 1000 ? (
         <nav>
           <ul>
