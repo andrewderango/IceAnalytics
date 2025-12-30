@@ -23,9 +23,11 @@ function Footer() {
     
         if (data.length > 0) {
           const timestamp = new Date(data[0].datetime);
-          const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-          const formattedDate = timestamp.toLocaleDateString('en-US', options);
-          setLastUpdated(formattedDate);
+          const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+          const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: false };
+          const formattedDate = timestamp.toLocaleDateString('en-US', dateOptions);
+          const formattedTime = timestamp.toLocaleTimeString('en-US', timeOptions);
+          setLastUpdated(`${formattedDate} at ${formattedTime} UTC`);
         }
       } catch (error) {
         console.error('Error fetching metadata:', error);
