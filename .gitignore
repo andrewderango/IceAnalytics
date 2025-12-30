@@ -20,3 +20,4 @@ build/
 
 # IceAnalytics
 model/test/*
+supabase/.temp/*

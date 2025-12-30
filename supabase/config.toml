@@ -1,0 +1,4 @@
+# Supabase Edge Functions Configuration
+
+[functions.daily-games-scraper]
+verify_jwt = false
