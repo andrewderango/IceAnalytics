@@ -2,8 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import { Scatter } from 'react-chartjs-2';
-import 'chart.js/auto';
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import '../styles/Player.scss';
+import { offseason, season } from '../config/settings';
+
+// Register Chart.js components
+ChartJS.register(
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend
+);
 
 function Player() {
   const { playerId } = useParams();
@@ -16,6 +33,12 @@ function Player() {
   const [chartKey, setChartKey] = useState(0);
   const [isScreenSmallerThan1475, setIsScreenSmallerThan1475] = useState(window.innerWidth < 1475);
   const [isScreenSmallerThan1000, setIsScreenSmallerThan1000] = useState(window.innerWidth <= 1000);
+
+  useEffect(() => {
+    if (offseason) {
+      history.push('/not-found');
+    }
+  }, [history]);
 
   useEffect(() => {
     const fetchPlayer = async () => {
@@ -35,7 +58,7 @@ function Player() {
         history.push('/not-found');
       } else {
         setPlayer(data[0]);
-        console.log('Player details:', data[0]); // temp for debugging
+        // console.log('Player details:', data[0]); // temp for debugging
       }
       setLoading(false);
     };
@@ -47,7 +70,7 @@ function Player() {
     const fetchAllPlayers = async () => {
       const { data, error } = await supabase
         .from('player_projections')
-        .select('player_id, goals, assists');
+        .select('player_id, goals_per60, assists_per60');
 
       if (error) {
         console.error('Error fetching all players data:', error);
@@ -96,6 +119,9 @@ function Player() {
     goals,
     assists,
     points,
+    atoi,
+    goals_per60,
+    assists_per60,
     art_ross,
     rocket,
     goals_90pi_low,
@@ -120,7 +146,6 @@ function Player() {
     p_150p
   } = player;
 
-  const pointsPerGame = (points / games).toFixed(2);
   const artRossProbability = (art_ross * 100).toFixed(2);
   const rocketRichardProbability = (rocket * 100).toFixed(2);
 
@@ -200,14 +225,17 @@ function Player() {
       {
         label: 'All Players',
         data: allPlayers
-          .filter(p => p.goals !== goals && p.assists !== assists)
-          .map(p => ({ x: p.goals, y: p.assists })),
+          .filter(p => p.player_id !== player.player_id && p.goals_per60 !== null && p.assists_per60 !== null)
+          .map(p => ({ 
+            x: p.assists_per60, 
+            y: p.goals_per60 
+          })),
         backgroundColor: 'rgba(75, 75, 75, 0.6)',
         order: 2,
       },
       {
         label: playerName,
-        data: [{ x: goals, y: assists }],
+        data: [{ x: assists_per60 || 0, y: goals_per60 || 0 }],
         backgroundColor: 'goldenrod',
         pointRadius: 4,
         order: 1,
@@ -222,13 +250,13 @@ function Player() {
       x: {
         title: {
           display: true,
-          text: 'Goals',
+          text: 'A/60',
         },
       },
       y: {
         title: {
           display: true,
-          text: 'Assists',
+          text: 'G/60',
         },
       },
     },
@@ -252,7 +280,7 @@ function Player() {
         <div className="player-headshot-name">
           {team_name && playerId && (
             <img
-              src={player.espn_headshot !== "N/A" ? player.espn_headshot : `https://assets.nhle.com/mugs/nhl/20242025/${team}/${playerId}.png`}
+              src={`https://assets.nhle.com/mugs/nhl/${season}/${team}/${playerId}.png`}
               alt={`${playerName} headshot`}
               className="player-headshot"
             />
@@ -299,6 +327,10 @@ function Player() {
                 <div className="label">Games</div>
               </div>
               <div className="projection-item">
+                {atoi ? atoi.toFixed(1) : '0.0'}
+                <div className="label">ATOI</div>
+              </div>
+              <div className="projection-item">
                 {Math.round(goals)}
                 <div className="label">Goals</div>
               </div>
@@ -309,10 +341,6 @@ function Player() {
               <div className="projection-item">
                 {Math.round(points)}
                 <div className="label">Points</div>
-              </div>
-              <div className="projection-item">
-                {pointsPerGame}
-                <div className="label">P/GP</div>
               </div>
             </div>
             <div className="awards-row">

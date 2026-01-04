@@ -62,6 +62,7 @@
     .table-container {
         width: 100%;
         overflow-x: auto;
+        overflow-y: hidden;
         margin-top: 36px;
         margin-bottom: 64px;
     }
@@ -72,6 +73,7 @@
         background-color: #333;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         border-radius: 10px;
+        overflow: hidden;
         
         thead {
             tr {
@@ -95,9 +97,13 @@
         
         tbody {
             tr {
+                transition: all 0.2s ease;
+                border-left: 3px solid transparent;
+                
                 td:first-child {
                     background-color: #333;
                     position: relative;
+                    transition: background-color 0.2s ease;
 
                     &::after {
                         content: "";
@@ -106,6 +112,7 @@
                         right: 0;
                         bottom: 0;
                         width: 1px;
+                        transition: background-color 0.2s ease;
 
                         @media (max-width: 1000px) {
                             background-color: #555;
@@ -118,6 +125,7 @@
 
                     td:first-child {
                         background-color: #444;
+                        transition: background-color 0.2s ease;
 
                         &::after {
                             content: "";
@@ -126,6 +134,7 @@
                             right: 0;
                             bottom: 0;
                             width: 1px;
+                            transition: background-color 0.2s ease;
 
                             @media (max-width: 1000px) {
                                 background-color: #555;
@@ -136,22 +145,30 @@
 
                 &:hover {
                     background-color: #555;
+                    border-left-color: goldenrod;
+                    transform: translateX(2px);
+
+                    .team-name-cell {
+                        font-weight: bold;
+                    }
 
                     td:first-child {
                         background-color: #555;
 
                         &::after {
-                            content: "";
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-                            bottom: 0;
-                            width: 1px;
-
                             @media (max-width: 1000px) {
                                 background-color: #666;
                             }
                         }
+                    }
+                }
+
+                &:active {
+                    background-color: #666;
+                    box-shadow: 0 1px 4px rgba(218, 165, 32, 0.2);
+                    
+                    td:first-child {
+                        background-color: #666;
                     }
                 }
             }

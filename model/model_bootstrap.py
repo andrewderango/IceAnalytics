@@ -296,6 +296,9 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
     combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
+    # Drop columns without Player ID
+    bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
+
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
@@ -453,6 +456,9 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
     combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
 
+    # Drop columns without Player ID
+    bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
+
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
         combined_df.rename(columns={'Y-0 Age': 'Age'}, inplace=True)
@@ -607,6 +613,9 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
     # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
     combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
+
+    # Drop columns without Player ID
+    bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:

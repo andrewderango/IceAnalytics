@@ -139,7 +139,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     skater_proj_df = player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose)
 
     # generate team uncertainty-based projections via monte carlo engine
-    team_proj_df = team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose)
+    team_proj_df = team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, game_proj_df, projection_year, simulations, download_files, verbose)
     
     if download_files:
         export_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
@@ -223,7 +223,7 @@ def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, c
             player_goal_ratio = (home_row['Gper1kChunk']*home_row['ATOI']*home_row['GPprb'])/home_scoring_dotproduct
             player_assist_ratio = (home_row['Aper1kChunk']*home_row['ATOI']*home_row['GPprb'])/home_assisting_dotproduct * (a1_probability + a2_probability)
             player_scoring_dict[player_id][0] += home_row['GPprb']
-            player_scoring_dict[player_id][1] += home_row['ATOI']
+            player_scoring_dict[player_id][1] += home_row['ATOI'] * home_row['GPprb']
             player_scoring_dict[player_id][2] += ((home_row['Gper1kChunk'] / 1000 * 2 * home_row['ATOI'])*0.897806 + (player_goal_ratio * home_weighted_avg * 120)*0.102194) * home_row['GPprb'] ###
             player_scoring_dict[player_id][3] += ((home_row['Aper1kChunk'] / 1000 * 2 * home_row['ATOI'])*0.897806 + (player_assist_ratio * home_weighted_avg * 120)*0.102194) * home_row['GPprb'] ###
 
@@ -232,7 +232,7 @@ def generate_game_inferences(core_player_scoring_dict, core_team_scoring_dict, c
             player_goal_ratio = (visitor_row['Gper1kChunk']*visitor_row['ATOI']*visitor_row['GPprb'])/visitor_scoring_dotproduct
             player_assist_ratio = (visitor_row['Aper1kChunk']*visitor_row['ATOI']*visitor_row['GPprb'])/visitor_assisting_dotproduct
             player_scoring_dict[player_id][0] += visitor_row['GPprb']
-            player_scoring_dict[player_id][1] += visitor_row['ATOI']
+            player_scoring_dict[player_id][1] += visitor_row['ATOI'] * visitor_row['GPprb']
             player_scoring_dict[player_id][2] += ((visitor_row['Gper1kChunk'] / 1000 * 2 * visitor_row['ATOI'])*0.897806 + (player_goal_ratio * visitor_weighted_avg * 120)*0.102194) * visitor_row['GPprb'] ###
             player_scoring_dict[player_id][3] += ((visitor_row['Aper1kChunk'] / 1000 * 2 * visitor_row['ATOI'])*0.897806 + (player_assist_ratio * visitor_weighted_avg * 120)*0.102194) * visitor_row['GPprb'] ###
 
@@ -295,9 +295,14 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
         curr_a = existing_scoring_dict[row['PlayerID']][3]
         for sim in range(simulations):
             sim_gp = min(max(np.random.normal(row['Games Played'], np.sqrt(row['vGames Played'])), curr_gp), 82)
-            sim_ATOI = max(np.random.normal(row['ATOI'], np.sqrt(row['vATOI'])), curr_toi/sim_gp)
-            sim_Gper1kChunk = max(np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk'])), curr_g/(sim_ATOI*sim_gp/500))
-            sim_Aper1kChunk = max(np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk'])), curr_a/(sim_ATOI*sim_gp/500))
+            if sim_gp <= 0: 
+                sim_ATOI = 0
+                sim_Gper1kChunk = 0
+                sim_Aper1kChunk = 0
+            else: 
+                sim_ATOI = max(np.random.normal(row['ATOI'], np.sqrt(row['vATOI'])), curr_toi/sim_gp)
+                sim_Gper1kChunk = max(np.random.normal(row['Gper1kChunk'], np.sqrt(row['vGper1kChunk'])), curr_g/(sim_ATOI*sim_gp/500))
+                sim_Aper1kChunk = max(np.random.normal(row['Aper1kChunk'], np.sqrt(row['vAper1kChunk'])), curr_a/(sim_ATOI*sim_gp/500))
             sim_data[f'{sim+1}_goals'] = sim_Gper1kChunk * sim_ATOI * sim_gp / 500
             sim_data[f'{sim+1}_assists'] = sim_Aper1kChunk * sim_ATOI * sim_gp / 500
             sim_data[f'{sim+1}_points'] = sim_data[f'{sim+1}_goals'] + sim_data[f'{sim+1}_assists']
@@ -381,8 +386,7 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     return skater_proj_df
 
 # Generate team uncertainty-based projections via monte carlo engine
-def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_year, simulations, download_files, verbose):
-    
+def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, schedule_df, projection_year, simulations, download_files, verbose):
     # create monte_carlo_team_df
     monte_carlo_team_df = copy.deepcopy(team_proj_df)
     existing_scoring_dict = copy.deepcopy(core_team_scoring_dict)
@@ -391,9 +395,10 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
     for team in existing_scoring_dict:
         existing_scoring_dict[team] = existing_scoring_dict[team][:-2]
 
-    # extract schedule_df from CSV, filter out games that have already been played
-    schedule_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Games', f'{projection_year}_game_projections.csv'), index_col=0)
-    schedule_df.drop(columns=['DatetimeEST', 'TimeEST'], inplace=True)
+    # filter out games that have already been played
+    schedule_df = schedule_df.copy()
+    if 'DatetimeEST' in schedule_df.columns:
+        schedule_df = schedule_df.drop(columns=['DatetimeEST', 'TimeEST'], errors='ignore')
     schedule_df = schedule_df[schedule_df['Home Win'] != 'True']
     schedule_df = schedule_df[schedule_df['Home Win'] != 'False']
 
@@ -405,7 +410,13 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
     simulation_results = []
     for sim in tqdm(range(simulations), desc="Monte Carlo Team Simulations"):
         sim_team_scoring_dict = copy.deepcopy(existing_scoring_dict)
-        
+
+        # Generate season-level strength modifiers for each team
+        strength_uncertainty = 0.62215946
+        team_strength_modifiers = {}
+        for team in monte_carlo_team_df['Abbreviation']:
+            team_strength_modifiers[team] = np.random.lognormal(mean=0, sigma=strength_uncertainty)
+
         # loop through each game
         for index, row in schedule_df.iterrows():
             home_team = row['Home Abbreviation']
@@ -414,14 +425,26 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, projection_yea
             visitor_prob = float(row['Visitor Win'])
             ot_prob = float(row['Overtime'])
 
-            home_reg_prob = home_prob * (1 - ot_prob)
-            visitor_reg_prob = visitor_prob * (1 - ot_prob)
-            home_ot_prob = home_prob * ot_prob
-            visitor_ot_prob = visitor_prob * ot_prob
+            home_strength = team_strength_modifiers[home_team]
+            visitor_strength = team_strength_modifiers[visitor_team]
+            
+            if visitor_prob > 0:
+                home_odds = home_prob / visitor_prob
+            else:
+                home_odds = 10
+            adjusted_odds = home_odds * (home_strength / visitor_strength)
+            home_prob_sim = adjusted_odds / (1 + adjusted_odds)
+            home_prob_sim = np.clip(home_prob_sim, 0.01, 0.99)
+            visitor_prob_sim = 1 - home_prob_sim
+            
+            home_reg_prob = home_prob_sim * (1 - ot_prob)
+            visitor_reg_prob = visitor_prob_sim * (1 - ot_prob)
+            home_ot_prob = home_prob_sim * ot_prob
+            visitor_ot_prob = visitor_prob_sim * ot_prob
 
             r = np.random.random()
 
-            # Determine the game outcome based on the random draw
+            # determine the game outcome based on the random draw
             if r < home_reg_prob:
                 sim_team_scoring_dict[home_team][0] += 1
                 sim_team_scoring_dict[visitor_team][1] += 1
