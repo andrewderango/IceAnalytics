@@ -11,7 +11,6 @@ function Games() {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState('');
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
   const [datesLoaded, setDatesLoaded] = useState(false);
@@ -84,41 +83,7 @@ function Games() {
     }
   };
 
-  const fetchMetadata = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('last_update')
-        .select('datetime')
-        .order('datetime', { ascending: false })
-        .limit(1);
 
-      if (error) {
-        console.error('Error fetching metadata:', error);
-        return;
-      }
-
-      if (data.length > 0) {
-        const timestamp = new Date(data[0].datetime);
-        let formattedDate;
-
-        if (window.innerWidth < 600) {
-          // MM/DD/YY for mobile
-          const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-          formattedDate = timestamp.toLocaleDateString('en-US', options);
-        } else {
-          // full date otherwise
-          const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-          formattedDate = timestamp.toLocaleDateString('en-US', options);
-        }
-
-        setLastUpdated(formattedDate);
-      } else {
-        console.error('No data found in last_update table.');
-      }
-    } catch (error) {
-      console.error('Error fetching metadata:', error);
-    }
-  };
 
   // Fetch min/max dates on mount
   useEffect(() => {
@@ -137,7 +102,6 @@ function Games() {
     else {
       setLoading(true);
       fetchData(clampedDate);
-      fetchMetadata();
     }
     // eslint-disable-next-line
   }, [currentDate, datesLoaded, minDate, maxDate]);
@@ -168,53 +132,96 @@ function Games() {
 
   return (
     <div className="games">
-      <h1>Games</h1>
-      <h2>Projections last updated {lastUpdated}</h2>
-      <div className="day-navigator">
-        <button onClick={handlePrevDay} disabled={!minDate || currentDate <= minDate}>{'<'}</button>
-        <span className="date-display">
-          {new Date(currentDate + 'T00:00:00').toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </span>
-        <button onClick={handleNextDay} disabled={!maxDate || currentDate >= maxDate}>{'>'}</button>
+      <div className="games-hero">
+        <div className="games-hero-content">
+          <div className="hero-badge">NHL GAME PROJECTIONS</div>
+          <h1 className="hero-title">Games</h1>
+        </div>
       </div>
-      {games.length === 0 ? (
-        <div className="no-games-message">
-          <img src={noGamesImage} alt="No games available" />
-          <p>No games available on this date.</p>
-        </div>
-      ) : (
-        <div className="games-container">
-          {games.map((game) => (
-            <div className="game" key={game.id}>
-              <div className="game-head">
-                <p className="matchup">{game.visitor_name} @ {game.home_name}</p>
-                <p className="time">
-                  {game.home_prob === 1 || game.home_prob === 0 ? (game.overtime_prob === 1 ? 'Final - OT' : 'Final - Regulation') : game.time_str}
-                 </p>
-              </div>
-              <div className="column-left">
-                <img src={game.visitor_logo} alt={game.visitor_name} />
-                <p className="probability">
-                  {game.visitor_prob === 1 || game.visitor_prob === 0 ? game.visitor_score : `${(game.visitor_prob * 100).toFixed(1)}%`}
-                </p>
-                <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
-              </div>
-              <div className="column-right">
-                <img src={game.home_logo} alt={game.home_name} />
-                <p className="probability">
-                  {game.home_prob === 1 || game.home_prob === 0 ? game.home_score : `${(game.home_prob * 100).toFixed(1)}%`}
-                </p>
-                <p className="record">{game.home_record} ({game.home_rank})</p>
-              </div>
+
+      <div className="games-content">
+        <div className="date-picker-section">
+          <div className="day-navigator">
+            <button onClick={handlePrevDay} disabled={!minDate || currentDate <= minDate} className="nav-btn">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <div className="date-picker-wrapper">
+              <input
+                type="date"
+                value={currentDate}
+                onChange={(e) => setCurrentDate(e.target.value)}
+                min={minDate}
+                max={maxDate}
+                className="date-picker"
+              />
+              <span className="date-display">
+                {new Date(currentDate + 'T00:00:00').toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
             </div>
-          ))}
+            <button onClick={handleNextDay} disabled={!maxDate || currentDate >= maxDate} className="nav-btn">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
-      )}
+
+        {games.length === 0 ? (
+          <div className="no-games-message">
+            <img src={noGamesImage} alt="No games available" />
+            <p>No games available on this date.</p>
+          </div>
+        ) : (
+          <div className="games-container">
+            {games.map((game) => (
+              <div className="game" key={game.id}>
+                <div className="game-header">
+                  <span className="matchup">{game.visitor_name} vs {game.home_name}</span>
+                  <span className="time">
+                    {game.home_prob === 1 || game.home_prob === 0 
+                      ? (game.overtime_prob === 1 ? 'Final/OT' : 'Final') 
+                      : game.time_str}
+                  </span>
+                </div>
+                <div className="game-content">
+                  <div className="team-section visitor">
+                    <img src={game.visitor_logo} alt={game.visitor_name} className="team-logo" />
+                    <div className="team-info">
+                      <p className="team-abbr">{game.visitor_abbr || game.visitor_name}</p>
+                      <p className="probability">
+                        {game.visitor_prob === 1 || game.visitor_prob === 0 
+                          ? game.visitor_score 
+                          : `${(game.visitor_prob * 100).toFixed(1)}%`}
+                      </p>
+                      <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
+                    </div>
+                  </div>
+                  <div className="vs-divider">VS</div>
+                  <div className="team-section home">
+                    <img src={game.home_logo} alt={game.home_name} className="team-logo" />
+                    <div className="team-info">
+                      <p className="team-abbr">{game.home_abbr || game.home_name}</p>
+                      <p className="probability">
+                        {game.home_prob === 1 || game.home_prob === 0 
+                          ? game.home_score 
+                          : `${(game.home_prob * 100).toFixed(1)}%`}
+                      </p>
+                      <p className="record">{game.home_record} ({game.home_rank})</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

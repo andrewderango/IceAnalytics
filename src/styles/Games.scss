@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @font-face {
     font-family: 'Sweet Sans Pro Heavy';
     src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
@@ -16,177 +18,442 @@
 }
 
 .games {
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: calc(100vh - 185px);
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0a;
+    min-height: 100vh;
 
-    h1 {
-        font-family: 'Sweet Sans Pro Heavy', sans-serif;
-        font-size: 48px;
-        margin-top: 64px;
-        margin-bottom: 0;
-        text-transform: uppercase;
+    .games-hero {
+        position: relative;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        padding: 80px 40px 60px;
+        text-align: center;
+        overflow: hidden;
 
-        @media (max-width: 500px) {
-            font-size: 36px;
-            margin-top: 36px;
+        &::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at 50% 50%, rgba(218, 165, 32, 0.08) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            padding: 60px 20px 40px;
+        }
+
+        .games-hero-content {
+            position: relative;
+            z-index: 1;
+
+            .hero-badge {
+                display: inline-block;
+                padding: 8px 20px;
+                background: rgba(218, 165, 32, 0.1);
+                border: 1px solid rgba(218, 165, 32, 0.3);
+                border-radius: 50px;
+                color: goldenrod;
+                font-family: 'Inter', sans-serif;
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                margin-bottom: 20px;
+                animation: fadeInUp 0.6s ease-out;
+
+                @media (max-width: 768px) {
+                    font-size: 10px;
+                    padding: 6px 16px;
+                }
+            }
+
+            .hero-title {
+                font-family: 'Sweet Sans Pro Heavy', sans-serif;
+                font-size: clamp(48px, 8vw, 88px);
+                font-weight: 900;
+                color: #fff;
+                margin: 0;
+                letter-spacing: -2px;
+                text-transform: uppercase;
+                animation: fadeInUp 0.8s ease-out 0.2s backwards;
+
+                @media (max-width: 768px) {
+                    font-size: clamp(36px, 10vw, 56px);
+                }
+            }
         }
     }
-    
-    h2 {
-        font-family: 'Sweet Sans Pro Thin', sans-serif;
-        margin-top: 0.5em;
-        font-size: 24px;
-        font-weight: 100;
-        color: goldenrod;
 
-        @media (max-width: 500px) {
-            font-size: 20px;
+    .games-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 40px 80px;
+
+        @media (max-width: 768px) {
+            padding: 30px 20px 60px;
+        }
+    }
+}
+
+.date-picker-section {
+    margin-bottom: 40px;
+
+    .day-navigator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(218, 165, 32, 0.1);
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: goldenrod;
+
+            &:hover:not(:disabled) {
+                background: rgba(218, 165, 32, 0.2);
+                border-color: goldenrod;
+                transform: scale(1.05);
+            }
+
+            &:disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+            }
+
+            @media (max-width: 768px) {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .date-picker-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .date-picker {
+                position: absolute;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+                z-index: 2;
+
+                &::-webkit-calendar-picker-indicator {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+            }
+
+            .date-display {
+                font-family: 'Inter', sans-serif;
+                font-size: 18px;
+                font-weight: 600;
+                color: #fff;
+                padding: 12px 24px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                white-space: nowrap;
+                position: relative;
+                z-index: 1;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.08);
+                    border-color: rgba(218, 165, 32, 0.4);
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 14px;
+                    padding: 10px 16px;
+                }
+
+                @media (max-width: 500px) {
+                    font-size: 12px;
+                    padding: 8px 12px;
+                }
+            }
         }
     }
 }
 
 .games-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 400px);
-    gap: 15px 35px;
-    width: 95%;
-    justify-content: center;
-    margin-top: 36px;
-    margin-bottom: 64px;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 24px;
+    animation: fadeInUp 0.6s ease-out;
 
-    @media (max-width: 500px) {
-        grid-template-columns: repeat(auto-fit, 90%)
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
     }
 }
 
 .game {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
-    align-items: center;
-    margin-bottom: 1em;
-    // border-radius: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     overflow: hidden;
-    background: #222222;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    transition: all 0.3s ease;
     cursor: pointer;
-    height: 300px;
-    border: 2px solid transparent;
 
     &:hover {
-        background: #333;
-        border: 2px solid goldenrod;
-        box-shadow: 0px 0px 15px rgba(218, 165, 32, 0.3);
-        transition: 0.5s ease;
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(218, 165, 32, 0.4);
+        box-shadow: 0 8px 32px rgba(218, 165, 32, 0.15);
+        transform: translateY(-4px);
     }
 
-    img {
-        width: 150px; 
-        height: 150px; 
-        margin-top: -10px;
-        margin-bottom: -10px;
+    .game-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        .matchup {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.5px;
+
+            @media (max-width: 500px) {
+                font-size: 12px;
+            }
+        }
+
+        .time {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            @media (max-width: 500px) {
+                font-size: 11px;
+            }
+        }
     }
-}
 
-.column-left > * {
-    margin-left: 15px;
-}
+    .game-content {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        padding: 30px 20px;
+        gap: 20px;
 
-.column-right > * {
-    margin-right: 15px;
-}
+        @media (max-width: 500px) {
+            padding: 24px 16px;
+            gap: 12px;
+        }
 
-.probability {
-    font-size: 36px; 
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 0;
-}
+        .team-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
 
-.record {
-    color: #666;
-    margin-top: 10px;
-}
+            .team-logo {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 
-.game-head {
-    grid-column: span 3;
-    font-size: 1em;
-}
+                @media (max-width: 500px) {
+                    width: 60px;
+                    height: 60px;
+                }
+            }
 
-.matchup {
-    color: #BBB;
-    margin-bottom: 10px;
+            .team-info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
 
-    @media (max-width: 500px) {
-        font-size: 15px;
-    }
-}
+                .team-abbr {
+                    font-family: 'Sweet Sans Pro Heavy', sans-serif;
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: rgba(255, 255, 255, 0.9);
+                    margin: 0;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
 
-.time {
-    color: #777;
-    margin-top: 10px;
-    margin-bottom: 0;
+                    @media (max-width: 500px) {
+                        font-size: 14px;
+                    }
+                }
 
-    @media (max-width: 500px) {
-        font-size: 13px;
+                .probability {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: goldenrod;
+                    margin: 0;
+
+                    @media (max-width: 500px) {
+                        font-size: 28px;
+                    }
+                }
+
+                .record {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: rgba(255, 255, 255, 0.4);
+                    margin: 0;
+
+                    @media (max-width: 500px) {
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+
+        .vs-divider {
+            font-family: 'Sweet Sans Pro Heavy', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 2px;
+
+            @media (max-width: 500px) {
+                font-size: 12px;
+            }
+        }
     }
 }
 
 .loader {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    padding-top: 20%;
-}
-
-.day-navigator {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    margin-top: 20px;
-
-    button {
-        background-color: #444;
-        color: #fff;
-        border: none;
-        padding: 8px 12px;
-        margin: 0 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-        &:disabled {
-            background-color: #222;
-            cursor: not-allowed;
-        }
-
-        &:hover:not(:disabled) {
-            background-color: #555;
-        }
-    }
-
-    .date-display {
-        margin: 0 10px;
-        font-size: 18px;
-        color: #fff;
-    }
+    min-height: 60vh;
+    background: #0a0a0a;
 }
 
 .no-games-message {
-    font-size: 24px;
-    color: #bbb;
-    margin: 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
 
     img {
-        width: 500px;
+        width: 400px;
+        max-width: 100%;
         height: auto;
-        margin-top: 20px;
+        margin-bottom: 30px;
+        filter: grayscale(0.3) opacity(0.8);
+
+        @media (max-width: 768px) {
+            width: 300px;
+        }
+    }
+
+    p {
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 0;
+
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+}
+
+.offseason-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    text-align: center;
+
+    h1 {
+        font-family: 'Sweet Sans Pro Heavy', sans-serif;
+        font-size: clamp(48px, 8vw, 88px);
+        color: #fff;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+    }
+
+    p {
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 600px;
+        line-height: 1.6;
+        margin-bottom: 40px;
+
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+
+    .offseason-image {
+        width: 500px;
+        max-width: 100%;
+        height: auto;
+        filter: grayscale(0.3) opacity(0.8);
+
+        @media (max-width: 768px) {
+            width: 300px;
+        }
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
     }
 }
