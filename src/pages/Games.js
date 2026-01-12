@@ -183,7 +183,10 @@ function Games() {
             {games.map((game) => (
               <div className="game" key={game.id}>
                 <div className="game-header">
-                  <span className="matchup">{game.visitor_name} vs {game.home_name}</span>
+                  <span className="matchup">
+                    <span className="full-names">{game.visitor_name} @ {game.home_name}</span>
+                    <span className="abbr-names">{game.visitor_abbr} @ {game.home_abbr}</span>
+                  </span>
                   <span className="time">
                     {game.home_prob === 1 || game.home_prob === 0 
                       ? (game.overtime_prob === 1 ? 'Final/OT' : 'Final') 
@@ -194,7 +197,6 @@ function Games() {
                   <div className="team-section visitor">
                     <img src={game.visitor_logo} alt={game.visitor_name} className="team-logo" />
                     <div className="team-info">
-                      <p className="team-abbr">{game.visitor_abbr || game.visitor_name}</p>
                       <p className="probability">
                         {game.visitor_prob === 1 || game.visitor_prob === 0 
                           ? game.visitor_score 
@@ -203,11 +205,13 @@ function Games() {
                       <p className="record">{game.visitor_record} ({game.visitor_rank})</p>
                     </div>
                   </div>
-                  <div className="vs-divider">VS</div>
+                  <div className="vs-divider">
+                    <span className="vs-text">VS</span>
+                    <div className="divider-line"></div>
+                  </div>
                   <div className="team-section home">
                     <img src={game.home_logo} alt={game.home_name} className="team-logo" />
                     <div className="team-info">
-                      <p className="team-abbr">{game.home_abbr || game.home_name}</p>
                       <p className="probability">
                         {game.home_prob === 1 || game.home_prob === 0 
                           ? game.home_score 
