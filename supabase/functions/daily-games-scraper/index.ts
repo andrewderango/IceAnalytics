@@ -109,8 +109,7 @@ serve(async (req) => {
         }
 
         // Check if game went to overtime/shootout
-        // gameStateId 7 = Final/OT or Final/SO
-        if (game.gameStateId === 7 || (game.period && game.period > 3)) {
+        if (game.period && game.period > 3) {
           overtime_prob = 1.0;
         }
 
