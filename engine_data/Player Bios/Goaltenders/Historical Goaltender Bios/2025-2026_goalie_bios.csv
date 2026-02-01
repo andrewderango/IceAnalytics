@@ -1,7 +1,7 @@
 ,Player,Team,Position,Age,Date of Birth,Birth City,Birth State/Province,Birth Country,Nationality,Height (in),Weight (lbs),Draft Year,Draft Team,Draft Round,Round Pick,Overall Draft Position
 0,Jonathan Quick,NYR,G,40,1986-01-21,Milford,CT,USA,USA,73,220,2005,L.A,3,11,72
 1,James Reimer,OTT,G,37,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99
-2,Jacob Markstrom,N.J,G,35,1990-01-31,Gävle,,SWE,SWE,78,207,2008,FLA,2,1,31
+2,Jacob Markstrom,N.J,G,36,1990-01-31,Gävle,,SWE,SWE,78,207,2008,FLA,2,1,31
 3,Jake Allen,N.J,G,35,1990-08-07,Fredericton,NB,CAN,CAN,74,195,2008,STL,2,4,34
 4,Darcy Kuemper,L.A,G,35,1990-05-05,Saskatoon,SK,CAN,CAN,77,215,2009,MIN,6,10,161
 5,Cam Talbot,DET,G,38,1987-07-05,Caledonia,ON,CAN,CAN,76,201,-,-,-,-,-
@@ -37,7 +37,7 @@
 35,Igor Shesterkin,NYR,G,30,1995-12-30,Moscow,,RUS,RUS,73,189,2014,NYR,4,28,118
 36,Mackenzie Blackwood,COL,G,29,1996-12-09,Thunder Bay,ON,CAN,CAN,76,225,2015,N.J,2,12,42
 37,Dan Vladar,PHI,G,28,1997-08-20,Prague,,CZE,CZE,77,209,2015,BOS,3,14,75
-38,Sam Montembeault,MTL,G,29,1996-10-30,Bécancour,QC,CAN,CAN,75,214,2015,FLA,3,16,77
+38,Samuel Montembeault,MTL,G,29,1996-10-30,Bécancour,QC,CAN,CAN,75,214,2015,FLA,3,16,77
 39,Adin Hill,VGK,G,29,1996-05-11,Comox,BC,CAN,CAN,76,215,2015,ARI,3,15,76
 40,Karel Vejmelka,UTA,G,29,1996-05-25,Trebic,,CZE,CZE,76,224,2015,NSH,5,24,145
 41,Joey Daccord,SEA,G,29,1996-08-19,Boston,MA,USA,USA,74,201,2015,OTT,7,18,199
@@ -84,9 +84,10 @@
 82,Arvid Soderblom,CHI,G,26,1999-08-19,Göteborg,,SWE,SWE,75,180,-,-,-,-,-
 83,Jet Greaves,CBJ,G,24,2001-03-30,Cambridge,ON,CAN,CAN,72,184,-,-,-,-,-
 84,Thomas Milic,WPG,G,22,2003-04-14,,,CAN,,72,175,2023,WPG,5,23,151
-85,Brandon Bussi,CAR,G,27,1998-06-25,Sound Beach,NY,USA,USA,76,226,-,-,-,-,-
-86,Sergei Murashov,PIT,G,21,2004-04-01,,,RUS,,74,175,2022,PIT,4,21,118
-87,Dennis Hildeby,TOR,G,24,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122
-88,Vyacheslav Buteyets,ANA,G,23,2002-05-29,,,RUS,,76,185,2022,ANA,6,17,178
-89,Jacob Fowler,MTL,G,21,2004-11-24,,,USA,,73,223,2023,MTL,3,5,69
-90,Nikita Tolopilo,VAN,G,25,2000-04-06,,,BLR,,78,229,-,-,-,-,-
+85,Clay Stevenson,WSH,G,26,1999-03-03,,,CAN,,76,195,-,-,-,-,-
+86,Brandon Bussi,CAR,G,27,1998-06-25,Sound Beach,NY,USA,USA,76,226,-,-,-,-,-
+87,Sergei Murashov,PIT,G,21,2004-04-01,,,RUS,,74,175,2022,PIT,4,21,118
+88,Dennis Hildeby,TOR,G,24,2001-08-19,,,SWE,,79,222,2022,TOR,4,25,122
+89,Vyacheslav Buteyets,ANA,G,23,2002-05-29,,,RUS,,76,185,2022,ANA,6,17,178
+90,Jacob Fowler,MTL,G,21,2004-11-24,,,USA,,73,223,2023,MTL,3,5,69
+91,Nikita Tolopilo,VAN,G,25,2000-04-06,,,BLR,,78,229,-,-,-,-,-
