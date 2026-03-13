@@ -826,7 +826,7 @@
 824,2025020825,2026-01-26T19:00:00,825,7,3,2,Tampa Bay Lightning,0,Utah Mammoth
 825,2025020826,2026-01-26T19:00:00,826,7,4,4,New York Rangers,3,Boston Bruins
 826,2025020827,2026-01-26T19:00:00,827,7,3,0,Philadelphia Flyers,4,New York Islanders
-827,2025020828,2026-03-09T16:00:00,828,1,1,0,Columbus Blue Jackets,0,Los Angeles Kings
+827,2025020828,2026-03-09T16:00:00,828,7,4,4,Columbus Blue Jackets,5,Los Angeles Kings
 828,2025020829,2026-01-26T20:30:00,829,7,3,7,Edmonton Oilers,4,Anaheim Ducks
 829,2025020830,2026-01-27T19:00:00,830,7,4,3,Boston Bruins,2,Nashville Predators
 830,2025020831,2026-01-27T19:00:00,831,7,3,4,Toronto Maple Leafs,7,Buffalo Sabres
@@ -951,90 +951,90 @@
 949,2025020950,2026-03-01T16:00:00,950,7,4,2,San Jose Sharks,1,Winnipeg Jets
 950,2025020951,2026-03-01T17:00:00,951,7,3,1,Minnesota Wild,3,St. Louis Blues
 951,2025020952,2026-03-01T20:00:00,952,7,5,3,Anaheim Ducks,2,Calgary Flames
-952,2025020953,2026-03-02T19:00:00,953,1,1,0,New York Rangers,0,Columbus Blue Jackets
-953,2025020954,2026-03-02T19:30:00,954,1,1,0,Toronto Maple Leafs,0,Philadelphia Flyers
-954,2025020955,2026-03-02T14:00:00,955,1,1,0,Nashville Predators,0,Detroit Red Wings
-955,2025020956,2026-03-02T22:00:00,956,1,1,0,Vancouver Canucks,0,Dallas Stars
-956,2025020957,2026-03-02T22:00:00,957,1,1,0,Seattle Kraken,0,Carolina Hurricanes
-957,2025020958,2026-03-02T22:30:00,958,1,1,0,Los Angeles Kings,0,Colorado Avalanche
-958,2025020959,2026-03-03T19:00:00,959,1,1,0,Boston Bruins,0,Pittsburgh Penguins
-959,2025020960,2026-03-03T19:00:00,960,1,1,0,Buffalo Sabres,0,Vegas Golden Knights
-960,2025020961,2026-03-03T19:00:00,961,1,1,0,New Jersey Devils,0,Florida Panthers
-961,2025020962,2026-03-03T19:00:00,962,1,1,0,Washington Capitals,0,Utah Mammoth
-962,2025020963,2026-03-03T19:00:00,963,1,1,0,Columbus Blue Jackets,0,Nashville Predators
-963,2025020964,2026-03-03T20:00:00,964,1,1,0,Winnipeg Jets,0,Chicago Blackhawks
-964,2025020965,2026-03-03T21:00:00,965,1,1,0,Calgary Flames,0,Dallas Stars
-965,2025020966,2026-03-03T21:00:00,966,1,1,0,Edmonton Oilers,0,Ottawa Senators
-966,2025020967,2026-03-03T21:30:00,967,1,1,0,Minnesota Wild,0,Tampa Bay Lightning
-967,2025020968,2026-03-03T22:00:00,968,1,1,0,Anaheim Ducks,0,Colorado Avalanche
-968,2025020969,2026-03-03T22:00:00,969,1,1,0,San Jose Sharks,0,Montréal Canadiens
-969,2025020970,2026-03-04T19:00:00,970,1,1,0,Detroit Red Wings,0,Vegas Golden Knights
-970,2025020971,2026-03-04T19:00:00,971,1,1,0,New Jersey Devils,0,Toronto Maple Leafs
-971,2025020972,2026-03-04T22:00:00,972,1,1,0,Vancouver Canucks,0,Carolina Hurricanes
-972,2025020973,2026-03-04T22:00:00,973,1,1,0,Anaheim Ducks,0,New York Islanders
-973,2025020974,2026-03-04T22:00:00,974,1,1,0,Seattle Kraken,0,St. Louis Blues
-974,2025020975,2026-03-05T19:00:00,975,1,1,0,New York Rangers,0,Toronto Maple Leafs
-975,2025020976,2026-03-05T19:00:00,976,1,1,0,Philadelphia Flyers,0,Utah Mammoth
-976,2025020977,2026-03-05T19:00:00,977,1,1,0,Pittsburgh Penguins,0,Buffalo Sabres
-977,2025020978,2026-03-05T19:00:00,978,1,1,0,Columbus Blue Jackets,0,Florida Panthers
-978,2025020979,2026-03-05T20:00:00,979,1,1,0,Nashville Predators,0,Boston Bruins
-979,2025020980,2026-03-05T20:00:00,980,1,1,0,Winnipeg Jets,0,Tampa Bay Lightning
-980,2025020981,2026-03-05T21:00:00,981,1,1,0,Calgary Flames,0,Ottawa Senators
-981,2025020982,2026-03-05T21:30:00,982,1,1,0,Los Angeles Kings,0,New York Islanders
-982,2025020983,2026-03-06T19:00:00,983,1,1,0,Detroit Red Wings,0,Florida Panthers
-983,2025020984,2026-03-06T20:00:00,984,1,1,0,Dallas Stars,0,Colorado Avalanche
-984,2025020985,2026-03-06T20:30:00,985,1,1,0,Chicago Blackhawks,0,Vancouver Canucks
-985,2025020986,2026-03-06T21:00:00,986,1,1,0,Edmonton Oilers,0,Carolina Hurricanes
-986,2025020987,2026-03-06T21:00:00,987,1,1,0,Anaheim Ducks,0,Montréal Canadiens
-987,2025020988,2026-03-06T22:00:00,988,1,1,0,Vegas Golden Knights,0,Minnesota Wild
-988,2025020989,2026-03-06T22:00:00,989,1,1,0,San Jose Sharks,0,St. Louis Blues
-989,2025020990,2026-03-07T12:30:00,990,1,1,0,Boston Bruins,0,Washington Capitals
-990,2025020991,2026-03-07T15:00:00,991,1,1,0,New Jersey Devils,0,New York Rangers
-991,2025020992,2026-03-07T17:30:00,992,1,1,0,Buffalo Sabres,0,Nashville Predators
-992,2025020993,2026-03-07T17:30:00,993,1,1,0,Pittsburgh Penguins,0,Philadelphia Flyers
-993,2025020994,2026-03-07T19:00:00,994,1,1,0,Toronto Maple Leafs,0,Tampa Bay Lightning
-994,2025020995,2026-03-07T19:00:00,995,1,1,0,Columbus Blue Jackets,0,Utah Mammoth
-995,2025020996,2026-03-07T19:00:00,996,1,1,0,Winnipeg Jets,0,Vancouver Canucks
-996,2025020997,2026-03-07T19:00:00,997,1,1,0,Los Angeles Kings,0,Montréal Canadiens
-997,2025020998,2026-03-07T22:00:00,998,1,1,0,Calgary Flames,0,Carolina Hurricanes
-998,2025020999,2026-03-07T22:00:00,999,1,1,0,San Jose Sharks,0,New York Islanders
-999,2025021000,2026-03-07T22:00:00,1000,1,1,0,Seattle Kraken,0,Ottawa Senators
-1000,2025021001,2026-03-08T14:00:00,1001,1,1,0,Colorado Avalanche,0,Minnesota Wild
-1001,2025021002,2026-03-08T16:30:00,1002,1,1,0,Pittsburgh Penguins,0,Boston Bruins
-1002,2025021003,2026-03-08T18:00:00,1003,1,1,0,Buffalo Sabres,0,Tampa Bay Lightning
-1003,2025021004,2026-03-08T18:00:00,1004,1,1,0,Dallas Stars,0,Chicago Blackhawks
-1004,2025021005,2026-03-08T19:00:00,1005,1,1,0,New Jersey Devils,0,Detroit Red Wings
-1005,2025021006,2026-03-08T21:00:00,1006,1,1,0,Anaheim Ducks,0,St. Louis Blues
-1006,2025021007,2026-03-08T21:30:00,1007,1,1,0,Vegas Golden Knights,0,Edmonton Oilers
-1007,2025021008,2026-03-09T19:00:00,1008,1,1,0,Philadelphia Flyers,0,New York Rangers
-1008,2025021009,2026-03-09T19:00:00,1009,1,1,0,Washington Capitals,0,Calgary Flames
-1009,2025021010,2026-03-09T20:30:00,1010,1,1,0,Chicago Blackhawks,0,Utah Mammoth
-1010,2025021011,2026-03-09T21:00:00,1011,1,1,0,Vancouver Canucks,0,Ottawa Senators
-1011,2025021012,2026-03-10T19:00:00,1012,1,1,0,Boston Bruins,0,Los Angeles Kings
-1012,2025021013,2026-03-10T19:00:00,1013,1,1,0,Buffalo Sabres,0,San Jose Sharks
-1013,2025021014,2026-03-10T19:00:00,1014,1,1,0,Montréal Canadiens,0,Toronto Maple Leafs
-1014,2025021015,2026-03-10T19:00:00,1015,1,1,0,Tampa Bay Lightning,0,Columbus Blue Jackets
-1015,2025021016,2026-03-10T19:00:00,1016,1,1,0,Florida Panthers,0,Detroit Red Wings
-1016,2025021017,2026-03-10T19:00:00,1017,1,1,0,New York Rangers,0,Calgary Flames
-1017,2025021018,2026-03-10T19:00:00,1018,1,1,0,Carolina Hurricanes,0,Pittsburgh Penguins
-1018,2025021019,2026-03-10T19:30:00,1019,1,1,0,St. Louis Blues,0,New York Islanders
-1019,2025021020,2026-03-10T20:00:00,1020,1,1,0,Dallas Stars,0,Vegas Golden Knights
-1020,2025021021,2026-03-10T20:00:00,1021,1,1,0,Minnesota Wild,0,Utah Mammoth
-1021,2025021022,2026-03-10T20:30:00,1022,1,1,0,Winnipeg Jets,0,Anaheim Ducks
-1022,2025021023,2026-03-10T22:00:00,1023,1,1,0,Colorado Avalanche,0,Edmonton Oilers
-1023,2025021024,2026-03-10T22:00:00,1024,1,1,0,Seattle Kraken,0,Nashville Predators
-1024,2025021025,2026-03-11T19:30:00,1025,1,1,0,Ottawa Senators,0,Montréal Canadiens
-1025,2025021026,2026-03-11T19:30:00,1026,1,1,0,Philadelphia Flyers,0,Washington Capitals
-1026,2025021027,2026-03-12T19:00:00,1027,1,1,0,Boston Bruins,0,San Jose Sharks
-1027,2025021028,2026-03-12T19:00:00,1028,1,1,0,Buffalo Sabres,0,Washington Capitals
-1028,2025021029,2026-03-12T19:00:00,1029,1,1,0,Toronto Maple Leafs,0,Anaheim Ducks
-1029,2025021030,2026-03-12T19:00:00,1030,1,1,0,Tampa Bay Lightning,0,Detroit Red Wings
-1030,2025021031,2026-03-12T19:00:00,1031,1,1,0,Florida Panthers,0,Columbus Blue Jackets
-1031,2025021032,2026-03-12T19:00:00,1032,1,1,0,New Jersey Devils,0,Calgary Flames
-1032,2025021033,2026-03-12T19:00:00,1033,1,1,0,Carolina Hurricanes,0,St. Louis Blues
-1033,2025021034,2026-03-12T20:00:00,1034,1,1,0,Dallas Stars,0,Edmonton Oilers
-1034,2025021035,2026-03-12T20:00:00,1035,1,1,0,Minnesota Wild,0,Philadelphia Flyers
-1035,2025021036,2026-03-12T20:00:00,1036,1,1,0,Winnipeg Jets,0,New York Rangers
+952,2025020953,2026-03-02T19:00:00,953,7,4,4,New York Rangers,5,Columbus Blue Jackets
+953,2025020954,2026-03-02T19:30:00,954,7,5,2,Toronto Maple Leafs,3,Philadelphia Flyers
+954,2025020955,2026-03-02T14:00:00,955,7,3,2,Nashville Predators,4,Detroit Red Wings
+955,2025020956,2026-03-02T22:00:00,956,7,3,1,Vancouver Canucks,6,Dallas Stars
+956,2025020957,2026-03-02T22:00:00,957,7,3,2,Seattle Kraken,1,Carolina Hurricanes
+957,2025020958,2026-03-02T22:30:00,958,7,3,2,Los Angeles Kings,4,Colorado Avalanche
+958,2025020959,2026-03-03T19:00:00,959,7,3,2,Boston Bruins,1,Pittsburgh Penguins
+959,2025020960,2026-03-03T19:00:00,960,7,3,3,Buffalo Sabres,2,Vegas Golden Knights
+960,2025020961,2026-03-03T19:00:00,961,7,3,5,New Jersey Devils,1,Florida Panthers
+961,2025020962,2026-03-03T19:00:00,962,7,3,2,Washington Capitals,3,Utah Mammoth
+962,2025020963,2026-03-03T19:00:00,963,7,3,3,Columbus Blue Jackets,2,Nashville Predators
+963,2025020964,2026-03-03T20:00:00,964,7,4,3,Winnipeg Jets,2,Chicago Blackhawks
+964,2025020965,2026-03-03T21:00:00,965,7,3,1,Calgary Flames,6,Dallas Stars
+965,2025020966,2026-03-03T21:00:00,966,7,4,5,Edmonton Oilers,4,Ottawa Senators
+966,2025020967,2026-03-03T21:30:00,967,7,3,5,Minnesota Wild,1,Tampa Bay Lightning
+967,2025020968,2026-03-03T22:00:00,968,7,3,1,Anaheim Ducks,5,Colorado Avalanche
+968,2025020969,2026-03-03T22:00:00,969,7,3,7,San Jose Sharks,5,Montréal Canadiens
+969,2025020970,2026-03-04T19:00:00,970,7,4,3,Detroit Red Wings,4,Vegas Golden Knights
+970,2025020971,2026-03-04T19:00:00,971,7,5,4,New Jersey Devils,3,Toronto Maple Leafs
+971,2025020972,2026-03-04T22:00:00,972,7,3,4,Vancouver Canucks,6,Carolina Hurricanes
+972,2025020973,2026-03-04T22:00:00,973,7,3,5,Anaheim Ducks,1,New York Islanders
+973,2025020974,2026-03-04T22:00:00,974,7,3,2,Seattle Kraken,3,St. Louis Blues
+974,2025020975,2026-03-05T19:00:00,975,7,3,6,New York Rangers,2,Toronto Maple Leafs
+975,2025020976,2026-03-05T19:00:00,976,7,3,0,Philadelphia Flyers,3,Utah Mammoth
+976,2025020977,2026-03-05T19:00:00,977,7,3,1,Pittsburgh Penguins,5,Buffalo Sabres
+977,2025020978,2026-03-05T19:00:00,978,7,3,4,Columbus Blue Jackets,2,Florida Panthers
+978,2025020979,2026-03-05T20:00:00,979,7,3,6,Nashville Predators,3,Boston Bruins
+979,2025020980,2026-03-05T20:00:00,980,7,3,4,Winnipeg Jets,1,Tampa Bay Lightning
+980,2025020981,2026-03-05T21:00:00,981,7,3,1,Calgary Flames,4,Ottawa Senators
+981,2025020982,2026-03-05T21:30:00,982,7,3,5,Los Angeles Kings,3,New York Islanders
+982,2025020983,2026-03-06T19:00:00,983,7,3,1,Detroit Red Wings,3,Florida Panthers
+983,2025020984,2026-03-06T20:00:00,984,7,5,4,Dallas Stars,5,Colorado Avalanche
+984,2025020985,2026-03-06T20:30:00,985,7,3,3,Chicago Blackhawks,6,Vancouver Canucks
+985,2025020986,2026-03-06T21:00:00,986,7,3,3,Edmonton Oilers,6,Carolina Hurricanes
+986,2025020987,2026-03-06T21:00:00,987,7,5,6,Anaheim Ducks,5,Montréal Canadiens
+987,2025020988,2026-03-06T22:00:00,988,7,3,2,Vegas Golden Knights,4,Minnesota Wild
+988,2025020989,2026-03-06T22:00:00,989,7,4,2,San Jose Sharks,3,St. Louis Blues
+989,2025020990,2026-03-07T12:30:00,990,7,3,3,Boston Bruins,1,Washington Capitals
+990,2025020991,2026-03-07T15:00:00,991,7,3,6,New Jersey Devils,3,New York Rangers
+991,2025020992,2026-03-07T17:30:00,992,7,3,3,Buffalo Sabres,2,Nashville Predators
+992,2025020993,2026-03-07T17:30:00,993,7,5,3,Pittsburgh Penguins,4,Philadelphia Flyers
+993,2025020994,2026-03-07T19:00:00,994,7,3,2,Toronto Maple Leafs,5,Tampa Bay Lightning
+994,2025020995,2026-03-07T19:00:00,995,7,4,4,Columbus Blue Jackets,5,Utah Mammoth
+995,2025020996,2026-03-07T19:00:00,996,7,4,3,Winnipeg Jets,2,Vancouver Canucks
+996,2025020997,2026-03-07T19:00:00,997,7,3,3,Los Angeles Kings,4,Montréal Canadiens
+997,2025020998,2026-03-07T22:00:00,998,7,3,5,Calgary Flames,4,Carolina Hurricanes
+998,2025020999,2026-03-07T22:00:00,999,7,4,1,San Jose Sharks,2,New York Islanders
+999,2025021000,2026-03-07T22:00:00,1000,7,3,4,Seattle Kraken,7,Ottawa Senators
+1000,2025021001,2026-03-08T14:00:00,1001,7,5,3,Colorado Avalanche,2,Minnesota Wild
+1001,2025021002,2026-03-08T16:30:00,1002,7,4,5,Pittsburgh Penguins,4,Boston Bruins
+1002,2025021003,2026-03-08T18:00:00,1003,7,3,8,Buffalo Sabres,7,Tampa Bay Lightning
+1003,2025021004,2026-03-08T18:00:00,1004,7,4,4,Dallas Stars,3,Chicago Blackhawks
+1004,2025021005,2026-03-08T19:00:00,1005,7,3,0,New Jersey Devils,3,Detroit Red Wings
+1005,2025021006,2026-03-08T21:00:00,1006,7,3,0,Anaheim Ducks,4,St. Louis Blues
+1006,2025021007,2026-03-08T21:30:00,1007,7,3,2,Vegas Golden Knights,4,Edmonton Oilers
+1007,2025021008,2026-03-09T19:00:00,1008,7,3,2,Philadelphia Flyers,6,New York Rangers
+1008,2025021009,2026-03-09T19:00:00,1009,7,3,7,Washington Capitals,3,Calgary Flames
+1009,2025021010,2026-03-09T20:30:00,1010,7,4,3,Chicago Blackhawks,2,Utah Mammoth
+1010,2025021011,2026-03-09T21:00:00,1011,7,3,0,Vancouver Canucks,2,Ottawa Senators
+1011,2025021012,2026-03-10T19:00:00,1012,7,4,2,Boston Bruins,1,Los Angeles Kings
+1012,2025021013,2026-03-10T19:00:00,1013,7,3,6,Buffalo Sabres,3,San Jose Sharks
+1013,2025021014,2026-03-10T19:00:00,1014,7,3,3,Montréal Canadiens,1,Toronto Maple Leafs
+1014,2025021015,2026-03-10T19:00:00,1015,7,3,2,Tampa Bay Lightning,5,Columbus Blue Jackets
+1015,2025021016,2026-03-10T19:00:00,1016,7,3,4,Florida Panthers,3,Detroit Red Wings
+1016,2025021017,2026-03-10T19:00:00,1017,7,3,4,New York Rangers,0,Calgary Flames
+1017,2025021018,2026-03-10T19:00:00,1018,7,5,5,Carolina Hurricanes,4,Pittsburgh Penguins
+1018,2025021019,2026-03-10T19:30:00,1019,7,4,3,St. Louis Blues,4,New York Islanders
+1019,2025021020,2026-03-10T20:00:00,1020,7,3,2,Dallas Stars,1,Vegas Golden Knights
+1020,2025021021,2026-03-10T20:00:00,1021,7,3,5,Minnesota Wild,0,Utah Mammoth
+1021,2025021022,2026-03-10T20:30:00,1022,7,3,1,Winnipeg Jets,4,Anaheim Ducks
+1022,2025021023,2026-03-10T22:00:00,1023,7,3,3,Colorado Avalanche,4,Edmonton Oilers
+1023,2025021024,2026-03-10T22:00:00,1024,7,3,2,Seattle Kraken,4,Nashville Predators
+1024,2025021025,2026-03-11T19:30:00,1025,7,3,2,Ottawa Senators,3,Montréal Canadiens
+1025,2025021026,2026-03-11T19:30:00,1026,7,3,4,Philadelphia Flyers,1,Washington Capitals
+1026,2025021027,2026-03-12T19:00:00,1027,3,1,0,Boston Bruins,1,San Jose Sharks
+1027,2025021028,2026-03-12T19:00:00,1028,3,1,1,Buffalo Sabres,0,Washington Capitals
+1028,2025021029,2026-03-12T19:00:00,1029,3,1,1,Toronto Maple Leafs,0,Anaheim Ducks
+1029,2025021030,2026-03-12T19:00:00,1030,3,1,0,Tampa Bay Lightning,0,Detroit Red Wings
+1030,2025021031,2026-03-12T19:00:00,1031,3,1,0,Florida Panthers,0,Columbus Blue Jackets
+1031,2025021032,2026-03-12T19:00:00,1032,3,1,0,New Jersey Devils,1,Calgary Flames
+1032,2025021033,2026-03-12T19:00:00,1033,3,1,1,Carolina Hurricanes,0,St. Louis Blues
+1033,2025021034,2026-03-12T20:00:00,1034,2,1,0,Dallas Stars,0,Edmonton Oilers
+1034,2025021035,2026-03-12T20:00:00,1035,2,1,0,Minnesota Wild,0,Philadelphia Flyers
+1035,2025021036,2026-03-12T20:00:00,1036,2,1,0,Winnipeg Jets,0,New York Rangers
 1036,2025021037,2026-03-12T21:00:00,1037,1,1,0,Utah Mammoth,0,Chicago Blackhawks
 1037,2025021038,2026-03-12T22:00:00,1038,1,1,0,Vancouver Canucks,0,Nashville Predators
 1038,2025021039,2026-03-12T22:00:00,1039,1,1,0,Vegas Golden Knights,0,Pittsburgh Penguins
