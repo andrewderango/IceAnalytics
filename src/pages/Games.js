@@ -11,7 +11,6 @@ function Games() {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState('');
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
   const [datesLoaded, setDatesLoaded] = useState(false);
@@ -84,42 +83,6 @@ function Games() {
     }
   };
 
-  const fetchMetadata = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('last_update')
-        .select('datetime')
-        .order('datetime', { ascending: false })
-        .limit(1);
-
-      if (error) {
-        console.error('Error fetching metadata:', error);
-        return;
-      }
-
-      if (data.length > 0) {
-        const timestamp = new Date(data[0].datetime);
-        let formattedDate;
-
-        if (window.innerWidth < 600) {
-          // MM/DD/YY for mobile
-          const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-          formattedDate = timestamp.toLocaleDateString('en-US', options);
-        } else {
-          // full date otherwise
-          const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-          formattedDate = timestamp.toLocaleDateString('en-US', options);
-        }
-
-        setLastUpdated(formattedDate);
-      } else {
-        console.error('No data found in last_update table.');
-      }
-    } catch (error) {
-      console.error('Error fetching metadata:', error);
-    }
-  };
-
   // Fetch min/max dates on mount
   useEffect(() => {
     fetchMinMaxDates();
@@ -137,7 +100,6 @@ function Games() {
     else {
       setLoading(true);
       fetchData(clampedDate);
-      fetchMetadata();
     }
     // eslint-disable-next-line
   }, [currentDate, datesLoaded, minDate, maxDate]);
@@ -169,7 +131,6 @@ function Games() {
   return (
     <div className="games">
       <h1>Games</h1>
-      <h2>Projections last updated {lastUpdated}</h2>
       <div className="day-navigator">
         <button onClick={handlePrevDay} disabled={!minDate || currentDate <= minDate}>{'<'}</button>
         <span className="date-display">

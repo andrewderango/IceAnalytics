@@ -9,7 +9,6 @@ import noGamesImage from '../assets/images/404.png';
 function Teams() {
   const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState({ id: null, desc: false });
-  const [lastUpdated, setLastUpdated] = useState('');
   const history = useHistory();
 
   if (offseason) {
@@ -35,43 +34,7 @@ function Teams() {
         setData(teams);
       }
     };
-    const fetchMetadata = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('last_update')
-          .select('datetime')
-          .order('datetime', { ascending: false })
-          .limit(1);
-    
-        if (error) {
-          console.error('Error fetching metadata:', error);
-          return;
-        }
-    
-        if (data.length > 0) {
-          const timestamp = new Date(data[0].datetime);
-          let formattedDate;
-    
-          if (window.innerWidth < 600) {
-            // MM/DD/YY for mobile
-            const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-            formattedDate = timestamp.toLocaleDateString('en-US', options);
-          } else {
-            // full date otherwise
-            const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-            formattedDate = timestamp.toLocaleDateString('en-US', options);
-          }
-    
-          setLastUpdated(formattedDate);
-        } else {
-          console.error('No data found in last_update table.');
-        }
-      } catch (error) {
-        console.error('Error fetching metadata:', error);
-      }
-    };
     fetchData();
-    fetchMetadata();
   }, []);
 
   const columns = useMemo(
@@ -233,7 +196,6 @@ function Teams() {
   return (
     <div className="teams">
       <h1>Teams</h1>
-      <h2>Projections last updated {lastUpdated}</h2>
       <div className="table-container">
         <table {...getTableProps()} style={{ color: 'white', backgroundColor: '#333' }}>
           <thead>
