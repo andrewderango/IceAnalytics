@@ -1,11 +1,73 @@
 import os
+import time
 import json
 import unidecode
 import requests
 import pandas as pd
+from io import StringIO
 from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
+import undetected_chromedriver as uc
+
+_browser = None
+
+def _make_browser():
+    options = uc.ChromeOptions()
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--window-size=1920,1080')
+    driver = uc.Chrome(options=options)
+    time.sleep(3)
+    driver.get('https://www.naturalstattrick.com/')
+    time.sleep(3)
+    return driver
+
+def _get_browser():
+    global _browser
+    if _browser is None:
+        for attempt in range(3):
+            try:
+                _browser = _make_browser()
+                break
+            except Exception as e:
+                print(f'Browser init attempt {attempt+1} failed: {e}')
+                _browser = None
+                time.sleep(3)
+        else:
+            raise RuntimeError('Failed to initialize browser after 3 attempts')
+    return _browser
+
+def _read_html(url):
+    global _browser
+    for attempt in range(3):
+        try:
+            driver = _get_browser()
+            driver.get(url)
+            for _ in range(15):
+                time.sleep(2)
+                if 'just a moment' not in driver.title.lower():
+                    break
+            for _ in range(10):
+                html = driver.page_source
+                try:
+                    dfs = pd.read_html(StringIO(html))
+                    populated = [df for df in dfs if df.shape[0] > 0]
+                    if populated:
+                        return max(populated, key=lambda d: d.shape[0])
+                except Exception:
+                    pass
+                time.sleep(2)
+            raise ValueError(f'No data found at {url}')
+        except Exception as e:
+            print(f'Scrape attempt {attempt+1} failed: {e}')
+            try:
+                _browser.quit()
+            except Exception:
+                pass
+            _browser = None
+            time.sleep(3)
+    raise ValueError(f'Could not scrape data from {url}')
 
 # Function to scrape raw historical data from Natural Stat Trick
 def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, projection_year, season_state, check_preexistence, verbose):
@@ -43,7 +105,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(url)[0]
+            df = _read_html(url)
             df = df.iloc[:, 1:]
         else:
             if skaters == True and bios == False and on_ice == False:
@@ -56,7 +118,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(url)[0]
+            df = _read_html(url)
             df = df.iloc[:, 1:]
 
             if bios == False:
@@ -96,7 +158,7 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
 
         if projection_year != year or season_state != 'PRESEASON':
             url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
-            df = pd.read_html(url)[0]
+            df = _read_html(url)
             df = df.iloc[:, 1:]
         else:
             response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
