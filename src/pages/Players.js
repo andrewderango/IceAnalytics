@@ -16,7 +16,6 @@ function Players() {
     { id: 'points', desc: true },
     { id: 'goals', desc: true }
   ]);
-  const [lastUpdated, setLastUpdated] = useState('');
   const history = useHistory();
 
   if (offseason) {
@@ -129,43 +128,7 @@ function Players() {
         setData(players);
       }
     };
-    const fetchMetadata = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('last_update')
-          .select('datetime')
-          .order('datetime', { ascending: false })
-          .limit(1);
-    
-        if (error) {
-          console.error('Error fetching metadata:', error);
-          return;
-        }
-    
-        if (data.length > 0) {
-          const timestamp = new Date(data[0].datetime);
-          let formattedDate;
-    
-          if (window.innerWidth < 600) {
-            // MM/DD/YY for mobile
-            const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-            formattedDate = timestamp.toLocaleDateString('en-US', options);
-          } else {
-            // full date otherwise
-            const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-            formattedDate = timestamp.toLocaleDateString('en-US', options);
-          }
-    
-          setLastUpdated(formattedDate);
-        } else {
-          console.error('No data found in last_update table.');
-        }
-      } catch (error) {
-        console.error('Error fetching metadata:', error);
-      }
-    };
     fetchData();
-    fetchMetadata();
   }, []);
 
   const filteredData = React.useMemo(() => {
@@ -244,7 +207,6 @@ function Players() {
   return (
     <div className="players">
       <h1>Players</h1>
-      <h2>Projections last updated {lastUpdated}</h2>
       <div className="filter-container">
         <div className="select-container">
           <select value={teamFilter} onChange={e => setTeamFilter(e.target.value)}>
