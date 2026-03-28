@@ -17,7 +17,7 @@ def _make_browser():
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--window-size=1920,1080')
-    driver = uc.Chrome(options=options)
+    driver = uc.Chrome(options=options, version_main=146)
     time.sleep(3)
     driver.get('https://www.naturalstattrick.com/')
     time.sleep(3)
