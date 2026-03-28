@@ -5,11 +5,6 @@ import pandas as pd
 from model_training import *
 from scraper_functions import *
 
-def _parse_toi(series):
-    if series.dtype == object:
-        return series.apply(lambda x: int(str(x).split(':')[0]) + int(str(x).split(':')[1])/60 if isinstance(x, str) and ':' in str(x) else float(x))
-    return series
-
 def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_file, verbose):
 
     combined_df = pd.DataFrame()
@@ -28,7 +23,7 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df = df.drop(columns=['TOI'])
             df = df.rename(columns={'ATOI': f'Y-{projection_year-year} ATOI', 'GP': f'Y-{projection_year-year} GP'})
@@ -244,7 +239,7 @@ def u24_gp_model_inference(projection_year, player_stat_df, model, verbose):
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Points'] = df['Goals'] + df['First Assists'] + df['Second Assists']
             df['P/GP'] = (df['Goals']+df['First Assists']+df['Second Assists'])/df['GP']
@@ -327,7 +322,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'Goals', 'ixG', 'Shots', 'iCF', 'Rush Attempts']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
             df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
@@ -442,7 +437,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'First Assists', 'Second Assists', 'Rush Attempts', 'Rebounds Created', 'Takeaways']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
@@ -553,7 +548,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'First Assists', 'Second Assists', 'Rush Attempts', 'Rebounds Created', 'Takeaways']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
@@ -664,7 +659,7 @@ def skater_xga_model_inference(projection_year, player_stat_df, skater_xga_model
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'CA/60', 'FA/60', 'SA/60', 'xGA/60', 'GA/60', 'On-Ice SV%']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df = df.drop(columns=['TOI'])
             df = df.rename(columns={
@@ -763,7 +758,7 @@ def skater_ga_model_inference(projection_year, player_stat_df, skater_ga_model, 
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'CA/60', 'FA/60', 'SA/60', 'xGA/60', 'GA/60', 'On-Ice SV%']]
-            df['TOI'] = _parse_toi(df['TOI'])
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df = df.drop(columns=['TOI'])
             df = df.rename(columns={
@@ -981,7 +976,7 @@ def display_inferences(projection_year, player_stat_df, bootstrap_df, inference_
     # Modify the inferences based on the inference state
     if inference_state.upper() in ['TOTAL', 'TOTAL_82']:
         # Show the inferences for the full season (GP-weighted average of current and projected stats)
-        existing_stats['TOI'] = _parse_toi(existing_stats['TOI'])
+        existing_stats['TOI'] = parse_toi(existing_stats['TOI'])
         existing_stats['ATOI_cur'] = existing_stats['TOI']/existing_stats['GP']
         existing_stats['Gper1kChunk_cur'] = existing_stats['Goals']/existing_stats['TOI']*500
         existing_stats['A1per1kChunk_cur'] = existing_stats['First Assists']/existing_stats['TOI']*500
@@ -1024,7 +1019,7 @@ def display_inferences(projection_year, player_stat_df, bootstrap_df, inference_
         # Show the existing stats
         player_stat_df = player_stat_df[['PlayerID', 'Position', 'Team', 'Age']]
         player_stat_df = player_stat_df.merge(existing_stats, on=['PlayerID'], how='right')
-        player_stat_df['TOI'] = _parse_toi(player_stat_df['TOI'])
+        player_stat_df['TOI'] = parse_toi(player_stat_df['TOI'])
         player_stat_df['ATOI'] = player_stat_df['TOI']/player_stat_df['GP']
         player_stat_df['Gper1kChunk'] = player_stat_df['Goals']/player_stat_df['TOI']*500
         player_stat_df['A1per1kChunk'] = player_stat_df['First Assists']/player_stat_df['TOI']*500

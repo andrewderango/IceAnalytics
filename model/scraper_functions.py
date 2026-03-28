@@ -12,6 +12,11 @@ import undetected_chromedriver as uc
 
 _browser = None
 
+def parse_toi(series):
+    if series.dtype == object:
+        return series.apply(lambda x: int(str(x).split(':')[0]) + int(str(x).split(':')[1])/60 if isinstance(x, str) and ':' in str(x) else float(x))
+    return series
+
 def _make_browser():
     options = uc.ChromeOptions()
     options.add_argument('--no-sandbox')
