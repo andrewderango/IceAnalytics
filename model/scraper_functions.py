@@ -642,7 +642,23 @@ def update_metadata(state, params):
 
     return
 
+_TABLE_DELETE_CONDITIONS = {
+    'team_projections':   ('points',   'gt', -1),
+    'player_projections': ('points',   'gt', -1),
+    'game_projections':   ('game_id',  'gt', -1),
+    'last_update':        ('datetime', 'gt', '1970-01-01T00:00:00Z'),
+}
+
+_TABLE_REQUIRED_COLUMNS = {
+    'team_projections':   ['abbrev', 'team', 'points'],
+    'player_projections': ['player_id', 'player', 'points'],
+    'game_projections':   ['game_id', 'datetime'],
+    'last_update':        ['datetime'],
+}
+
 def push_to_supabase(table_name, year, verbose=False):
+    if table_name not in _TABLE_DELETE_CONDITIONS:
+        raise ValueError(f"Unknown table '{table_name}'. Must be one of: {list(_TABLE_DELETE_CONDITIONS)}")
     load_dotenv()
     SUPABASE_URL = os.getenv('REACT_APP_SUPABASE_PROJ_URL')
     SUPABASE_KEY = os.getenv('REACT_APP_SUPABASE_ANON_KEY')
@@ -857,29 +873,45 @@ def push_to_supabase(table_name, year, verbose=False):
         end_datetime = datetime.fromtimestamp(end_timestamp)
         df = pd.DataFrame([{'datetime': end_datetime.isoformat()}])
 
+    if df.empty:
+        raise ValueError(f"DataFrame for '{table_name}' is empty; aborting push.")
+    required = _TABLE_REQUIRED_COLUMNS[table_name]
+    missing = [c for c in required if c not in df.columns]
+    if missing:
+        raise ValueError(f"DataFrame for '{table_name}' missing columns: {missing}")
+
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
         print(df)
         print(data_to_insert)
-    
+
+    col, op, val = _TABLE_DELETE_CONDITIONS[table_name]
+
     delete_response = None
     insert_response = None
     try:
-        delete_response = supabase.table(table_name).delete().gt('points', -1).execute()
-        insert_response = supabase.table(table_name).insert(data_to_insert).execute()
-        print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-    except:
+        backup = supabase.table(table_name).select('*').execute().data
+        delete_response = getattr(supabase.table(table_name).delete(), op)(col, val).execute()
         try:
-            delete_response = supabase.table(table_name).delete().gt('game_id', -1).execute()
             insert_response = supabase.table(table_name).insert(data_to_insert).execute()
-            print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-        except:
-            try:
-                delete_response = supabase.table(table_name).delete().gt('datetime', '1970-01-01T00:00:00Z').execute()
-                insert_response = supabase.table(table_name).insert(data_to_insert).execute()
-            except Exception as e:
-                print(f"An error occurred: {e}")
+            print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}'.")
+        except Exception as insert_err:
+            print(f"Insert failed for '{table_name}': {insert_err}. Attempting rollback...")
+            if backup:
+                try:
+                    supabase.table(table_name).insert(backup).execute()
+                    print(f"Rollback successful: restored {len(backup)} rows to '{table_name}'.")
+                except Exception as rollback_err:
+                    raise RuntimeError(
+                        f"Insert failed AND rollback failed for '{table_name}'. "
+                        f"Insert error: {insert_err}. Rollback error: {rollback_err}. "
+                        f"Table may be empty."
+                    ) from rollback_err
+            raise RuntimeError(
+                f"Insert failed for '{table_name}': {insert_err}. Rollback successful."
+            ) from insert_err
+    finally:
+        supabase.auth.sign_out()
 
-    supabase.auth.sign_out()
     return delete_response, insert_response
