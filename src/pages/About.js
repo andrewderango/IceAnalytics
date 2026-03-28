@@ -12,7 +12,10 @@ function About() {
       <section>
         <h2>Our Mission</h2>
         <p>
-          At IceAnalytics, our goal is to revolutionize how NHL performance is understood, analyzed, and predicted. By providing a comprehensive, open-source framework for data-driven insights into NHL games, players, and teams, we hope to empower fans and analysts with a deeper understanding of the game.
+          IceAnalytics is dedicated to advancing projections, analytics, and quantitative research in professional hockey.
+        </p>
+        <p>
+          We focus on two core objectives. First, to deepen the understanding of player impact, team strategy, and the game of hockey through data-driven analysis. Second, to translate these insights into predictive models that estimate future game outcomes and generate probabilistic projections for players and teams.
         </p>
       </section>
       <section>

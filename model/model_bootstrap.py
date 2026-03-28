@@ -98,6 +98,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists']]
+            df['TOI'] = parse_toi(df['TOI'])
             df['ATOI'] = df['TOI']/df['GP']
             df['Pper1kChunk'] = (df['Goals'] + df['First Assists'] + df['Second Assists'])/df['TOI']/2 * 1000
             df[['ATOI', 'GP', 'Pper1kChunk']] = df[['ATOI', 'GP', 'Pper1kChunk']].fillna(0)
@@ -409,6 +410,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'Goals', 'ixG', 'Shots']]
+            df['TOI'] = parse_toi(df['TOI'])
             df['Gper1kChunk'] = df['Goals']/df['TOI']/2 * 1000
             df['xGper1kChunk'] = df['ixG']/df['TOI']/2 * 1000
             df['SHper1kChunk'] = df['Shots']/df['TOI']/2 * 1000
@@ -569,6 +571,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'First Assists', 'Second Assists']]
+            df['TOI'] = parse_toi(df['TOI'])
             df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df[['A1per1kChunk', 'A2per1kChunk']] = df[['A1per1kChunk', 'A2per1kChunk']].fillna(0)
@@ -727,6 +730,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         if season_started == True:
             df = pd.read_csv(file_path)
             df = df[['PlayerID', 'GP', 'TOI', 'First Assists', 'Second Assists']]
+            df['TOI'] = parse_toi(df['TOI'])
             df['A1per1kChunk'] = df['First Assists']/df['TOI']/2 * 1000
             df['A2per1kChunk'] = df['Second Assists']/df['TOI']/2 * 1000
             df[['A1per1kChunk', 'A2per1kChunk']] = df[['A1per1kChunk', 'A2per1kChunk']].fillna(0)
