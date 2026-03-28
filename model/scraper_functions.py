@@ -905,7 +905,9 @@ def push_to_supabase(table_name, year, verbose=False):
             print(f"Insert failed for '{table_name}': {insert_err}. Attempting rollback...")
             if backup:
                 try:
-                    supabase.table(table_name).insert(backup).execute()
+                    batch_size = 500
+                    for i in range(0, len(backup), batch_size):
+                        supabase.table(table_name).insert(backup[i:i + batch_size]).execute()
                     print(f"Rollback successful: restored {len(backup)} rows to '{table_name}'.")
                 except Exception as rollback_err:
                     raise RuntimeError(
