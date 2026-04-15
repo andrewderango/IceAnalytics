@@ -1,3 +1,4 @@
+import io
 import os
 import json
 import unidecode
@@ -6,6 +7,13 @@ import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
+
+NST_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Referer": "https://www.naturalstattrick.com/",
+}
 
 # Function to scrape raw historical data from Natural Stat Trick
 def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, projection_year, season_state, check_preexistence, verbose):
@@ -43,7 +51,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(url)[0]
+            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
             df = df.iloc[:, 1:]
         else:
             if skaters == True and bios == False and on_ice == False:
@@ -56,7 +64,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(url)[0]
+            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
             df = df.iloc[:, 1:]
 
             if bios == False:
@@ -96,7 +104,7 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
 
         if projection_year != year or season_state != 'PRESEASON':
             url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
-            df = pd.read_html(url)[0]
+            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
             df = df.iloc[:, 1:]
         else:
             response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
