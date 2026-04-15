@@ -142,7 +142,7 @@
 140,Eddie Lack,"CGY, N.J",G,37,1988-01-05,Norrtälje,,SWE,SWE,76,187,-,-,-,-,-,2017-2018,eddielack
 141,Andrew Hammond,"MTL, N.J",G,37,1988-02-11,Surrey,BC,CAN,CAN,74,215,-,-,-,-,-,2021-2022,andrewhammond
 142,Riku Helenius,T.B,G,37,1988-03-01,Palkane,,FIN,FIN,75,211,2006,T.B,1,15,15,2008-2009,rikuhelenius
-143,James Reimer,OTT,G,37,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99,2025-2026,jamesreimer
+143,James Reimer,OTT,G,38,1988-03-15,Morweena,MB,CAN,CAN,75,205,2006,TOR,4,6,99,2025-2026,jamesreimer
 144,Michal Neuvirth,PHI,G,37,1988-03-23,Ústí nad Labem,,CZE,CZE,73,209,2006,WSH,2,4,34,2018-2019,michalneuvirth
 145,Leland Irving,CGY,G,37,1988-04-11,Barrhead,AB,CAN,CAN,72,177,2006,CGY,1,26,26,2012-2013,lelandirving
 146,Semyon Varlamov,NYI,G,37,1988-04-27,Samara,,RUS,RUS,74,206,2006,WSH,1,23,23,2024-2025,semyonvarlamov
@@ -200,7 +200,7 @@
 198,Petr Mrazek,ANA,G,34,1992-02-14,Ostrava,,CZE,CZE,74,188,2010,DET,5,21,141,2025-2026,petrmrazek
 199,Louis Domingue,NYR,G,33,1992-03-06,St-Hyacinthe,QC,CAN,CAN,75,208,2010,PHX,5,18,138,2024-2025,louisdomingue
 200,Kent Simpson,CHI,G,33,1992-03-26,Edmonton,AB,CAN,CAN,74,209,2010,CHI,2,28,58,2013-2014,kentsimpson
-201,Calvin Pickard,EDM,G,33,1992-04-15,Moncton,NB,CAN,CAN,73,210,2010,COL,2,19,49,2025-2026,calvinpickard
+201,Calvin Pickard,EDM,G,34,1992-04-15,Moncton,NB,CAN,CAN,73,210,2010,COL,2,19,49,2025-2026,calvinpickard
 202,Jason Kasdorf,BUF,G,33,1992-05-18,Winnipeg,MB,CAN,CAN,76,205,2011,WPG,6,6,157,2015-2016,jasonkasdorf
 203,Roman Will,COL,G,33,1992-05-22,Plzen,,CZE,CZE,73,195,-,-,-,-,-,2015-2016,romanwill
 204,Kevin Boyle,ANA,G,33,1992-05-30,Manalapan,NJ,USA,USA,73,201,-,-,-,-,-,2018-2019,kevinboyle
@@ -216,7 +216,7 @@
 214,Alex Lyon,BUF,G,33,1992-12-09,Baudette,MN,USA,USA,73,201,-,-,-,-,-,2025-2026,alexlyon
 215,Christopher Gibson,T.B,G,32,1992-12-27,Karkkila,,FIN,FIN,74,217,2011,L.A,2,19,49,2020-2021,chrisgibson
 216,Maxime Lagace,T.B,G,32,1993-01-12,Saint-Augustin,QC,CAN,CAN,74,190,-,-,-,-,-,2021-2022,maxlagace
-217,Laurent Brossoit,WPG,G,32,1993-03-23,Port Alberni,BC,CAN,CAN,75,215,2011,CGY,6,13,164,2023-2024,laurentbrossoit
+217,Laurent Brossoit,S.J,G,33,1993-03-23,Port Alberni,BC,CAN,CAN,75,215,2011,CGY,6,13,164,2025-2026,laurentbrossoit
 218,Andrey Makarov,BUF,G,32,1993-04-20,Kazan,,RUS,RUS,74,194,-,-,-,-,-,2014-2015,andreymakarov
 219,Connor Hellebuyck,WPG,G,32,1993-05-19,Commerce,MI,USA,USA,76,216,2012,WPG,5,9,130,2025-2026,connorhellebuyck
 220,Thomas Hodges,ANA,G,32,1993-06-25,"Slough, GBR",,USA,,70,170,-,-,-,-,-,2021-2022,thomashodges
@@ -230,7 +230,7 @@
 228,Anthony Stolarz,TOR,G,32,1994-01-20,Edison,NJ,USA,USA,78,243,2012,PHI,2,15,45,2025-2026,anthonystolarz
 229,Jon Gillies,CBJ,G,31,1994-01-22,Concord,NH,USA,USA,78,223,2012,CGY,3,14,75,2022-2023,jongillies
 230,Oscar Dansk,VGK,G,31,1994-02-28,Stockholm,,SWE,SWE,75,204,2012,CBJ,2,1,31,2020-2021,oscardansk
-231,Elvis Merzlikins,CBJ,G,31,1994-04-13,Riga,,LVA,LVA,75,183,2014,CBJ,3,16,76,2025-2026,elvismerzlikins
+231,Elvis Merzlikins,CBJ,G,32,1994-04-13,Riga,,LVA,LVA,75,183,2014,CBJ,3,16,76,2025-2026,elvismerzlikins
 232,Joonas Korpisalo,BOS,G,31,1994-04-28,Pori,,FIN,FIN,75,193,2012,CBJ,3,1,62,2025-2026,joonaskorpisalo
 233,Antoine Bibeau,COL,G,31,1994-05-01,Victoriaville,QC,CAN,CAN,75,205,2013,TOR,6,21,172,2019-2020,antoinebibeau
 234,Chris Driedger,SEA,G,31,1994-05-18,Winnipeg,MB,CAN,CAN,76,208,2012,OTT,3,15,76,2023-2024,chrisdriedger
@@ -303,7 +303,7 @@
 301,Clay Stevenson,WSH,G,27,1999-03-03,,,CAN,,76,195,-,-,-,-,-,2025-2026,claystevenson
 302,Ivan Prosvetov,COL,G,26,1999-03-05,Moscow,,RUS,RUS,77,195,2018,ARI,4,21,114,2023-2024,ivanprosvetov
 303,Ukko-Pekka Luukkonen,BUF,G,27,1999-03-09,Espoo,,FIN,FIN,77,217,2017,BUF,2,23,54,2025-2026,ukkopekkaluukkonen
-304,Daniil Tarasov,FLA,G,26,1999-03-27,Novokuznetsk,,RUS,RUS,77,196,2017,CBJ,3,24,86,2025-2026,daniiltarasov
+304,Daniil Tarasov,FLA,G,27,1999-03-27,Novokuznetsk,,RUS,RUS,77,196,2017,CBJ,3,24,86,2025-2026,daniiltarasov
 305,Eetu Makiniemi,S.J,G,26,1999-04-19,Vantaa,,FIN,FIN,74,184,2017,CAR,4,11,104,2022-2023,eetumakiniemi
 306,Jaxson Stauber,UTA,G,26,1999-04-27,Wayzata,MN,USA,USA,75,174,-,-,-,-,-,2024-2025,jaxsonstauber
 307,Matt Villalta,UTA,G,26,1999-06-03,Kingston,ON,CAN,CAN,75,165,2017,L.A,3,10,72,2024-2025,mattvillalta
@@ -317,7 +317,7 @@
 315,Georgi Romanov,S.J,G,25,1999-12-15,,,RUS,,77,207,-,-,-,-,-,2024-2025,georgiromanov
 316,Yaniv Perets,CAR,G,25,2000-03-04,,,CAN,,73,181,-,-,-,-,-,2024-2025,yanivperets
 317,Justus Annunen,NSH,G,26,2000-03-11,Kempele,,FIN,FIN,76,210,-,-,-,-,-,2025-2026,justusannunen
-318,Nikita Tolopilo,VAN,G,25,2000-04-06,,,BLR,,78,229,-,-,-,-,-,2025-2026,nikitatolopilo
+318,Nikita Tolopilo,VAN,G,26,2000-04-06,,,BLR,,78,229,-,-,-,-,-,2025-2026,nikitatolopilo
 319,Akira Schmid,VGK,G,25,2000-05-12,Bern,,CHE,CHE,77,205,2018,N.J,5,12,136,2025-2026,akiraschmid
 320,Lukas Dostal,ANA,G,25,2000-06-22,Brno,,CZE,CZE,74,174,2018,ANA,3,23,85,2025-2026,lukasdostal
 321,Olivier Rodrigue,EDM,G,25,2000-07-06,Chicoutimi,QC,CAN,CAN,73,158,2018,EDM,2,31,62,2024-2025,olivierrodrigue
@@ -349,8 +349,8 @@
 347,Tristan Lennox,NYI,G,22,2002-10-21,Ottawa,ON,CAN,CAN,76,196,2021,NYI,3,29,93,2024-2025,tristanlennox
 348,Jesper Wallstedt,MIN,G,23,2002-11-14,Vasteras,,SWE,SWE,75,214,2021,MIN,1,20,20,2025-2026,jesperwallstedt
 349,Sebastian Cossa,DET,G,22,2002-11-21,Hamilton,ON,CAN,CAN,78,210,2021,DET,1,15,15,2024-2025,sebastiancossa
-350,Thomas Milic,WPG,G,22,2003-04-14,,,CAN,,72,175,2023,WPG,5,23,151,2025-2026,thomasmilic
+350,Thomas Milic,WPG,G,23,2003-04-14,,,CAN,,72,175,2023,WPG,5,23,151,2025-2026,thomasmilic
 351,Carl Lindbom,VGK,G,22,2003-05-20,,,SWE,,72,165,2021,VGK,7,30,222,2025-2026,carllindbom
-352,Nikke Kokko,SEA,G,21,2004-03-14,,,FIN,,75,184,2022,SEA,2,26,58,2024-2025,nikkekokko
+352,Nikke Kokko,SEA,G,22,2004-03-14,,,FIN,,75,184,2022,SEA,2,26,58,2025-2026,nikkekokko
 353,Sergei Murashov,PIT,G,22,2004-04-01,,,RUS,,74,175,2022,PIT,4,21,118,2025-2026,sergeimurashov
 354,Jacob Fowler,MTL,G,21,2004-11-24,,,USA,,73,223,2023,MTL,3,5,69,2025-2026,jakefowler
