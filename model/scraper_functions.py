@@ -1,12 +1,79 @@
 import io
 import os
+import time
 import json
 import unidecode
 import requests
 import pandas as pd
+from io import StringIO
 from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
+import undetected_chromedriver as uc
+
+_browser = None
+
+def parse_toi(series):
+    if series.dtype == object:
+        return series.apply(lambda x: int(str(x).split(':')[0]) + int(str(x).split(':')[1])/60 if isinstance(x, str) and ':' in str(x) else float(x))
+    return series
+
+def _make_browser():
+    options = uc.ChromeOptions()
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--window-size=1920,1080')
+    driver = uc.Chrome(options=options, version_main=146)
+    time.sleep(3)
+    driver.get('https://www.naturalstattrick.com/')
+    time.sleep(3)
+    return driver
+
+def _get_browser():
+    global _browser
+    if _browser is None:
+        for attempt in range(3):
+            try:
+                _browser = _make_browser()
+                break
+            except Exception as e:
+                print(f'Browser init attempt {attempt+1} failed: {e}')
+                _browser = None
+                time.sleep(3)
+        else:
+            raise RuntimeError('Failed to initialize browser after 3 attempts')
+    return _browser
+
+def _read_html(url):
+    global _browser
+    for attempt in range(3):
+        try:
+            driver = _get_browser()
+            driver.get(url)
+            for _ in range(15):
+                time.sleep(2)
+                if 'just a moment' not in driver.title.lower():
+                    break
+            for _ in range(10):
+                html = driver.page_source
+                try:
+                    dfs = pd.read_html(StringIO(html))
+                    populated = [df for df in dfs if df.shape[0] > 0]
+                    if populated:
+                        return max(populated, key=lambda d: d.shape[0])
+                except Exception:
+                    pass
+                time.sleep(2)
+            raise ValueError(f'No data found at {url}')
+        except Exception as e:
+            print(f'Scrape attempt {attempt+1} failed: {e}')
+            try:
+                _browser.quit()
+            except Exception:
+                pass
+            _browser = None
+            time.sleep(3)
+    raise ValueError(f'Could not scrape data from {url}')
 
 NST_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -51,7 +118,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
+            df = _read_html(url)
             df = df.iloc[:, 1:]
         else:
             if skaters == True and bios == False and on_ice == False:
@@ -64,7 +131,7 @@ def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, p
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
             elif skaters == False and bios == True:
                 url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
+            df = _read_html(url)
             df = df.iloc[:, 1:]
 
             if bios == False:
@@ -104,7 +171,7 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
 
         if projection_year != year or season_state != 'PRESEASON':
             url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
-            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
+            df = _read_html(url)
             df = df.iloc[:, 1:]
         else:
             response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
@@ -588,7 +655,23 @@ def update_metadata(state, params):
 
     return
 
+_TABLE_DELETE_CONDITIONS = {
+    'team_projections':   ('points',   'gt', -1),
+    'player_projections': ('points',   'gt', -1),
+    'game_projections':   ('game_id',  'gt', -1),
+    'last_update':        ('datetime', 'gt', '1970-01-01T00:00:00Z'),
+}
+
+_TABLE_REQUIRED_COLUMNS = {
+    'team_projections':   ['abbrev', 'team', 'points'],
+    'player_projections': ['player_id', 'player', 'points'],
+    'game_projections':   ['game_id', 'datetime'],
+    'last_update':        ['datetime'],
+}
+
 def push_to_supabase(table_name, year, verbose=False):
+    if table_name not in _TABLE_DELETE_CONDITIONS:
+        raise ValueError(f"Unknown table '{table_name}'. Must be one of: {list(_TABLE_DELETE_CONDITIONS)}")
     load_dotenv()
     SUPABASE_URL = os.getenv('REACT_APP_SUPABASE_PROJ_URL')
     SUPABASE_KEY = os.getenv('REACT_APP_SUPABASE_ANON_KEY')
@@ -803,29 +886,47 @@ def push_to_supabase(table_name, year, verbose=False):
         end_datetime = datetime.fromtimestamp(end_timestamp)
         df = pd.DataFrame([{'datetime': end_datetime.isoformat()}])
 
+    if df.empty:
+        raise ValueError(f"DataFrame for '{table_name}' is empty; aborting push.")
+    required = _TABLE_REQUIRED_COLUMNS[table_name]
+    missing = [c for c in required if c not in df.columns]
+    if missing:
+        raise ValueError(f"DataFrame for '{table_name}' missing columns: {missing}")
+
     data_to_insert = df.to_dict(orient='records')
 
     if verbose:
         print(df)
         print(data_to_insert)
-    
+
+    col, op, val = _TABLE_DELETE_CONDITIONS[table_name]
+
     delete_response = None
     insert_response = None
     try:
-        delete_response = supabase.table(table_name).delete().gt('points', -1).execute()
-        insert_response = supabase.table(table_name).insert(data_to_insert).execute()
-        print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-    except:
+        backup = supabase.table(table_name).select('*').execute().data
+        delete_response = getattr(supabase.table(table_name).delete(), op)(col, val).execute()
         try:
-            delete_response = supabase.table(table_name).delete().gt('game_id', -1).execute()
             insert_response = supabase.table(table_name).insert(data_to_insert).execute()
-            print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}' table.")
-        except:
-            try:
-                delete_response = supabase.table(table_name).delete().gt('datetime', '1970-01-01T00:00:00Z').execute()
-                insert_response = supabase.table(table_name).insert(data_to_insert).execute()
-            except Exception as e:
-                print(f"An error occurred: {e}")
+            print(f"Successfully inserted {len(data_to_insert)} records into '{table_name}'.")
+        except Exception as insert_err:
+            print(f"Insert failed for '{table_name}': {insert_err}. Attempting rollback...")
+            if backup:
+                try:
+                    batch_size = 500
+                    for i in range(0, len(backup), batch_size):
+                        supabase.table(table_name).insert(backup[i:i + batch_size]).execute()
+                    print(f"Rollback successful: restored {len(backup)} rows to '{table_name}'.")
+                except Exception as rollback_err:
+                    raise RuntimeError(
+                        f"Insert failed AND rollback failed for '{table_name}'. "
+                        f"Insert error: {insert_err}. Rollback error: {rollback_err}. "
+                        f"Table may be empty."
+                    ) from rollback_err
+            raise RuntimeError(
+                f"Insert failed for '{table_name}': {insert_err}. Rollback successful."
+            ) from insert_err
+    finally:
+        supabase.auth.sign_out()
 
-    supabase.auth.sign_out()
     return delete_response, insert_response

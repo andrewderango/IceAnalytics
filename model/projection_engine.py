@@ -20,6 +20,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
     team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
     existing_skater_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))
+    existing_skater_df['TOI'] = parse_toi(existing_skater_df['TOI'])
     existing_skater_df['Assists'] = existing_skater_df['First Assists'] + existing_skater_df['Second Assists']
     # existing_skater_df['ATOI'] = (existing_skater_df['TOI'].fillna(0) / existing_skater_df['GP'].fillna(0)).fillna(0)
     existing_team_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Team Data', f'{projection_year-1}-{projection_year}_team_data.csv'))
