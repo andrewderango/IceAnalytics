@@ -597,14 +597,13 @@ _TABLE_DELETE_CONDITIONS = {
     'team_projections':   ('points',   'gt', -1),
     'player_projections': ('points',   'gt', -1),
     'game_projections':   ('game_id',  'gt', -1),
-    'last_update':        ('datetime', 'gt', '1970-01-01T00:00:00Z'),
 }
 
 _TABLE_REQUIRED_COLUMNS = {
     'team_projections':   ['abbrev', 'team', 'points'],
     'player_projections': ['player_id', 'player', 'points'],
     'game_projections':   ['game_id', 'datetime'],
-    'last_update':        ['datetime'],
+    'site_config':        ['id', 'datetime'],
 }
 
 def push_to_supabase(table_name, year, verbose=False):
