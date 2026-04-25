@@ -194,9 +194,8 @@ function Teams() {
         wrapperClassName="teams"
         title="Teams"
         badge="Offseason"
-        heading="Team projections are between seasons"
-        message={`It is currently the offseason. Check back in July when the NHL schedule is released to view ${projectionSeason} projections.`}
-        seasonLabel={projectionSeason}
+        heading="Team projections are unavailable right now"
+        message={`It is currently the NHL offseason. We will publish ${projectionSeason} team projections after the schedule is released in July.`}
         imageSrc={noGamesImage}
         imageAlt="Offseason"
       />

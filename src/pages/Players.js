@@ -204,9 +204,8 @@ function Players() {
         wrapperClassName="players"
         title="Players"
         badge="Offseason"
-        heading="Player projections are between seasons"
-        message={`It is currently the offseason. Check back in July when the NHL schedule is released to view ${projectionSeason} projections.`}
-        seasonLabel={projectionSeason}
+        heading="Player projections are unavailable right now"
+        message={`It is currently the NHL offseason. We will publish ${projectionSeason} player projections after the schedule is released in July.`}
         imageSrc={noGamesImage}
         imageAlt="Offseason"
       />

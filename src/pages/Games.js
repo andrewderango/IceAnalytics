@@ -123,11 +123,10 @@ function Games() {
         wrapperClassName="games"
         title="Games"
         badge={isOffseason ? 'Offseason' : 'Schedule Pending'}
-        heading={isOffseason ? 'Game projections are between seasons' : 'Game projections are loading'}
+        heading={isOffseason ? 'Game projections are unavailable right now' : 'Game projections are not ready yet'}
         message={isOffseason
-          ? `It is currently the offseason. Check back in July when the NHL schedule is released to view ${projectionSeason} projections.`
-          : `We are preparing the ${projectionSeason} game schedule and simulation outputs. Please check again shortly.`}
-        seasonLabel={projectionSeason}
+          ? `It is currently the NHL offseason. We will publish ${projectionSeason} game projections after the schedule is released in July.`
+          : `We are still loading the ${projectionSeason} schedule and simulation outputs. Please check again soon.`}
         imageSrc={noGamesImage}
         imageAlt="Offseason"
       />

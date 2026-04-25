@@ -13,10 +13,8 @@ function NotFound() {
       wrapperClassName="not-found"
       title="404"
       badge="Page Not Found"
-      heading="This page is in the penalty box"
-      message={`The page you requested does not exist. Use the links below to get back to live sections and follow the ${projectionSeason} projections once they open in July.`}
-      seasonLabel={projectionSeason}
-      seasonLabelPrefix="Upcoming projection cycle"
+      heading="This page does not exist"
+      message={`The page you requested could not be found. Use the links below to return to the main sections and follow ${projectionSeason} projections when they go live in July.`}
       imageSrc={notFound}
       imageAlt="404"
       variant="not-found"

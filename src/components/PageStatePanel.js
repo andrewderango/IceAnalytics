@@ -7,8 +7,6 @@ function PageStatePanel({
   badge,
   heading,
   message,
-  seasonLabel,
-  seasonLabelPrefix = 'Upcoming projections',
   imageSrc,
   imageAlt,
   actions,
@@ -25,12 +23,6 @@ function PageStatePanel({
           {badge && <p className="state-panel__badge">{badge}</p>}
           {heading && <h2>{heading}</h2>}
           {message && <p className="state-panel__description">{message}</p>}
-          {seasonLabel && (
-            <div className="state-panel__season-chip">
-              <span>{seasonLabelPrefix}</span>
-              <strong>{seasonLabel}</strong>
-            </div>
-          )}
           {actions && <div className="state-panel__actions">{actions}</div>}
         </div>
         {imageSrc && (
