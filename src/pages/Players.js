@@ -3,10 +3,11 @@ import { useTable, usePagination, useSortBy } from 'react-table';
 import { useHistory, Link } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Players.scss';
-import { offseason } from '../config/settings';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import noGamesImage from '../assets/images/404.png';
 
 function Players() {
+  const { offseason, loading: configLoading } = useSiteConfig();
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [teamFilter, setTeamFilter] = useState('');
@@ -17,17 +18,6 @@ function Players() {
     { id: 'goals', desc: true }
   ]);
   const history = useHistory();
-
-  if (offseason) {
-    return (
-      <div className="players offseason-message">
-        <h1>Players</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
-        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
-        <div style={{ height: '55vh' }}></div>
-      </div>
-    );
-  }
 
   const columns = React.useMemo(
     () => [
@@ -117,6 +107,7 @@ function Players() {
   );
 
   useEffect(() => {
+    if (configLoading || offseason) return;
     const fetchData = async () => {
       const { data: players, error } = await supabase
         .from('player_projections')
@@ -124,12 +115,11 @@ function Players() {
       if (error) {
         console.error('Error fetching data:', error);
       } else {
-        // console.log('Fetched data:', players);
         setData(players);
       }
     };
     fetchData();
-  }, []);
+  }, [configLoading, offseason]);
 
   const filteredData = React.useMemo(() => {
     return data.filter(row => {
@@ -203,6 +193,18 @@ function Players() {
 
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min(startRow + pageSize - 1, filteredData.length);
+
+  if (configLoading) return null;
+  if (offseason) {
+    return (
+      <div className="players offseason-message">
+        <h1>Players</h1>
+        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
+        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
+        <div style={{ height: '55vh' }}></div>
+      </div>
+    );
+  }
 
   return (
     <div className="players">
