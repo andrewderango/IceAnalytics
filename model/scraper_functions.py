@@ -91,8 +91,12 @@ def scrape_skater_data(start_year, end_year, projection_year, season_state, chec
 
 
         if not df.empty and 'playerId' in df.columns and 'skaterFullName' in df.columns:
-            other_cols = [c for c in df.columns if c not in ('playerId', 'skaterFullName')]
-            df = df[['playerId', 'skaterFullName'] + other_cols]
+            priority = [c for c in ['playerId', 'skaterFullName', 'teamAbbrevs', 'positionCode', 'gamesPlayed', 'goals', 'assists', 'points'] if c in df.columns]
+            other_cols = [c for c in df.columns if c not in set(priority)]
+            df = df[priority + other_cols]
+            sort_keys = [c for c in ['points', 'goals', 'assists', 'playerId'] if c in df.columns]
+            sort_asc = [c == 'playerId' for c in sort_keys]
+            df = df.sort_values(by=sort_keys, ascending=sort_asc).reset_index(drop=True)
 
         if verbose:
             print(df)
@@ -127,8 +131,12 @@ def scrape_skater_bios(start_year, end_year, projection_year, season_state, chec
             if not team_map.empty:
                 df = df.merge(team_map, on='playerId', how='left')
             if 'playerId' in df.columns and 'skaterFullName' in df.columns:
-                other_cols = [c for c in df.columns if c not in ('playerId', 'skaterFullName')]
-                df = df[['playerId', 'skaterFullName'] + other_cols]
+                priority = [c for c in ['playerId', 'skaterFullName', 'teamAbbrevs', 'positionCode', 'gamesPlayed', 'goals', 'assists', 'points'] if c in df.columns]
+                other_cols = [c for c in df.columns if c not in set(priority)]
+                df = df[priority + other_cols]
+                sort_keys = [c for c in ['points', 'goals', 'assists', 'playerId'] if c in df.columns]
+                sort_asc = [c == 'playerId' for c in sort_keys]
+                df = df.sort_values(by=sort_keys, ascending=sort_asc).reset_index(drop=True)
 
         if verbose:
             print(df)
@@ -208,8 +216,14 @@ def scrape_goalie_data(start_year, end_year, projection_year, season_state, chec
                     df[col] = 0
 
         if not df.empty and 'playerId' in df.columns and 'goalieFullName' in df.columns:
-            other_cols = [c for c in df.columns if c not in ('playerId', 'goalieFullName')]
-            df = df[['playerId', 'goalieFullName'] + other_cols]
+            if 'positionCode' not in df.columns:
+                df['positionCode'] = 'G'
+            priority = [c for c in ['playerId', 'goalieFullName', 'teamAbbrevs', 'positionCode', 'gamesPlayed', 'savePct', 'wins', 'losses', 'otLosses'] if c in df.columns]
+            other_cols = [c for c in df.columns if c not in set(priority)]
+            df = df[priority + other_cols]
+            sort_keys = [c for c in ['wins', 'playerId'] if c in df.columns]
+            sort_asc = [c == 'playerId' for c in sort_keys]
+            df = df.sort_values(by=sort_keys, ascending=sort_asc).reset_index(drop=True)
 
         if verbose:
             print(df)
@@ -244,8 +258,14 @@ def scrape_goalie_bios(start_year, end_year, projection_year, season_state, chec
             if not team_map.empty:
                 df = df.merge(team_map, on='playerId', how='left')
             if 'playerId' in df.columns and 'goalieFullName' in df.columns:
-                other_cols = [c for c in df.columns if c not in ('playerId', 'goalieFullName')]
-                df = df[['playerId', 'goalieFullName'] + other_cols]
+                if 'positionCode' not in df.columns:
+                    df['positionCode'] = 'G'
+                priority = [c for c in ['playerId', 'goalieFullName', 'teamAbbrevs', 'positionCode', 'gamesPlayed', 'wins', 'losses', 'otLosses'] if c in df.columns]
+                other_cols = [c for c in df.columns if c not in set(priority)]
+                df = df[priority + other_cols]
+                sort_keys = [c for c in ['wins', 'playerId'] if c in df.columns]
+                sort_asc = [c == 'playerId' for c in sort_keys]
+                df = df.sort_values(by=sort_keys, ascending=sort_asc).reset_index(drop=True)
 
         if verbose:
             print(df)
@@ -306,10 +326,12 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
         filename = 'skater_bios.csv'
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', filename)
         bios_dir = os.path.join(os.path.dirname(file_path), 'Historical Skater Bios')
+        name_col = 'skaterFullName'
     else:
         filename = 'goalie_bios.csv'
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Goaltenders', filename)
         bios_dir = os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios')
+        name_col = 'goalieFullName'
 
     if check_preexistence and os.path.exists(file_path):
         if verbose:
@@ -319,18 +341,26 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
     files = sorted(f for f in os.listdir(bios_dir) if f.endswith('.csv'))
     dataframes = []
     for file in files:
-        df = pd.read_csv(os.path.join(bios_dir, file), index_col=0)
+        df = pd.read_csv(os.path.join(bios_dir, file))
+        if 'playerId' not in df.columns:
+            continue
         df['Last Season'] = file[:9]
         dataframes.append(df)
 
-    combined_df = pd.concat(dataframes, ignore_index=False)
+    if not dataframes:
+        return pd.DataFrame()
+
+    combined_df = pd.concat(dataframes, ignore_index=True)
     combined_df.sort_values(by=['birthDate', 'Last Season'], na_position='first', inplace=True)
     combined_df.drop_duplicates(subset='playerId', keep='last', inplace=True)
     combined_df = combined_df.reset_index(drop=True)
 
+    other_cols = [c for c in combined_df.columns if c not in ('playerId', name_col)]
+    combined_df = combined_df[['playerId', name_col] + other_cols]
+
     export_path = os.path.dirname(file_path)
     os.makedirs(export_path, exist_ok=True)
-    combined_df.to_csv(os.path.join(export_path, filename), index=True)
+    combined_df.to_csv(os.path.join(export_path, filename), index=False)
     if verbose:
         print(f'{filename} has been downloaded to the following directory: {export_path}')
 
