@@ -1,36 +1,31 @@
-@font-face {
-  font-family: 'Sweet Sans Pro Heavy';
-  src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
-      url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
-}
-@font-face {
-  font-family: 'Sweet Sans Pro Thin';
-  src: url('../assets/fonts/SweetSansProThin.woff2') format('woff2'),
-      url('../assets/fonts/SweetSansProThin.woff') format('woff');
-}
-
 .not-found {
-  text-align: center;
-  min-height: calc(100vh - 185px);
-
-  img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: 50vh;
-    margin-bottom: calc(-0.05*(100vw) - 75px);
-    object-fit: contain;
-  }
-
-  h1 {
-    font-size: calc(0.0736378*(100vw) + 84px);
+  > h1 {
+    margin-top: clamp(36px, 8vh, 76px);
+    margin-bottom: 0;
+    line-height: 0.9;
+    text-transform: uppercase;
     font-family: 'Sweet Sans Pro Heavy', sans-serif;
-    margin-bottom: calc(-0.0192141*(100vw) - 25px);
+    font-size: clamp(3.5rem, 12vw, 8.2rem);
   }
 
-  p {
-    font-size: calc(0.0736378*(100vw)/5 + 17px);
-    color: goldenrod;
-    font-family: 'Sweet Sans Pro Thin', sans-serif;
+  .state-panel__action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 108px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(243, 83, 83, 0.35);
+    background: rgba(25, 25, 25, 0.65);
+    color: #f4f4f4;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      background: rgba(243, 83, 83, 0.15);
+      border-color: rgba(243, 83, 83, 0.55);
+    }
   }
 }
