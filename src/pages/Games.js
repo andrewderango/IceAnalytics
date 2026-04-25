@@ -4,6 +4,8 @@ import { GridLoader } from 'react-spinners';
 import { createClient } from '@supabase/supabase-js';
 import noGamesImage from '../assets/images/404.png';
 import { useSiteConfig } from '../context/SiteConfigContext';
+import PageStatePanel from '../components/PageStatePanel';
+import { getUpcomingProjectionSeasonLabel } from '../utils/seasonLabels';
 
 function Games() {
   const { offseason, loading: configLoading } = useSiteConfig();
@@ -15,6 +17,7 @@ function Games() {
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
   const [datesLoaded, setDatesLoaded] = useState(false);
+  const projectionSeason = getUpcomingProjectionSeasonLabel();
 
   // get the current date in EST
   const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
@@ -113,12 +116,21 @@ function Games() {
 
   if (configLoading) return null;
   if (offseason || (datesLoaded && (!minDate && !maxDate))) {
+    const isOffseason = offseason;
+
     return (
-      <div className="games offseason-message">
-        <h1>Games</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
-        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
-      </div>
+      <PageStatePanel
+        wrapperClassName="games"
+        title="Games"
+        badge={isOffseason ? 'Offseason' : 'Schedule Pending'}
+        heading={isOffseason ? 'Game projections are between seasons' : 'Game projections are loading'}
+        message={isOffseason
+          ? `It is currently the offseason. Check back in July when the NHL schedule is released to view ${projectionSeason} projections.`
+          : `We are preparing the ${projectionSeason} game schedule and simulation outputs. Please check again shortly.`}
+        seasonLabel={projectionSeason}
+        imageSrc={noGamesImage}
+        imageAlt="Offseason"
+      />
     );
   }
 

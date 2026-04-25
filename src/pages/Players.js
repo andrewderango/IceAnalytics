@@ -5,6 +5,8 @@ import supabase from '../supabaseClient';
 import '../styles/Players.scss';
 import { useSiteConfig } from '../context/SiteConfigContext';
 import noGamesImage from '../assets/images/404.png';
+import PageStatePanel from '../components/PageStatePanel';
+import { getUpcomingProjectionSeasonLabel } from '../utils/seasonLabels';
 
 function Players() {
   const { offseason, loading: configLoading } = useSiteConfig();
@@ -17,6 +19,7 @@ function Players() {
     { id: 'points', desc: true },
     { id: 'goals', desc: true }
   ]);
+  const projectionSeason = getUpcomingProjectionSeasonLabel();
   const history = useHistory();
 
   const columns = React.useMemo(
@@ -197,12 +200,16 @@ function Players() {
   if (configLoading) return null;
   if (offseason) {
     return (
-      <div className="players offseason-message">
-        <h1>Players</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
-        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
-        <div style={{ height: '55vh' }}></div>
-      </div>
+      <PageStatePanel
+        wrapperClassName="players"
+        title="Players"
+        badge="Offseason"
+        heading="Player projections are between seasons"
+        message={`It is currently the offseason. Check back in July when the NHL schedule is released to view ${projectionSeason} projections.`}
+        seasonLabel={projectionSeason}
+        imageSrc={noGamesImage}
+        imageAlt="Offseason"
+      />
     );
   }
 

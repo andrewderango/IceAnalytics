@@ -5,11 +5,14 @@ import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
 import { useSiteConfig } from '../context/SiteConfigContext';
 import noGamesImage from '../assets/images/404.png';
+import PageStatePanel from '../components/PageStatePanel';
+import { getUpcomingProjectionSeasonLabel } from '../utils/seasonLabels';
 
 function Teams() {
   const { offseason, loading: configLoading } = useSiteConfig();
   const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState({ id: null, desc: false });
+  const projectionSeason = getUpcomingProjectionSeasonLabel();
   const history = useHistory();
 
   useEffect(() => {
@@ -187,11 +190,16 @@ function Teams() {
   if (configLoading) return null;
   if (offseason) {
     return (
-      <div className="teams offseason-message">
-        <h1>Teams</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
-        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
-      </div>
+      <PageStatePanel
+        wrapperClassName="teams"
+        title="Teams"
+        badge="Offseason"
+        heading="Team projections are between seasons"
+        message={`It is currently the offseason. Check back in July when the NHL schedule is released to view ${projectionSeason} projections.`}
+        seasonLabel={projectionSeason}
+        imageSrc={noGamesImage}
+        imageAlt="Offseason"
+      />
     );
   }
 
