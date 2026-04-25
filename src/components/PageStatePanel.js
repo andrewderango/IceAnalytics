@@ -20,8 +20,8 @@ function PageStatePanel({
       {title && <h1>{title}</h1>}
       <section className={panelClasses} role="status" aria-live="polite">
         <div className="state-panel__content">
-          {badge && <p className="state-panel__badge">{badge}</p>}
-          {heading && <h2>{heading}</h2>}
+          {badge && <span className="state-panel__badge">{badge}</span>}
+          {heading && <h2 className="state-panel__heading">{heading}</h2>}
           {message && <p className="state-panel__description">{message}</p>}
           {actions && <div className="state-panel__actions">{actions}</div>}
         </div>

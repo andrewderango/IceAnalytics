@@ -203,8 +203,7 @@ function Players() {
       <PageStatePanel
         wrapperClassName="players"
         title="Players"
-        badge="Offseason"
-        heading="Player projections are unavailable right now"
+        heading="OFFSEASON"
         message={`It is currently the NHL offseason. We will publish ${projectionSeason} player projections after the schedule is released in July.`}
         imageSrc={noGamesImage}
         imageAlt="Offseason"

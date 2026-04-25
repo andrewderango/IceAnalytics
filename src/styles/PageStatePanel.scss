@@ -14,6 +14,8 @@
   min-height: calc(100vh - 185px);
   width: 100%;
   box-sizing: border-box;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +55,9 @@
 
 .state-panel__badge {
   margin: 0;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   padding: 7px 14px 5px;
   text-transform: uppercase;
@@ -65,16 +69,17 @@
   background: rgba(30, 30, 30, 0.55);
 }
 
-.state-panel h2 {
+.state-page .state-panel .state-panel__heading {
   margin: 16px 0 12px;
   color: #f3f3f3;
   font-family: 'Sweet Sans Pro Heavy', sans-serif;
   font-size: clamp(1.55rem, 2.9vw, 2.45rem);
   line-height: 1.15;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
-.state-panel .state-panel__description {
+.state-page .state-panel .state-panel__description {
   margin: 0;
   color: #d1d1d1;
   font-size: clamp(1rem, 1.25vw, 1.08rem);
@@ -157,13 +162,13 @@
     padding: 18px 16px 20px;
   }
 
-  .state-panel h2 {
+  .state-page .state-panel .state-panel__heading {
     margin-top: 14px;
     font-size: clamp(1.3rem, 7vw, 1.9rem);
     line-height: 1.2;
   }
 
-  .state-panel .state-panel__description {
+  .state-page .state-panel .state-panel__description {
     font-size: 0.97rem;
     line-height: 1.55;
   }

@@ -122,8 +122,7 @@ function Games() {
       <PageStatePanel
         wrapperClassName="games"
         title="Games"
-        badge={isOffseason ? 'Offseason' : 'Schedule Pending'}
-        heading={isOffseason ? 'Game projections are unavailable right now' : 'Game projections are not ready yet'}
+        heading={isOffseason ? 'OFFSEASON' : 'SCHEDULE PENDING'}
         message={isOffseason
           ? `It is currently the NHL offseason. We will publish ${projectionSeason} game projections after the schedule is released in July.`
           : `We are still loading the ${projectionSeason} schedule and simulation outputs. Please check again soon.`}

@@ -193,8 +193,7 @@ function Teams() {
       <PageStatePanel
         wrapperClassName="teams"
         title="Teams"
-        badge="Offseason"
-        heading="Team projections are unavailable right now"
+        heading="OFFSEASON"
         message={`It is currently the NHL offseason. We will publish ${projectionSeason} team projections after the schedule is released in July.`}
         imageSrc={noGamesImage}
         imageAlt="Offseason"
