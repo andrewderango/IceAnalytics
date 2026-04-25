@@ -90,12 +90,16 @@ def scrape_skater_data(start_year, end_year, projection_year, season_state, chec
                     df[col] = 0
 
 
+        if not df.empty and 'playerId' in df.columns and 'skaterFullName' in df.columns:
+            other_cols = [c for c in df.columns if c not in ('playerId', 'skaterFullName')]
+            df = df[['playerId', 'skaterFullName'] + other_cols]
+
         if verbose:
             print(df)
 
         export_path = os.path.dirname(file_path)
         os.makedirs(export_path, exist_ok=True)
-        df.to_csv(os.path.join(export_path, filename))
+        df.to_csv(os.path.join(export_path, filename), index=False)
         if verbose:
             print(f'{filename} has been downloaded to the following directory: {export_path}')
 
@@ -122,13 +126,16 @@ def scrape_skater_bios(start_year, end_year, projection_year, season_state, chec
             team_map = _fetch_skater_team_map(season_id)
             if not team_map.empty:
                 df = df.merge(team_map, on='playerId', how='left')
+            if 'playerId' in df.columns and 'skaterFullName' in df.columns:
+                other_cols = [c for c in df.columns if c not in ('playerId', 'skaterFullName')]
+                df = df[['playerId', 'skaterFullName'] + other_cols]
 
         if verbose:
             print(df)
 
         export_path = os.path.dirname(file_path)
         os.makedirs(export_path, exist_ok=True)
-        df.to_csv(os.path.join(export_path, filename))
+        df.to_csv(os.path.join(export_path, filename), index=False)
         if verbose:
             print(f'{filename} has been downloaded to the following directory: {export_path}')
 
