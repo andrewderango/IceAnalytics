@@ -1,17 +1,11 @@
 import io
 import os
 import json
-import unidecode
 import requests
 import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
-
-def parse_toi(series):
-    if series.dtype == object:
-        return series.apply(lambda x: int(str(x).split(':')[0]) + int(str(x).split(':')[1])/60 if isinstance(x, str) and ':' in str(x) else float(x))
-    return series
 
 NST_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -19,6 +13,12 @@ NST_HEADERS = {
     "Accept-Language": "en-US,en;q=0.5",
     "Referer": "https://www.naturalstattrick.com/",
 }
+
+def parse_toi(series):
+    if series.dtype == object:
+        return series.apply(lambda x: int(str(x).split(':')[0]) + int(str(x).split(':')[1])/60 if isinstance(x, str) and ':' in str(x) else float(x))
+    return series
+
 
 _SKATER_STATS_ENDPOINTS = ['summary', 'scoringpergame', 'powerplay', 'penaltykill', 'timeonice']
 
@@ -46,54 +46,8 @@ def _fetch_skater_team_map(season_id):
     df = pd.DataFrame(rows)[['playerId', 'teamAbbrevs']]
     return df.groupby('playerId', as_index=False)['teamAbbrevs'].agg(lambda s: ','.join(s.astype(str).unique()))
 
-_NST_ZERO_FILL_COLUMNS = [
-    'IPP', 'ixG', 'iCF', 'iFF', 'iSCF', 'iHDCF', 'Rush Attempts', 'Rebounds Created',
-    'Takeaways', 'Giveaways', 'Hits Taken', 'Faceoffs Won', 'Faceoffs Lost', 'Faceoffs %',
-    'Total Penalties', 'Minor', 'Major', 'Misconduct', 'Penalties Drawn',
-]
 
-def _last_team_from_aggregate(value):
-    if not isinstance(value, str) or not value:
-        return value
-    return value.split(',')[-1].strip()
 
-def _add_nst_skater_aliases(df, season_id):
-    if df.empty:
-        return df
-    df = df.copy()
-    df['PlayerID'] = df['playerId']
-    df['Player'] = df.get('skaterFullName')
-    df['Position'] = df.get('positionCode')
-    df['Team'] = df['teamAbbrevs'].map(_last_team_from_aggregate) if 'teamAbbrevs' in df.columns else None
-    df['GP'] = df.get('gamesPlayed')
-    df['TOI'] = df['timeOnIce'] / 60.0 if 'timeOnIce' in df.columns else 0
-    df['Goals'] = df.get('goals', 0)
-    df['Total Assists'] = df.get('assists', 0)
-    df['First Assists'] = df.get('totalPrimaryAssists', 0)
-    df['Second Assists'] = df.get('totalSecondaryAssists', 0)
-    df['Total Points'] = df.get('points', 0)
-    df['Shots'] = df.get('shots', 0)
-    df['SH%'] = df.get('shootingPct', 0)
-    df['PIM'] = df.get('penaltyMinutes', 0)
-    df['Hits'] = df.get('hits', 0)
-    df['Shots Blocked'] = df.get('blockedShots', 0)
-    for col in _NST_ZERO_FILL_COLUMNS:
-        df[col] = 0
-    df['Headshot'] = df.apply(
-        lambda r: f"https://assets.nhle.com/mugs/nhl/{season_id}/{_last_team_from_aggregate(r.get('teamAbbrevs', ''))}/{int(r['playerId'])}.png"
-        if pd.notna(r.get('playerId')) and isinstance(r.get('teamAbbrevs'), str) else None,
-        axis=1,
-    )
-    df['Team Logo'] = df['Team'].apply(
-        lambda t: f"https://assets.nhle.com/logos/nhl/svg/{t}_light.svg" if isinstance(t, str) and t else None
-    )
-    df['Jersey Number'] = 'N/A'
-    df['playerStripped'] = (
-        df['Player'].fillna('').apply(lambda x: unidecode.unidecode(x))
-        .str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace("'", '').str.lower()
-        .apply(replace_names)
-    )
-    return df
 
 def _join_skater_reports(season_id):
     base = _fetch_nhl_skater_report('summary', season_id)
@@ -112,7 +66,7 @@ def _join_skater_reports(season_id):
         combined = combined.merge(team_map, on='playerId', how='left')
     return combined
 
-# Scrape per-season skater stats from NHL API (joined across summary, scoringpergame, powerplay, penaltykill, timeonice)
+# Scrape per-season skater stats from NHL API
 def scrape_skater_data(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
     for year in range(start_year, end_year + 1):
         filename = f'{year-1}-{year}_skater_data.csv'
@@ -135,7 +89,6 @@ def scrape_skater_data(start_year, end_year, projection_year, season_state, chec
                 if col not in preserve and pd.api.types.is_numeric_dtype(df[col]):
                     df[col] = 0
 
-        df = _add_nst_skater_aliases(df, season_id)
 
         if verbose:
             print(df)
@@ -169,20 +122,6 @@ def scrape_skater_bios(start_year, end_year, projection_year, season_state, chec
             team_map = _fetch_skater_team_map(season_id)
             if not team_map.empty:
                 df = df.merge(team_map, on='playerId', how='left')
-            df['PlayerID'] = df['playerId']
-            df['Player'] = df.get('skaterFullName')
-            df['Position'] = df.get('positionCode')
-            df['Date of Birth'] = df.get('birthDate')
-            df['Team'] = df['teamAbbrevs'].map(_last_team_from_aggregate) if 'teamAbbrevs' in df.columns else None
-            df['Headshot'] = df.apply(
-                lambda r: f"https://assets.nhle.com/mugs/nhl/{season_id}/{_last_team_from_aggregate(r.get('teamAbbrevs', ''))}/{int(r['playerId'])}.png"
-                if pd.notna(r.get('playerId')) and isinstance(r.get('teamAbbrevs'), str) else None,
-                axis=1,
-            )
-            df['Team Logo'] = df['Team'].apply(
-                lambda t: f"https://assets.nhle.com/logos/nhl/svg/{t}_light.svg" if isinstance(t, str) and t else None
-            )
-            df['Jersey Number'] = 'N/A'
 
         if verbose:
             print(df)
@@ -195,56 +134,110 @@ def scrape_skater_bios(start_year, end_year, projection_year, season_state, chec
 
     return
 
-# Function to scrape raw goalie data from Natural Stat Trick (skater data is now sourced from NHL API; see scrape_skater_data / scrape_skater_bios)
-def scrape_historical_player_data(start_year, end_year, skaters, bios, on_ice, projection_year, season_state, check_preexistence, verbose):
-    if skaters:
-        raise ValueError("scrape_historical_player_data no longer handles skaters; use scrape_skater_data / scrape_skater_bios")
+_GOALIE_STATS_ENDPOINTS = ['summary', 'savesByStrength']
 
-    for year in range(start_year, end_year+1):
-        if bios == False:
-            filename = f'{year-1}-{year}_goalie_data.csv'
-            file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Goaltending Data', filename)
-        else:
-            filename = f'{year-1}-{year}_goalie_bios.csv'
-            file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Goaltenders', 'Historical Goaltender Bios', filename)
+def _fetch_nhl_goalie_report(report, season_id):
+    url = (
+        f'https://api.nhle.com/stats/rest/en/goalie/{report}'
+        f'?isAggregate=true&isGame=false&start=0&limit=-1'
+        f'&cayenneExp=gameTypeId=2%20and%20seasonId%3C={season_id}%20and%20seasonId%3E={season_id}'
+    )
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+    return pd.DataFrame(response.json().get('data', []))
 
-        if check_preexistence == True:
-            if os.path.exists(file_path):
-                if verbose:
-                    print(f'{filename} already exists in the following directory: {file_path}')
-                continue
+def _fetch_goalie_team_map(season_id):
+    url = (
+        f'https://api.nhle.com/stats/rest/en/goalie/summary'
+        f'?isAggregate=false&isGame=false&start=0&limit=-1'
+        f'&cayenneExp=gameTypeId=2%20and%20seasonId%3C={season_id}%20and%20seasonId%3E={season_id}'
+    )
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+    rows = response.json().get('data', [])
+    if not rows:
+        return pd.DataFrame(columns=['playerId', 'teamAbbrevs'])
+    df = pd.DataFrame(rows)[['playerId', 'teamAbbrevs']]
+    return df.groupby('playerId', as_index=False)['teamAbbrevs'].agg(lambda s: ','.join(s.astype(str).unique()))
 
-        if projection_year != year or season_state != 'PRESEASON':
-            if bios == False:
-                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            else:
-                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
-            df = df.iloc[:, 1:]
-        else:
-            if bios == False:
-                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=g&rate=n&team=ALL&pos=S&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            else:
-                url = f"https://www.naturalstattrick.com/playerteams.php?fromseason={year-2}{year-1}&thruseason={year-2}{year-1}&stype=2&sit=all&score=all&stdoi=bio&rate=n&team=ALL&pos=G&loc=B&toi=0&gpfilt=none&fd=&td=&tgp=410&lines=single&draftteam=ALL"
-            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
-            df = df.iloc[:, 1:]
+def _join_goalie_reports(season_id):
+    base = _fetch_nhl_goalie_report('summary', season_id)
+    if base.empty:
+        return base
+    combined = base
+    for report in _GOALIE_STATS_ENDPOINTS[1:]:
+        df = _fetch_nhl_goalie_report(report, season_id)
+        if df.empty:
+            continue
+        overlap = [c for c in df.columns if c in combined.columns and c != 'playerId']
+        df = df.drop(columns=overlap)
+        combined = combined.merge(df, on='playerId', how='outer')
+    team_map = _fetch_goalie_team_map(season_id)
+    if not team_map.empty:
+        combined = combined.merge(team_map, on='playerId', how='left')
+    return combined
 
-            if bios == False:
-                numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
-                specific_columns = ['xGF%', 'SCF%', 'HDCF%', 'HDGF%', 'MDCF%', 'MDGF%',
-                                    'LDCF%', 'LDGF%', 'On-Ice SH%', 'On-Ice SV%', 'PDO',
-                                    'Off. Zone Start %', 'Off. Zone Faceoff %', 'SF%', 'GF%',
-                                    'IPP', 'SH%', 'Faceoffs %']
-                for column in df.columns:
-                    if column in numeric_columns or column in specific_columns:
-                        df[column] = 0
+# Scrape per-season goalie stats from NHL API
+def scrape_goalie_data(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
+    for year in range(start_year, end_year + 1):
+        filename = f'{year-1}-{year}_goalie_data.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Goaltending Data', filename)
 
-        if verbose == True:
+        if check_preexistence and os.path.exists(file_path):
+            if verbose:
+                print(f'{filename} already exists in the following directory: {file_path}')
+            continue
+
+        is_preseason_pull = (projection_year == year and season_state == 'PRESEASON')
+        fetch_year = year - 1 if is_preseason_pull else year
+        season_id = (fetch_year - 1) * 10000 + fetch_year
+
+        df = _join_goalie_reports(season_id)
+
+        if is_preseason_pull and not df.empty:
+            preserve = {'playerId', 'goalieFullName', 'lastName', 'positionCode', 'catchesGlove', 'teamAbbrevs', 'seasonId'}
+            for col in df.columns:
+                if col not in preserve and pd.api.types.is_numeric_dtype(df[col]):
+                    df[col] = 0
+
+        if verbose:
             print(df)
 
         export_path = os.path.dirname(file_path)
-        if not os.path.exists(export_path):
-            os.makedirs(export_path)
+        os.makedirs(export_path, exist_ok=True)
+        df.to_csv(os.path.join(export_path, filename))
+        if verbose:
+            print(f'{filename} has been downloaded to the following directory: {export_path}')
+
+    return
+
+# Scrape per-season goalie bios from NHL API
+def scrape_goalie_bios(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
+    for year in range(start_year, end_year + 1):
+        filename = f'{year-1}-{year}_goalie_bios.csv'
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Goaltenders', 'Historical Goaltender Bios', filename)
+
+        if check_preexistence and os.path.exists(file_path):
+            if verbose:
+                print(f'{filename} already exists in the following directory: {file_path}')
+            continue
+
+        is_preseason_pull = (projection_year == year and season_state == 'PRESEASON')
+        fetch_year = year - 1 if is_preseason_pull else year
+        season_id = (fetch_year - 1) * 10000 + fetch_year
+
+        df = _fetch_nhl_goalie_report('bios', season_id)
+
+        if not df.empty:
+            team_map = _fetch_goalie_team_map(season_id)
+            if not team_map.empty:
+                df = df.merge(team_map, on='playerId', how='left')
+
+        if verbose:
+            print(df)
+
+        export_path = os.path.dirname(file_path)
+        os.makedirs(export_path, exist_ok=True)
         df.to_csv(os.path.join(export_path, filename))
         if verbose:
             print(f'{filename} has been downloaded to the following directory: {export_path}')
@@ -295,52 +288,34 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
 
 # Function to aggregate historical player bios for all players in the engine database
 def aggregate_player_bios(skaters, check_preexistence, verbose):
-    if skaters == True:
-        filename = f'skater_bios.csv'
+    if skaters:
+        filename = 'skater_bios.csv'
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', filename)
+        bios_dir = os.path.join(os.path.dirname(file_path), 'Historical Skater Bios')
     else:
-        filename = f'goalie_bios.csv'
+        filename = 'goalie_bios.csv'
         file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Goaltenders', filename)
-    
-    if check_preexistence == True:
-        if os.path.exists(file_path):
-            if verbose:
-                print(f'{filename} already exists in the following directory: {file_path}')
-            return
+        bios_dir = os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios')
 
-    if skaters == True:
-        files = sorted(os.listdir(os.path.join(os.path.dirname(file_path), 'Historical Skater Bios')))
-    else:
-        files = sorted(os.listdir(os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios')))
-    for file in files:
-        if file[-4:] != '.csv':
-            files.remove(file)
+    if check_preexistence and os.path.exists(file_path):
+        if verbose:
+            print(f'{filename} already exists in the following directory: {file_path}')
+        return
 
+    files = sorted(f for f in os.listdir(bios_dir) if f.endswith('.csv'))
     dataframes = []
     for file in files:
-        if skaters == True:
-            df = pd.read_csv(os.path.join(os.path.dirname(file_path), 'Historical Skater Bios', file), index_col=0)
-        else:
-            df = pd.read_csv(os.path.join(os.path.dirname(file_path), 'Historical Goaltender Bios', file), index_col=0)
+        df = pd.read_csv(os.path.join(bios_dir, file), index_col=0)
         df['Last Season'] = file[:9]
         dataframes.append(df)
-        
+
     combined_df = pd.concat(dataframes, ignore_index=False)
-    if skaters:
-        combined_df.sort_values(by=['birthDate', 'Last Season'], na_position='first', inplace=True)
-        combined_df.drop_duplicates(subset='playerId', keep='last', inplace=True)
-    else:
-        if 'playerStripped' not in combined_df.columns:
-            combined_df['playerStripped'] = combined_df['Player'].apply(lambda x: unidecode.unidecode(x)).str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names)
-        combined_df.sort_values(by=['Date of Birth', 'Last Season'], na_position='first', inplace=True)
-        combined_df.drop_duplicates(subset='playerStripped', keep='last', inplace=True)
-        combined_df['Age'] = combined_df['Age'].replace('-', 28)
-        combined_df['Date of Birth'] = combined_df['Date of Birth'].replace('-', '1993-01-01')
+    combined_df.sort_values(by=['birthDate', 'Last Season'], na_position='first', inplace=True)
+    combined_df.drop_duplicates(subset='playerId', keep='last', inplace=True)
     combined_df = combined_df.reset_index(drop=True)
 
     export_path = os.path.dirname(file_path)
-    if not os.path.exists(export_path):
-        os.makedirs(export_path)
+    os.makedirs(export_path, exist_ok=True)
     combined_df.to_csv(os.path.join(export_path, filename), index=True)
     if verbose:
         print(f'{filename} has been downloaded to the following directory: {export_path}')
@@ -410,66 +385,6 @@ def scrape_games(projection_year, check_preexistence, verbose):
         if not os.path.exists(file_path):
             os.makedirs(file_path)
         df.to_csv(os.path.join(file_path, filename))
-
-def replace_names(s):
-    name_replacement_dict = {
-        'mike': 'michael',
-        'matthew': 'matt',
-        'mathew': 'matt',
-        'christopher': 'chris',
-        'evgenii': 'evgeny',
-        'alexander': 'alex',
-        'patrick': 'pat',
-        'nicholas': 'nick',
-        'maxime': 'max',
-        'cristovalnieves': 'boonieves',
-        'daniel': 'danny',
-        'tony': 'anthony',
-        'jacob': 'jake',
-        'william': 'will',
-        'timothy': 'tim',
-        'gerald': 'gerry',
-        'alexchmelevski': 'sashachmelevski',
-        'jjmoser': 'janismoser',
-        'cameron': 'cam',
-        'zacharyhayes': 'zackhayes',
-        'zacharysanford': 'zachsanford',
-        'sammy': 'samuel',
-        'benoitoliviergroulx': 'bogroulx',
-        'tommy': 'thomas',
-        'alexey': 'alexei',
-        'mitchell': 'mitch',
-        'joshua': 'josh',
-        'nate': 'nathan',
-        'john(jack)roslovic': 'jackroslovic',
-    }
-
-    for original, replacement in name_replacement_dict.items():
-        s = s.replace(original, replacement)
-    return s
-
-def handle_duplicate_names(row):
-    if row['Player'] == 'Sebastian Aho':
-        if 'C' in row['Position'] or 'R' in row['Position']:
-            return 'sebastianahoC'
-        elif row['Position'] == 'D':
-            return 'sebastianahoD'
-    elif row['Player'] == 'Ryan Johnson':
-        if 'C' in row['Position']:
-            return 'ryanjohnsonC'
-        elif row['Position'] == 'D':
-            return 'ryanjohnsonD'
-    elif row['Player'] == 'Colin White':
-        if 'C' in row['Position']:
-            return 'colinwhiteC'
-        elif row['Position'] == 'D':
-            return 'colinwhiteD'
-    elif row['Player'] == 'Elias Pettersson':
-        if 'C' in row['Position']:
-            return 'eliaspetterssonC'
-        elif row['Position'] == 'D':
-            return 'eliaspetterssonD'
-    return row['playerStripped']
 
 def handle_duplicate_names_espn(row):
     if row['Player'] == 'Sebastian Aho':
