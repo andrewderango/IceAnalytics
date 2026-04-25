@@ -1,14 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import notFound from '../assets/images/404.png';
 import '../styles/NotFound.scss';
+import PageStatePanel from '../components/PageStatePanel';
 
 function NotFound() {
   return (
-    <div className="not-found">
-        <img src={notFound} alt="404"/>
-        <h1>404</h1>
-        <p>Page not found</p>
-    </div>
+    <PageStatePanel
+      wrapperClassName="not-found"
+      title="404"
+      heading="This page does not exist"
+      message={`The page you requested could not be found. Use the links below to return to the main sections.`}
+      imageSrc={notFound}
+      imageAlt="404"
+      variant="not-found"
+      actions={(
+        <>
+          <Link to="/home" className="state-panel__action-link">Home</Link>
+          <Link to="/games" className="state-panel__action-link">Games</Link>
+          <Link to="/players" className="state-panel__action-link">Players</Link>
+          <Link to="/teams" className="state-panel__action-link">Teams</Link>
+        </>
+      )}
+    />
   );
 }
 

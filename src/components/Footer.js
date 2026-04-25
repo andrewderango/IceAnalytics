@@ -1,40 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import supabase from '../supabaseClient';
+import React from 'react';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import '../styles/Footer.scss';
 import logo from '../assets/images/logo.svg';
 
 function Footer() {
   const currentYear = new Date().getFullYear();
-  const [lastUpdated, setLastUpdated] = useState('');
+  const { lastUpdatedDatetime } = useSiteConfig();
 
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('last_update')
-          .select('datetime')
-          .order('datetime', { ascending: false })
-          .limit(1);
-    
-        if (error) {
-          console.error('Error fetching metadata:', error);
-          return;
-        }
-    
-        if (data.length > 0) {
-          const timestamp = new Date(data[0].datetime);
-          const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-          const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: false };
-          const formattedDate = timestamp.toLocaleDateString('en-US', dateOptions);
-          const formattedTime = timestamp.toLocaleTimeString('en-US', timeOptions);
-          setLastUpdated(`${formattedDate} at ${formattedTime} UTC`);
-        }
-      } catch (error) {
-        console.error('Error fetching metadata:', error);
-      }
-    };
-    fetchMetadata();
-  }, []);
+  let lastUpdated = '';
+  if (lastUpdatedDatetime) {
+    const timestamp = new Date(lastUpdatedDatetime);
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: false };
+    const formattedDate = timestamp.toLocaleDateString('en-US', dateOptions);
+    const formattedTime = timestamp.toLocaleTimeString('en-US', timeOptions);
+    lastUpdated = `${formattedDate} at ${formattedTime} UTC`;
+  }
   
   return (
     <footer className="footer">

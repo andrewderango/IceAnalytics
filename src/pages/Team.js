@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Team.scss';
-import { offseason, season } from '../config/settings';
+import { season } from '../config/settings';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 function Team() {
+  const { offseason, loading: configLoading } = useSiteConfig();
   const { teamId } = useParams();
   const history = useHistory();
   const [team, setTeam] = useState(null);
@@ -12,6 +14,7 @@ function Team() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (configLoading) return;
     if (offseason) {
       history.push('/not-found');
       return;
@@ -156,7 +159,7 @@ function Team() {
     };
 
     fetchTeam();
-  }, [teamId, history]);
+  }, [teamId, history, offseason, configLoading]);
 
   if (loading) {
     return (

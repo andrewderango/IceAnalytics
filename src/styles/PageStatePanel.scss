@@ -1,0 +1,192 @@
+@font-face {
+  font-family: 'Sweet Sans Pro Heavy';
+  src: url('../assets/fonts/SweetSansProHeavy.woff2') format('woff2'),
+      url('../assets/fonts/SweetSansProHeavy.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Sweet Sans Pro Regular';
+  src: url('../assets/fonts/SweetSansProRegular.woff2') format('woff2'),
+      url('../assets/fonts/SweetSansProRegular.woff') format('woff');
+}
+
+.state-page {
+  min-height: calc(100vh - 185px);
+  width: 100%;
+  box-sizing: border-box;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px 56px;
+
+  > h1 {
+    letter-spacing: 0.04em;
+  }
+}
+
+.state-panel {
+  width: min(1040px, 100%);
+  margin-top: 30px;
+  border-radius: 28px;
+  border: 1px solid rgba(218, 165, 32, 0.35);
+  background:
+    radial-gradient(circle at 8% 10%, rgba(218, 165, 32, 0.22), transparent 42%),
+    radial-gradient(circle at 92% 0%, rgba(255, 255, 255, 0.12), transparent 35%),
+    linear-gradient(142deg, rgba(45, 45, 45, 0.96), rgba(18, 18, 18, 0.96));
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(230px, 0.75fr);
+  gap: 0;
+  align-items: stretch;
+  text-align: left;
+}
+
+.state-panel__content {
+  padding: clamp(24px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.state-panel__badge {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 7px 14px 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-family: 'Sweet Sans Pro Regular', sans-serif;
+  color: #f9d57d;
+  border: 1px solid rgba(249, 213, 125, 0.35);
+  background: rgba(30, 30, 30, 0.55);
+}
+
+.state-page .state-panel .state-panel__heading {
+  margin: 16px 0 12px;
+  color: #f3f3f3;
+  font-family: 'Sweet Sans Pro Heavy', sans-serif;
+  font-size: clamp(1.55rem, 2.9vw, 2.45rem);
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.state-page .state-panel .state-panel__description {
+  margin: 0;
+  color: #d1d1d1;
+  font-size: clamp(1rem, 1.25vw, 1.08rem);
+  line-height: 1.62;
+  max-width: 65ch;
+  text-align: left;
+}
+
+.state-panel__actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.state-panel__visual {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 2vw, 24px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 30%);
+}
+
+.state-panel__image {
+  width: min(100%, 360px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: 18px;
+  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.35));
+}
+
+.state-panel--not-found {
+  border-color: rgba(243, 83, 83, 0.4);
+  background:
+    radial-gradient(circle at 8% 10%, rgba(243, 83, 83, 0.2), transparent 40%),
+    radial-gradient(circle at 92% 0%, rgba(255, 255, 255, 0.1), transparent 35%),
+    linear-gradient(142deg, rgba(45, 45, 45, 0.96), rgba(18, 18, 18, 0.96));
+
+  .state-panel__badge {
+    border-color: rgba(243, 83, 83, 0.5);
+    color: #ffc0c0;
+  }
+}
+
+@media (max-width: 900px) {
+  .state-panel {
+    grid-template-columns: 1fr;
+    width: min(760px, 100%);
+  }
+
+  .state-panel__visual {
+    order: -1;
+    border-left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    justify-content: center;
+    padding: 14px 14px 0;
+  }
+
+  .state-panel__image {
+    width: min(100%, 460px);
+    aspect-ratio: 16 / 9;
+    object-position: center 44%;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .state-page {
+    padding: 0 12px 40px;
+  }
+
+  .state-panel {
+    margin-top: 20px;
+    border-radius: 18px;
+  }
+
+  .state-panel__content {
+    padding: 18px 16px 20px;
+  }
+
+  .state-page .state-panel .state-panel__heading {
+    margin-top: 14px;
+    font-size: clamp(1.3rem, 7vw, 1.9rem);
+    line-height: 1.2;
+  }
+
+  .state-page .state-panel .state-panel__description {
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+
+  .state-panel__badge {
+    padding: 6px 11px 5px;
+    font-size: 0.66rem;
+  }
+
+  .state-panel__actions {
+    margin-top: 18px;
+  }
+
+  .state-panel__visual {
+    padding: 12px 12px 0;
+  }
+
+  .state-panel__image {
+    border-radius: 12px;
+  }
+}

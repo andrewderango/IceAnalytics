@@ -597,19 +597,18 @@ _TABLE_DELETE_CONDITIONS = {
     'team_projections':   ('points',   'gt', -1),
     'player_projections': ('points',   'gt', -1),
     'game_projections':   ('game_id',  'gt', -1),
-    'last_update':        ('datetime', 'gt', '1970-01-01T00:00:00Z'),
 }
 
 _TABLE_REQUIRED_COLUMNS = {
     'team_projections':   ['abbrev', 'team', 'points'],
     'player_projections': ['player_id', 'player', 'points'],
     'game_projections':   ['game_id', 'datetime'],
-    'last_update':        ['datetime'],
+    'site_config':        ['id', 'datetime'],
 }
 
 def push_to_supabase(table_name, year, verbose=False):
-    if table_name not in _TABLE_DELETE_CONDITIONS:
-        raise ValueError(f"Unknown table '{table_name}'. Must be one of: {list(_TABLE_DELETE_CONDITIONS)}")
+    if table_name not in _TABLE_REQUIRED_COLUMNS:
+        raise ValueError(f"Unknown table '{table_name}'. Must be one of: {list(_TABLE_REQUIRED_COLUMNS)}")
     load_dotenv()
     SUPABASE_URL = os.getenv('REACT_APP_SUPABASE_PROJ_URL')
     SUPABASE_KEY = os.getenv('REACT_APP_SUPABASE_ANON_KEY')
@@ -816,13 +815,13 @@ def push_to_supabase(table_name, year, verbose=False):
             df['visitor_record'] = '0-0-0'
             df['visitor_rank'] = '1st'
 
-    elif table_name == 'last_update':
+    elif table_name == 'site_config':
         metadata_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'metadata.json')
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
         end_timestamp = metadata['endTimestamp']
         end_datetime = datetime.fromtimestamp(end_timestamp)
-        df = pd.DataFrame([{'datetime': end_datetime.isoformat()}])
+        df = pd.DataFrame([{'id': 1, 'datetime': end_datetime.isoformat()}])
 
     if df.empty:
         raise ValueError(f"DataFrame for '{table_name}' is empty; aborting push.")
@@ -836,6 +835,14 @@ def push_to_supabase(table_name, year, verbose=False):
     if verbose:
         print(df)
         print(data_to_insert)
+
+    if table_name == 'site_config':
+        try:
+            upsert_response = supabase.table(table_name).upsert(data_to_insert).execute()
+            print(f"Successfully upserted {len(data_to_insert)} records into '{table_name}'.")
+            return None, upsert_response
+        finally:
+            supabase.auth.sign_out()
 
     col, op, val = _TABLE_DELETE_CONDITIONS[table_name]
 

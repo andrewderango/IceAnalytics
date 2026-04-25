@@ -3,9 +3,12 @@ import '../styles/Games.scss';
 import { GridLoader } from 'react-spinners';
 import { createClient } from '@supabase/supabase-js';
 import noGamesImage from '../assets/images/404.png';
-import { offseason } from '../config/settings';
+import { useSiteConfig } from '../context/SiteConfigContext';
+import PageStatePanel from '../components/PageStatePanel';
+import { getUpcomingProjectionSeasonLabel } from '../utils/seasonLabels';
 
 function Games() {
+  const { offseason, loading: configLoading } = useSiteConfig();
   const supabaseUrl = process.env.REACT_APP_SUPABASE_PROJ_URL;
   const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -14,23 +17,13 @@ function Games() {
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
   const [datesLoaded, setDatesLoaded] = useState(false);
+  const projectionSeason = getUpcomingProjectionSeasonLabel();
 
   // get the current date in EST
   const estDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
   const [month, day, year] = estDate.split(',')[0].split('/');
   const today = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   const [currentDate, setCurrentDate] = useState(today);
-
-  // Show offseason message if no valid dates loaded
-  if (offseason || (datesLoaded && (!minDate && !maxDate))) {
-    return (
-      <div className="games offseason-message">
-        <h1>Games</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
-        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
-      </div>
-    );
-  }
 
   // Fetch min/max game dates
   const fetchMinMaxDates = async () => {
@@ -85,9 +78,10 @@ function Games() {
 
   // Fetch min/max dates on mount
   useEffect(() => {
+    if (configLoading || offseason) return;
     fetchMinMaxDates();
     // eslint-disable-next-line
-  }, []);
+  }, [configLoading, offseason]);
 
   // Fetch games and metadata when currentDate changes and min/max loaded
   useEffect(() => {
@@ -119,6 +113,24 @@ function Games() {
     const nextStr = nextDate.toISOString().split('T')[0];
     if (nextStr <= maxDate) setCurrentDate(nextStr);
   };
+
+  if (configLoading) return null;
+  if (offseason || (datesLoaded && (!minDate && !maxDate))) {
+    const isOffseason = offseason;
+
+    return (
+      <PageStatePanel
+        wrapperClassName="games"
+        title="Games"
+        heading={isOffseason ? 'OFFSEASON' : 'SCHEDULE PENDING'}
+        message={isOffseason
+          ? `It is currently the NHL offseason. We will publish ${projectionSeason} game projections after the schedule is released in July.`
+          : `We are still loading the ${projectionSeason} schedule and simulation outputs. Please check again soon.`}
+        imageSrc={noGamesImage}
+        imageAlt="Offseason"
+      />
+    );
+  }
 
   if (loading) {
     return (

@@ -3,39 +3,33 @@ import { useHistory } from 'react-router-dom';
 import { useTable, useSortBy } from 'react-table';
 import supabase from '../supabaseClient';
 import '../styles/Teams.scss';
-import { offseason } from '../config/settings';
+import { useSiteConfig } from '../context/SiteConfigContext';
 import noGamesImage from '../assets/images/404.png';
+import PageStatePanel from '../components/PageStatePanel';
+import { getUpcomingProjectionSeasonLabel } from '../utils/seasonLabels';
 
 function Teams() {
+  const { offseason, loading: configLoading } = useSiteConfig();
   const [data, setData] = useState([]);
   const [sortBy, setSortBy] = useState({ id: null, desc: false });
+  const projectionSeason = getUpcomingProjectionSeasonLabel();
   const history = useHistory();
 
-  if (offseason) {
-    return (
-      <div className="teams offseason-message">
-        <h1>Teams</h1>
-        <p>It is currently the offseason. Check back in July when the NHL schedule is released to view 2025-26 projections!</p>
-        <img src={noGamesImage} alt="Offseason" className="offseason-image" />
-      </div>
-    );
-  }
-
   useEffect(() => {
+    if (configLoading || offseason) return;
     const fetchData = async () => {
       const { data: teams, error } = await supabase
         .from('team_projections')
         .select('*');
-      
+
       if (error) {
         console.error('Error fetching data:', error);
       } else {
-        // console.log('Fetched data:', teams);
         setData(teams);
       }
     };
     fetchData();
-  }, []);
+  }, [configLoading, offseason]);
 
   const columns = useMemo(
     () => [
@@ -192,6 +186,20 @@ function Teams() {
     rows,
     prepareRow,
   } = useTable({ columns, data: sortedData }, useSortBy);
+
+  if (configLoading) return null;
+  if (offseason) {
+    return (
+      <PageStatePanel
+        wrapperClassName="teams"
+        title="Teams"
+        heading="OFFSEASON"
+        message={`It is currently the NHL offseason. We will publish ${projectionSeason} team projections after the schedule is released in July.`}
+        imageSrc={noGamesImage}
+        imageAlt="Offseason"
+      />
+    );
+  }
 
   return (
     <div className="teams">

@@ -11,7 +11,8 @@ import {
   Legend,
 } from 'chart.js';
 import '../styles/Player.scss';
-import { offseason, season } from '../config/settings';
+import { season } from '../config/settings';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 // Register Chart.js components
 ChartJS.register(
@@ -23,6 +24,7 @@ ChartJS.register(
 );
 
 function Player() {
+  const { offseason, loading: configLoading } = useSiteConfig();
   const { playerId } = useParams();
   const history = useHistory();
   const [player, setPlayer] = useState(null);
@@ -35,10 +37,11 @@ function Player() {
   const [isScreenSmallerThan1000, setIsScreenSmallerThan1000] = useState(window.innerWidth <= 1000);
 
   useEffect(() => {
+    if (configLoading) return;
     if (offseason) {
       history.push('/not-found');
     }
-  }, [history]);
+  }, [history, offseason, configLoading]);
 
   useEffect(() => {
     const fetchPlayer = async () => {

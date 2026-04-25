@@ -88,7 +88,7 @@ def main():
     # push_to_supabase(table_name="team_projections", year=PROJECTION_YEAR, verbose=True)
     # push_to_supabase(table_name="player_projections", year=PROJECTION_YEAR, verbose=True)
     # push_to_supabase(table_name="game_projections", year=PROJECTION_YEAR, verbose=True)
-    # push_to_supabase(table_name="last_update", year=PROJECTION_YEAR, verbose=True)
+    # push_to_supabase(table_name="site_config", year=PROJECTION_YEAR, verbose=True)
 
     print(f"Runtime: {time.time()-start_time:.3f} seconds")
     update_metadata(state=1, params=[time.time(), time.time()-start_time])
