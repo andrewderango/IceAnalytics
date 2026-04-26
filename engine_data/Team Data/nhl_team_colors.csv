@@ -1,33 +1,63 @@
-Abbreviation,Team Name,Primary Color
-ANA,Anaheim Ducks,#F47A38
-BOS,Boston Bruins,#FFB81C
-BUF,Buffalo Sabres,#002654
-CAR,Carolina Hurricanes,#CC0000
-CBJ,Columbus Blue Jackets,#002654
-CGY,Calgary Flames,#C8102E
-CHI,Chicago Blackhawks,#CF0A2C
-COL,Colorado Avalanche,#6F263D
-DAL,Dallas Stars,#006847
-DET,Detroit Red Wings,#CE1126
-EDM,Edmonton Oilers,#FF4C00
-FLA,Florida Panthers,#041E42
-LAK,Los Angeles Kings,#AEAFAB
-MIN,Minnesota Wild,#154734
-MTL,Montréal Canadiens,#AF1E2D
-NJD,New Jersey Devils,#CE1126
-NSH,Nashville Predators,#FFB81C
-NYI,New York Islanders,#00539B
-NYR,New York Rangers,#0038A8
-OTT,Ottawa Senators,#C52032
-PHI,Philadelphia Flyers,#F74902
-PIT,Pittsburgh Penguins,#FCB60C
-SEA,Seattle Kraken,#91D4D6
-SJS,San Jose Sharks,#006D75
-STL,St. Louis Blues,#002F87
-TBL,Tampa Bay Lightning,#002868
-TOR,Toronto Maple Leafs,#003E7E
-UTA,Utah Mammoth,#69B3E7
-VAN,Vancouver Canucks,#00205B
-VGK,Vegas Golden Knights,#B4975A
-WPG,Winnipeg Jets,#041E42
-WSH,Washington Capitals,#041E42
+,TeamID,Team Name,Abbreviation,Primary Color,Secondary Color,Tertiary Color
+0,1,New Jersey Devils,NJD,#CE1126,#000000,#FFFFFF
+1,2,New York Islanders,NYI,#00539B,#F47D30,#FFFFFF
+2,3,New York Rangers,NYR,#0038A8,#CE1126,#FFFFFF
+3,4,Philadelphia Flyers,PHI,#F74902,#000000,#FFFFFF
+4,5,Pittsburgh Penguins,PIT,#000000,#FCB514,#FFFFFF
+5,6,Boston Bruins,BOS,#000000,#FFB81C,#FFFFFF
+6,7,Buffalo Sabres,BUF,#002654,#FCB514,#C8102E
+7,8,Montréal Canadiens,MTL,#AF1E2D,#192168,#FFFFFF
+8,9,Ottawa Senators,OTT,#C52032,#000000,#C69214
+9,10,Toronto Maple Leafs,TOR,#00205B,#FFFFFF,
+10,11,Atlanta Thrashers,ATL,#002E62,#00A9E0,#F47920
+11,12,Carolina Hurricanes,CAR,#CC0000,#000000,#A2AAAD
+12,13,Florida Panthers,FLA,#041E42,#C8102E,#B9975B
+13,14,Tampa Bay Lightning,TBL,#002868,#FFFFFF,
+14,15,Washington Capitals,WSH,#041E42,#C8102E,#FFFFFF
+15,16,Chicago Blackhawks,CHI,#CF0A2C,#000000,#FFFFFF
+16,17,Detroit Red Wings,DET,#CE1126,#FFFFFF,
+17,18,Nashville Predators,NSH,#FFB81C,#041E42,#FFFFFF
+18,19,St. Louis Blues,STL,#002F87,#FCB514,#041E42
+19,20,Calgary Flames,CGY,#C8102E,#F1BE48,#111111
+20,21,Colorado Avalanche,COL,#6F263D,#236192,#A2AAAD
+21,22,Edmonton Oilers,EDM,#041E42,#FF4C00,#FFFFFF
+22,23,Vancouver Canucks,VAN,#00205B,#00843D,#041C2C
+23,24,Anaheim Ducks,ANA,#F47A38,#B09862,#000000
+24,25,Dallas Stars,DAL,#006847,#8F8F8C,#111111
+25,26,Los Angeles Kings,LAK,#111111,#A2AAAD,#FFFFFF
+26,27,Phoenix Coyotes,PHX,#8C2633,#E2D6B5,#111111
+27,28,San Jose Sharks,SJS,#006D75,#EA7200,#000000
+28,29,Columbus Blue Jackets,CBJ,#002654,#CE1126,#A4A9AD
+29,30,Minnesota Wild,MIN,#154734,#A6192E,#EAAA00
+30,31,Minnesota North Stars,MNS,#009639,#FFD100,#FFFFFF
+31,32,Quebec Nordiques,QUE,#005EAB,#CE1126,#FFFFFF
+32,33,Winnipeg Jets (1979),WIN,#002E62,#0168B3,#FFFFFF
+33,34,Hartford Whalers,HFD,#00763A,#00205B,#FFFFFF
+34,35,Colorado Rockies,CLR,#00285D,#DA1A32,#FFD100
+35,36,Ottawa Senators (1917),SEN,#000000,#D31145,#FFFFFF
+36,37,Hamilton Tigers,HAM,#FFB81C,#000000,#FFFFFF
+37,38,Pittsburgh Pirates,PIR,#000000,#FFB81C,#FFFFFF
+38,39,Philadelphia Quakers,QUA,#F74902,#000000,#FFFFFF
+39,40,Detroit Cougars,DCG,#CE1126,#FFFFFF,
+40,41,Montreal Wanderers,MWN,#CE1126,#FFFFFF,
+41,42,Quebec Bulldogs,QBD,#005EAB,#FFFFFF,
+42,43,Montreal Maroons,MMR,#6F263D,#FFFFFF,
+43,44,New York Americans,NYA,#0038A8,#CE1126,#FFFFFF
+44,45,St. Louis Eagles,SLE,#002F87,#FFFFFF,
+45,46,Oakland Seals,OAK,#006847,#00A9E0,#FFFFFF
+46,47,Atlanta Flames,AFM,#C8102E,#FFD100,#FFFFFF
+47,48,Kansas City Scouts,KCS,#002E62,#DA1A32,#FFD100
+48,49,Cleveland Barons,CLE,#CE1126,#000000,#FFFFFF
+49,50,Detroit Falcons,DFL,#CE1126,#FFD100,#FFFFFF
+50,51,Brooklyn Americans,BRK,#0038A8,#CE1126,#FFFFFF
+51,52,Winnipeg Jets,WPG,#041E42,#004C97,#AC162C
+52,53,Arizona Coyotes,ARI,#8C2633,#E2D6B5,#111111
+53,54,Vegas Golden Knights,VGK,#B4975A,#333F42,#C8102E
+54,55,Seattle Kraken,SEA,#001628,#99D9D9,#355464
+55,56,California Golden Seals,CGS,#006847,#FFD100,#FFFFFF
+56,57,Toronto Arenas,TAN,#0038A8,#FFFFFF,
+57,58,Toronto St. Patricks,TSP,#006847,#FFFFFF,
+58,59,Utah Hockey Club,UTA,#010101,#71AFE5,#FFFFFF
+59,68,Utah Mammoth,UTA,#010101,#71AFE5,#FFFFFF
+60,70,To be determined,TBD,,,
+61,99,NHL,NHL,#000000,#FFFFFF,#C8102E
