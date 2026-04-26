@@ -20,11 +20,11 @@ N_BOOTSTRAPS = 500
 HOLDOUT_FRAC = 0.01  # PRUS OOS residual holdout fraction
 
 
-def _bundle_path(target, projection_year):
-    return os.path.join(BOOTSTRAP_MODELS_DIR, str(projection_year), f'{target}_bootstraps.pkl')
+def _bundle_path(target):
+    return os.path.join(BOOTSTRAP_MODELS_DIR, f'{target}_bootstraps.pkl')
 
-def _bundle_exists(target, projection_year):
-    return os.path.exists(_bundle_path(target, projection_year))
+def _bundle_exists(target):
+    return os.path.exists(_bundle_path(target))
 
 def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year, config, rng):
     n = len(sub)
@@ -68,13 +68,13 @@ def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year,
     hold_resid_var = float(np.average((y_hold - hold_preds) ** 2, weights=w_hold))
     return inf_preds, hold_resid_var, m, sc
 
-def _save_bundle(target, projection_year, bundle):
-    path = _bundle_path(target, projection_year)
+def _save_bundle(target, bundle):
+    path = _bundle_path(target)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     joblib.dump(bundle, path)
 
-def _load_bundle_preds(target, projection_year, config, inf_X_imp_arr):
-    bundle = joblib.load(_bundle_path(target, projection_year))
+def _load_bundle_preds(target, config, inf_X_imp_arr):
+    bundle = joblib.load(_bundle_path(target))
     preds_list, resid_vars = [], []
     for entry in bundle:
         model, scaler, rv = entry['model'], entry['scaler'], entry['resid_var']
@@ -98,10 +98,10 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
     preds_matrix = np.zeros((len(inf_frame), n_boots), dtype=np.float32)
     resid_vars = np.zeros(n_boots, dtype=np.float64)
 
-    if not retrain and _bundle_exists(target, projection_year):
+    if not retrain and _bundle_exists(target):
         if verbose:
             print(f'Loading saved bootstraps for {target}')
-        preds_matrix, resid_vars = _load_bundle_preds(target, projection_year, config, inf_X_imp_arr)
+        preds_matrix, resid_vars = _load_bundle_preds(target, config, inf_X_imp_arr)
     else:
         if not retrain and verbose:
             print(f'Saved bootstrap bundle for {target} not found, training from scratch')
@@ -122,7 +122,7 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
             preds_matrix[:, i] = inf_preds
             resid_vars[i] = rv
             bundle.append({'model': model, 'scaler': scaler, 'resid_var': rv})
-        _save_bundle(target, projection_year, bundle)
+        _save_bundle(target, bundle)
 
     # PRUS
     residual_var = float(np.mean(resid_vars))
