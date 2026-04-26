@@ -457,10 +457,19 @@ def scrape_teams(projection_year, check_preexistence, verbose):
         visiting_team_ids = [game['visitingTeamId'] for game in schedule_data['data']]
         distinct_team_ids = list(set(home_team_ids + visiting_team_ids))
 
+        # Fetch division data from standings API
+        standings_response = requests.get('https://api-web.nhle.com/v1/standings/now')
+        standings_data = standings_response.json()
+        division_map = {
+            entry['teamAbbrev']['default']: entry['divisionName']
+            for entry in standings_data['standings']
+        }
+
         # Construct teams df
         df = pd.DataFrame(teams_data['data'])[['id', 'fullName', 'triCode']]
         df.columns = ['TeamID', 'Team Name', 'Abbreviation']
         df['Active'] = df['TeamID'].apply(lambda x: x in distinct_team_ids)
+        df['Division'] = df['Abbreviation'].map(division_map)
 
         if verbose:
             print(df)
