@@ -349,7 +349,7 @@ def scrape_historical_team_data(start_year, end_year, projection_year, season_st
             response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
             data = response.json()
             df = pd.DataFrame(data['data'])
-            team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
+            team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'))
             df = df.merge(team_data[['TeamID', 'Team Name']], left_on='homeTeamId', right_on='TeamID', how='left')
             df = df.merge(team_data[['TeamID', 'Team Name']], left_on='visitingTeamId', right_on='TeamID', how='left')
             df = df[df['gameType'] == 2][['Team Name_x']]
@@ -440,7 +440,7 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
 # Scrape team data from NHL API
 def scrape_teams(projection_year, check_preexistence, verbose):
 
-    filename = f'nhlapi_team_data.csv'
+    filename = f'team_metadata.csv'
     file_path = os.path.dirname(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', filename))
 
     if check_preexistence == True:
@@ -461,7 +461,7 @@ def scrape_teams(projection_year, check_preexistence, verbose):
         standings_response = requests.get('https://api-web.nhle.com/v1/standings/now')
         standings_data = standings_response.json()
         division_map = {
-            entry['teamAbbrev']['default']: entry['divisionName']
+            entry['teamName']['default']: entry['divisionName']
             for entry in standings_data['standings']
         }
 
@@ -469,7 +469,8 @@ def scrape_teams(projection_year, check_preexistence, verbose):
         df = pd.DataFrame(teams_data['data'])[['id', 'fullName', 'triCode']]
         df.columns = ['TeamID', 'Team Name', 'Abbreviation']
         df['Active'] = df['TeamID'].apply(lambda x: x in distinct_team_ids)
-        df['Division'] = df['Abbreviation'].map(division_map)
+        df['Division'] = df['Team Name'].map(division_map)
+        df = df.sort_values('TeamID').reset_index(drop=True)
 
         if verbose:
             print(df)
@@ -493,7 +494,7 @@ def scrape_games(projection_year, check_preexistence, verbose):
 
         df = pd.DataFrame(data['data'])
         # join with team data to get team names
-        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
+        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'))
         df = df.merge(team_data[['TeamID', 'Team Name']], left_on='homeTeamId', right_on='TeamID', how='left')
         df = df.merge(team_data[['TeamID', 'Team Name']], left_on='visitingTeamId', right_on='TeamID', how='left')
 
@@ -718,7 +719,7 @@ def push_to_supabase(table_name, year, verbose=False):
         df['points_90pi_high'] = df['points_90pi_high'].fillna(0)
 
         # merge in team names
-        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
+        team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'))
         team_data = team_data[['Abbreviation', 'Team Name']]
         team_data.rename(columns={'Abbreviation': 'team', 'Team Name': 'team_name'}, inplace=True)
         df = df.merge(team_data, on='team', how='left')

@@ -909,7 +909,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
         predictions = team_ga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
     combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/GP'] + (82-combined_df['Y-0 GP'])/82*predictions
-    nhlapi_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
+    nhlapi_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'), index_col=0)
     nhlapi_data = nhlapi_data[['Team Name', 'Abbreviation']].rename(columns={'Team Name': 'Team'})
 
     combined_df = pd.merge(combined_df[['Team', 'Proj. GA/GP']], nhlapi_data[['Team', 'Abbreviation']], on='Team', how='left')

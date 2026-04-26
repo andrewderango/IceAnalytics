@@ -17,7 +17,7 @@ def run_projection_engine(projection_year, simulations, download_files, verbose)
     metaprojection_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters', f'{projection_year}_skater_metaprojections.csv'), index_col=0)
     metaprojection_df['Aper1kChunk'] = metaprojection_df['A1per1kChunk'] + metaprojection_df['A2per1kChunk']
     metaprojection_df['Pper1kChunk'] = metaprojection_df['Gper1kChunk'] + metaprojection_df['Aper1kChunk']
-    teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
+    teams_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'), index_col=0)
     team_metaproj_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Teams', f'{projection_year}_team_projections.csv'), index_col=0)
     existing_skater_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))
     existing_skater_df['TOI'] = parse_toi(existing_skater_df['TOI'])
@@ -404,7 +404,7 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, schedule_df, p
     schedule_df = schedule_df[schedule_df['Home Win'] != 'False']
 
     # get team divisions
-    team_data_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
+    team_data_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'))
     monte_carlo_team_df = monte_carlo_team_df.merge(team_data_df[['Abbreviation', 'Division']], on='Abbreviation', how='left')
 
     # loop through monte carlo simulations
