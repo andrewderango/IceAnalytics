@@ -404,8 +404,8 @@ def team_monte_carlo_engine(team_proj_df, core_team_scoring_dict, schedule_df, p
     schedule_df = schedule_df[schedule_df['Home Win'] != 'False']
 
     # get team divisions
-    team_divisions_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'divisions.csv'))
-    monte_carlo_team_df = monte_carlo_team_df.merge(team_divisions_df[['Abbreviation', 'Division']], on='Abbreviation', how='left')
+    team_data_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'))
+    monte_carlo_team_df = monte_carlo_team_df.merge(team_data_df[['Abbreviation', 'Division']], on='Abbreviation', how='left')
 
     # loop through monte carlo simulations
     simulation_results = []
