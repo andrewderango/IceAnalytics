@@ -7,12 +7,6 @@ from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
 
-NST_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Referer": "https://www.naturalstattrick.com/",
-}
 
 def parse_toi(series):
     if series.dtype == object:
@@ -328,48 +322,6 @@ def scrape_team_data(start_year, end_year, projection_year, season_state, check_
 
     return
 
-
-# Function to scrape raw historical data from Natural Stat Trick
-def scrape_historical_team_data(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
-    for year in range(start_year, end_year+1):
-        filename = f'{year-1}-{year}_team_data.csv'
-        file_path = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Team Data', filename)
-
-        if check_preexistence == True:
-            if os.path.exists(file_path):
-                if verbose:
-                    print(f'{filename} already exists in the following directory: {file_path}')
-                continue
-
-        if projection_year != year or season_state != 'PRESEASON':
-            url = f'https://www.naturalstattrick.com/teamtable.php?fromseason={year-1}{year}&thruseason={year-1}{year}&stype=2&sit=all&score=all&rate=n&team=all&loc=B&gpf=410&fd=&td='
-            df = pd.read_html(io.StringIO(requests.get(url, headers=NST_HEADERS).text))[0]
-            df = df.iloc[:, 1:]
-        else:
-            response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
-            data = response.json()
-            df = pd.DataFrame(data['data'])
-            team_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'team_metadata.csv'))
-            df = df.merge(team_data[['TeamID', 'Team Name']], left_on='homeTeamId', right_on='TeamID', how='left')
-            df = df.merge(team_data[['TeamID', 'Team Name']], left_on='visitingTeamId', right_on='TeamID', how='left')
-            df = df[df['gameType'] == 2][['Team Name_x']]
-            df.columns = ['Team']
-            df = df.drop_duplicates()
-            df = df.sort_values(by='Team')
-            df = df.reset_index(drop=True)
-            df['GP'], df['TOI'], df['W'], df['L'], df['OTL'], df['ROW'], df['Points'], df['Point %'], df['CA'], df['FA'], df['SA'], df['GF'], df['GA'], df['xGA'], df['SCA'], df['HDCA'], df['HDGA'], df['HDSV%'], df['SV%'] = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        
-        if verbose == True:
-            print(df)
-
-        export_path = os.path.dirname(file_path)
-        if not os.path.exists(export_path):
-            os.makedirs(export_path)
-        df.to_csv(os.path.join(export_path, filename))
-        if verbose:
-            print(f'{filename} has been downloaded to the following directory: {export_path}')
-
-    return
 
 # Function to aggregate historical player bios for all players in the engine database
 def aggregate_player_bios(skaters, check_preexistence, verbose):
