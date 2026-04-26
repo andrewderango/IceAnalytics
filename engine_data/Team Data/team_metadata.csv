@@ -1,63 +1,63 @@
 ,TeamID,Team Name,Abbreviation,Active,Division
-0,32,Quebec Nordiques,QUE,False,
-1,8,Montréal Canadiens,MTL,True,Atlantic
-2,58,Toronto St. Patricks,TSP,False,
-3,7,Buffalo Sabres,BUF,True,Atlantic
-4,46,Oakland Seals,OAK,False,
-5,48,Kansas City Scouts,KCS,False,
-6,36,Ottawa Senators (1917),SEN,False,
-7,70,To be determined,TBD,False,
-8,11,Atlanta Thrashers,ATL,False,
-9,45,St. Louis Eagles,SLE,False,
-10,33,Winnipeg Jets (1979),WIN,False,
-11,28,San Jose Sharks,SJS,True,Pacific
-12,42,Quebec Bulldogs,QBD,False,
-13,53,Arizona Coyotes,ARI,False,
-14,13,Florida Panthers,FLA,True,Atlantic
-15,12,Carolina Hurricanes,CAR,True,Metropolitan
-16,52,Winnipeg Jets,WPG,True,Central
+0,1,New Jersey Devils,NJD,True,Metropolitan
+1,2,New York Islanders,NYI,True,Metropolitan
+2,3,New York Rangers,NYR,True,Metropolitan
+3,4,Philadelphia Flyers,PHI,True,Metropolitan
+4,5,Pittsburgh Penguins,PIT,True,Metropolitan
+5,6,Boston Bruins,BOS,True,Atlantic
+6,7,Buffalo Sabres,BUF,True,Atlantic
+7,8,Montréal Canadiens,MTL,True,Atlantic
+8,9,Ottawa Senators,OTT,True,Atlantic
+9,10,Toronto Maple Leafs,TOR,True,Atlantic
+10,11,Atlanta Thrashers,ATL,False,
+11,12,Carolina Hurricanes,CAR,True,Metropolitan
+12,13,Florida Panthers,FLA,True,Atlantic
+13,14,Tampa Bay Lightning,TBL,True,Atlantic
+14,15,Washington Capitals,WSH,True,Metropolitan
+15,16,Chicago Blackhawks,CHI,True,Central
+16,17,Detroit Red Wings,DET,True,Atlantic
 17,18,Nashville Predators,NSH,True,Central
-18,27,Phoenix Coyotes,PHX,False,
-19,41,Montreal Wanderers,MWN,False,
-20,39,Philadelphia Quakers,QUA,False,
-21,37,Hamilton Tigers,HAM,False,
-22,40,Detroit Cougars,DCG,False,
-23,35,Colorado Rockies,CLR,False,
-24,38,Pittsburgh Pirates,PIR,False,
-25,34,Hartford Whalers,HFD,False,
-26,1,New Jersey Devils,NJD,True,Metropolitan
-27,9,Ottawa Senators,OTT,True,Atlantic
-28,21,Colorado Avalanche,COL,True,Central
-29,44,New York Americans,NYA,False,
-30,15,Washington Capitals,WSH,True,Metropolitan
-31,31,Minnesota North Stars,MNS,False,
-32,99,NHL,NHL,False,
-33,43,Montreal Maroons,MMR,False,
-34,49,Cleveland Barons,CLE,False,
-35,51,Brooklyn Americans,BRK,False,
-36,50,Detroit Falcons,DFL,False,
-37,56,California Golden Seals,CGS,False,
-38,10,Toronto Maple Leafs,TOR,True,Atlantic
-39,22,Edmonton Oilers,EDM,True,Pacific
-40,47,Atlanta Flames,AFM,False,
-41,57,Toronto Arenas,TAN,False,
-42,20,Calgary Flames,CGY,True,Pacific
-43,19,St. Louis Blues,STL,True,Central
-44,17,Detroit Red Wings,DET,True,Atlantic
-45,3,New York Rangers,NYR,True,Metropolitan
-46,24,Anaheim Ducks,ANA,True,Pacific
-47,23,Vancouver Canucks,VAN,True,Pacific
-48,16,Chicago Blackhawks,CHI,True,Central
-49,55,Seattle Kraken,SEA,True,Pacific
-50,5,Pittsburgh Penguins,PIT,True,Metropolitan
-51,6,Boston Bruins,BOS,True,Atlantic
-52,25,Dallas Stars,DAL,True,Central
-53,14,Tampa Bay Lightning,TBL,True,Atlantic
-54,4,Philadelphia Flyers,PHI,True,Metropolitan
-55,30,Minnesota Wild,MIN,True,Central
-56,29,Columbus Blue Jackets,CBJ,True,Metropolitan
-57,26,Los Angeles Kings,LAK,True,Pacific
-58,68,Utah Mammoth,UTA,True,Central
-59,59,Utah Hockey Club,UTA,False,
-60,54,Vegas Golden Knights,VGK,True,Pacific
-61,2,New York Islanders,NYI,True,Metropolitan
+18,19,St. Louis Blues,STL,True,Central
+19,20,Calgary Flames,CGY,True,Pacific
+20,21,Colorado Avalanche,COL,True,Central
+21,22,Edmonton Oilers,EDM,True,Pacific
+22,23,Vancouver Canucks,VAN,True,Pacific
+23,24,Anaheim Ducks,ANA,True,Pacific
+24,25,Dallas Stars,DAL,True,Central
+25,26,Los Angeles Kings,LAK,True,Pacific
+26,27,Phoenix Coyotes,PHX,False,
+27,28,San Jose Sharks,SJS,True,Pacific
+28,29,Columbus Blue Jackets,CBJ,True,Metropolitan
+29,30,Minnesota Wild,MIN,True,Central
+30,31,Minnesota North Stars,MNS,False,
+31,32,Quebec Nordiques,QUE,False,
+32,33,Winnipeg Jets (1979),WIN,False,
+33,34,Hartford Whalers,HFD,False,
+34,35,Colorado Rockies,CLR,False,
+35,36,Ottawa Senators (1917),SEN,False,
+36,37,Hamilton Tigers,HAM,False,
+37,38,Pittsburgh Pirates,PIR,False,
+38,39,Philadelphia Quakers,QUA,False,
+39,40,Detroit Cougars,DCG,False,
+40,41,Montreal Wanderers,MWN,False,
+41,42,Quebec Bulldogs,QBD,False,
+42,43,Montreal Maroons,MMR,False,
+43,44,New York Americans,NYA,False,
+44,45,St. Louis Eagles,SLE,False,
+45,46,Oakland Seals,OAK,False,
+46,47,Atlanta Flames,AFM,False,
+47,48,Kansas City Scouts,KCS,False,
+48,49,Cleveland Barons,CLE,False,
+49,50,Detroit Falcons,DFL,False,
+50,51,Brooklyn Americans,BRK,False,
+51,52,Winnipeg Jets,WPG,True,Central
+52,53,Arizona Coyotes,ARI,False,
+53,54,Vegas Golden Knights,VGK,True,Pacific
+54,55,Seattle Kraken,SEA,True,Pacific
+55,56,California Golden Seals,CGS,False,
+56,57,Toronto Arenas,TAN,False,
+57,58,Toronto St. Patricks,TSP,False,
+58,59,Utah Hockey Club,UTA,False,
+59,68,Utah Mammoth,UTA,True,Central
+60,70,To be determined,TBD,False,
+61,99,NHL,NHL,False,
