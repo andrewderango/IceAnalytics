@@ -1,5 +1,6 @@
 import os
 import json
+import joblib
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -14,8 +15,19 @@ from feature_engineering import (
 from model_training import MODEL_CONFIG, DEFAULT_XGB_PARAMS
 
 BOOTSTRAPS_DIR = os.path.join(ENGINE_DATA, 'Projection Models', 'bootstraps')
+BOOTSTRAP_MODELS_DIR = os.path.join(BOOTSTRAPS_DIR, 'models')
 N_BOOTSTRAPS = 500
 HOLDOUT_FRAC = 0.01  # PRUS OOS residual holdout fraction
+
+
+def _bootstrap_model_path(target, i, projection_year):
+    return os.path.join(BOOTSTRAP_MODELS_DIR, str(projection_year), target, f'bootstrap_{i:04d}.pkl')
+
+def _all_bootstraps_exist(target, n_boots, projection_year):
+    return all(
+        os.path.exists(_bootstrap_model_path(target, i, projection_year))
+        for i in range(n_boots)
+    )
 
 def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year, config, rng):
     n = len(sub)
@@ -41,6 +53,7 @@ def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year,
     means_series = pd.Series(feat_means.to_dict() if hasattr(feat_means, 'to_dict') else feat_means)
     X_hold_imp, _ = impute_features(X_hold, fitted_means=means_series)
 
+    sc = None
     if config['family'] == 'ridge':
         sc = StandardScaler()
         Xs_tr = sc.fit_transform(X_tr_imp.values)
@@ -56,38 +69,64 @@ def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year,
         inf_preds = m.predict(inf_X_imp)
 
     hold_resid_var = float(np.average((y_hold - hold_preds) ** 2, weights=w_hold))
-    return inf_preds, hold_resid_var
+    return inf_preds, hold_resid_var, m, sc
+
+def _save_bootstrap(target, i, projection_year, model, scaler, resid_var):
+    path = _bootstrap_model_path(target, i, projection_year)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    joblib.dump({'model': model, 'scaler': scaler, 'resid_var': resid_var}, path)
+
+def _load_bootstrap_preds(target, i, projection_year, config, inf_X_imp_arr):
+    data = joblib.load(_bootstrap_model_path(target, i, projection_year))
+    model, scaler, resid_var = data['model'], data['scaler'], data['resid_var']
+    if config['family'] == 'ridge':
+        inf_preds = model.predict(scaler.transform(inf_X_imp_arr))
+    else:
+        inf_preds = model.predict(inf_X_imp_arr)
+    return inf_preds, resid_var
 
 # Bootstrap one target, returns per-player stdev series
-def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, verbose=False):
+def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, verbose=False, retrain=True):
     config = MODEL_CONFIG[target]
     feats = FEATURE_SETS[target]
 
-    train_frame = build_modeling_frame()
-    mask = training_filter(train_frame, target) & (train_frame['season'] < projection_year)
-    sub = train_frame.loc[mask].copy().reset_index(drop=True)
-    if sub.empty:
-        raise RuntimeError(f'No training rows for bootstrap target {target}')
-
     inf_frame = build_inference_frame(projection_year)
-
-    # Pre-impute inference features once
     X_inf_raw = inf_frame[feats]
-    X_inf_imp, inf_means = impute_features(X_inf_raw)
+    X_inf_imp, _ = impute_features(X_inf_raw)
     inf_X_imp_arr = X_inf_imp.values
 
     preds_matrix = np.zeros((len(inf_frame), n_boots), dtype=np.float32)
     resid_vars = np.zeros(n_boots, dtype=np.float64)
 
-    rng = np.random.default_rng(seed)
-    iterator = range(n_boots)
-    if verbose:
-        iterator = tqdm(iterator, desc=f'bootstrap {target}')
-    for i in iterator:
-        inf_preds, rv = _fit_and_score_bootstrap(
-            target, sub, inf_X_imp_arr, feats, projection_year, config, rng)
-        preds_matrix[:, i] = inf_preds
-        resid_vars[i] = rv
+    use_saved = not retrain and _all_bootstraps_exist(target, n_boots, projection_year)
+
+    if use_saved:
+        iterator = range(n_boots)
+        if verbose:
+            iterator = tqdm(iterator, desc=f'load bootstrap {target}')
+        for i in iterator:
+            inf_preds, rv = _load_bootstrap_preds(target, i, projection_year, config, inf_X_imp_arr)
+            preds_matrix[:, i] = inf_preds
+            resid_vars[i] = rv
+    else:
+        if not retrain and verbose:
+            print(f'Saved bootstrap models for {target} not found, training from scratch')
+        train_frame = build_modeling_frame()
+        mask = training_filter(train_frame, target) & (train_frame['season'] < projection_year)
+        sub = train_frame.loc[mask].copy().reset_index(drop=True)
+        if sub.empty:
+            raise RuntimeError(f'No training rows for bootstrap target {target}')
+
+        rng = np.random.default_rng(seed)
+        iterator = range(n_boots)
+        if verbose:
+            iterator = tqdm(iterator, desc=f'bootstrap {target}')
+        for i in iterator:
+            inf_preds, rv, model, scaler = _fit_and_score_bootstrap(
+                target, sub, inf_X_imp_arr, feats, projection_year, config, rng)
+            preds_matrix[:, i] = inf_preds
+            resid_vars[i] = rv
+            _save_bootstrap(target, i, projection_year, model, scaler, rv)
 
     # PRUS
     residual_var = float(np.mean(resid_vars))
@@ -99,7 +138,9 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
         scaled_var = ens_var
     stdev = np.sqrt(np.clip(scaled_var, 0, None))
 
-    return inf_frame[['playerId']].assign(**{f'{target}_stdev': stdev})
+    stdev_df = inf_frame[['playerId']].assign(**{f'{target}_stdev': stdev})
+    return stdev_df, residual_var, mean_ens_var
+
 
 # Reduce variance as season progresses
 def apply_season_progress_scaling(stdev_df, projection_year):
@@ -118,14 +159,20 @@ def apply_season_progress_scaling(stdev_df, projection_year):
             out[col] = out[col] * factor
     return out.drop(columns=['cur_gp'])
 
+
 # Run bootstraps for all targets, returns merged stdev frame
-def run_all_bootstraps(projection_year, n_boots=N_BOOTSTRAPS, verbose=False):
+def run_all_bootstraps(projection_year, n_boots=N_BOOTSTRAPS, verbose=False, retrain=True):
     os.makedirs(BOOTSTRAPS_DIR, exist_ok=True)
     merged = None
     summary = {}
     for i, target in enumerate(ALL_TARGETS):
-        df = bootstrap_target(target, projection_year, n_boots=n_boots, seed=42 + i, verbose=verbose)
-        summary[target] = {'n_boots': n_boots, 'mean_stdev': float(df[f'{target}_stdev'].mean())}
+        df, residual_var, mean_ens_var = bootstrap_target(target, projection_year, n_boots=n_boots, seed=42 + i, verbose=verbose, retrain=retrain)
+        summary[target] = {
+            'n_boots': n_boots,
+            'mean_stdev': float(df[f'{target}_stdev'].mean()),
+            'residual_var': residual_var,
+            'mean_ens_var': mean_ens_var,
+        }
         merged = df if merged is None else merged.merge(df, on='playerId', how='outer')
 
     # Heuristic PK stdevs proportional to EV stdevs
