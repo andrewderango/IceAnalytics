@@ -279,32 +279,6 @@ def scrape_goalie_bios(start_year, end_year, projection_year, season_state, chec
     return
 
 
-_TEAM_STATS_ENDPOINTS = ['summary', 'powerplay', 'penaltykill']
-
-def _fetch_nhl_team_report(report, season_id):
-    url = (
-        f'https://api.nhle.com/stats/rest/en/team/{report}'
-        f'?isAggregate=false&isGame=false&start=0&limit=-1'
-        f'&cayenneExp=gameTypeId=2%20and%20seasonId%3C={season_id}%20and%20seasonId%3E={season_id}'
-    )
-    response = requests.get(url, timeout=30)
-    response.raise_for_status()
-    return pd.DataFrame(response.json().get('data', []))
-
-def _join_team_reports(season_id):
-    base = _fetch_nhl_team_report('summary', season_id)
-    if base.empty:
-        return base
-    combined = base
-    for report in _TEAM_STATS_ENDPOINTS[1:]:
-        df = _fetch_nhl_team_report(report, season_id)
-        if df.empty:
-            continue
-        overlap = [c for c in df.columns if c in combined.columns and c != 'teamId']
-        df = df.drop(columns=overlap)
-        combined = combined.merge(df, on='teamId', how='outer')
-    return combined
-
 # Scrape per-season team stats from NHL API
 def scrape_team_data(start_year, end_year, projection_year, season_state, check_preexistence, verbose):
     for year in range(start_year, end_year + 1):
@@ -320,7 +294,14 @@ def scrape_team_data(start_year, end_year, projection_year, season_state, check_
         fetch_year = year - 1 if is_preseason_pull else year
         season_id = (fetch_year - 1) * 10000 + fetch_year
 
-        df = _join_team_reports(season_id)
+        url = (
+            f'https://api.nhle.com/stats/rest/en/team/summary'
+            f'?isAggregate=false&isGame=false&start=0&limit=-1'
+            f'&cayenneExp=gameTypeId=2%20and%20seasonId%3C={season_id}%20and%20seasonId%3E={season_id}'
+        )
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        df = pd.DataFrame(response.json().get('data', []))
 
         if is_preseason_pull and not df.empty:
             preserve = {'teamId', 'teamFullName', 'seasonId'}
