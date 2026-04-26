@@ -20,14 +20,11 @@ N_BOOTSTRAPS = 500
 HOLDOUT_FRAC = 0.01  # PRUS OOS residual holdout fraction
 
 
-def _bootstrap_model_path(target, i, projection_year):
-    return os.path.join(BOOTSTRAP_MODELS_DIR, str(projection_year), target, f'bootstrap_{i:04d}.pkl')
+def _bundle_path(target, projection_year):
+    return os.path.join(BOOTSTRAP_MODELS_DIR, str(projection_year), f'{target}_bootstraps.pkl')
 
-def _all_bootstraps_exist(target, n_boots, projection_year):
-    return all(
-        os.path.exists(_bootstrap_model_path(target, i, projection_year))
-        for i in range(n_boots)
-    )
+def _bundle_exists(target, projection_year):
+    return os.path.exists(_bundle_path(target, projection_year))
 
 def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year, config, rng):
     n = len(sub)
@@ -71,19 +68,22 @@ def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year,
     hold_resid_var = float(np.average((y_hold - hold_preds) ** 2, weights=w_hold))
     return inf_preds, hold_resid_var, m, sc
 
-def _save_bootstrap(target, i, projection_year, model, scaler, resid_var):
-    path = _bootstrap_model_path(target, i, projection_year)
+def _save_bundle(target, projection_year, bundle):
+    path = _bundle_path(target, projection_year)
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    joblib.dump({'model': model, 'scaler': scaler, 'resid_var': resid_var}, path)
+    joblib.dump(bundle, path)
 
-def _load_bootstrap_preds(target, i, projection_year, config, inf_X_imp_arr):
-    data = joblib.load(_bootstrap_model_path(target, i, projection_year))
-    model, scaler, resid_var = data['model'], data['scaler'], data['resid_var']
-    if config['family'] == 'ridge':
-        inf_preds = model.predict(scaler.transform(inf_X_imp_arr))
-    else:
-        inf_preds = model.predict(inf_X_imp_arr)
-    return inf_preds, resid_var
+def _load_bundle_preds(target, projection_year, config, inf_X_imp_arr):
+    bundle = joblib.load(_bundle_path(target, projection_year))
+    preds_list, resid_vars = [], []
+    for entry in bundle:
+        model, scaler, rv = entry['model'], entry['scaler'], entry['resid_var']
+        if config['family'] == 'ridge':
+            preds_list.append(model.predict(scaler.transform(inf_X_imp_arr)))
+        else:
+            preds_list.append(model.predict(inf_X_imp_arr))
+        resid_vars.append(rv)
+    return np.array(preds_list, dtype=np.float32).T, np.array(resid_vars)
 
 # Bootstrap one target, returns per-player stdev series
 def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, verbose=False, retrain=True):
@@ -98,25 +98,20 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
     preds_matrix = np.zeros((len(inf_frame), n_boots), dtype=np.float32)
     resid_vars = np.zeros(n_boots, dtype=np.float64)
 
-    use_saved = not retrain and _all_bootstraps_exist(target, n_boots, projection_year)
-
-    if use_saved:
-        iterator = range(n_boots)
+    if not retrain and _bundle_exists(target, projection_year):
         if verbose:
-            iterator = tqdm(iterator, desc=f'load bootstrap {target}')
-        for i in iterator:
-            inf_preds, rv = _load_bootstrap_preds(target, i, projection_year, config, inf_X_imp_arr)
-            preds_matrix[:, i] = inf_preds
-            resid_vars[i] = rv
+            print(f'Loading saved bootstraps for {target}')
+        preds_matrix, resid_vars = _load_bundle_preds(target, projection_year, config, inf_X_imp_arr)
     else:
         if not retrain and verbose:
-            print(f'Saved bootstrap models for {target} not found, training from scratch')
+            print(f'Saved bootstrap bundle for {target} not found, training from scratch')
         train_frame = build_modeling_frame()
         mask = training_filter(train_frame, target) & (train_frame['season'] < projection_year)
         sub = train_frame.loc[mask].copy().reset_index(drop=True)
         if sub.empty:
             raise RuntimeError(f'No training rows for bootstrap target {target}')
 
+        bundle = []
         rng = np.random.default_rng(seed)
         iterator = range(n_boots)
         if verbose:
@@ -126,7 +121,8 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
                 target, sub, inf_X_imp_arr, feats, projection_year, config, rng)
             preds_matrix[:, i] = inf_preds
             resid_vars[i] = rv
-            _save_bootstrap(target, i, projection_year, model, scaler, rv)
+            bundle.append({'model': model, 'scaler': scaler, 'resid_var': rv})
+        _save_bundle(target, projection_year, bundle)
 
     # PRUS
     residual_var = float(np.mean(resid_vars))
