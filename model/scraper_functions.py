@@ -498,8 +498,8 @@ def scrape_games(projection_year, check_preexistence, verbose):
         df = df.merge(team_data[['TeamID', 'Team Name']], left_on='homeTeamId', right_on='TeamID', how='left')
         df = df.merge(team_data[['TeamID', 'Team Name']], left_on='visitingTeamId', right_on='TeamID', how='left')
 
-        df = df[df['gameType'] == 2][['id', 'easternStartTime', 'gameNumber', 'gameStateId', 'period', 'homeScore', 'Team Name_x', 'visitingScore', 'Team Name_y']]        
-        df.columns = ['GameID', 'Time (EST)', 'Game Number', 'Game State', 'Period', 'Home Score', 'Home Team', 'Visiting Score', 'Visiting Team']
+        df = df[df['gameType'] == 2][['id', 'easternStartTime', 'gameNumber', 'gameStateId', 'period', 'homeTeamId', 'visitingTeamId', 'Team Name_x', 'Team Name_y', 'homeScore', 'visitingScore']]
+        df.columns = ['GameID', 'Time (EST)', 'Game Number', 'Game State', 'Period', 'Home Id', 'Visiting Id', 'Home Team', 'Visiting Team', 'Home Score', 'Visiting Score']
         df['Period'] = df['Period'].fillna(0).astype(int)
         df = df.sort_values(by='GameID')
         df = df.reset_index(drop=True)
