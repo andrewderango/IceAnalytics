@@ -1,14 +1,16 @@
 import time
-import pandas as pd
-from scraper_functions import *
-from model_training import *
-from model_inference import *
-from model_bootstrap import *
-from projection_engine import *
+from scraper_functions import (
+    scrape_skater_data, scrape_skater_bios, scrape_goalie_data,
+    scrape_goalie_bios, aggregate_player_bios, scrape_teams,
+    scrape_team_data, scrape_games, get_season_state, update_metadata,
+)
+from model_training import train_all_models
+from model_inference import run_inference, save_inference
+from model_bootstrap import run_all_bootstraps
 
 def main():
     start_time = time.time()
-    PROJECTION_YEAR = 2026
+    PROJECTION_YEAR = 2027
     SIMULATIONS = 5467
     season_state = get_season_state(PROJECTION_YEAR)
 
