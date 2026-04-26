@@ -38,41 +38,15 @@ def main():
     quit()
 
     # Train models
-    atoi_model = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    gp_model_data = train_gp_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    goal_model = train_goal_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    a1_model = train_a1_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    a2_model = train_a2_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    team_ga_model = train_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    skater_xga_model = train_skater_xga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
-    skater_ga_model = train_skater_ga_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
+    bundles = train_all_models(projection_year=PROJECTION_YEAR, retrain=True, verbose=True)
 
     # Make player inferences
-    player_stat_df = pd.DataFrame()
-    player_stat_df = atoi_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, atoi_model=atoi_model, download_file=False, verbose=False)
-    player_stat_df = gp_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, gp_model_data=gp_model_data, download_file=False, verbose=False)
-    player_stat_df = goal_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, goal_model=goal_model, download_file=False, verbose=False)
-    player_stat_df = a1_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a1_model=a1_model, download_file=False, verbose=False)
-    player_stat_df = a2_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, a2_model=a2_model, download_file=False, verbose=False)
-    player_stat_df = gp_inference_calibration(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df)
-    player_stat_df = skater_xga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_xga_model=skater_xga_model, download_file=False, verbose=False)
-    player_stat_df = skater_ga_model_inference(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, skater_ga_model=skater_ga_model, download_file=False, verbose=False)
+    player_stat_df = run_inference(PROJECTION_YEAR, bundles, verbose=True)
+    save_inference(PROJECTION_YEAR, player_stat_df, verbose=True)
 
     # Bootstrap player inferences
-    bootstrap_df = pd.DataFrame()
-    bootstrap_df = bootstrap_atoi_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    bootstrap_df = bootstrap_gp_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    bootstrap_df = bootstrap_goal_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    bootstrap_df = bootstrap_a1_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    bootstrap_df = bootstrap_a2_inferences(projection_year=PROJECTION_YEAR, bootstrap_df=bootstrap_df, retrain_model=False, download_file=True, verbose=False)
-    display_inferences(projection_year=PROJECTION_YEAR, player_stat_df=player_stat_df, bootstrap_df=bootstrap_df, inference_state='TOTAL', download_file=True, verbose=True) ###
-
-    # Make team inferences
-    team_stat_df = pd.DataFrame()
-    team_stat_df = team_ga_model_inference(projection_year=PROJECTION_YEAR, team_stat_df=team_stat_df, player_stat_df=player_stat_df, team_ga_model=team_ga_model, download_file=True, verbose=False)
-    # team_stat_df = team_stat_df.sort_values(by='Agg GA/GP', ascending=False)
-    # print(team_stat_df.to_string())
-
+    run_all_bootstraps(PROJECTION_YEAR, verbose=True)
+    
     # Run projection engine and simulate season
     run_projection_engine(projection_year=PROJECTION_YEAR, simulations=SIMULATIONS, download_files=True, verbose=True) ###
 
