@@ -351,12 +351,27 @@ def aggregate_player_bios(skaters, check_preexistence, verbose):
         return pd.DataFrame()
 
     combined_df = pd.concat(dataframes, ignore_index=True)
+
+    if skaters:
+        epoch_df = combined_df.groupby('playerId', as_index=False)[['gamesPlayed', 'goals', 'assists', 'points']].sum()
+        epoch_df.rename(columns={'gamesPlayed': 'epochGP', 'goals': 'epochGoals', 'assists': 'epochAssists', 'points': 'epochPoints'}, inplace=True)
+    else:
+        epoch_df = combined_df.groupby('playerId', as_index=False)[['gamesPlayed', 'wins', 'losses', 'ties']].sum()
+        epoch_df.rename(columns={'gamesPlayed': 'epochGP', 'wins': 'epochWins', 'losses': 'epochLosses', 'ties': 'epochTies'}, inplace=True)
+
     combined_df.sort_values(by=['birthDate', 'Last Season'], na_position='first', inplace=True)
     combined_df.drop_duplicates(subset='playerId', keep='last', inplace=True)
     combined_df = combined_df.reset_index(drop=True)
+    combined_df = combined_df.merge(epoch_df, on='playerId', how='left')
 
     other_cols = [c for c in combined_df.columns if c not in ('playerId', name_col)]
     combined_df = combined_df[['playerId', name_col] + other_cols]
+
+    if skaters:
+        combined_df.sort_values(by=['epochPoints', 'epochGoals', 'epochAssists', 'playerId'], ascending=[False, False, False, True], inplace=True)
+    else:
+        combined_df.sort_values(by=['epochWins', 'playerId'], ascending=[False, True], inplace=True)
+    combined_df = combined_df.reset_index(drop=True)
 
     export_path = os.path.dirname(file_path)
     os.makedirs(export_path, exist_ok=True)
