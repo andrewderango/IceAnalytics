@@ -65,7 +65,7 @@ def run_inference(projection_year, bundles, verbose=False):
 def save_inference(projection_year, df, verbose=False):
     out_dir = os.path.join(ENGINE_DATA, 'Projections', str(projection_year), 'Skaters')
     os.makedirs(out_dir, exist_ok=True)
-    path = os.path.join(out_dir, f'{projection_year}_skater_projections.csv')
+    path = os.path.join(out_dir, f'{projection_year}_skater_metaprojections.csv')
     df.sort_values('proj_points', ascending=False).to_csv(path, index=False)
     if verbose:
         print(f'Wrote {len(df)} player projections to {path}')
