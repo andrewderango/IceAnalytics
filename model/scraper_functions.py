@@ -450,19 +450,6 @@ def scrape_games(projection_year, check_preexistence, verbose):
             os.makedirs(file_path)
         df.to_csv(os.path.join(file_path, filename))
 
-def handle_duplicate_names_espn(row):
-    if row['Player'] == 'Sebastian Aho':
-        if 'C' in row['Position'] or 'R' in row['Position']:
-            return 'sebastianahoC'
-        elif row['Position'] == 'D':
-            return 'sebastianahoD'
-    elif row['Player'] == 'Elias Pettersson':
-        if 'C' in row['Position']:
-            return 'eliaspetterssonC'
-        elif row['Position'] == 'D':
-            return 'eliaspetterssonD'
-    return row['playerStrippedEspn']
-
 def get_season_state(projection_year):
     response = requests.get(f'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={projection_year-1}{projection_year}')
     data = response.json()
@@ -484,120 +471,6 @@ def fix_teams(player_stat_df):
     player_to_team_map = active_players_df.set_index('PlayerID')['Team'].to_dict()
     player_stat_df['Team'] = player_stat_df['PlayerID'].map(player_to_team_map)
     return player_stat_df
-
-def pull_espn_data(update_scrape, limit, download_files, verbose):
-    
-    if update_scrape:
-        url = "https://site.web.api.espn.com/apis/common/v3/sports/hockey/nhl/statistics/byathlete"
-
-        params = {
-            "region": "us",
-            "lang": "en",
-            "contentorigin": "espn",
-            "isqualified": "false",
-            "page": 1,
-            "limit": limit,
-            "sort": "offensive:points:desc",
-            "category": "skaters"
-        }
-
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-        }
-
-        response = requests.get(url, headers=headers, params=params)
-
-        if response.status_code == 200:
-            data = response.json()
-
-            player_data = []
-            for athlete in data.get("athletes", []):
-                athlete_info = {
-                    "Player": athlete.get('athlete', {}).get('displayName'),
-                    "Position": athlete.get('athlete', {}).get('position', {}).get('abbreviation'),
-                    "EspnId": athlete.get('athlete', {}).get('id'),
-                    "EspnHeadshot": athlete.get('athlete', {}).get('headshot', {}).get('href'),
-                }
-                player_data.append(athlete_info)
-
-            espn_df = pd.DataFrame(player_data)
-            if verbose:
-                print(espn_df)
-
-            if download_files:
-                current_dir = os.path.dirname(os.path.abspath(__file__))
-                save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_data.csv')
-                espn_df.to_csv(save_path, index=True)
-
-            return espn_df
-        else:
-            print(f"Failed to fetch data: {response.status_code}")
-
-    else:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        fetch_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_data.csv')
-        espn_df = pd.read_csv(fetch_path)
-        espn_df = espn_df.drop(espn_df.columns[0], axis=1)
-        return espn_df
-    
-def replace_names_espn(name):
-    if not isinstance(name, str):
-        name = str(name)
-    
-    name_replacement_dict = {
-        'è': 'e',
-        'é': 'e',
-        'ü': 'u',
-        'ö': 'o',
-        'ä': 'a',
-        'mathew': 'matt',
-        'alexander': 'alex',
-        'patrick': 'pat',
-        'janis': 'jj',
-        'johnny': 'john',
-        'nate': 'nathan',
-    }
-
-    for original, replacement in name_replacement_dict.items():
-        name = name.replace(original, replacement)
-    return name
-
-def add_espn_to_player_bios(espn_df, download_files, verbose):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    fetch_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
-    skater_bios_df = pd.read_csv(fetch_path)
-    skater_bios_df = skater_bios_df.drop(skater_bios_df.columns[0], axis=1)
-    if 'EspnHeadshot' in skater_bios_df.columns:
-        skater_bios_df = skater_bios_df.drop(columns=['EspnHeadshot'])
-
-    # strip and lowercase names for comparison
-    skater_bios_df['playerStrippedEspn'] = skater_bios_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
-    espn_df['playerStrippedEspn'] = espn_df['Player'].str.replace(' ', '').str.replace('.', '').str.replace('-', '').str.replace('\'', '').str.lower().apply(replace_names_espn)
-    skater_bios_df['playerStrippedEspn'] = skater_bios_df.apply(handle_duplicate_names_espn, axis=1)
-    espn_df['playerStrippedEspn'] = espn_df.apply(handle_duplicate_names_espn, axis=1)
-
-    # merge to update headshots for existing players
-    merged_df = pd.merge(skater_bios_df, espn_df[['playerStrippedEspn', 'EspnHeadshot']], how='outer', on='playerStrippedEspn')
-
-    # remove duplicate by player id
-    merged_df = merged_df.drop_duplicates(subset='PlayerID', keep='first')
-
-    if verbose:
-        print('Updated Player Bios:')
-        print(merged_df)
-    if download_files:
-        save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv')
-        merged_df.to_csv(save_path, index=True)
-
-    # check for failed merges
-    failed_df = pd.merge(skater_bios_df, espn_df[['playerStrippedEspn', 'EspnHeadshot']], how='right', on='playerStrippedEspn')
-    failed_df = failed_df[failed_df['PlayerID'].isnull()]
-    if verbose:
-        print('Failed Merges:')
-        print(failed_df)
-    if download_files:
-        save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_failed_merge.csv')
-        failed_df.to_csv(save_path, index=True)
 
 def fetch_current_team_stats_from_nhl_api(verbose=False):
     url = "https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20252026%20and%20seasonId%3E=20252026"
@@ -775,16 +648,6 @@ def push_to_supabase(table_name, year, verbose=False):
         df.rename(columns=rename_dict, inplace=True)
         df['position'] = df['position'].apply(lambda x: 'RW' if x == 'R' else ('LW' if x == 'L' else x))
         df['logo'] = 'https://assets.nhle.com/logos/nhl/svg/' + df['team'] + '_dark.svg'
-
-        # merge in ESPN headshots
-        player_bios_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Player Bios', 'Skaters', 'skater_bios.csv'))
-        player_bios_df = player_bios_df[['PlayerID', 'EspnHeadshot', 'Jersey Number']]
-        player_bios_df.rename(columns={'PlayerID': 'player_id', 'EspnHeadshot': 'espn_headshot', 'Jersey Number': 'jersey_number'}, inplace=True)
-        player_bios_df = player_bios_df.drop_duplicates(subset='player_id', keep='first')
-        player_bios_df['espn_headshot'] = player_bios_df['espn_headshot'].fillna('N/A')
-        player_bios_df['jersey_number'] = player_bios_df['jersey_number'].fillna(0)
-        player_bios_df['jersey_number'] = player_bios_df['jersey_number'].astype(int)
-        df = df.merge(player_bios_df, on='player_id', how='left')
 
         # fill in missing values
         df['goals_90pi_low'] = df['goals_90pi_low'].fillna(0)

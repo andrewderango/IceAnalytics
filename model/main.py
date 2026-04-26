@@ -27,9 +27,7 @@ def main():
     aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
     aggregate_player_bios(skaters=False, check_preexistence=False, verbose=False)
 
-    # Add ESPN data to player bios
-    espn_df = pull_espn_data(update_scrape=False, limit=1000, download_files=True, verbose=True)
-    add_espn_to_player_bios(espn_df=espn_df, download_files=True, verbose=True)
+    quit()
 
     # Scrape or fetch team data
     scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
