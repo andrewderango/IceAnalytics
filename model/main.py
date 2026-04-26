@@ -27,13 +27,13 @@ def main():
     aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
     aggregate_player_bios(skaters=False, check_preexistence=False, verbose=False)
 
-    quit()
-
     # Scrape or fetch team data
     scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
-    scrape_historical_team_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_team_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_team_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_team_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
+
+    quit()
 
     # Train models
     atoi_model = train_atoi_model(projection_year=PROJECTION_YEAR, retrain_model=False, verbose=False)
