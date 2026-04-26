@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import supabase from '../supabaseClient';
 import '../styles/Team.scss';
-import { season } from '../config/settings';
 import { useSiteConfig } from '../context/SiteConfigContext';
 
 function Team() {
@@ -484,7 +483,7 @@ function Team() {
                 <div key={key} className="player-card" onClick={() => history.push(`/player/${p.player_id}`)} style={{ cursor: 'pointer' }}>
                   <div className="player-top">
                     <div className="player-avatar">
-                      <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                      <img src={`https://assets.nhle.com/mugs/nhl/latest/${p.player_id}.png`} alt={p.player} />
                     </div>
                     <div className="player-info">
                       <div className="player-name">{p.player}</div>
@@ -542,7 +541,7 @@ function Team() {
                 <div key={key} className="player-card" onClick={() => history.push(`/player/${p.player_id}`)} style={{ cursor: 'pointer' }}>
                   <div className="player-top">
                     <div className="player-avatar">
-                      <img src={`https://assets.nhle.com/mugs/nhl/${season}/${p.team}/${p.player_id}.png`} alt={p.player} />
+                      <img src={`https://assets.nhle.com/mugs/nhl/latest/${p.player_id}.png`} alt={p.player} />
                     </div>
                     <div className="player-info">
                       <div className="player-name">{p.player}</div>

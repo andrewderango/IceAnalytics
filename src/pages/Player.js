@@ -11,7 +11,6 @@ import {
   Legend,
 } from 'chart.js';
 import '../styles/Player.scss';
-import { season } from '../config/settings';
 import { useSiteConfig } from '../context/SiteConfigContext';
 
 // Register Chart.js components
@@ -113,7 +112,6 @@ function Player() {
   const {
     player: playerName,
     team_name = 'NHL',
-    team,
     position,
     jersey_number,
     age,
@@ -283,7 +281,7 @@ function Player() {
         <div className="player-headshot-name">
           {team_name && playerId && (
             <img
-              src={`https://assets.nhle.com/mugs/nhl/${season}/${team}/${playerId}.png`}
+              src={`https://assets.nhle.com/mugs/nhl/latest/${playerId}.png`}
               alt={`${playerName} headshot`}
               className="player-headshot"
             />
