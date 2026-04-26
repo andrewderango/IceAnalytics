@@ -18,24 +18,22 @@ def main():
     update_metadata(state=0, params=[start_time, PROJECTION_YEAR, SIMULATIONS])
 
     # Scrape or fetch player data
-    scrape_skater_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_skater_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_skater_bios(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_skater_bios(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_goalie_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_goalie_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_goalie_bios(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_goalie_bios(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
-    aggregate_player_bios(skaters=False, check_preexistence=False, verbose=False)
+    # scrape_skater_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_skater_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_skater_bios(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_skater_bios(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_goalie_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_goalie_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_goalie_bios(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_goalie_bios(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
+    # aggregate_player_bios(skaters=False, check_preexistence=False, verbose=False)
 
     # Scrape or fetch team data
-    scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
-    scrape_team_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_team_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
-
-    quit()
+    # scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
+    # scrape_team_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    # scrape_team_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    # scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
 
     # Train models
     bundles = train_all_models(projection_year=PROJECTION_YEAR, retrain=True, verbose=True)
@@ -45,10 +43,12 @@ def main():
     save_inference(PROJECTION_YEAR, player_stat_df, verbose=True)
 
     # Bootstrap player inferences
-    run_all_bootstraps(PROJECTION_YEAR, verbose=True)
-    
+    run_all_bootstraps(PROJECTION_YEAR, retrain=False, verbose=True)
+
+    quit()
+
     # Run projection engine and simulate season
-    run_projection_engine(projection_year=PROJECTION_YEAR, simulations=SIMULATIONS, download_files=True, verbose=True) ###
+    # run_projection_engine(projection_year=PROJECTION_YEAR, simulations=SIMULATIONS, download_files=True, verbose=True) ###
 
     # Push the simulation results to Supabase
     # push_to_supabase(table_name="team_projections", year=PROJECTION_YEAR, verbose=True)
