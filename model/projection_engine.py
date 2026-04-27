@@ -263,6 +263,34 @@ def compute_poisson_game_probabilities(home_weighted_avg, visitor_weighted_avg, 
 
     return home_score, visitor_score, home_prob, visitor_prob, overtime
 
+# Load per-target stdevs from bootstrap module
+def _load_engine_bootstrap_stdevs(projection_year):
+    proj_dir = os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters')
+    bs = pd.read_csv(os.path.join(proj_dir, f'{projection_year}_skater_bootstrap_stdevs.csv'))
+    proj = pd.read_csv(os.path.join(proj_dir, f'{projection_year}_skater_metaprojections.csv'), usecols=['playerId', 'ev_atoi', 'pp_atoi', 'pk_atoi'])
+    bs = bs.merge(proj, on='playerId', how='left').fillna(0.0)
+
+    out = pd.DataFrame({'PlayerID': bs['playerId'].astype(int)})
+
+    out['gp_stdev'] = bs.get('gp_rate_stdev', 0.0) * 82.0
+    
+    atoi_var = bs.get('ev_atoi_stdev', 0.0) ** 2 + bs.get('pp_atoi_stdev', 0.0) ** 2 + bs.get('pk_atoi_stdev', 0.0) ** 2
+    out['atoi_stdev'] = np.sqrt(atoi_var)
+
+    ev_atoi = bs['ev_atoi']
+    pp_atoi = bs['pp_atoi']
+    pk_atoi = bs['pk_atoi']
+    total_atoi = (ev_atoi + pp_atoi + pk_atoi).clip(lower=1e-6)
+    scale = (500.0 / 60.0) / total_atoi
+
+    g60_var_term = (ev_atoi * bs.get('evg60_stdev', 0.0)) ** 2 + (pp_atoi * bs.get('ppg60_stdev', 0.0)) ** 2 + (pk_atoi * bs.get('pkg60_stdev', 0.0)) ** 2
+    out['gper1kChunk_stdev'] = scale * np.sqrt(g60_var_term)
+
+    a60_var_term = (ev_atoi * bs.get('eva60_stdev', 0.0)) ** 2 + (pp_atoi * bs.get('ppa60_stdev', 0.0)) ** 2 + (pk_atoi * bs.get('pka60_stdev', 0.0)) ** 2
+    out['aper1kChunk_stdev'] = scale * np.sqrt(a60_var_term)
+
+    return out
+
 # Generate player uncertainty-based projections via monte carlo engine
 def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projection_year, simulations, download_files, verbose):
 
