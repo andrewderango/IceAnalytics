@@ -101,7 +101,6 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
     inf_X_imp_arr = X_inf_imp.values
 
     preds_matrix = np.zeros((len(inf_frame), n_boots), dtype=np.float32)
-    resid_vars = np.zeros(n_boots, dtype=np.float64)
 
     if not retrain and _bundle_exists(target):
         if verbose:
@@ -117,27 +116,27 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
             raise RuntimeError(f'No training rows for bootstrap target {target}')
 
         bundle = []
+        sq_resid_chunks = []
+        weight_chunks = []
         rng = np.random.default_rng(seed)
         iterator = range(n_boots)
         if verbose:
             iterator = tqdm(iterator, desc=f'bootstrap {target}')
         for i in iterator:
-            inf_preds, rv, model, scaler = _fit_and_score_bootstrap(
+            inf_preds, hold_sq_resid, hold_w, model, scaler = _fit_and_score_bootstrap(
                 target, sub, inf_X_imp_arr, feats, projection_year, config, rng)
             preds_matrix[:, i] = inf_preds
-            resid_vars[i] = rv
-            bundle.append({'model': model, 'scaler': scaler, 'resid_var': rv})
+            sq_resid_chunks.append(hold_sq_resid)
+            weight_chunks.append(hold_w)
+            bundle.append({
+                'model': model,
+                'scaler': scaler,
+                'hold_sq_resid': hold_sq_resid,
+                'hold_weights': hold_w,
+            })
         _save_bundle(target, bundle)
-
-    # PRUS
-    residual_var = float(np.mean(resid_vars))
-    ens_var = preds_matrix.var(axis=1)
-    mean_ens_var = float(np.mean(ens_var)) if ens_var.size else 1.0
-    if mean_ens_var > 0:
-        scaled_var = ens_var * (residual_var / mean_ens_var)
-    else:
-        scaled_var = ens_var
-    stdev = np.sqrt(np.clip(scaled_var, 0, None))
+        pooled_sq_resid = np.concatenate(sq_resid_chunks)
+        pooled_weights = np.concatenate(weight_chunks)
 
     stdev_df = inf_frame[['playerId']].assign(**{f'{target}_stdev': stdev})
     return stdev_df, residual_var, mean_ens_var
