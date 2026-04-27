@@ -6,18 +6,27 @@ import pandas as pd
 from tqdm import tqdm
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
-import xgboost as xgb
 from feature_engineering import (
-    ENGINE_DATA, ALL_TARGETS, FEATURE_SETS, SH_TO_EV_GOAL_RATIO, SH_TO_EV_ASSIST_RATIO,
+    ENGINE_DATA, ALL_TARGETS, FEATURE_SETS_RIDGE, SH_TO_EV_GOAL_RATIO, SH_TO_EV_ASSIST_RATIO,
     build_modeling_frame, build_inference_frame, training_filter,
     impute_features, compute_sample_weights,
 )
-from model_training import MODEL_CONFIG, DEFAULT_XGB_PARAMS
 
 BOOTSTRAPS_DIR = os.path.join(ENGINE_DATA, 'Projection Models', 'bootstraps')
 BOOTSTRAP_MODELS_DIR = os.path.join(BOOTSTRAPS_DIR, 'models')
 N_BOOTSTRAPS = 500
 HOLDOUT_FRAC = 0.15  # OOS holdout fraction for residual aggregation
+
+BOOTSTRAP_CONFIG = {
+    'ev_atoi': {'alpha': 1.0,  'decay': 0.05},
+    'pp_atoi': {'alpha': 2.0,  'decay': 0.05},
+    'pk_atoi': {'alpha': 2.0,  'decay': 0.05},
+    'gp_rate': {'alpha': 1.0,  'decay': 0.05},
+    'evg60':   {'alpha': 5.0,  'decay': 0.10},
+    'eva60':   {'alpha': 5.0,  'decay': 0.10},
+    'ppg60':   {'alpha': 5.0,  'decay': 0.10},
+    'ppa60':   {'alpha': 5.0,  'decay': 0.10},
+}
 
 
 def _bundle_path(target):
@@ -38,32 +47,23 @@ def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year,
     train_rows = sub.iloc[train_idx]
     hold_rows = sub.iloc[hold_idx]
 
-    feats = inf_feats
-    X_tr = train_rows[feats]
+    X_tr = train_rows[inf_feats]
     y_tr = train_rows[target].astype(float).values
     w_tr = compute_sample_weights(train_rows, target, config['decay'], projection_year)
     X_tr_imp, feat_means = impute_features(X_tr)
 
-    X_hold = hold_rows[feats]
+    X_hold = hold_rows[inf_feats]
     y_hold = hold_rows[target].astype(float).values
     w_hold = compute_sample_weights(hold_rows, target, config['decay'], projection_year)
     means_series = pd.Series(feat_means.to_dict() if hasattr(feat_means, 'to_dict') else feat_means)
     X_hold_imp, _ = impute_features(X_hold, fitted_means=means_series)
 
-    sc = None
-    if config['family'] == 'ridge':
-        sc = StandardScaler()
-        Xs_tr = sc.fit_transform(X_tr_imp.values)
-        m = Ridge(alpha=config['alpha'])
-        m.fit(Xs_tr, y_tr, sample_weight=w_tr)
-        hold_preds = m.predict(sc.transform(X_hold_imp.values))
-        inf_preds = m.predict(sc.transform(inf_X_imp))
-    else:
-        params = {**DEFAULT_XGB_PARAMS, **config.get('xgb_params', {})}
-        m = xgb.XGBRegressor(**params)
-        m.fit(X_tr_imp.values, y_tr, sample_weight=w_tr)
-        hold_preds = m.predict(X_hold_imp.values)
-        inf_preds = m.predict(inf_X_imp)
+    sc = StandardScaler()
+    Xs_tr = sc.fit_transform(X_tr_imp.values)
+    m = Ridge(alpha=config['alpha'])
+    m.fit(Xs_tr, y_tr, sample_weight=w_tr)
+    hold_preds = m.predict(sc.transform(X_hold_imp.values))
+    inf_preds = m.predict(sc.transform(inf_X_imp))
 
     hold_sq_resid = (y_hold - hold_preds).astype(np.float64) ** 2
     hold_w = np.asarray(w_hold, dtype=np.float64)
@@ -74,15 +74,12 @@ def _save_bundle(target, bundle):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     joblib.dump(bundle, path)
 
-def _load_bundle_preds(target, config, inf_X_imp_arr):
+def _load_bundle_preds(target, inf_X_imp_arr):
     bundle = joblib.load(_bundle_path(target))
     preds_list, sq_resid_chunks, weight_chunks = [], [], []
     for entry in bundle:
         model, scaler = entry['model'], entry['scaler']
-        if config['family'] == 'ridge':
-            preds_list.append(model.predict(scaler.transform(inf_X_imp_arr)))
-        else:
-            preds_list.append(model.predict(inf_X_imp_arr))
+        preds_list.append(model.predict(scaler.transform(inf_X_imp_arr)))
         sq_resid_chunks.append(np.asarray(entry['hold_sq_resid'], dtype=np.float64))
         weight_chunks.append(np.asarray(entry['hold_weights'], dtype=np.float64))
     preds_matrix = np.array(preds_list, dtype=np.float32).T
@@ -92,8 +89,8 @@ def _load_bundle_preds(target, config, inf_X_imp_arr):
 
 # Bootstrap one target, returns per-player stdev series
 def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, verbose=False, retrain=True):
-    config = MODEL_CONFIG[target]
-    feats = FEATURE_SETS[target]
+    config = BOOTSTRAP_CONFIG[target]
+    feats = FEATURE_SETS_RIDGE[target]
 
     inf_frame = build_inference_frame(projection_year)
     X_inf_raw = inf_frame[feats]
@@ -105,7 +102,7 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
     if not retrain and _bundle_exists(target):
         if verbose:
             print(f'Loading saved bootstraps for {target}')
-        preds_matrix, pooled_sq_resid, pooled_weights = _load_bundle_preds(target, config, inf_X_imp_arr)
+        preds_matrix, pooled_sq_resid, pooled_weights = _load_bundle_preds(target, inf_X_imp_arr)
     else:
         if not retrain and verbose:
             print(f'Saved bootstrap bundle for {target} not found, training from scratch')
