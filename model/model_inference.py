@@ -1,21 +1,14 @@
 import os
 import numpy as np
-import pandas as pd
 from feature_engineering import (
     ENGINE_DATA, ALL_TARGETS,
     SH_TO_EV_GOAL_RATIO, SH_TO_EV_ASSIST_RATIO,
-    build_inference_frame, impute_features, load_bios,
+    build_inference_frame, load_bios,
 )
 
 def _predict_one(bundle, X_df):
     feats = bundle['features']
-    X = X_df[feats].copy()
-    means = pd.Series(bundle['feature_means'])
-    X_imp, _ = impute_features(X, fitted_means=means)
-    if bundle['family'] == 'ridge':
-        Xs = bundle['scaler'].transform(X_imp.values)
-        return bundle['model'].predict(Xs)
-    return bundle['model'].predict(X_imp.values)
+    return bundle['model'].predict(X_df[feats].values)
 
 # Run every trained model on the projection-year inference frame and return a dataframe of predictions
 def run_inference(projection_year, bundles, verbose=False):
