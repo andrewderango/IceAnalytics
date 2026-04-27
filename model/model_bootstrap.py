@@ -106,7 +106,7 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
     if not retrain and _bundle_exists(target):
         if verbose:
             print(f'Loading saved bootstraps for {target}')
-        preds_matrix, resid_vars = _load_bundle_preds(target, config, inf_X_imp_arr)
+        preds_matrix, pooled_sq_resid, pooled_weights = _load_bundle_preds(target, config, inf_X_imp_arr)
     else:
         if not retrain and verbose:
             print(f'Saved bootstrap bundle for {target} not found, training from scratch')
@@ -167,12 +167,11 @@ def run_all_bootstraps(projection_year, n_boots=N_BOOTSTRAPS, verbose=False, ret
     merged = None
     summary = {}
     for i, target in enumerate(ALL_TARGETS):
-        df, residual_var, mean_ens_var = bootstrap_target(target, projection_year, n_boots=n_boots, seed=42 + i, verbose=verbose, retrain=retrain)
+        df, diagnostics = bootstrap_target(target, projection_year, n_boots=n_boots, seed=42 + i, verbose=verbose, retrain=retrain)
         summary[target] = {
             'n_boots': n_boots,
             'mean_stdev': float(df[f'{target}_stdev'].mean()),
-            'residual_var': residual_var,
-            'mean_ens_var': mean_ens_var,
+            **diagnostics,
         }
         merged = df if merged is None else merged.merge(df, on='playerId', how='outer')
 
