@@ -65,8 +65,9 @@ def _fit_and_score_bootstrap(target, sub, inf_X_imp, inf_feats, projection_year,
         hold_preds = m.predict(X_hold_imp.values)
         inf_preds = m.predict(inf_X_imp)
 
-    hold_resid_var = float(np.average((y_hold - hold_preds) ** 2, weights=w_hold))
-    return inf_preds, hold_resid_var, m, sc
+    hold_sq_resid = (y_hold - hold_preds).astype(np.float64) ** 2
+    hold_w = np.asarray(w_hold, dtype=np.float64)
+    return inf_preds, hold_sq_resid, hold_w, m, sc
 
 def _save_bundle(target, bundle):
     path = _bundle_path(target)
