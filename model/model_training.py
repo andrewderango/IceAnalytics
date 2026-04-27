@@ -32,38 +32,27 @@ def fit_target_model(target, frame, projection_year, config=None, verbose=False)
     if config is None:
         config = MODEL_CONFIG[target]
 
-    feats = FEATURE_SETS[target]
+    feats = FEATURE_SETS_XGB[target]
     mask = training_filter(frame, target) & (frame['season'] < projection_year)
     sub = frame.loc[mask].copy()
     if sub.empty:
         raise RuntimeError(f'No training rows for {target}')
 
-    X = sub[feats]
+    X = sub[feats].values
     y = sub[target].astype(float).values
     weights = compute_sample_weights(sub, target, config['decay'], projection_year)
-    X_imp, feat_means = impute_features(X)
 
-    if config['family'] == 'ridge':
-        scaler = StandardScaler()
-        Xs = scaler.fit_transform(X_imp.values)
-        model = Ridge(alpha=config['alpha'])
-        model.fit(Xs, y, sample_weight=weights)
-    else:
-        scaler = None
-        params = {**DEFAULT_XGB_PARAMS, **config.get('xgb_params', {})}
-        model = xgb.XGBRegressor(**params)
-        model.fit(X_imp.values, y, sample_weight=weights)
+    params = {**DEFAULT_XGB_PARAMS, **config.get('xgb_params', {})}
+    model = xgb.XGBRegressor(**params)
+    model.fit(X, y, sample_weight=weights)
 
     if verbose:
-        print(f'  {target:<8} family={config["family"]:<5} n={len(sub):>5}')
+        print(f'  {target:<8} n={len(sub):>5}')
 
     return {
         'target': target,
-        'family': config['family'],
         'config': config,
         'features': feats,
-        'feature_means': feat_means.to_dict(),
-        'scaler': scaler,
         'model': model,
         'n_train': int(len(sub)),
     }
