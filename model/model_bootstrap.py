@@ -76,15 +76,19 @@ def _save_bundle(target, bundle):
 
 def _load_bundle_preds(target, config, inf_X_imp_arr):
     bundle = joblib.load(_bundle_path(target))
-    preds_list, resid_vars = [], []
+    preds_list, sq_resid_chunks, weight_chunks = [], [], []
     for entry in bundle:
-        model, scaler, rv = entry['model'], entry['scaler'], entry['resid_var']
+        model, scaler = entry['model'], entry['scaler']
         if config['family'] == 'ridge':
             preds_list.append(model.predict(scaler.transform(inf_X_imp_arr)))
         else:
             preds_list.append(model.predict(inf_X_imp_arr))
-        resid_vars.append(rv)
-    return np.array(preds_list, dtype=np.float32).T, np.array(resid_vars)
+        sq_resid_chunks.append(np.asarray(entry['hold_sq_resid'], dtype=np.float64))
+        weight_chunks.append(np.asarray(entry['hold_weights'], dtype=np.float64))
+    preds_matrix = np.array(preds_list, dtype=np.float32).T
+    pooled_sq_resid = np.concatenate(sq_resid_chunks)
+    pooled_weights = np.concatenate(weight_chunks)
+    return preds_matrix, pooled_sq_resid, pooled_weights
 
 # Bootstrap one target, returns per-player stdev series
 def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, verbose=False, retrain=True):
