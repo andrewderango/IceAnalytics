@@ -17,7 +17,7 @@ from model_training import MODEL_CONFIG, DEFAULT_XGB_PARAMS
 BOOTSTRAPS_DIR = os.path.join(ENGINE_DATA, 'Projection Models', 'bootstraps')
 BOOTSTRAP_MODELS_DIR = os.path.join(BOOTSTRAPS_DIR, 'models')
 N_BOOTSTRAPS = 500
-HOLDOUT_FRAC = 0.01  # PRUS OOS residual holdout fraction
+HOLDOUT_FRAC = 0.15  # OOS holdout fraction for residual aggregation
 
 
 def _bundle_path(target):
