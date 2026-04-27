@@ -164,45 +164,30 @@ def build_modeling_frame(target_seasons=None, raw=None, bios=None):
 
     return frame
 
-# Feature subsets per target. Kept compact to avoid overfitting at ridge.
-def _common_player_features():
+def _common_player_features_ridge():
     return ['age', 'age2', 'age3', 'is_defense', 'is_rookie', 'draft_round', 'draft_overall']
 
-FEATURE_SETS = {
-    'ev_atoi': _common_player_features() + [
-        'lag1_ev_atoi', 'lag2_ev_atoi', 'lag3_ev_atoi',
-        'lag1_all_atoi', 'lag1_gp_rate', 'lag1_pp_atoi',
-    ],
-    'pp_atoi': _common_player_features() + [
-        'lag1_pp_atoi', 'lag2_pp_atoi', 'lag3_pp_atoi',
-        'lag1_ev_atoi', 'lag1_ppg60', 'lag1_ppa60', 'lag1_gp_rate',
-    ],
-    'pk_atoi': _common_player_features() + [
-        'lag1_pk_atoi', 'lag2_pk_atoi', 'lag3_pk_atoi',
-        'lag1_ev_atoi', 'lag1_gp_rate',
-    ],
-    'gp_rate': _common_player_features() + [
-        'lag1_gp_rate', 'lag2_gp_rate', 'lag3_gp_rate',
-        'lag1_all_atoi', 'lag1_ev_atoi',
-    ],
-    'evg60': _common_player_features() + [
-        'lag1_evg60', 'lag2_evg60', 'lag3_evg60',
-        'lag1_ev_atoi', 'lag1_eva60', 'lag1_ev_toi_sec',
-    ],
-    'eva60': _common_player_features() + [
-        'lag1_eva60', 'lag2_eva60', 'lag3_eva60',
-        'lag1_ev_atoi', 'lag1_evg60', 'lag1_ev_toi_sec',
-    ],
-    'ppg60': _common_player_features() + [
-        'lag1_ppg60', 'lag2_ppg60', 'lag3_ppg60',
-        'lag1_pp_atoi', 'lag1_ppa60', 'lag1_pp_toi_sec',
-    ],
-    'ppa60': _common_player_features() + [
-        'lag1_ppa60', 'lag2_ppa60', 'lag3_ppa60',
-        'lag1_pp_atoi', 'lag1_ppg60', 'lag1_pp_toi_sec',
-    ],
+def _common_player_features_xgb():
+    return ['age', 'age2', 'age3', 'is_defense', 'draft_round', 'draft_overall']
+
+_lag_features = {
+    'ev_atoi': ['lag1_ev_atoi', 'lag2_ev_atoi', 'lag3_ev_atoi', 'lag1_all_atoi', 'lag1_gp_rate', 'lag1_pp_atoi'],
+    'pp_atoi': ['lag1_pp_atoi', 'lag2_pp_atoi', 'lag3_pp_atoi', 'lag1_ev_atoi', 'lag1_ppg60', 'lag1_ppa60', 'lag1_gp_rate'],
+    'pk_atoi': ['lag1_pk_atoi', 'lag2_pk_atoi', 'lag3_pk_atoi', 'lag1_ev_atoi', 'lag1_gp_rate'],
+    'gp_rate': ['lag1_gp_rate', 'lag2_gp_rate', 'lag3_gp_rate', 'lag1_all_atoi', 'lag1_ev_atoi'],
+    'evg60':   ['lag1_evg60', 'lag2_evg60', 'lag3_evg60', 'lag1_ev_atoi', 'lag1_eva60', 'lag1_ev_toi_sec'],
+    'eva60':   ['lag1_eva60', 'lag2_eva60', 'lag3_eva60', 'lag1_ev_atoi', 'lag1_evg60', 'lag1_ev_toi_sec'],
+    'ppg60':   ['lag1_ppg60', 'lag2_ppg60', 'lag3_ppg60', 'lag1_pp_atoi', 'lag1_ppa60', 'lag1_pp_toi_sec'],
+    'ppa60':   ['lag1_ppa60', 'lag2_ppa60', 'lag3_ppa60', 'lag1_pp_atoi', 'lag1_ppg60', 'lag1_pp_toi_sec'],
 }
 
+FEATURE_SETS_RIDGE = {t: _common_player_features_ridge() + lags for t, lags in _lag_features.items()}
+FEATURE_SETS_XGB   = {t: _common_player_features_xgb()   + lags for t, lags in _lag_features.items()}
+
+def get_feature_set(target, family):
+    if family == 'xgb':
+        return FEATURE_SETS_XGB[target]
+    return FEATURE_SETS_RIDGE[target]
 
 # Per-target row filters for training; returns boolean mask of valid rows
 def training_filter(frame, target):
