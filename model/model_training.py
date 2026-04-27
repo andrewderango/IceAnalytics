@@ -1,33 +1,30 @@
 import os
-import json
 import joblib
 import numpy as np
-from sklearn.linear_model import Ridge
-from sklearn.preprocessing import StandardScaler
 import xgboost as xgb
 from feature_engineering import (
-    ENGINE_DATA, ALL_TARGETS, FEATURE_SETS,
-    build_modeling_frame, training_filter, impute_features,
-    compute_sample_weights,
+    ENGINE_DATA, ALL_TARGETS, FEATURE_SETS_XGB,
+    build_modeling_frame, training_filter, compute_sample_weights,
 )
 
 MODELS_DIR = os.path.join(ENGINE_DATA, 'Projection Models', 'inference')
 
+# Inference models are always XGBoost. Bootstrap models are always Ridge (see model_bootstrap.py).
 MODEL_CONFIG = {
-    'ev_atoi': {'family': 'ridge', 'alpha': 1.0,  'decay': 0.05},
-    'pp_atoi': {'family': 'ridge', 'alpha': 2.0,  'decay': 0.05},
-    'pk_atoi': {'family': 'ridge', 'alpha': 2.0,  'decay': 0.05},
-    'gp_rate': {'family': 'ridge', 'alpha': 1.0,  'decay': 0.05},
-    'evg60':   {'family': 'ridge', 'alpha': 5.0,  'decay': 0.10},
-    'eva60':   {'family': 'ridge', 'alpha': 5.0,  'decay': 0.10},
-    'ppg60':   {'family': 'ridge', 'alpha': 5.0,  'decay': 0.10},
-    'ppa60':   {'family': 'ridge', 'alpha': 5.0,  'decay': 0.10},
+    'ev_atoi': {'decay': 0.05, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'pp_atoi': {'decay': 0.05, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'pk_atoi': {'decay': 0.05, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'gp_rate': {'decay': 0.05, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'evg60':   {'decay': 0.10, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'eva60':   {'decay': 0.10, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'ppg60':   {'decay': 0.10, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
+    'ppa60':   {'decay': 0.10, 'xgb_params': {'n_estimators': 200, 'max_depth': 3, 'learning_rate': 0.05}},
 }
 
 DEFAULT_XGB_PARAMS = dict(
     n_estimators=200, max_depth=3, learning_rate=0.05,
     subsample=0.8, colsample_bytree=0.8, reg_lambda=1.0,
-    objective='reg:squarederror', n_jobs=4, verbosity=0,
+    tree_method='hist', objective='reg:squarederror', n_jobs=4, verbosity=0,
 )
 
 
