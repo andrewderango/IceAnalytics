@@ -1,50 +1,66 @@
 {
   "ev_atoi": {
     "n_boots": 500,
-    "mean_stdev": 1.3301877975463867,
-    "residual_var": 2.0249590374597344,
-    "mean_ens_var": 0.0041506048291921616
+    "mean_stdev": 1.4192252159118652,
+    "mean_epistemic_variance": 0.0054968479089438915,
+    "aleatoric_variance": 2.0087058817920638,
+    "mean_total_variance": 2.01420259475708,
+    "mean_holdout_sq_resid": 2.0142027297010077
   },
   "pp_atoi": {
     "n_boots": 500,
-    "mean_stdev": 0.5388739705085754,
-    "residual_var": 0.3507484657193112,
-    "mean_ens_var": 0.0007335791015066206
+    "mean_stdev": 0.5948882102966309,
+    "mean_epistemic_variance": 0.0009809122420847416,
+    "aleatoric_variance": 0.3529133129425914,
+    "mean_total_variance": 0.3538942337036133,
+    "mean_holdout_sq_resid": 0.3538942251846761
   },
   "pk_atoi": {
     "n_boots": 500,
-    "mean_stdev": 0.5387542843818665,
-    "residual_var": 0.3238613702528171,
-    "mean_ens_var": 0.0005342718213796616
+    "mean_stdev": 0.5657603144645691,
+    "mean_epistemic_variance": 0.0006998819881118834,
+    "aleatoric_variance": 0.3193851217754817,
+    "mean_total_variance": 0.32008498907089233,
+    "mean_holdout_sq_resid": 0.32008500376359356
   },
   "gp_rate": {
     "n_boots": 500,
-    "mean_stdev": 0.20005877315998077,
-    "residual_var": 0.04547556041282412,
-    "mean_ens_var": 5.896835500607267e-05
+    "mean_stdev": 0.21315521001815796,
+    "mean_epistemic_variance": 7.67820529290475e-05,
+    "aleatoric_variance": 0.045358380854976434,
+    "mean_total_variance": 0.045435164123773575,
+    "mean_holdout_sq_resid": 0.04543516290790548
   },
   "evg60": {
     "n_boots": 500,
-    "mean_stdev": 0.20156238973140717,
-    "residual_var": 0.06026459295671167,
-    "mean_ens_var": 0.00027416396187618375
+    "mean_stdev": 0.24538883566856384,
+    "mean_epistemic_variance": 0.00036890257615596056,
+    "aleatoric_variance": 0.059852176587737865,
+    "mean_total_variance": 0.06022108346223831,
+    "mean_holdout_sq_resid": 0.060221079163893826
   },
   "eva60": {
     "n_boots": 500,
-    "mean_stdev": 0.27374202013015747,
-    "residual_var": 0.09452257391130876,
-    "mean_ens_var": 0.0003158985637128353
+    "mean_stdev": 0.307585209608078,
+    "mean_epistemic_variance": 0.00041657729889266193,
+    "aleatoric_variance": 0.09419335859852573,
+    "mean_total_variance": 0.09460993856191635,
+    "mean_holdout_sq_resid": 0.0946099358974184
   },
   "ppg60": {
     "n_boots": 500,
-    "mean_stdev": 0.5641834735870361,
-    "residual_var": 0.8512381607560988,
-    "mean_ens_var": 0.015467970632016659
+    "mean_stdev": 0.918675422668457,
+    "mean_epistemic_variance": 0.0188540518283844,
+    "aleatoric_variance": 0.8294761384484243,
+    "mean_total_variance": 0.8483301997184753,
+    "mean_holdout_sq_resid": 0.8483301902768087
   },
   "ppa60": {
     "n_boots": 500,
-    "mean_stdev": 0.9693807363510132,
-    "residual_var": 1.7189399781041763,
-    "mean_ens_var": 0.015016249381005764
+    "mean_stdev": 1.3023130893707275,
+    "mean_epistemic_variance": 0.019695986062288284,
+    "aleatoric_variance": 1.6778054567216765,
+    "mean_total_variance": 1.697501540184021,
+    "mean_holdout_sq_resid": 1.6975014427839648
   }
 }
