@@ -130,7 +130,7 @@ def build_modeling_frame(target_seasons=None, raw=None, bios=None):
             continue
         y0_rows = raw[raw['season'] == y0].copy()
         y0_rows = y0_rows[y0_rows['playerId'].notna()]
-        target_cols = ['playerId', 'season', 'positionCode'] + ALL_TARGETS + ['gp', 'ev_toi_sec', 'pp_toi_sec', 'pk_toi_sec', 'is_defense', 'is_forward']
+        target_cols = ['playerId', 'skaterFullName', 'season', 'positionCode'] + ALL_TARGETS + ['gp', 'ev_toi_sec', 'pp_toi_sec', 'pk_toi_sec', 'is_defense', 'is_forward']
         y0_keep = y0_rows[[c for c in target_cols if c in y0_rows.columns]].copy()
 
         # Attach lag features for each lag year
@@ -159,7 +159,7 @@ def build_modeling_frame(target_seasons=None, raw=None, bios=None):
     frame['draft_round'] = pd.to_numeric(frame.get('draftRound'), errors='coerce').fillna(8)
     frame['draft_overall'] = pd.to_numeric(frame.get('draftOverall'), errors='coerce').fillna(225)
     frame['is_rookie'] = frame['lag1_gp'].isna().astype(int)
-    drop = ['skaterFullName', 'birthDate', 'shootsCatches', 'draftRound', 'draftOverall', 'draftYear']
+    drop = ['birthDate', 'shootsCatches', 'draftRound', 'draftOverall', 'draftYear']
     frame = frame.drop(columns=[c for c in drop if c in frame.columns])
 
     return frame
