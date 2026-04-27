@@ -138,8 +138,27 @@ def bootstrap_target(target, projection_year, n_boots=N_BOOTSTRAPS, seed=42, ver
         pooled_sq_resid = np.concatenate(sq_resid_chunks)
         pooled_weights = np.concatenate(weight_chunks)
 
+    # Variance decomposition
+    # Epistemic: per-player variance across bootstrap predictions, assumed heteroscedastic
+    # Aleatoric: pooled holdout MSE minus mean epistemic variance.
+
+    epistemic_variance = preds_matrix.var(axis=1, ddof=1) if preds_matrix.shape[1] > 1 else np.zeros(preds_matrix.shape[0])
+    mean_epistemic_variance = float(np.mean(epistemic_variance)) if epistemic_variance.size else 0.0
+
+    mean_total_holdout_var = float(np.average(pooled_sq_resid, weights=pooled_weights))
+    aleatoric_variance = max(mean_total_holdout_var - mean_epistemic_variance, 0.0)
+
+    total_variance = epistemic_variance + aleatoric_variance
+    stdev = np.sqrt(np.clip(total_variance, 0, None))
+
     stdev_df = inf_frame[['playerId']].assign(**{f'{target}_stdev': stdev})
-    return stdev_df, residual_var, mean_ens_var
+    diagnostics = {
+        'mean_epistemic_variance': mean_epistemic_variance,
+        'aleatoric_variance': aleatoric_variance,
+        'mean_total_variance': float(np.mean(total_variance)) if total_variance.size else 0.0,
+        'mean_holdout_sq_resid': mean_total_holdout_var,
+    }
+    return stdev_df, diagnostics
 
 
 # Reduce variance as season progresses
