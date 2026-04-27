@@ -298,12 +298,7 @@ def player_monte_carlo_engine(skater_proj_df, core_player_scoring_dict, projecti
     monte_carlo_player_df = copy.deepcopy(skater_proj_df)
     existing_scoring_dict = copy.deepcopy(core_player_scoring_dict)
 
-    # extract bootstrap_df from CSV
-    bootstrap_df = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Projections', str(projection_year), 'Skaters', f'{projection_year}_skater_bootstraps.csv'), index_col=0)
-    bootstrap_df['PlayerID'] = bootstrap_df['PlayerID'].astype(int)
-    bootstrap_df['Aper1kChunk'] = bootstrap_df['A1per1kChunk'] + bootstrap_df['A2per1kChunk'] # variances are additive when independent; approximate as independent for simplicity
-    bootstrap_df.drop(columns=['A1per1kChunk', 'A2per1kChunk'], inplace=True)
-    bootstrap_df.rename(columns={'ATOI': 'vATOI', 'GP': 'vGames Played', 'Gper1kChunk': 'vGper1kChunk', 'Aper1kChunk': 'vAper1kChunk'}, inplace=True)
+    bootstrap_df = _load_engine_bootstrap_stdevs(projection_year)
 
     # convert monte carlo player df to rates
     monte_carlo_player_df['ATOI'] = monte_carlo_player_df['TOI'] / monte_carlo_player_df['Games Played']
