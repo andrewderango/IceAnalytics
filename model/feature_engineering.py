@@ -168,7 +168,7 @@ def _common_player_features_ridge():
     return ['age', 'age2', 'age3', 'is_defense', 'is_rookie', 'draft_round', 'draft_overall']
 
 def _common_player_features_xgb():
-    return ['age', 'age2', 'age3', 'is_defense', 'draft_round', 'draft_overall']
+    return ['age', 'is_defense', 'draft_round', 'draft_overall']
 
 _lag_features = {
     'ev_atoi': ['lag1_ev_atoi', 'lag2_ev_atoi', 'lag3_ev_atoi', 'lag1_all_atoi', 'lag1_gp_rate', 'lag1_pp_atoi'],
