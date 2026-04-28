@@ -27,7 +27,7 @@ def run_inference(projection_year, bundles, verbose=False):
     # Sanity clipping
     out['ev_atoi'] = out['ev_atoi'].clip(lower=0, upper=25)
     out['pp_atoi'] = out['pp_atoi'].clip(lower=0, upper=8)
-    out['pk_atoi'] = out['pk_atoi'].clip(lower=0, upper=6)
+    out['pk_atoi'] = out['pk_atoi'].clip(lower=0, upper=7)
     out['gp_rate'] = out['gp_rate'].clip(lower=0, upper=1)
     for c in ['evg60', 'eva60', 'ppg60', 'ppa60']:
         out[c] = out[c].clip(lower=0)
