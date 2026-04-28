@@ -1,0 +1,25 @@
+========================================================================
+Optuna XGBoost Tuning  |  2026-04-28 00:35:23
+Targets  : ev_atoi, pp_atoi, pk_atoi, gp_rate, evg60, eva60, ppg60, ppa60
+N_TRIALS : 60 per target (480 total)  |  seed=42
+========================================================================
+
+────────────────────────────────────────────────────────────────────────
+[1/8] ev_atoi  |  started 00:35:23
+────────────────────────────────────────────────────────────────────────
+    1/60  n_est=250  depth=6  lr=0.0896  decay=0.0239  cv_rmse=1.5016 ±0.0983
+    2/60  n_est=150  depth=3  lr=0.0119  decay=0.0984  cv_rmse=2.6155 ±0.0653
+    3/60  n_est=350  depth=5  lr=0.0106  decay=0.1705  cv_rmse=1.4910 ±0.0958
+    4/60  n_est=450  depth=3  lr=0.0172  decay=0.0026  cv_rmse=1.4788 ±0.1028
+    5/60  n_est=200  depth=5  lr=0.0365  decay=0.0047  cv_rmse=1.4708 ±0.0984
+    6/60  n_est=350  depth=3  lr=0.0240  decay=0.0070  cv_rmse=1.4773 ±0.1026
+    7/60  n_est=300  depth=6  lr=0.0182  decay=0.0152  cv_rmse=1.4689 ±0.1007
+    8/60  n_est=350  depth=3  lr=0.0617  decay=0.0025  cv_rmse=1.4745 ±0.0991
+    9/60  n_est=100  depth=6  lr=0.1804  decay=0.0725  cv_rmse=1.5120 ±0.0952
+   10/60  n_est=200  depth=3  lr=0.0777  decay=0.0103  cv_rmse=1.4727 ±0.1022
+   11/60  n_est=500  depth=6  lr=0.0302  decay=0.0297  cv_rmse=1.4835 ±0.0998
+   12/60  n_est=250  depth=5  lr=0.0355  decay=0.0011  cv_rmse=1.4722 ±0.0969
+   13/60  n_est=250  depth=5  lr=0.0212  decay=0.0060  cv_rmse=1.4681 ±0.0996
+   14/60  n_est=300  depth=4  lr=0.0195  decay=0.0189  cv_rmse=1.4714 ±0.1029
+   15/60  n_est=400  depth=4  lr=0.0157  decay=0.0377  cv_rmse=1.4719 ±0.1034
+   16/60  n_est=250  depth=6  lr=0.0492  decay=0.0091  cv_rmse=1.4843 ±0.1006
