@@ -21,3 +21,4 @@ build/
 # IceAnalytics
 model/test/*
 supabase/.temp/*
+engine_data/Projection Models/legacy/
