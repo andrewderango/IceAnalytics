@@ -156,7 +156,6 @@ def build_modeling_frame(target_seasons=None, raw=None, bios=None):
     frame['age'] = age_days / 365.25
     frame['age2'] = frame['age'] ** 2
     frame['age3'] = frame['age'] ** 3
-    frame['draft_round'] = pd.to_numeric(frame.get('draftRound'), errors='coerce').fillna(8)
     frame['draft_overall'] = pd.to_numeric(frame.get('draftOverall'), errors='coerce').fillna(225)
     frame['is_rookie'] = frame['lag1_gp'].isna().astype(int)
     drop = ['birthDate', 'shootsCatches', 'draftRound', 'draftOverall', 'draftYear']
@@ -165,10 +164,10 @@ def build_modeling_frame(target_seasons=None, raw=None, bios=None):
     return frame
 
 def _common_player_features_ridge():
-    return ['age', 'age2', 'age3', 'is_defense', 'is_rookie', 'draft_round', 'draft_overall']
+    return ['age', 'age2', 'age3', 'is_defense', 'is_rookie', 'draft_overall']
 
 def _common_player_features_xgb():
-    return ['age', 'is_defense', 'draft_round', 'draft_overall']
+    return ['age', 'is_defense', 'draft_overall']
 
 _lag_features = {
     'ev_atoi': ['lag1_ev_atoi', 'lag2_ev_atoi', 'lag3_ev_atoi', 'lag1_all_atoi', 'lag1_gp_rate', 'lag1_pp_atoi'],
