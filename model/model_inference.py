@@ -896,6 +896,8 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
             df[f'Y-{projection_year-year} HDSV%'] = 0
             df[f'Y-{projection_year-year} SV%'] = 0
 
+        df.loc[df['Team'] == 'Utah Hockey Club', 'Team'] = 'Utah Mammoth'
+
         if combined_df is None or combined_df.empty:
             combined_df = df
         else:
@@ -916,7 +918,6 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
     combined_df.loc[combined_df['Team'] == 'Montreal Canadiens', 'Abbreviation'] = 'MTL'
     combined_df.loc[combined_df['Team'] == 'St Louis Blues', 'Abbreviation'] = 'STL'
     combined_df.loc[combined_df['Team'] == 'Arizona Coyotes', 'Abbreviation'] = 'UTA'
-    combined_df.loc[combined_df['Team'] == 'Utah Hockey Club', 'Team'] = 'Utah Mammoth' ### temp !!!
     combined_df.loc[combined_df['Team'] == 'Utah Mammoth', 'Abbreviation'] = 'UTA'
 
     combined_df = combined_df[['Team', 'Abbreviation', 'Proj. GA/GP']]
