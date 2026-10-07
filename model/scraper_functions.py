@@ -527,8 +527,8 @@ def add_espn_to_player_bios(espn_df, download_files, verbose):
         save_path = os.path.join(current_dir, '..', 'engine_data', 'Player Bios', 'Skaters', 'espn_failed_merge.csv')
         failed_df.to_csv(save_path, index=True)
 
-def fetch_current_team_stats_from_nhl_api(verbose=False):
-    url = "https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20252026%20and%20seasonId%3E=20252026"
+def fetch_current_team_stats_from_nhl_api(projection_year, verbose=False):
+    url = f"https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&cayenneExp=gameTypeId=2%20and%20seasonId%3C={projection_year-1}{projection_year}%20and%20seasonId%3E={projection_year-1}{projection_year}"
     
     try:
         response = requests.get(url, timeout=10)
@@ -653,7 +653,7 @@ def push_to_supabase(table_name, year, verbose=False):
         team_colors_df = pd.read_csv(team_colors_path)
         df = df.merge(team_colors_df[['abbrev', 'primary_color']], on='abbrev', how='left')
         
-        current_team_stats_df = fetch_current_team_stats_from_nhl_api(verbose=verbose)
+        current_team_stats_df = fetch_current_team_stats_from_nhl_api(projection_year=year, verbose=verbose)
         df = df.merge(current_team_stats_df, on='team', how='left')
 
         df['gf%'] = (df['goals_for'] / (df['goals_for'] + df['goals_against']) * 100)
