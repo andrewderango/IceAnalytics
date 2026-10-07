@@ -8,7 +8,7 @@ from projection_engine import *
 
 def main():
     start_time = time.time()
-    PROJECTION_YEAR = 2026
+    PROJECTION_YEAR = 2027
     SIMULATIONS = 5467
     season_state = get_season_state(PROJECTION_YEAR)
 
@@ -16,22 +16,22 @@ def main():
     update_metadata(state=0, params=[start_time, PROJECTION_YEAR, SIMULATIONS])
 
     # Scrape or fetch player data
-    scrape_historical_player_data(start_year=2008, end_year=2025, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_player_data(start_year=2008, end_year=2025, skaters=True, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_player_data(start_year=2008, end_year=2025, skaters=False, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_player_data(start_year=2008, end_year=2025, skaters=True, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_player_data(start_year=2008, end_year=2025, skaters=False, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_player_data(start_year=2026, end_year=2026, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_historical_player_data(start_year=2026, end_year=2026, skaters=True, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_historical_player_data(start_year=2026, end_year=2026, skaters=False, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_historical_player_data(start_year=2026, end_year=2026, skaters=True, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_historical_player_data(start_year=2026, end_year=2026, skaters=False, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_nhlapi_data(start_year=2008, end_year=2025, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_nhlapi_data(start_year=2008, end_year=2025, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_nhlapi_data(start_year=2008, end_year=2025, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_nhlapi_data(start_year=2026, end_year=2026, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_nhlapi_data(start_year=2026, end_year=2026, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
-    scrape_nhlapi_data(start_year=2026, end_year=2026, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_historical_player_data(start_year=2008, end_year=2026, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_historical_player_data(start_year=2008, end_year=2026, skaters=True, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_historical_player_data(start_year=2008, end_year=2026, skaters=False, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_historical_player_data(start_year=2008, end_year=2026, skaters=True, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_historical_player_data(start_year=2008, end_year=2026, skaters=False, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_historical_player_data(start_year=2027, end_year=2027, skaters=True, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_historical_player_data(start_year=2027, end_year=2027, skaters=True, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_historical_player_data(start_year=2027, end_year=2027, skaters=False, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_historical_player_data(start_year=2027, end_year=2027, skaters=True, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_historical_player_data(start_year=2027, end_year=2027, skaters=False, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_nhlapi_data(start_year=2008, end_year=2026, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_nhlapi_data(start_year=2008, end_year=2026, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_nhlapi_data(start_year=2008, end_year=2026, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_nhlapi_data(start_year=2027, end_year=2027, bios=False, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_nhlapi_data(start_year=2027, end_year=2027, bios=False, on_ice=True, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_nhlapi_data(start_year=2027, end_year=2027, bios=True, on_ice=False, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     aggregate_player_bios(skaters=True, check_preexistence=False, verbose=False)
     aggregate_player_bios(skaters=False, check_preexistence=False, verbose=False)
 
@@ -41,8 +41,8 @@ def main():
 
     # Scrape or fetch team data
     scrape_teams(projection_year=PROJECTION_YEAR, check_preexistence=True, verbose=False)
-    scrape_historical_team_data(start_year=2008, end_year=2025, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
-    scrape_historical_team_data(start_year=2026, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
+    scrape_historical_team_data(start_year=2008, end_year=2026, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=True, verbose=False)
+    scrape_historical_team_data(start_year=2027, end_year=2027, projection_year=PROJECTION_YEAR, season_state=season_state, check_preexistence=False, verbose=True)
     scrape_games(projection_year=PROJECTION_YEAR, check_preexistence=False, verbose=True)
 
     # Train models
