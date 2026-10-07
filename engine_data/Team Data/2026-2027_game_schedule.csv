@@ -1,0 +1,1345 @@
+,GameID,Time (EST),Game Number,Game State,Period,Home Score,Home Team,Visiting Score,Visiting Team
+0,2026020001,2026-09-29T17:00:00,1,7,4,0,Carolina Hurricanes,1,Florida Panthers
+1,2026020002,2026-09-29T19:00:00,2,7,3,2,Toronto Maple Leafs,3,Montréal Canadiens
+2,2026020003,2026-09-29T20:00:00,3,7,3,3,Boston Bruins,0,New York Rangers
+3,2026020004,2026-09-29T22:00:00,4,7,4,5,Edmonton Oilers,6,Vancouver Canucks
+4,2026020005,2026-09-29T22:30:00,5,7,3,5,Vegas Golden Knights,2,Chicago Blackhawks
+5,2026020006,2026-09-30T19:30:00,6,7,3,0,Philadelphia Flyers,7,Pittsburgh Penguins
+6,2026020007,2026-09-30T22:00:00,7,7,3,8,Colorado Avalanche,4,Los Angeles Kings
+7,2026020008,2026-09-30T19:30:00,8,7,3,2,Toronto Maple Leafs,1,New York Islanders
+8,2026020009,2026-10-01T19:00:00,9,7,4,3,New Jersey Devils,2,Philadelphia Flyers
+9,2026020010,2026-10-01T19:00:00,10,7,3,5,New York Rangers,1,Tampa Bay Lightning
+10,2026020011,2026-10-01T19:00:00,11,7,3,6,Columbus Blue Jackets,3,Buffalo Sabres
+11,2026020012,2026-10-01T20:00:00,12,7,3,1,Nashville Predators,3,Minnesota Wild
+12,2026020013,2026-10-01T21:30:00,13,7,3,6,Utah Mammoth,0,Chicago Blackhawks
+13,2026020014,2026-10-01T21:00:00,14,7,3,1,Calgary Flames,6,Seattle Kraken
+14,2026020015,2026-10-01T22:00:00,15,7,3,7,Vancouver Canucks,9,Edmonton Oilers
+15,2026020016,2026-10-01T22:00:00,16,7,4,4,San Jose Sharks,3,Florida Panthers
+16,2026020017,2026-10-02T18:30:00,17,7,3,0,Detroit Red Wings,2,New York Rangers
+17,2026020018,2026-10-02T19:00:00,18,7,3,2,Carolina Hurricanes,5,Washington Capitals
+18,2026020019,2026-10-02T20:00:00,19,7,4,3,Winnipeg Jets,4,Boston Bruins
+19,2026020020,2026-10-02T21:00:00,20,7,3,0,Dallas Stars,4,St. Louis Blues
+20,2026020021,2026-10-02T22:00:00,21,7,3,3,Vegas Golden Knights,4,Anaheim Ducks
+21,2026020022,2026-10-03T19:00:00,22,7,3,4,Buffalo Sabres,3,Chicago Blackhawks
+22,2026020023,2026-10-03T19:00:00,23,7,3,2,Toronto Maple Leafs,3,Ottawa Senators
+23,2026020024,2026-10-03T19:00:00,24,7,3,3,Tampa Bay Lightning,1,Washington Capitals
+24,2026020025,2026-10-03T19:00:00,25,7,4,2,Philadelphia Flyers,3,Carolina Hurricanes
+25,2026020026,2026-10-03T19:00:00,26,7,4,6,Pittsburgh Penguins,5,Montréal Canadiens
+26,2026020027,2026-10-03T19:00:00,27,7,3,1,Columbus Blue Jackets,4,Utah Mammoth
+27,2026020028,2026-10-03T19:00:00,28,7,3,3,Edmonton Oilers,1,Seattle Kraken
+28,2026020029,2026-10-03T19:30:00,29,7,3,6,New York Islanders,0,New Jersey Devils
+29,2026020030,2026-10-03T20:00:00,30,7,3,2,Nashville Predators,1,Dallas Stars
+30,2026020031,2026-10-03T20:00:00,31,7,3,4,Minnesota Wild,1,Boston Bruins
+31,2026020032,2026-10-03T21:00:00,32,7,3,6,Colorado Avalanche,1,St. Louis Blues
+32,2026020033,2026-10-03T22:00:00,33,7,3,4,Vancouver Canucks,1,Calgary Flames
+33,2026020034,2026-10-03T22:00:00,34,7,4,5,San Jose Sharks,4,Los Angeles Kings
+34,2026020035,2026-10-04T13:00:00,35,7,3,2,Detroit Red Wings,3,Winnipeg Jets
+35,2026020036,2026-10-04T18:00:00,36,7,3,4,New York Rangers,2,Utah Mammoth
+36,2026020037,2026-10-04T20:00:00,37,7,4,3,Anaheim Ducks,2,Florida Panthers
+37,2026020038,2026-10-04T20:00:00,38,7,3,6,Seattle Kraken,1,Calgary Flames
+38,2026020039,2026-10-04T21:00:00,39,7,3,2,Vancouver Canucks,3,Vegas Golden Knights
+39,2026020040,2026-10-05T19:00:00,40,7,3,4,Tampa Bay Lightning,1,Philadelphia Flyers
+40,2026020041,2026-10-05T19:30:00,41,7,3,1,Boston Bruins,4,Ottawa Senators
+41,2026020042,2026-10-05T19:30:00,42,7,3,2,Pittsburgh Penguins,3,Winnipeg Jets
+42,2026020043,2026-10-05T20:00:00,43,7,3,5,Dallas Stars,0,San Jose Sharks
+43,2026020044,2026-10-06T19:00:00,44,7,4,5,Toronto Maple Leafs,4,Nashville Predators
+44,2026020045,2026-10-06T19:00:00,45,7,3,4,Montréal Canadiens,6,Carolina Hurricanes
+45,2026020046,2026-10-06T19:00:00,46,7,3,5,Detroit Red Wings,3,Ottawa Senators
+46,2026020047,2026-10-06T19:00:00,47,7,3,3,New Jersey Devils,5,Utah Mammoth
+47,2026020048,2026-10-06T19:30:00,48,7,3,5,New York Rangers,2,New York Islanders
+48,2026020049,2026-10-06T19:00:00,49,7,4,3,Buffalo Sabres,2,Minnesota Wild
+49,2026020050,2026-10-06T20:00:00,50,7,3,4,Chicago Blackhawks,2,St. Louis Blues
+50,2026020051,2026-10-06T21:40:00,51,3,2,0,Seattle Kraken,5,Vegas Golden Knights
+51,2026020052,2026-10-06T22:00:00,52,3,2,1,Los Angeles Kings,1,Florida Panthers
+52,2026020053,2026-10-07T19:30:00,53,1,1,0,Washington Capitals,0,Pittsburgh Penguins
+53,2026020054,2026-10-07T19:30:00,54,1,1,0,Winnipeg Jets,0,Colorado Avalanche
+54,2026020055,2026-10-07T22:00:00,55,1,1,0,Anaheim Ducks,0,Edmonton Oilers
+55,2026020056,2026-10-08T19:00:00,56,1,1,0,Boston Bruins,0,Utah Mammoth
+56,2026020057,2026-10-08T19:00:00,57,1,1,0,Buffalo Sabres,0,Dallas Stars
+57,2026020058,2026-10-08T19:00:00,58,1,1,0,Montréal Canadiens,0,Nashville Predators
+58,2026020059,2026-10-08T19:00:00,59,1,1,0,Ottawa Senators,0,Philadelphia Flyers
+59,2026020060,2026-10-08T19:00:00,60,1,1,0,Tampa Bay Lightning,0,Minnesota Wild
+60,2026020061,2026-10-08T19:00:00,61,1,1,0,Carolina Hurricanes,0,Vancouver Canucks
+61,2026020062,2026-10-08T19:30:00,62,1,1,0,New York Islanders,0,Chicago Blackhawks
+62,2026020063,2026-10-08T20:00:00,63,1,1,0,St. Louis Blues,0,San Jose Sharks
+63,2026020064,2026-10-08T21:00:00,64,1,1,0,Calgary Flames,0,Colorado Avalanche
+64,2026020065,2026-10-08T22:00:00,65,1,1,0,Vegas Golden Knights,0,Toronto Maple Leafs
+65,2026020066,2026-10-09T19:00:00,66,1,1,0,Detroit Red Wings,0,Seattle Kraken
+66,2026020067,2026-10-09T19:00:00,67,1,1,0,Washington Capitals,0,New York Rangers
+67,2026020068,2026-10-09T19:00:00,68,1,1,0,Columbus Blue Jackets,0,Pittsburgh Penguins
+68,2026020069,2026-10-09T20:00:00,69,1,1,0,Winnipeg Jets,0,Anaheim Ducks
+69,2026020070,2026-10-10T13:00:00,70,1,1,0,Boston Bruins,0,Philadelphia Flyers
+70,2026020071,2026-10-10T15:30:00,71,1,1,0,New Jersey Devils,0,Vancouver Canucks
+71,2026020072,2026-10-10T16:00:00,72,1,1,0,San Jose Sharks,0,Edmonton Oilers
+72,2026020073,2026-10-10T18:00:00,73,1,1,0,Florida Panthers,0,Minnesota Wild
+73,2026020074,2026-10-10T19:00:00,74,1,1,0,Buffalo Sabres,0,Utah Mammoth
+74,2026020075,2026-10-10T19:00:00,75,1,1,0,Montréal Canadiens,0,Detroit Red Wings
+75,2026020076,2026-10-10T19:00:00,76,1,1,0,Ottawa Senators,0,Nashville Predators
+76,2026020077,2026-10-10T19:00:00,77,1,1,0,Pittsburgh Penguins,0,Dallas Stars
+77,2026020078,2026-10-10T19:00:00,78,1,1,0,Chicago Blackhawks,0,Carolina Hurricanes
+78,2026020079,2026-10-10T19:00:00,79,1,1,0,St. Louis Blues,0,Columbus Blue Jackets
+79,2026020080,2026-10-10T19:00:00,80,1,1,0,Colorado Avalanche,0,Toronto Maple Leafs
+80,2026020081,2026-10-10T19:30:00,81,1,1,0,New York Islanders,0,Tampa Bay Lightning
+81,2026020082,2026-10-10T22:00:00,82,1,1,0,Calgary Flames,0,Anaheim Ducks
+82,2026020083,2026-10-10T22:00:00,83,1,1,0,Vegas Golden Knights,0,Los Angeles Kings
+83,2026020084,2026-10-11T17:00:00,84,1,1,0,Washington Capitals,0,Seattle Kraken
+84,2026020085,2026-10-11T18:00:00,85,1,1,0,New York Rangers,0,Vancouver Canucks
+85,2026020086,2026-10-11T19:00:00,86,1,1,0,Philadelphia Flyers,0,Carolina Hurricanes
+86,2026020087,2026-10-12T13:00:00,87,1,1,0,Buffalo Sabres,0,Florida Panthers
+87,2026020088,2026-10-12T19:00:00,88,1,1,0,New Jersey Devils,0,Ottawa Senators
+88,2026020089,2026-10-12T20:00:00,89,1,1,0,Minnesota Wild,0,Vegas Golden Knights
+89,2026020090,2026-10-13T18:00:00,90,1,1,0,Detroit Red Wings,0,New Jersey Devils
+90,2026020091,2026-10-13T18:15:00,91,1,1,0,Columbus Blue Jackets,0,Florida Panthers
+91,2026020092,2026-10-13T18:30:00,92,1,1,0,Montréal Canadiens,0,Buffalo Sabres
+92,2026020093,2026-10-13T18:45:00,93,1,1,0,Carolina Hurricanes,0,Washington Capitals
+93,2026020094,2026-10-13T19:00:00,94,1,1,0,Philadelphia Flyers,0,Seattle Kraken
+94,2026020095,2026-10-13T19:15:00,95,1,1,0,New York Rangers,0,Tampa Bay Lightning
+95,2026020096,2026-10-13T19:30:00,96,1,1,0,Ottawa Senators,0,St. Louis Blues
+96,2026020097,2026-10-13T19:45:00,97,1,1,0,New York Islanders,0,Vancouver Canucks
+97,2026020098,2026-10-13T20:00:00,98,1,1,0,Chicago Blackhawks,0,Pittsburgh Penguins
+98,2026020099,2026-10-13T20:15:00,99,1,1,0,Winnipeg Jets,0,Minnesota Wild
+99,2026020100,2026-10-13T20:30:00,100,1,1,0,Dallas Stars,0,Colorado Avalanche
+100,2026020101,2026-10-13T20:45:00,101,1,1,0,Nashville Predators,0,Vegas Golden Knights
+101,2026020102,2026-10-13T21:00:00,102,1,1,0,Utah Mammoth,0,Toronto Maple Leafs
+102,2026020103,2026-10-13T21:45:00,103,1,1,0,Anaheim Ducks,0,Calgary Flames
+103,2026020104,2026-10-13T22:30:00,104,1,1,0,Los Angeles Kings,0,Edmonton Oilers
+104,2026020105,2026-10-13T23:00:00,105,1,1,0,San Jose Sharks,0,Boston Bruins
+105,2026020106,2026-10-14T19:30:00,106,1,1,0,Washington Capitals,0,Montréal Canadiens
+106,2026020107,2026-10-14T20:30:00,107,1,1,0,Colorado Avalanche,0,Dallas Stars
+107,2026020108,2026-10-15T19:00:00,108,1,1,0,Toronto Maple Leafs,0,Buffalo Sabres
+108,2026020109,2026-10-15T19:00:00,109,1,1,0,Ottawa Senators,0,New York Islanders
+109,2026020110,2026-10-15T19:30:00,110,1,1,0,Detroit Red Wings,0,Philadelphia Flyers
+110,2026020111,2026-10-15T19:00:00,111,1,1,0,Tampa Bay Lightning,0,Seattle Kraken
+111,2026020112,2026-10-15T19:00:00,112,1,1,0,Florida Panthers,0,Vancouver Canucks
+112,2026020113,2026-10-15T19:00:00,113,1,1,0,New Jersey Devils,0,New York Rangers
+113,2026020114,2026-10-15T20:00:00,114,1,1,0,Chicago Blackhawks,0,Winnipeg Jets
+114,2026020115,2026-10-15T20:00:00,115,1,1,0,Nashville Predators,0,San Jose Sharks
+115,2026020116,2026-10-15T20:00:00,116,1,1,0,Minnesota Wild,0,St. Louis Blues
+116,2026020117,2026-10-15T21:00:00,117,1,1,0,Edmonton Oilers,0,Utah Mammoth
+117,2026020118,2026-10-15T22:00:00,118,1,1,0,Vegas Golden Knights,0,Calgary Flames
+118,2026020119,2026-10-16T21:00:00,119,1,1,0,Colorado Avalanche,0,Pittsburgh Penguins
+119,2026020120,2026-10-16T22:00:00,120,1,1,0,Anaheim Ducks,0,Boston Bruins
+120,2026020121,2026-10-17T13:00:00,121,1,1,0,Washington Capitals,0,New Jersey Devils
+121,2026020122,2026-10-17T15:30:00,122,1,1,0,Winnipeg Jets,0,Carolina Hurricanes
+122,2026020123,2026-10-17T16:00:00,123,1,1,0,Tampa Bay Lightning,0,Vancouver Canucks
+123,2026020124,2026-10-17T18:00:00,124,1,1,0,Florida Panthers,0,Seattle Kraken
+124,2026020125,2026-10-17T19:00:00,125,1,1,0,Toronto Maple Leafs,0,New York Islanders
+125,2026020126,2026-10-17T19:00:00,126,1,1,0,Montréal Canadiens,0,Buffalo Sabres
+126,2026020127,2026-10-17T19:00:00,127,1,1,0,Detroit Red Wings,0,San Jose Sharks
+127,2026020128,2026-10-17T19:00:00,128,1,1,0,Philadelphia Flyers,0,Ottawa Senators
+128,2026020129,2026-10-17T19:00:00,129,1,1,0,Columbus Blue Jackets,0,New York Rangers
+129,2026020130,2026-10-17T19:00:00,130,1,1,0,Chicago Blackhawks,0,Dallas Stars
+130,2026020131,2026-10-17T20:00:00,131,1,1,0,Nashville Predators,0,St. Louis Blues
+131,2026020132,2026-10-17T21:00:00,132,1,1,0,Los Angeles Kings,0,Boston Bruins
+132,2026020133,2026-10-17T22:00:00,133,1,1,0,Utah Mammoth,0,Edmonton Oilers
+133,2026020134,2026-10-17T22:00:00,134,1,1,0,Vegas Golden Knights,0,Pittsburgh Penguins
+134,2026020135,2026-10-18T18:00:00,135,1,1,0,Minnesota Wild,0,Columbus Blue Jackets
+135,2026020136,2026-10-18T20:00:00,136,1,1,0,Calgary Flames,0,Carolina Hurricanes
+136,2026020137,2026-10-19T19:00:00,137,1,1,0,New York Rangers,0,Anaheim Ducks
+137,2026020138,2026-10-19T19:00:00,138,1,1,0,Philadelphia Flyers,0,Colorado Avalanche
+138,2026020139,2026-10-19T19:30:00,139,1,1,0,Toronto Maple Leafs,0,San Jose Sharks
+139,2026020140,2026-10-19T21:00:00,140,1,1,0,Utah Mammoth,0,Pittsburgh Penguins
+140,2026020141,2026-10-20T19:00:00,141,1,1,0,Montréal Canadiens,0,San Jose Sharks
+141,2026020142,2026-10-20T19:00:00,142,1,1,0,New Jersey Devils,0,Colorado Avalanche
+142,2026020143,2026-10-20T19:00:00,143,1,1,0,New York Islanders,0,Anaheim Ducks
+143,2026020144,2026-10-20T19:00:00,144,1,1,0,Washington Capitals,0,Los Angeles Kings
+144,2026020145,2026-10-20T19:00:00,145,1,1,0,Columbus Blue Jackets,0,Toronto Maple Leafs
+145,2026020146,2026-10-20T20:00:00,146,1,1,0,St. Louis Blues,0,Winnipeg Jets
+146,2026020147,2026-10-20T20:00:00,147,1,1,0,Dallas Stars,0,Boston Bruins
+147,2026020148,2026-10-20T21:00:00,148,1,1,0,Edmonton Oilers,0,Minnesota Wild
+148,2026020149,2026-10-20T21:40:00,149,1,1,0,Seattle Kraken,0,Detroit Red Wings
+149,2026020150,2026-10-20T22:00:00,150,1,1,0,Vancouver Canucks,0,Carolina Hurricanes
+150,2026020151,2026-10-20T22:30:00,151,1,1,0,Vegas Golden Knights,0,Tampa Bay Lightning
+151,2026020152,2026-10-21T19:30:00,152,1,1,0,Buffalo Sabres,0,Philadelphia Flyers
+152,2026020153,2026-10-21T19:30:00,153,1,1,0,Ottawa Senators,0,Florida Panthers
+153,2026020154,2026-10-22T19:00:00,154,1,1,0,Boston Bruins,0,Nashville Predators
+154,2026020155,2026-10-22T19:00:00,155,1,1,0,Toronto Maple Leafs,0,New York Rangers
+155,2026020156,2026-10-22T19:00:00,156,1,1,0,Ottawa Senators,0,San Jose Sharks
+156,2026020157,2026-10-22T19:00:00,157,1,1,0,New Jersey Devils,0,Anaheim Ducks
+157,2026020158,2026-10-22T19:00:00,158,1,1,0,Pittsburgh Penguins,0,Florida Panthers
+158,2026020159,2026-10-22T19:30:00,159,1,1,0,New York Islanders,0,Los Angeles Kings
+159,2026020160,2026-10-22T20:00:00,160,1,1,0,St. Louis Blues,0,Vegas Golden Knights
+160,2026020161,2026-10-22T20:00:00,161,1,1,0,Dallas Stars,0,Winnipeg Jets
+161,2026020162,2026-10-22T21:00:00,162,1,1,0,Calgary Flames,0,Minnesota Wild
+162,2026020163,2026-10-22T21:00:00,163,1,1,0,Edmonton Oilers,0,Carolina Hurricanes
+163,2026020164,2026-10-22T22:00:00,164,1,1,0,Seattle Kraken,0,Utah Mammoth
+164,2026020165,2026-10-22T22:00:00,165,1,1,0,Vancouver Canucks,0,Detroit Red Wings
+165,2026020166,2026-10-23T20:00:00,166,1,1,0,Chicago Blackhawks,0,Montréal Canadiens
+166,2026020167,2026-10-23T21:00:00,167,1,1,0,Colorado Avalanche,0,Tampa Bay Lightning
+167,2026020168,2026-10-24T13:00:00,168,1,1,0,Philadelphia Flyers,0,Anaheim Ducks
+168,2026020169,2026-10-24T15:30:00,169,1,1,0,New Jersey Devils,0,Los Angeles Kings
+169,2026020170,2026-10-24T19:00:00,170,1,1,0,Boston Bruins,0,San Jose Sharks
+170,2026020171,2026-10-24T19:00:00,171,1,1,0,Ottawa Senators,0,New York Rangers
+171,2026020172,2026-10-24T19:00:00,172,1,1,0,Pittsburgh Penguins,0,Nashville Predators
+172,2026020173,2026-10-24T19:00:00,173,1,1,0,Washington Capitals,0,Buffalo Sabres
+173,2026020174,2026-10-24T19:00:00,174,1,1,0,Columbus Blue Jackets,0,Vegas Golden Knights
+174,2026020175,2026-10-24T19:00:00,175,1,1,0,St. Louis Blues,0,Carolina Hurricanes
+175,2026020176,2026-10-24T19:00:00,176,1,1,0,Edmonton Oilers,0,Toronto Maple Leafs
+176,2026020177,2026-10-24T21:00:00,177,1,1,0,Utah Mammoth,0,Tampa Bay Lightning
+177,2026020178,2026-10-24T22:00:00,178,1,1,0,Calgary Flames,0,Detroit Red Wings
+178,2026020179,2026-10-24T22:00:00,179,1,1,0,Seattle Kraken,0,Minnesota Wild
+179,2026020180,2026-10-25T15:00:00,180,1,1,0,Chicago Blackhawks,0,Florida Panthers
+180,2026020181,2026-10-25T18:00:00,181,1,1,0,Dallas Stars,0,New York Islanders
+181,2026020182,2026-10-25T19:00:00,182,1,1,0,Winnipeg Jets,0,Montréal Canadiens
+182,2026020183,2026-10-25T20:00:00,183,1,1,0,Nashville Predators,0,Colorado Avalanche
+183,2026020184,2026-10-25T22:00:00,184,1,1,0,Vancouver Canucks,0,Minnesota Wild
+184,2026020185,2026-10-26T19:00:00,185,1,1,0,New York Rangers,0,Los Angeles Kings
+185,2026020186,2026-10-26T20:30:00,186,1,1,0,Calgary Flames,0,Toronto Maple Leafs
+186,2026020187,2026-10-26T21:30:00,187,1,1,0,Edmonton Oilers,0,Detroit Red Wings
+187,2026020188,2026-10-27T19:00:00,188,1,1,0,Philadelphia Flyers,0,Columbus Blue Jackets
+188,2026020189,2026-10-27T20:00:00,189,1,1,0,Carolina Hurricanes,0,Boston Bruins
+189,2026020190,2026-10-27T20:00:00,190,1,1,0,Chicago Blackhawks,0,Los Angeles Kings
+190,2026020191,2026-10-27T20:00:00,191,1,1,0,St. Louis Blues,0,Montréal Canadiens
+191,2026020192,2026-10-27T20:00:00,192,1,1,0,Nashville Predators,0,New York Islanders
+192,2026020193,2026-10-27T20:00:00,193,1,1,0,Dallas Stars,0,New Jersey Devils
+193,2026020194,2026-10-27T20:00:00,194,1,1,0,Winnipeg Jets,0,Florida Panthers
+194,2026020195,2026-10-27T21:00:00,195,1,1,0,Utah Mammoth,0,Minnesota Wild
+195,2026020196,2026-10-27T22:00:00,196,1,1,0,Vegas Golden Knights,0,Ottawa Senators
+196,2026020197,2026-10-27T22:00:00,197,1,1,0,Anaheim Ducks,0,Vancouver Canucks
+197,2026020198,2026-10-27T22:30:00,198,1,1,0,San Jose Sharks,0,Buffalo Sabres
+198,2026020199,2026-10-28T19:30:00,199,1,1,0,Washington Capitals,0,Philadelphia Flyers
+199,2026020200,2026-10-28T20:30:00,200,1,1,0,Edmonton Oilers,0,Calgary Flames
+200,2026020201,2026-10-28T21:00:00,201,1,1,0,Colorado Avalanche,0,New Jersey Devils
+201,2026020202,2026-10-28T22:00:00,202,1,1,0,Seattle Kraken,0,Toronto Maple Leafs
+202,2026020203,2026-10-29T19:30:00,203,1,1,0,Detroit Red Wings,0,Chicago Blackhawks
+203,2026020204,2026-10-29T19:00:00,204,1,1,0,Tampa Bay Lightning,0,Winnipeg Jets
+204,2026020205,2026-10-29T19:00:00,205,1,1,0,Pittsburgh Penguins,0,Utah Mammoth
+205,2026020206,2026-10-29T19:00:00,206,1,1,0,Carolina Hurricanes,0,Columbus Blue Jackets
+206,2026020207,2026-10-29T20:00:00,207,1,1,0,St. Louis Blues,0,Boston Bruins
+207,2026020208,2026-10-29T20:00:00,208,1,1,0,Nashville Predators,0,Washington Capitals
+208,2026020209,2026-10-29T20:00:00,209,1,1,0,Dallas Stars,0,Montréal Canadiens
+209,2026020210,2026-10-29T20:00:00,210,1,1,0,Minnesota Wild,0,New York Islanders
+210,2026020211,2026-10-29T22:00:00,211,1,1,0,Anaheim Ducks,0,Buffalo Sabres
+211,2026020212,2026-10-29T22:00:00,212,1,1,0,Los Angeles Kings,0,Ottawa Senators
+212,2026020213,2026-10-29T22:00:00,213,1,1,0,San Jose Sharks,0,Vancouver Canucks
+213,2026020214,2026-10-30T18:00:00,214,1,1,0,Vegas Golden Knights,0,New Jersey Devils
+214,2026020215,2026-10-30T19:00:00,215,1,1,0,Florida Panthers,0,Winnipeg Jets
+215,2026020216,2026-10-30T20:00:00,216,1,1,0,Calgary Flames,0,Seattle Kraken
+216,2026020217,2026-10-31T13:00:00,217,1,1,0,Boston Bruins,0,Chicago Blackhawks
+217,2026020218,2026-10-31T13:00:00,218,1,1,0,Detroit Red Wings,0,St. Louis Blues
+218,2026020219,2026-10-31T14:00:00,219,1,1,0,Nashville Predators,0,Tampa Bay Lightning
+219,2026020220,2026-10-31T14:00:00,220,1,1,0,New York Islanders,0,Edmonton Oilers
+220,2026020221,2026-10-31T16:00:00,221,1,1,0,Los Angeles Kings,0,Buffalo Sabres
+221,2026020222,2026-10-31T16:00:00,222,1,1,0,San Jose Sharks,0,Ottawa Senators
+222,2026020223,2026-10-31T19:00:00,223,1,1,0,Montréal Canadiens,0,Pittsburgh Penguins
+223,2026020224,2026-10-31T19:00:00,224,1,1,0,Vancouver Canucks,0,Toronto Maple Leafs
+224,2026020225,2026-10-31T20:00:00,225,1,1,0,Dallas Stars,0,Columbus Blue Jackets
+225,2026020226,2026-10-31T22:00:00,226,1,1,0,Colorado Avalanche,0,Calgary Flames
+226,2026020227,2026-11-01T13:00:00,227,1,1,0,Carolina Hurricanes,0,Winnipeg Jets
+227,2026020228,2026-11-01T15:30:00,228,1,1,0,Washington Capitals,0,Minnesota Wild
+228,2026020229,2026-11-01T16:00:00,229,1,1,0,Philadelphia Flyers,0,Utah Mammoth
+229,2026020230,2026-11-01T18:00:00,230,1,1,0,New York Rangers,0,Edmonton Oilers
+230,2026020231,2026-11-01T20:00:00,231,1,1,0,Anaheim Ducks,0,Ottawa Senators
+231,2026020232,2026-11-02T19:00:00,232,1,1,0,Boston Bruins,0,Vegas Golden Knights
+232,2026020233,2026-11-02T19:00:00,233,1,1,0,Florida Panthers,0,Detroit Red Wings
+233,2026020234,2026-11-02T20:00:00,234,1,1,0,Chicago Blackhawks,0,Colorado Avalanche
+234,2026020235,2026-11-02T21:00:00,235,1,1,0,San Jose Sharks,0,Calgary Flames
+235,2026020236,2026-11-03T19:00:00,236,1,1,0,Toronto Maple Leafs,0,Utah Mammoth
+236,2026020237,2026-11-03T19:00:00,237,1,1,0,Montréal Canadiens,0,Winnipeg Jets
+237,2026020238,2026-11-03T19:00:00,238,1,1,0,Tampa Bay Lightning,0,Detroit Red Wings
+238,2026020239,2026-11-03T19:30:00,239,1,1,0,New Jersey Devils,0,Edmonton Oilers
+239,2026020240,2026-11-03T19:00:00,240,1,1,0,New York Rangers,0,St. Louis Blues
+240,2026020241,2026-11-03T19:00:00,241,1,1,0,Philadelphia Flyers,0,Minnesota Wild
+241,2026020242,2026-11-03T19:00:00,242,1,1,0,Pittsburgh Penguins,0,Vegas Golden Knights
+242,2026020243,2026-11-03T19:00:00,243,1,1,0,Washington Capitals,0,Dallas Stars
+243,2026020244,2026-11-03T19:00:00,244,1,1,0,Columbus Blue Jackets,0,Colorado Avalanche
+244,2026020245,2026-11-03T20:00:00,245,1,1,0,Nashville Predators,0,Carolina Hurricanes
+245,2026020246,2026-11-03T21:00:00,246,1,1,0,Vancouver Canucks,0,Anaheim Ducks
+246,2026020247,2026-11-04T19:30:00,247,1,1,0,Buffalo Sabres,0,Ottawa Senators
+247,2026020248,2026-11-04T19:30:00,248,1,1,0,Florida Panthers,0,Chicago Blackhawks
+248,2026020249,2026-11-04T22:00:00,249,1,1,0,Los Angeles Kings,0,San Jose Sharks
+249,2026020250,2026-11-04T22:00:00,250,1,1,0,Seattle Kraken,0,Calgary Flames
+250,2026020251,2026-11-05T19:00:00,251,1,1,0,Montréal Canadiens,0,Utah Mammoth
+251,2026020252,2026-11-05T19:00:00,252,1,1,0,Detroit Red Wings,0,Vegas Golden Knights
+252,2026020253,2026-11-05T19:00:00,253,1,1,0,Tampa Bay Lightning,0,Chicago Blackhawks
+253,2026020254,2026-11-05T19:00:00,254,1,1,0,New Jersey Devils,0,St. Louis Blues
+254,2026020255,2026-11-05T19:00:00,255,1,1,0,New York Islanders,0,Carolina Hurricanes
+255,2026020256,2026-11-05T19:00:00,256,1,1,0,New York Rangers,0,Philadelphia Flyers
+256,2026020257,2026-11-05T19:00:00,257,1,1,0,Pittsburgh Penguins,0,Boston Bruins
+257,2026020258,2026-11-05T19:00:00,258,1,1,0,Columbus Blue Jackets,0,Dallas Stars
+258,2026020259,2026-11-05T19:00:00,259,1,1,0,Winnipeg Jets,0,Vancouver Canucks
+259,2026020260,2026-11-05T20:00:00,260,1,1,0,Edmonton Oilers,0,Anaheim Ducks
+260,2026020261,2026-11-05T21:30:00,261,1,1,0,Colorado Avalanche,0,Nashville Predators
+261,2026020262,2026-11-06T19:00:00,262,1,1,0,Buffalo Sabres,0,Columbus Blue Jackets
+262,2026020263,2026-11-06T20:00:00,263,1,1,0,Minnesota Wild,0,San Jose Sharks
+263,2026020264,2026-11-06T20:00:00,264,1,1,0,Calgary Flames,0,Anaheim Ducks
+264,2026020265,2026-11-07T12:30:00,265,1,1,0,Washington Capitals,0,Florida Panthers
+265,2026020266,2026-11-07T13:00:00,266,1,1,0,Nashville Predators,0,St. Louis Blues
+266,2026020267,2026-11-07T17:00:00,267,1,1,0,Seattle Kraken,0,New York Rangers
+267,2026020268,2026-11-07T19:00:00,268,1,1,0,Toronto Maple Leafs,0,Montréal Canadiens
+268,2026020269,2026-11-07T19:00:00,269,1,1,0,Ottawa Senators,0,Utah Mammoth
+269,2026020270,2026-11-07T19:00:00,270,1,1,0,New York Islanders,0,New Jersey Devils
+270,2026020271,2026-11-07T20:00:00,271,1,1,0,Carolina Hurricanes,0,Chicago Blackhawks
+271,2026020272,2026-11-07T20:00:00,272,1,1,0,Dallas Stars,0,San Jose Sharks
+272,2026020273,2026-11-07T20:00:00,273,1,1,0,Minnesota Wild,0,Tampa Bay Lightning
+273,2026020274,2026-11-07T21:00:00,274,1,1,0,Colorado Avalanche,0,Detroit Red Wings
+274,2026020275,2026-11-07T21:00:00,275,1,1,0,Los Angeles Kings,0,Pittsburgh Penguins
+275,2026020276,2026-11-07T22:00:00,276,1,1,0,Edmonton Oilers,0,Vancouver Canucks
+276,2026020277,2026-11-08T13:00:00,277,1,1,0,Boston Bruins,0,Florida Panthers
+277,2026020278,2026-11-08T15:30:00,278,1,1,0,Buffalo Sabres,0,Vegas Golden Knights
+278,2026020279,2026-11-08T19:00:00,279,1,1,0,Toronto Maple Leafs,0,New Jersey Devils
+279,2026020280,2026-11-08T18:00:00,280,1,1,0,Winnipeg Jets,0,Tampa Bay Lightning
+280,2026020281,2026-11-08T19:00:00,281,1,1,0,Calgary Flames,0,Philadelphia Flyers
+281,2026020282,2026-11-08T20:00:00,282,1,1,0,Anaheim Ducks,0,Pittsburgh Penguins
+282,2026020283,2026-11-09T20:00:00,283,1,1,0,Edmonton Oilers,0,New York Rangers
+283,2026020284,2026-11-09T21:30:00,284,1,1,0,Vancouver Canucks,0,Philadelphia Flyers
+284,2026020285,2026-11-09T22:00:00,285,1,1,0,San Jose Sharks,0,New York Islanders
+285,2026020286,2026-11-10T19:00:00,286,1,1,0,Toronto Maple Leafs,0,Colorado Avalanche
+286,2026020287,2026-11-10T19:00:00,287,1,1,0,Montréal Canadiens,0,Minnesota Wild
+287,2026020288,2026-11-10T19:00:00,288,1,1,0,Ottawa Senators,0,Washington Capitals
+288,2026020289,2026-11-10T19:30:00,289,1,1,0,Columbus Blue Jackets,0,Florida Panthers
+289,2026020290,2026-11-10T20:00:00,290,1,1,0,St. Louis Blues,0,Detroit Red Wings
+290,2026020291,2026-11-10T19:00:00,291,1,1,0,Winnipeg Jets,0,New Jersey Devils
+291,2026020292,2026-11-10T22:00:00,292,1,1,0,Los Angeles Kings,0,Nashville Predators
+292,2026020293,2026-11-11T19:00:00,293,1,1,0,Buffalo Sabres,0,Tampa Bay Lightning
+293,2026020294,2026-11-11T19:30:00,294,1,1,0,Calgary Flames,0,New York Rangers
+294,2026020295,2026-11-11T21:00:00,295,1,1,0,Edmonton Oilers,0,Philadelphia Flyers
+295,2026020296,2026-11-11T21:30:00,296,1,1,0,Vegas Golden Knights,0,Utah Mammoth
+296,2026020297,2026-11-11T22:00:00,297,1,1,0,Anaheim Ducks,0,Nashville Predators
+297,2026020298,2026-11-11T22:00:00,298,1,1,0,San Jose Sharks,0,Pittsburgh Penguins
+298,2026020299,2026-11-12T19:00:00,299,1,1,0,Boston Bruins,0,Montréal Canadiens
+299,2026020300,2026-11-12T19:00:00,300,1,1,0,Toronto Maple Leafs,0,Minnesota Wild
+300,2026020301,2026-11-12T19:00:00,301,1,1,0,Ottawa Senators,0,Colorado Avalanche
+301,2026020302,2026-11-12T19:30:00,302,1,1,0,Florida Panthers,0,Detroit Red Wings
+302,2026020303,2026-11-12T19:00:00,303,1,1,0,New Jersey Devils,0,Washington Capitals
+303,2026020304,2026-11-12T19:00:00,304,1,1,0,Columbus Blue Jackets,0,Tampa Bay Lightning
+304,2026020305,2026-11-12T20:00:00,305,1,1,0,Chicago Blackhawks,0,Buffalo Sabres
+305,2026020306,2026-11-12T20:00:00,306,1,1,0,Dallas Stars,0,Winnipeg Jets
+306,2026020307,2026-11-12T21:00:00,307,1,1,0,Utah Mammoth,0,St. Louis Blues
+307,2026020308,2026-11-12T22:00:00,308,1,1,0,Los Angeles Kings,0,New York Islanders
+308,2026020309,2026-11-12T12:00:00,309,1,1,0,Seattle Kraken,0,Carolina Hurricanes
+309,2026020310,2026-11-13T21:00:00,310,1,1,0,Vancouver Canucks,0,New York Rangers
+310,2026020311,2026-11-13T22:00:00,311,1,1,0,Vegas Golden Knights,0,Nashville Predators
+311,2026020312,2026-11-14T15:30:00,312,1,1,0,Chicago Blackhawks,0,Winnipeg Jets
+312,2026020313,2026-11-14T19:00:00,313,1,1,0,Boston Bruins,0,Minnesota Wild
+313,2026020314,2026-11-14T19:00:00,314,1,1,0,Toronto Maple Leafs,0,Edmonton Oilers
+314,2026020315,2026-11-14T19:00:00,315,1,1,0,Montréal Canadiens,0,Colorado Avalanche
+315,2026020316,2026-11-14T19:00:00,316,1,1,0,Tampa Bay Lightning,0,Detroit Red Wings
+316,2026020317,2026-11-14T19:00:00,317,1,1,0,Pittsburgh Penguins,0,Ottawa Senators
+317,2026020318,2026-11-14T19:00:00,318,1,1,0,Washington Capitals,0,New Jersey Devils
+318,2026020319,2026-11-14T19:00:00,319,1,1,0,Columbus Blue Jackets,0,Philadelphia Flyers
+319,2026020320,2026-11-14T19:00:00,320,1,1,0,St. Louis Blues,0,Florida Panthers
+320,2026020321,2026-11-14T13:00:00,321,1,1,0,Carolina Hurricanes,0,Seattle Kraken
+321,2026020322,2026-11-14T20:00:00,322,1,1,0,Dallas Stars,0,Buffalo Sabres
+322,2026020323,2026-11-14T21:00:00,323,1,1,0,Utah Mammoth,0,San Jose Sharks
+323,2026020324,2026-11-14T22:00:00,324,1,1,0,Anaheim Ducks,0,New York Islanders
+324,2026020325,2026-11-14T22:00:00,325,1,1,0,Los Angeles Kings,0,Calgary Flames
+325,2026020326,2026-11-15T19:30:00,326,1,1,0,Philadelphia Flyers,0,Edmonton Oilers
+326,2026020327,2026-11-15T20:00:00,327,1,1,0,Dallas Stars,0,Florida Panthers
+327,2026020328,2026-11-15T20:00:00,328,1,1,0,Anaheim Ducks,0,Calgary Flames
+328,2026020329,2026-11-15T21:00:00,329,1,1,0,Vegas Golden Knights,0,Vancouver Canucks
+329,2026020330,2026-11-15T21:00:00,330,1,1,0,San Jose Sharks,0,Nashville Predators
+330,2026020331,2026-11-16T19:30:00,331,1,1,0,New York Rangers,0,Montréal Canadiens
+331,2026020332,2026-11-16T21:30:00,332,1,1,0,Utah Mammoth,0,Vancouver Canucks
+332,2026020333,2026-11-17T19:00:00,333,1,1,0,Boston Bruins,0,Los Angeles Kings
+333,2026020334,2026-11-17T19:30:00,334,1,1,0,Tampa Bay Lightning,0,Washington Capitals
+334,2026020335,2026-11-17T19:00:00,335,1,1,0,Florida Panthers,0,Edmonton Oilers
+335,2026020336,2026-11-17T19:00:00,336,1,1,0,New York Islanders,0,Columbus Blue Jackets
+336,2026020337,2026-11-17T19:00:00,337,1,1,0,Philadelphia Flyers,0,Buffalo Sabres
+337,2026020338,2026-11-17T19:30:00,338,1,1,0,Chicago Blackhawks,0,Toronto Maple Leafs
+338,2026020339,2026-11-17T20:00:00,339,1,1,0,St. Louis Blues,0,Anaheim Ducks
+339,2026020340,2026-11-17T20:00:00,340,1,1,0,Minnesota Wild,0,Nashville Predators
+340,2026020341,2026-11-17T19:00:00,341,1,1,0,Winnipeg Jets,0,Ottawa Senators
+341,2026020342,2026-11-17T22:00:00,342,1,1,0,Vegas Golden Knights,0,Dallas Stars
+342,2026020343,2026-11-17T22:00:00,343,1,1,0,San Jose Sharks,0,Calgary Flames
+343,2026020344,2026-11-18T19:30:00,344,1,1,0,Detroit Red Wings,0,Boston Bruins
+344,2026020345,2026-11-18T19:30:00,345,1,1,0,New Jersey Devils,0,Montréal Canadiens
+345,2026020346,2026-11-18T21:00:00,346,1,1,0,Utah Mammoth,0,Colorado Avalanche
+346,2026020347,2026-11-19T19:00:00,347,1,1,0,Toronto Maple Leafs,0,Los Angeles Kings
+347,2026020348,2026-11-19T19:00:00,348,1,1,0,Ottawa Senators,0,Philadelphia Flyers
+348,2026020349,2026-11-19T19:30:00,349,1,1,0,Tampa Bay Lightning,0,Edmonton Oilers
+349,2026020350,2026-11-19T19:00:00,350,1,1,0,Pittsburgh Penguins,0,St. Louis Blues
+350,2026020351,2026-11-19T19:00:00,351,1,1,0,Washington Capitals,0,Buffalo Sabres
+351,2026020352,2026-11-19T19:00:00,352,1,1,0,Carolina Hurricanes,0,Montréal Canadiens
+352,2026020353,2026-11-19T20:00:00,353,1,1,0,Chicago Blackhawks,0,Columbus Blue Jackets
+353,2026020354,2026-11-19T19:00:00,354,1,1,0,Winnipeg Jets,0,New York Islanders
+354,2026020355,2026-11-19T20:00:00,355,1,1,0,Calgary Flames,0,Minnesota Wild
+355,2026020356,2026-11-19T21:00:00,356,1,1,0,Colorado Avalanche,0,Anaheim Ducks
+356,2026020357,2026-11-19T21:40:00,357,1,1,0,Seattle Kraken,0,Vancouver Canucks
+357,2026020358,2026-11-19T22:00:00,358,1,1,0,Vegas Golden Knights,0,Dallas Stars
+358,2026020359,2026-11-21T13:00:00,359,1,1,0,Carolina Hurricanes,0,Edmonton Oilers
+359,2026020360,2026-11-21T15:30:00,360,1,1,0,Calgary Flames,0,Chicago Blackhawks
+360,2026020361,2026-11-21T18:00:00,361,1,1,0,Florida Panthers,0,Buffalo Sabres
+361,2026020362,2026-11-21T18:00:00,362,1,1,0,Nashville Predators,0,Pittsburgh Penguins
+362,2026020363,2026-11-21T19:00:00,363,1,1,0,Boston Bruins,0,Washington Capitals
+363,2026020364,2026-11-21T19:00:00,364,1,1,0,Toronto Maple Leafs,0,Columbus Blue Jackets
+364,2026020365,2026-11-21T19:00:00,365,1,1,0,Montréal Canadiens,0,Philadelphia Flyers
+365,2026020366,2026-11-21T19:00:00,366,1,1,0,Ottawa Senators,0,Los Angeles Kings
+366,2026020367,2026-11-21T19:00:00,367,1,1,0,Detroit Red Wings,0,New York Islanders
+367,2026020368,2026-11-21T19:00:00,368,1,1,0,St. Louis Blues,0,New Jersey Devils
+368,2026020369,2026-11-21T19:00:00,369,1,1,0,Winnipeg Jets,0,Vegas Golden Knights
+369,2026020370,2026-11-21T21:00:00,370,1,1,0,Utah Mammoth,0,Anaheim Ducks
+370,2026020371,2026-11-21T22:00:00,371,1,1,0,Vancouver Canucks,0,Minnesota Wild
+371,2026020372,2026-11-21T22:00:00,372,1,1,0,San Jose Sharks,0,Seattle Kraken
+372,2026020373,2026-11-22T12:30:00,373,1,1,0,New York Rangers,0,Carolina Hurricanes
+373,2026020374,2026-11-22T17:00:00,374,1,1,0,Tampa Bay Lightning,0,Buffalo Sabres
+374,2026020375,2026-11-22T19:00:00,375,1,1,0,St. Louis Blues,0,Edmonton Oilers
+375,2026020376,2026-11-22T19:00:00,376,1,1,0,Dallas Stars,0,Pittsburgh Penguins
+376,2026020377,2026-11-22T20:00:00,377,1,1,0,Vancouver Canucks,0,Chicago Blackhawks
+377,2026020378,2026-11-23T19:00:00,378,1,1,0,New Jersey Devils,0,Columbus Blue Jackets
+378,2026020379,2026-11-23T19:30:00,379,1,1,0,Montréal Canadiens,0,Los Angeles Kings
+379,2026020380,2026-11-23T19:30:00,380,1,1,0,Ottawa Senators,0,Calgary Flames
+380,2026020381,2026-11-23T19:30:00,381,1,1,0,New York Islanders,0,Toronto Maple Leafs
+381,2026020382,2026-11-23T19:30:00,382,1,1,0,Winnipeg Jets,0,Utah Mammoth
+382,2026020383,2026-11-23T21:40:00,383,1,1,0,Seattle Kraken,0,Anaheim Ducks
+383,2026020384,2026-11-23T22:00:00,384,1,1,0,San Jose Sharks,0,Minnesota Wild
+384,2026020385,2026-11-24T20:00:00,385,1,1,0,Edmonton Oilers,0,Vegas Golden Knights
+385,2026020386,2026-11-25T19:00:00,386,1,1,0,Boston Bruins,0,Winnipeg Jets
+386,2026020387,2026-11-25T19:00:00,387,1,1,0,Buffalo Sabres,0,New York Rangers
+387,2026020388,2026-11-25T19:00:00,388,1,1,0,Tampa Bay Lightning,0,Carolina Hurricanes
+388,2026020389,2026-11-25T19:00:00,389,1,1,0,Florida Panthers,0,Ottawa Senators
+389,2026020390,2026-11-25T19:00:00,390,1,1,0,New York Islanders,0,St. Louis Blues
+390,2026020391,2026-11-25T19:00:00,391,1,1,0,Pittsburgh Penguins,0,Calgary Flames
+391,2026020392,2026-11-25T19:00:00,392,1,1,0,Washington Capitals,0,Philadelphia Flyers
+392,2026020393,2026-11-25T19:00:00,393,1,1,0,Columbus Blue Jackets,0,New Jersey Devils
+393,2026020394,2026-11-25T19:30:00,394,1,1,0,Detroit Red Wings,0,Vancouver Canucks
+394,2026020395,2026-11-25T20:00:00,395,1,1,0,Dallas Stars,0,Nashville Predators
+395,2026020396,2026-11-25T20:00:00,396,1,1,0,Minnesota Wild,0,Utah Mammoth
+396,2026020397,2026-11-25T21:30:00,397,1,1,0,Colorado Avalanche,0,Montréal Canadiens
+397,2026020398,2026-11-25T22:00:00,398,1,1,0,Anaheim Ducks,0,San Jose Sharks
+398,2026020399,2026-11-25T21:40:00,399,1,1,0,Seattle Kraken,0,Chicago Blackhawks
+399,2026020400,2026-11-27T13:00:00,400,1,1,0,Boston Bruins,0,Toronto Maple Leafs
+400,2026020401,2026-11-27T13:00:00,401,1,1,0,New Jersey Devils,0,Calgary Flames
+401,2026020402,2026-11-27T13:00:00,402,1,1,0,Nashville Predators,0,Utah Mammoth
+402,2026020403,2026-11-27T14:00:00,403,1,1,0,St. Louis Blues,0,Dallas Stars
+403,2026020404,2026-11-27T15:00:00,404,1,1,0,Tampa Bay Lightning,0,Ottawa Senators
+404,2026020405,2026-11-27T15:00:00,405,1,1,0,Philadelphia Flyers,0,Vancouver Canucks
+405,2026020406,2026-11-27T15:00:00,406,1,1,0,Washington Capitals,0,Florida Panthers
+406,2026020407,2026-11-27T15:00:00,407,1,1,0,Columbus Blue Jackets,0,Detroit Red Wings
+407,2026020408,2026-11-27T16:00:00,408,1,1,0,Minnesota Wild,0,Colorado Avalanche
+408,2026020409,2026-11-27T16:00:00,409,1,1,0,Anaheim Ducks,0,Los Angeles Kings
+409,2026020410,2026-11-27T16:00:00,410,1,1,0,San Jose Sharks,0,Vegas Golden Knights
+410,2026020411,2026-11-27T17:30:00,411,1,1,0,Chicago Blackhawks,0,New York Rangers
+411,2026020412,2026-11-27T19:30:00,412,1,1,0,New York Islanders,0,Winnipeg Jets
+412,2026020413,2026-11-27T20:00:00,413,1,1,0,Buffalo Sabres,0,Pittsburgh Penguins
+413,2026020414,2026-11-27T20:00:00,414,1,1,0,Edmonton Oilers,0,Seattle Kraken
+414,2026020415,2026-11-28T16:00:00,415,1,1,0,Vegas Golden Knights,0,Montréal Canadiens
+415,2026020416,2026-11-28T18:00:00,416,1,1,0,Florida Panthers,0,Tampa Bay Lightning
+416,2026020417,2026-11-28T19:00:00,417,1,1,0,Detroit Red Wings,0,Nashville Predators
+417,2026020418,2026-11-28T19:00:00,418,1,1,0,New Jersey Devils,0,Winnipeg Jets
+418,2026020419,2026-11-28T19:00:00,419,1,1,0,New York Rangers,0,Calgary Flames
+419,2026020420,2026-11-28T19:00:00,420,1,1,0,Pittsburgh Penguins,0,Toronto Maple Leafs
+420,2026020421,2026-11-28T19:00:00,421,1,1,0,Carolina Hurricanes,0,Ottawa Senators
+421,2026020422,2026-11-28T19:00:00,422,1,1,0,St. Louis Blues,0,Washington Capitals
+422,2026020423,2026-11-28T19:30:00,423,1,1,0,Philadelphia Flyers,0,New York Islanders
+423,2026020424,2026-11-28T20:00:00,424,1,1,0,Dallas Stars,0,Utah Mammoth
+424,2026020425,2026-11-28T21:00:00,425,1,1,0,Colorado Avalanche,0,San Jose Sharks
+425,2026020426,2026-11-28T21:00:00,426,1,1,0,Los Angeles Kings,0,Anaheim Ducks
+426,2026020427,2026-11-28T22:00:00,427,1,1,0,Seattle Kraken,0,Edmonton Oilers
+427,2026020428,2026-11-29T14:00:00,428,1,1,0,Chicago Blackhawks,0,Minnesota Wild
+428,2026020429,2026-11-29T17:00:00,429,1,1,0,Boston Bruins,0,Vancouver Canucks
+429,2026020430,2026-11-30T13:00:00,430,1,1,0,Nashville Predators,0,Ottawa Senators
+430,2026020431,2026-11-30T19:00:00,431,1,1,0,New York Rangers,0,Carolina Hurricanes
+431,2026020432,2026-11-30T19:00:00,432,1,1,0,Pittsburgh Penguins,0,Columbus Blue Jackets
+432,2026020433,2026-11-30T19:30:00,433,1,1,0,Toronto Maple Leafs,0,Philadelphia Flyers
+433,2026020434,2026-11-30T19:30:00,434,1,1,0,Winnipeg Jets,0,Chicago Blackhawks
+434,2026020435,2026-11-30T21:30:00,435,1,1,0,Utah Mammoth,0,Montréal Canadiens
+435,2026020436,2026-12-01T19:00:00,436,1,1,0,Detroit Red Wings,0,Calgary Flames
+436,2026020437,2026-12-01T19:30:00,437,1,1,0,New Jersey Devils,0,San Jose Sharks
+437,2026020438,2026-12-01T19:00:00,438,1,1,0,New York Islanders,0,Florida Panthers
+438,2026020439,2026-12-01T19:00:00,439,1,1,0,Washington Capitals,0,Vancouver Canucks
+439,2026020440,2026-12-01T20:00:00,440,1,1,0,Boston Bruins,0,Colorado Avalanche
+440,2026020441,2026-12-01T20:00:00,441,1,1,0,Edmonton Oilers,0,Buffalo Sabres
+441,2026020442,2026-12-01T21:40:00,442,1,1,0,Seattle Kraken,0,Dallas Stars
+442,2026020443,2026-12-01T22:00:00,443,1,1,0,Anaheim Ducks,0,Minnesota Wild
+443,2026020444,2026-12-01T22:00:00,444,1,1,0,Los Angeles Kings,0,Vegas Golden Knights
+444,2026020445,2026-12-02T19:30:00,445,1,1,0,Montréal Canadiens,0,Tampa Bay Lightning
+445,2026020446,2026-12-02T20:00:00,446,1,1,0,St. Louis Blues,0,Pittsburgh Penguins
+446,2026020447,2026-12-02T21:30:00,447,1,1,0,Utah Mammoth,0,Winnipeg Jets
+447,2026020448,2026-12-03T19:00:00,448,1,1,0,Toronto Maple Leafs,0,Florida Panthers
+448,2026020449,2026-12-03T19:00:00,449,1,1,0,Ottawa Senators,0,New Jersey Devils
+449,2026020450,2026-12-03T19:00:00,450,1,1,0,Detroit Red Wings,0,Colorado Avalanche
+450,2026020451,2026-12-03T19:00:00,451,1,1,0,New York Rangers,0,San Jose Sharks
+451,2026020452,2026-12-03T19:30:00,452,1,1,0,Philadelphia Flyers,0,New York Islanders
+452,2026020453,2026-12-03T19:00:00,453,1,1,0,Carolina Hurricanes,0,Columbus Blue Jackets
+453,2026020454,2026-12-03T20:00:00,454,1,1,0,Nashville Predators,0,Chicago Blackhawks
+454,2026020455,2026-12-03T20:00:00,455,1,1,0,Calgary Flames,0,Buffalo Sabres
+455,2026020456,2026-12-03T20:00:00,456,1,1,0,Edmonton Oilers,0,Washington Capitals
+456,2026020457,2026-12-03T22:00:00,457,1,1,0,Seattle Kraken,0,Dallas Stars
+457,2026020458,2026-12-03T22:00:00,458,1,1,0,Vegas Golden Knights,0,Utah Mammoth
+458,2026020459,2026-12-03T22:00:00,459,1,1,0,Los Angeles Kings,0,Minnesota Wild
+459,2026020460,2026-12-04T19:00:00,460,1,1,0,New York Islanders,0,San Jose Sharks
+460,2026020461,2026-12-04T20:00:00,461,1,1,0,St. Louis Blues,0,Chicago Blackhawks
+461,2026020462,2026-12-04T21:00:00,462,1,1,0,Vancouver Canucks,0,Buffalo Sabres
+462,2026020463,2026-12-04T22:00:00,463,1,1,0,Anaheim Ducks,0,Seattle Kraken
+463,2026020464,2026-12-05T13:00:00,464,1,1,0,Boston Bruins,0,Detroit Red Wings
+464,2026020465,2026-12-05T13:00:00,465,1,1,0,Montréal Canadiens,0,Florida Panthers
+465,2026020466,2026-12-05T14:00:00,466,1,1,0,Nashville Predators,0,Columbus Blue Jackets
+466,2026020467,2026-12-05T15:00:00,467,1,1,0,Pittsburgh Penguins,0,New Jersey Devils
+467,2026020468,2026-12-05T15:30:00,468,1,1,0,Calgary Flames,0,Washington Capitals
+468,2026020469,2026-12-05T19:00:00,469,1,1,0,Ottawa Senators,0,Tampa Bay Lightning
+469,2026020470,2026-12-05T19:00:00,470,1,1,0,New York Rangers,0,Colorado Avalanche
+470,2026020471,2026-12-05T19:00:00,471,1,1,0,Carolina Hurricanes,0,Toronto Maple Leafs
+471,2026020472,2026-12-05T19:00:00,472,1,1,0,Vegas Golden Knights,0,Winnipeg Jets
+472,2026020473,2026-12-05T20:00:00,473,1,1,0,Minnesota Wild,0,Philadelphia Flyers
+473,2026020474,2026-12-05T22:00:00,474,1,1,0,Los Angeles Kings,0,Utah Mammoth
+474,2026020475,2026-12-05T22:00:00,475,1,1,0,Vancouver Canucks,0,Dallas Stars
+475,2026020476,2026-12-06T15:00:00,476,1,1,0,Pittsburgh Penguins,0,San Jose Sharks
+476,2026020477,2026-12-06T17:00:00,477,1,1,0,St. Louis Blues,0,Nashville Predators
+477,2026020478,2026-12-06T19:00:00,478,1,1,0,Montréal Canadiens,0,Ottawa Senators
+478,2026020479,2026-12-06T19:00:00,479,1,1,0,Chicago Blackhawks,0,Edmonton Oilers
+479,2026020480,2026-12-06T20:00:00,480,1,1,0,Anaheim Ducks,0,Winnipeg Jets
+480,2026020481,2026-12-06T20:00:00,481,1,1,0,Seattle Kraken,0,Buffalo Sabres
+481,2026020482,2026-12-07T13:00:00,482,1,1,0,New York Islanders,0,Colorado Avalanche
+482,2026020483,2026-12-07T19:00:00,483,1,1,0,Tampa Bay Lightning,0,Columbus Blue Jackets
+483,2026020484,2026-12-07T19:00:00,484,1,1,0,New York Rangers,0,New Jersey Devils
+484,2026020485,2026-12-07T21:00:00,485,1,1,0,Vancouver Canucks,0,Washington Capitals
+485,2026020486,2026-12-08T19:00:00,486,1,1,0,Montréal Canadiens,0,Vegas Golden Knights
+486,2026020487,2026-12-08T19:00:00,487,1,1,0,Ottawa Senators,0,Anaheim Ducks
+487,2026020488,2026-12-08T19:00:00,488,1,1,0,Florida Panthers,0,Boston Bruins
+488,2026020489,2026-12-08T19:30:00,489,1,1,0,Pittsburgh Penguins,0,Chicago Blackhawks
+489,2026020490,2026-12-08T19:00:00,490,1,1,0,Carolina Hurricanes,0,New York Rangers
+490,2026020491,2026-12-08T20:00:00,491,1,1,0,St. Louis Blues,0,Colorado Avalanche
+491,2026020492,2026-12-08T19:00:00,492,1,1,0,Winnipeg Jets,0,Philadelphia Flyers
+492,2026020493,2026-12-08T20:00:00,493,1,1,0,Calgary Flames,0,Nashville Predators
+493,2026020494,2026-12-08T20:00:00,494,1,1,0,Minnesota Wild,0,Edmonton Oilers
+494,2026020495,2026-12-08T22:00:00,495,1,1,0,San Jose Sharks,0,Seattle Kraken
+495,2026020496,2026-12-09T19:00:00,496,1,1,0,New Jersey Devils,0,Detroit Red Wings
+496,2026020497,2026-12-09T19:30:00,497,1,1,0,Dallas Stars,0,Toronto Maple Leafs
+497,2026020498,2026-12-09T21:30:00,498,1,1,0,Los Angeles Kings,0,San Jose Sharks
+498,2026020499,2026-12-10T19:00:00,499,1,1,0,Buffalo Sabres,0,Edmonton Oilers
+499,2026020500,2026-12-10T19:00:00,500,1,1,0,Montréal Canadiens,0,Anaheim Ducks
+500,2026020501,2026-12-10T19:00:00,501,1,1,0,Ottawa Senators,0,Vegas Golden Knights
+501,2026020502,2026-12-10T19:00:00,502,1,1,0,Tampa Bay Lightning,0,Boston Bruins
+502,2026020503,2026-12-10T19:00:00,503,1,1,0,Florida Panthers,0,Pittsburgh Penguins
+503,2026020504,2026-12-10T19:00:00,504,1,1,0,New York Islanders,0,Calgary Flames
+504,2026020505,2026-12-10T19:00:00,505,1,1,0,Columbus Blue Jackets,0,Minnesota Wild
+505,2026020506,2026-12-10T19:00:00,506,1,1,0,Winnipeg Jets,0,Chicago Blackhawks
+506,2026020507,2026-12-10T21:00:00,507,1,1,0,Utah Mammoth,0,St. Louis Blues
+507,2026020508,2026-12-10T21:00:00,508,1,1,0,Vancouver Canucks,0,Nashville Predators
+508,2026020509,2026-12-10T21:30:00,509,1,1,0,Seattle Kraken,0,Washington Capitals
+509,2026020510,2026-12-11T19:00:00,510,1,1,0,Detroit Red Wings,0,New York Rangers
+510,2026020511,2026-12-11T19:00:00,511,1,1,0,Philadelphia Flyers,0,Calgary Flames
+511,2026020512,2026-12-11T19:00:00,512,1,1,0,Carolina Hurricanes,0,New York Islanders
+512,2026020513,2026-12-11T22:00:00,513,1,1,0,San Jose Sharks,0,Los Angeles Kings
+513,2026020514,2026-12-12T13:00:00,514,1,1,0,Boston Bruins,0,New Jersey Devils
+514,2026020515,2026-12-12T13:00:00,515,1,1,0,Columbus Blue Jackets,0,Montréal Canadiens
+515,2026020516,2026-12-12T15:30:00,516,1,1,0,Tampa Bay Lightning,0,Pittsburgh Penguins
+516,2026020517,2026-12-12T15:30:00,517,1,1,0,Minnesota Wild,0,Winnipeg Jets
+517,2026020518,2026-12-12T19:00:00,518,1,1,0,Buffalo Sabres,0,Anaheim Ducks
+518,2026020519,2026-12-12T19:00:00,519,1,1,0,Toronto Maple Leafs,0,Vegas Golden Knights
+519,2026020520,2026-12-12T19:00:00,520,1,1,0,Ottawa Senators,0,Edmonton Oilers
+520,2026020521,2026-12-12T19:00:00,521,1,1,0,Detroit Red Wings,0,Florida Panthers
+521,2026020522,2026-12-12T19:00:00,522,1,1,0,Chicago Blackhawks,0,Utah Mammoth
+522,2026020523,2026-12-12T20:00:00,523,1,1,0,Dallas Stars,0,St. Louis Blues
+523,2026020524,2026-12-12T21:00:00,524,1,1,0,Colorado Avalanche,0,Washington Capitals
+524,2026020525,2026-12-12T22:00:00,525,1,1,0,Los Angeles Kings,0,Vancouver Canucks
+525,2026020526,2026-12-12T22:00:00,526,1,1,0,Seattle Kraken,0,Nashville Predators
+526,2026020527,2026-12-13T13:00:00,527,1,1,0,Carolina Hurricanes,0,Boston Bruins
+527,2026020528,2026-12-13T18:00:00,528,1,1,0,New York Rangers,0,Columbus Blue Jackets
+528,2026020529,2026-12-13T19:00:00,529,1,1,0,Toronto Maple Leafs,0,Anaheim Ducks
+529,2026020530,2026-12-13T20:00:00,530,1,1,0,St. Louis Blues,0,Tampa Bay Lightning
+530,2026020531,2026-12-14T14:00:00,531,1,1,0,Ottawa Senators,0,Buffalo Sabres
+531,2026020532,2026-12-14T19:00:00,532,1,1,0,Philadelphia Flyers,0,Florida Panthers
+532,2026020533,2026-12-14T19:30:00,533,1,1,0,Montréal Canadiens,0,Edmonton Oilers
+533,2026020534,2026-12-14T21:00:00,534,1,1,0,Colorado Avalanche,0,Utah Mammoth
+534,2026020535,2026-12-14T22:00:00,535,1,1,0,San Jose Sharks,0,Vancouver Canucks
+535,2026020536,2026-12-15T19:00:00,536,1,1,0,Boston Bruins,0,Florida Panthers
+536,2026020537,2026-12-15T19:00:00,537,1,1,0,Buffalo Sabres,0,Calgary Flames
+537,2026020538,2026-12-15T19:30:00,538,1,1,0,Detroit Red Wings,0,Los Angeles Kings
+538,2026020539,2026-12-15T19:00:00,539,1,1,0,New Jersey Devils,0,New York Rangers
+539,2026020540,2026-12-15T19:00:00,540,1,1,0,Pittsburgh Penguins,0,Tampa Bay Lightning
+540,2026020541,2026-12-15T19:00:00,541,1,1,0,Columbus Blue Jackets,0,Carolina Hurricanes
+541,2026020542,2026-12-15T20:00:00,542,1,1,0,St. Louis Blues,0,Winnipeg Jets
+542,2026020543,2026-12-15T20:00:00,543,1,1,0,Nashville Predators,0,Seattle Kraken
+543,2026020544,2026-12-15T20:00:00,544,1,1,0,Minnesota Wild,0,Toronto Maple Leafs
+544,2026020545,2026-12-15T21:00:00,545,1,1,0,Utah Mammoth,0,New York Islanders
+545,2026020546,2026-12-15T21:30:00,546,1,1,0,Dallas Stars,0,Washington Capitals
+546,2026020547,2026-12-16T19:30:00,547,1,1,0,Philadelphia Flyers,0,New York Rangers
+547,2026020548,2026-12-16T21:00:00,548,1,1,0,Colorado Avalanche,0,New York Islanders
+548,2026020549,2026-12-16T21:00:00,549,1,1,0,Anaheim Ducks,0,Vancouver Canucks
+549,2026020550,2026-12-16T22:00:00,550,1,1,0,Vegas Golden Knights,0,San Jose Sharks
+550,2026020551,2026-12-17T19:00:00,551,1,1,0,Boston Bruins,0,St. Louis Blues
+551,2026020552,2026-12-17T19:00:00,552,1,1,0,Tampa Bay Lightning,0,Calgary Flames
+552,2026020553,2026-12-17T19:30:00,553,1,1,0,New Jersey Devils,0,Toronto Maple Leafs
+553,2026020554,2026-12-17T19:00:00,554,1,1,0,Pittsburgh Penguins,0,Los Angeles Kings
+554,2026020555,2026-12-17T19:00:00,555,1,1,0,Washington Capitals,0,Detroit Red Wings
+555,2026020556,2026-12-17T19:00:00,556,1,1,0,Columbus Blue Jackets,0,Seattle Kraken
+556,2026020557,2026-12-17T20:00:00,557,1,1,0,Edmonton Oilers,0,Dallas Stars
+557,2026020558,2026-12-17T21:00:00,558,1,1,0,Utah Mammoth,0,Carolina Hurricanes
+558,2026020559,2026-12-18T19:30:00,559,1,1,0,Buffalo Sabres,0,Montréal Canadiens
+559,2026020560,2026-12-18T13:00:00,560,1,1,0,Ottawa Senators,0,Chicago Blackhawks
+560,2026020561,2026-12-18T19:00:00,561,1,1,0,New York Rangers,0,Nashville Predators
+561,2026020562,2026-12-18T19:00:00,562,1,1,0,Philadelphia Flyers,0,Detroit Red Wings
+562,2026020563,2026-12-18T19:00:00,563,1,1,0,Pittsburgh Penguins,0,Seattle Kraken
+563,2026020564,2026-12-18T20:00:00,564,1,1,0,Minnesota Wild,0,Anaheim Ducks
+564,2026020565,2026-12-18T21:00:00,565,1,1,0,Colorado Avalanche,0,Carolina Hurricanes
+565,2026020566,2026-12-18T22:00:00,566,1,1,0,Vegas Golden Knights,0,New York Islanders
+566,2026020567,2026-12-19T12:00:00,567,1,1,0,New Jersey Devils,0,Boston Bruins
+567,2026020568,2026-12-19T13:00:00,568,1,1,0,Florida Panthers,0,Calgary Flames
+568,2026020569,2026-12-19T15:30:00,569,1,1,0,Edmonton Oilers,0,Utah Mammoth
+569,2026020570,2026-12-19T19:00:00,570,1,1,0,Toronto Maple Leafs,0,Tampa Bay Lightning
+570,2026020571,2026-12-19T19:00:00,571,1,1,0,Washington Capitals,0,St. Louis Blues
+571,2026020572,2026-12-19T19:00:00,572,1,1,0,Columbus Blue Jackets,0,Los Angeles Kings
+572,2026020573,2026-12-19T19:00:00,573,1,1,0,Minnesota Wild,0,Montréal Canadiens
+573,2026020574,2026-12-19T19:00:00,574,1,1,0,Winnipeg Jets,0,Dallas Stars
+574,2026020575,2026-12-19T22:00:00,575,1,1,0,Vancouver Canucks,0,San Jose Sharks
+575,2026020576,2026-12-20T13:00:00,576,1,1,0,Boston Bruins,0,Philadelphia Flyers
+576,2026020577,2026-12-20T08:00:00,577,1,1,0,Chicago Blackhawks,0,Ottawa Senators
+577,2026020578,2026-12-20T17:00:00,578,1,1,0,Detroit Red Wings,0,Tampa Bay Lightning
+578,2026020579,2026-12-20T18:00:00,579,1,1,0,Buffalo Sabres,0,Los Angeles Kings
+579,2026020580,2026-12-20T17:00:00,580,1,1,0,Winnipeg Jets,0,Dallas Stars
+580,2026020581,2026-12-20T19:00:00,581,1,1,0,New Jersey Devils,0,Nashville Predators
+581,2026020582,2026-12-20T19:00:00,582,1,1,0,New York Islanders,0,New York Rangers
+582,2026020583,2026-12-20T19:00:00,583,1,1,0,Edmonton Oilers,0,Anaheim Ducks
+583,2026020584,2026-12-20T20:00:00,584,1,1,0,Colorado Avalanche,0,Seattle Kraken
+584,2026020585,2026-12-21T14:00:00,585,1,1,0,Toronto Maple Leafs,0,Washington Capitals
+585,2026020586,2026-12-21T19:00:00,586,1,1,0,Florida Panthers,0,St. Louis Blues
+586,2026020587,2026-12-21T19:00:00,587,1,1,0,Philadelphia Flyers,0,Columbus Blue Jackets
+587,2026020588,2026-12-21T21:00:00,588,1,1,0,Vancouver Canucks,0,Utah Mammoth
+588,2026020589,2026-12-21T22:00:00,589,1,1,0,Vegas Golden Knights,0,Carolina Hurricanes
+589,2026020590,2026-12-22T19:00:00,590,1,1,0,Tampa Bay Lightning,0,St. Louis Blues
+590,2026020591,2026-12-22T19:00:00,591,1,1,0,New York Islanders,0,Boston Bruins
+591,2026020592,2026-12-22T19:00:00,592,1,1,0,New York Rangers,0,New Jersey Devils
+592,2026020593,2026-12-22T19:00:00,593,1,1,0,Pittsburgh Penguins,0,Buffalo Sabres
+593,2026020594,2026-12-22T19:00:00,594,1,1,0,Columbus Blue Jackets,0,Montréal Canadiens
+594,2026020595,2026-12-22T19:00:00,595,1,1,0,Detroit Red Wings,0,Toronto Maple Leafs
+595,2026020596,2026-12-22T20:00:00,596,1,1,0,Nashville Predators,0,Winnipeg Jets
+596,2026020597,2026-12-22T20:00:00,597,1,1,0,Dallas Stars,0,Calgary Flames
+597,2026020598,2026-12-22T20:00:00,598,1,1,0,Minnesota Wild,0,Los Angeles Kings
+598,2026020599,2026-12-22T21:40:00,599,1,1,0,Seattle Kraken,0,San Jose Sharks
+599,2026020600,2026-12-22T21:30:00,600,1,1,0,Anaheim Ducks,0,Vegas Golden Knights
+600,2026020601,2026-12-26T18:00:00,601,1,1,0,Florida Panthers,0,Tampa Bay Lightning
+601,2026020602,2026-12-26T19:00:00,602,1,1,0,Boston Bruins,0,New York Islanders
+602,2026020603,2026-12-26T19:00:00,603,1,1,0,Buffalo Sabres,0,New Jersey Devils
+603,2026020604,2026-12-26T19:00:00,604,1,1,0,Montréal Canadiens,0,Toronto Maple Leafs
+604,2026020605,2026-12-26T20:00:00,605,1,1,0,Washington Capitals,0,Columbus Blue Jackets
+605,2026020606,2026-12-26T19:00:00,606,1,1,0,Carolina Hurricanes,0,Pittsburgh Penguins
+606,2026020607,2026-12-26T19:00:00,607,1,1,0,Nashville Predators,0,Detroit Red Wings
+607,2026020608,2026-12-26T19:00:00,608,1,1,0,Minnesota Wild,0,Winnipeg Jets
+608,2026020609,2026-12-26T22:00:00,609,1,1,0,Calgary Flames,0,Vancouver Canucks
+609,2026020610,2026-12-26T22:00:00,610,1,1,0,Los Angeles Kings,0,Utah Mammoth
+610,2026020611,2026-12-26T22:00:00,611,1,1,0,San Jose Sharks,0,Vegas Golden Knights
+611,2026020612,2026-12-27T15:00:00,612,1,1,0,Chicago Blackhawks,0,Philadelphia Flyers
+612,2026020613,2026-12-27T18:00:00,613,1,1,0,Columbus Blue Jackets,0,Edmonton Oilers
+613,2026020614,2026-12-27T17:00:00,614,1,1,0,St. Louis Blues,0,New York Rangers
+614,2026020615,2026-12-27T19:00:00,615,1,1,0,Montréal Canadiens,0,Dallas Stars
+615,2026020616,2026-12-27T19:00:00,616,1,1,0,New Jersey Devils,0,Boston Bruins
+616,2026020617,2026-12-27T19:00:00,617,1,1,0,New York Islanders,0,Ottawa Senators
+617,2026020618,2026-12-27T20:00:00,618,1,1,0,Anaheim Ducks,0,Colorado Avalanche
+618,2026020619,2026-12-28T14:00:00,619,1,1,0,Minnesota Wild,0,Vegas Golden Knights
+619,2026020620,2026-12-28T19:00:00,620,1,1,0,Buffalo Sabres,0,Detroit Red Wings
+620,2026020621,2026-12-28T19:00:00,621,1,1,0,Florida Panthers,0,Nashville Predators
+621,2026020622,2026-12-28T19:00:00,622,1,1,0,Washington Capitals,0,Edmonton Oilers
+622,2026020623,2026-12-28T19:00:00,623,1,1,0,Carolina Hurricanes,0,Tampa Bay Lightning
+623,2026020624,2026-12-28T19:30:00,624,1,1,0,Winnipeg Jets,0,San Jose Sharks
+624,2026020625,2026-12-28T21:30:00,625,1,1,0,Vancouver Canucks,0,Los Angeles Kings
+625,2026020626,2026-12-29T19:00:00,626,1,1,0,Montréal Canadiens,0,Columbus Blue Jackets
+626,2026020627,2026-12-29T19:00:00,627,1,1,0,Ottawa Senators,0,Dallas Stars
+627,2026020628,2026-12-29T19:00:00,628,1,1,0,Tampa Bay Lightning,0,Nashville Predators
+628,2026020629,2026-12-29T19:00:00,629,1,1,0,New York Rangers,0,Detroit Red Wings
+629,2026020630,2026-12-29T19:00:00,630,1,1,0,Pittsburgh Penguins,0,Carolina Hurricanes
+630,2026020631,2026-12-29T20:00:00,631,1,1,0,Chicago Blackhawks,0,Vegas Golden Knights
+631,2026020632,2026-12-29T20:00:00,632,1,1,0,Calgary Flames,0,San Jose Sharks
+632,2026020633,2026-12-29T21:00:00,633,1,1,0,Colorado Avalanche,0,St. Louis Blues
+633,2026020634,2026-12-29T21:00:00,634,1,1,0,Utah Mammoth,0,New Jersey Devils
+634,2026020635,2026-12-29T21:40:00,635,1,1,0,Seattle Kraken,0,Philadelphia Flyers
+635,2026020636,2026-12-29T22:00:00,636,1,1,0,Anaheim Ducks,0,Toronto Maple Leafs
+636,2026020637,2026-12-30T16:00:00,637,1,1,0,New York Islanders,0,Washington Capitals
+637,2026020638,2026-12-30T19:00:00,638,1,1,0,Florida Panthers,0,Buffalo Sabres
+638,2026020639,2026-12-30T19:30:00,639,1,1,0,Boston Bruins,0,Edmonton Oilers
+639,2026020640,2026-12-30T21:30:00,640,1,1,0,Vancouver Canucks,0,Seattle Kraken
+640,2026020641,2026-12-30T22:00:00,641,1,1,0,Los Angeles Kings,0,Toronto Maple Leafs
+641,2026020642,2026-12-31T14:00:00,642,1,1,0,Ottawa Senators,0,Pittsburgh Penguins
+642,2026020643,2026-12-31T14:00:00,643,1,1,0,Detroit Red Wings,0,Carolina Hurricanes
+643,2026020644,2026-12-31T14:00:00,644,1,1,0,Tampa Bay Lightning,0,Montréal Canadiens
+644,2026020645,2026-12-31T14:00:00,645,1,1,0,Columbus Blue Jackets,0,Washington Capitals
+645,2026020646,2026-12-31T15:00:00,646,1,1,0,Vegas Golden Knights,0,St. Louis Blues
+646,2026020647,2026-12-31T18:00:00,647,1,1,0,Utah Mammoth,0,Colorado Avalanche
+647,2026020648,2026-12-31T20:00:00,648,1,1,0,Calgary Flames,0,Winnipeg Jets
+648,2026020649,2026-12-31T21:00:00,649,1,1,0,Dallas Stars,0,New York Rangers
+649,2026020650,2027-01-01T14:00:00,650,1,1,0,Nashville Predators,0,Florida Panthers
+650,2026020651,2027-01-01T15:00:00,651,1,1,0,Chicago Blackhawks,0,Boston Bruins
+651,2026020652,2027-01-01T16:00:00,652,1,1,0,Anaheim Ducks,0,New Jersey Devils
+652,2026020653,2027-01-01T16:00:00,653,1,1,0,San Jose Sharks,0,Philadelphia Flyers
+653,2026020654,2027-01-01T18:00:00,654,1,1,0,Pittsburgh Penguins,0,Minnesota Wild
+654,2026020655,2027-01-02T15:30:00,655,1,1,0,Detroit Red Wings,0,Edmonton Oilers
+655,2026020656,2027-01-02T13:00:00,656,1,1,0,Florida Panthers,0,Montréal Canadiens
+656,2026020657,2027-01-02T19:00:00,657,1,1,0,Tampa Bay Lightning,0,Buffalo Sabres
+657,2026020658,2027-01-02T19:00:00,658,1,1,0,Washington Capitals,0,Ottawa Senators
+658,2026020659,2027-01-02T19:00:00,659,1,1,0,Carolina Hurricanes,0,Nashville Predators
+659,2026020660,2027-01-02T19:00:00,660,1,1,0,Columbus Blue Jackets,0,Boston Bruins
+660,2026020661,2027-01-02T19:00:00,661,1,1,0,Minnesota Wild,0,St. Louis Blues
+661,2026020662,2027-01-02T19:00:00,662,1,1,0,Winnipeg Jets,0,Calgary Flames
+662,2026020663,2027-01-02T19:00:00,663,1,1,0,San Jose Sharks,0,Toronto Maple Leafs
+663,2026020664,2027-01-02T20:00:00,664,1,1,0,Dallas Stars,0,Chicago Blackhawks
+664,2026020665,2027-01-02T21:00:00,665,1,1,0,Los Angeles Kings,0,New Jersey Devils
+665,2026020666,2027-01-02T22:00:00,666,1,1,0,Utah Mammoth,0,Vancouver Canucks
+666,2026020667,2027-01-02T22:00:00,667,1,1,0,Vegas Golden Knights,0,Colorado Avalanche
+667,2026020668,2027-01-02T22:00:00,668,1,1,0,Seattle Kraken,0,New York Islanders
+668,2026020669,2027-01-03T15:00:00,669,1,1,0,Pittsburgh Penguins,0,Edmonton Oilers
+669,2026020670,2027-01-03T18:00:00,670,1,1,0,New York Rangers,0,Columbus Blue Jackets
+670,2026020671,2027-01-03T19:00:00,671,1,1,0,St. Louis Blues,0,Calgary Flames
+671,2026020672,2027-01-03T20:00:00,672,1,1,0,Anaheim Ducks,0,Philadelphia Flyers
+672,2026020673,2027-01-03T20:00:00,673,1,1,0,Seattle Kraken,0,Vancouver Canucks
+673,2026020674,2027-01-04T19:30:00,674,1,1,0,Buffalo Sabres,0,Winnipeg Jets
+674,2026020675,2027-01-04T19:30:00,675,1,1,0,Montréal Canadiens,0,Chicago Blackhawks
+675,2026020676,2027-01-04T19:30:00,676,1,1,0,Washington Capitals,0,Toronto Maple Leafs
+676,2026020677,2027-01-04T20:00:00,677,1,1,0,Dallas Stars,0,Detroit Red Wings
+677,2026020678,2027-01-04T21:00:00,678,1,1,0,Colorado Avalanche,0,Vegas Golden Knights
+678,2026020679,2027-01-04T22:00:00,679,1,1,0,Los Angeles Kings,0,Philadelphia Flyers
+679,2026020680,2027-01-04T22:00:00,680,1,1,0,San Jose Sharks,0,New Jersey Devils
+680,2026020681,2027-01-05T19:00:00,681,1,1,0,Carolina Hurricanes,0,St. Louis Blues
+681,2026020682,2027-01-05T19:00:00,682,1,1,0,Columbus Blue Jackets,0,New York Rangers
+682,2026020683,2027-01-05T19:30:00,683,1,1,0,Boston Bruins,0,Buffalo Sabres
+683,2026020684,2027-01-05T19:30:00,684,1,1,0,Nashville Predators,0,Edmonton Oilers
+684,2026020685,2027-01-05T20:00:00,685,1,1,0,Calgary Flames,0,Florida Panthers
+685,2026020686,2027-01-05T21:00:00,686,1,1,0,Utah Mammoth,0,Ottawa Senators
+686,2026020687,2027-01-05T21:00:00,687,1,1,0,Vancouver Canucks,0,New York Islanders
+687,2026020688,2027-01-05T21:40:00,688,1,1,0,Seattle Kraken,0,Tampa Bay Lightning
+688,2026020689,2027-01-05T22:00:00,689,1,1,0,Anaheim Ducks,0,Minnesota Wild
+689,2026020690,2027-01-06T19:30:00,690,1,1,0,Montréal Canadiens,0,Boston Bruins
+690,2026020691,2027-01-06T21:30:00,691,1,1,0,Colorado Avalanche,0,Ottawa Senators
+691,2026020692,2027-01-06T22:00:00,692,1,1,0,Los Angeles Kings,0,Washington Capitals
+692,2026020693,2027-01-06T22:00:00,693,1,1,0,San Jose Sharks,0,Dallas Stars
+693,2026020694,2027-01-07T19:00:00,694,1,1,0,Detroit Red Wings,0,Utah Mammoth
+694,2026020695,2027-01-07T19:00:00,695,1,1,0,New Jersey Devils,0,Columbus Blue Jackets
+695,2026020696,2027-01-07T19:00:00,696,1,1,0,New York Rangers,0,Chicago Blackhawks
+696,2026020697,2027-01-07T19:00:00,697,1,1,0,Philadelphia Flyers,0,Toronto Maple Leafs
+697,2026020698,2027-01-07T19:00:00,698,1,1,0,Carolina Hurricanes,0,Pittsburgh Penguins
+698,2026020699,2027-01-07T19:00:00,699,1,1,0,Winnipeg Jets,0,Nashville Predators
+699,2026020700,2027-01-07T20:00:00,700,1,1,0,Calgary Flames,0,New York Islanders
+700,2026020701,2027-01-07T20:00:00,701,1,1,0,Edmonton Oilers,0,Florida Panthers
+701,2026020702,2027-01-07T21:00:00,702,1,1,0,Vancouver Canucks,0,Tampa Bay Lightning
+702,2026020703,2027-01-07T21:30:00,703,1,1,0,Vegas Golden Knights,0,Minnesota Wild
+703,2026020704,2027-01-08T19:00:00,704,1,1,0,Columbus Blue Jackets,0,Buffalo Sabres
+704,2026020705,2027-01-08T20:00:00,705,1,1,0,St. Louis Blues,0,Ottawa Senators
+705,2026020706,2027-01-08T21:00:00,706,1,1,0,Colorado Avalanche,0,Seattle Kraken
+706,2026020707,2027-01-08T22:00:00,707,1,1,0,Anaheim Ducks,0,Dallas Stars
+707,2026020708,2027-01-08T22:00:00,708,1,1,0,San Jose Sharks,0,Washington Capitals
+708,2026020709,2027-01-09T12:00:00,709,1,1,0,New Jersey Devils,0,Chicago Blackhawks
+709,2026020710,2027-01-09T15:30:00,710,1,1,0,Calgary Flames,0,Tampa Bay Lightning
+710,2026020711,2027-01-09T15:30:00,711,1,1,0,Edmonton Oilers,0,New York Islanders
+711,2026020712,2027-01-09T19:00:00,712,1,1,0,Buffalo Sabres,0,Carolina Hurricanes
+712,2026020713,2027-01-09T19:00:00,713,1,1,0,Toronto Maple Leafs,0,Philadelphia Flyers
+713,2026020714,2027-01-09T19:00:00,714,1,1,0,Montréal Canadiens,0,Pittsburgh Penguins
+714,2026020715,2027-01-09T19:00:00,715,1,1,0,Detroit Red Wings,0,Boston Bruins
+715,2026020716,2027-01-09T19:00:00,716,1,1,0,Winnipeg Jets,0,Utah Mammoth
+716,2026020717,2027-01-09T20:00:00,717,1,1,0,Minnesota Wild,0,Nashville Predators
+717,2026020718,2027-01-09T21:00:00,718,1,1,0,Los Angeles Kings,0,Dallas Stars
+718,2026020719,2027-01-09T22:00:00,719,1,1,0,Vancouver Canucks,0,Florida Panthers
+719,2026020720,2027-01-09T22:00:00,720,1,1,0,Vegas Golden Knights,0,Seattle Kraken
+720,2026020721,2027-01-09T22:00:00,721,1,1,0,San Jose Sharks,0,New York Rangers
+721,2026020722,2027-01-10T19:30:00,722,1,1,0,Philadelphia Flyers,0,Chicago Blackhawks
+722,2026020723,2027-01-10T20:00:00,723,1,1,0,Colorado Avalanche,0,Nashville Predators
+723,2026020724,2027-01-10T15:30:00,724,1,1,0,Anaheim Ducks,0,Washington Capitals
+724,2026020725,2027-01-11T19:30:00,725,1,1,0,Toronto Maple Leafs,0,Winnipeg Jets
+725,2026020726,2027-01-11T20:30:00,726,1,1,0,Edmonton Oilers,0,Tampa Bay Lightning
+726,2026020727,2027-01-11T22:00:00,727,1,1,0,Los Angeles Kings,0,New York Rangers
+727,2026020728,2027-01-12T19:00:00,728,1,1,0,Boston Bruins,0,Carolina Hurricanes
+728,2026020729,2027-01-12T19:00:00,729,1,1,0,Buffalo Sabres,0,New Jersey Devils
+729,2026020730,2027-01-12T19:00:00,730,1,1,0,Pittsburgh Penguins,0,Colorado Avalanche
+730,2026020731,2027-01-12T19:00:00,731,1,1,0,Washington Capitals,0,Vegas Golden Knights
+731,2026020732,2027-01-12T20:00:00,732,1,1,0,Chicago Blackhawks,0,Utah Mammoth
+732,2026020733,2027-01-12T20:00:00,733,1,1,0,Nashville Predators,0,Philadelphia Flyers
+733,2026020734,2027-01-12T20:00:00,734,1,1,0,Dallas Stars,0,Ottawa Senators
+734,2026020735,2027-01-12T20:00:00,735,1,1,0,Calgary Flames,0,Columbus Blue Jackets
+735,2026020736,2027-01-12T21:40:00,736,1,1,0,Seattle Kraken,0,Florida Panthers
+736,2026020737,2027-01-12T22:00:00,737,1,1,0,Anaheim Ducks,0,New York Rangers
+737,2026020738,2027-01-13T19:00:00,738,1,1,0,Montréal Canadiens,0,New Jersey Devils
+738,2026020739,2027-01-13T19:30:00,739,1,1,0,New York Islanders,0,Pittsburgh Penguins
+739,2026020740,2027-01-13T21:00:00,740,1,1,0,Utah Mammoth,0,Detroit Red Wings
+740,2026020741,2027-01-13T21:00:00,741,1,1,0,Edmonton Oilers,0,San Jose Sharks
+741,2026020742,2027-01-13T22:00:00,742,1,1,0,Los Angeles Kings,0,St. Louis Blues
+742,2026020743,2027-01-14T19:00:00,743,1,1,0,Boston Bruins,0,Dallas Stars
+743,2026020744,2027-01-14T19:30:00,744,1,1,0,Buffalo Sabres,0,Colorado Avalanche
+744,2026020745,2027-01-14T19:00:00,745,1,1,0,Toronto Maple Leafs,0,Chicago Blackhawks
+745,2026020746,2027-01-14T19:00:00,746,1,1,0,Ottawa Senators,0,Winnipeg Jets
+746,2026020747,2027-01-14T19:00:00,747,1,1,0,Tampa Bay Lightning,0,Vegas Golden Knights
+747,2026020748,2027-01-14T19:00:00,748,1,1,0,Washington Capitals,0,Carolina Hurricanes
+748,2026020749,2027-01-14T20:00:00,749,1,1,0,Nashville Predators,0,Montréal Canadiens
+749,2026020750,2027-01-14T20:00:00,750,1,1,0,Calgary Flames,0,San Jose Sharks
+750,2026020751,2027-01-14T21:30:00,751,1,1,0,Minnesota Wild,0,Florida Panthers
+751,2026020752,2027-01-14T21:00:00,752,1,1,0,Vancouver Canucks,0,Seattle Kraken
+752,2026020753,2027-01-14T22:00:00,753,1,1,0,Anaheim Ducks,0,St. Louis Blues
+753,2026020754,2027-01-15T19:00:00,754,1,1,0,New York Islanders,0,Dallas Stars
+754,2026020755,2027-01-15T19:00:00,755,1,1,0,Carolina Hurricanes,0,Philadelphia Flyers
+755,2026020756,2027-01-15T20:00:00,756,1,1,0,Edmonton Oilers,0,Columbus Blue Jackets
+756,2026020757,2027-01-15T21:00:00,757,1,1,0,Utah Mammoth,0,Los Angeles Kings
+757,2026020758,2027-01-16T12:00:00,758,1,1,0,New York Rangers,0,Boston Bruins
+758,2026020759,2027-01-16T15:30:00,759,1,1,0,Tampa Bay Lightning,0,Ottawa Senators
+759,2026020760,2027-01-16T18:00:00,760,1,1,0,Florida Panthers,0,Vegas Golden Knights
+760,2026020761,2027-01-16T19:00:00,761,1,1,0,Buffalo Sabres,0,Nashville Predators
+761,2026020762,2027-01-16T19:00:00,762,1,1,0,Toronto Maple Leafs,0,Pittsburgh Penguins
+762,2026020763,2027-01-16T19:00:00,763,1,1,0,New Jersey Devils,0,New York Islanders
+763,2026020764,2027-01-16T19:00:00,764,1,1,0,Philadelphia Flyers,0,Montréal Canadiens
+764,2026020765,2027-01-16T19:00:00,765,1,1,0,Washington Capitals,0,Colorado Avalanche
+765,2026020766,2027-01-16T19:00:00,766,1,1,0,Chicago Blackhawks,0,Detroit Red Wings
+766,2026020767,2027-01-16T19:00:00,767,1,1,0,St. Louis Blues,0,Minnesota Wild
+767,2026020768,2027-01-16T19:00:00,768,1,1,0,Winnipeg Jets,0,Anaheim Ducks
+768,2026020769,2027-01-16T22:00:00,769,1,1,0,Calgary Flames,0,Los Angeles Kings
+769,2026020770,2027-01-16T22:00:00,770,1,1,0,Vancouver Canucks,0,Columbus Blue Jackets
+770,2026020771,2027-01-16T22:00:00,771,1,1,0,Seattle Kraken,0,San Jose Sharks
+771,2026020772,2027-01-17T17:00:00,772,1,1,0,Detroit Red Wings,0,Minnesota Wild
+772,2026020773,2027-01-17T18:00:00,773,1,1,0,New York Rangers,0,Dallas Stars
+773,2026020774,2027-01-17T18:00:00,774,1,1,0,Carolina Hurricanes,0,Vegas Golden Knights
+774,2026020775,2027-01-17T19:00:00,775,1,1,0,Edmonton Oilers,0,Winnipeg Jets
+775,2026020776,2027-01-18T14:00:00,776,1,1,0,Buffalo Sabres,0,Montréal Canadiens
+776,2026020777,2027-01-18T13:30:00,777,1,1,0,Boston Bruins,0,Tampa Bay Lightning
+777,2026020778,2027-01-18T15:00:00,778,1,1,0,New York Islanders,0,Nashville Predators
+778,2026020779,2027-01-18T15:00:00,779,1,1,0,Colorado Avalanche,0,Vancouver Canucks
+779,2026020780,2027-01-18T16:00:00,780,1,1,0,Pittsburgh Penguins,0,Washington Capitals
+780,2026020781,2027-01-18T16:00:00,781,1,1,0,San Jose Sharks,0,Utah Mammoth
+781,2026020782,2027-01-18T16:00:00,782,1,1,0,Seattle Kraken,0,Columbus Blue Jackets
+782,2026020783,2027-01-18T19:30:00,783,1,1,0,Toronto Maple Leafs,0,St. Louis Blues
+783,2026020784,2027-01-18T19:30:00,784,1,1,0,Florida Panthers,0,Ottawa Senators
+784,2026020785,2027-01-18T20:30:00,785,1,1,0,Chicago Blackhawks,0,Calgary Flames
+785,2026020786,2027-01-19T19:00:00,786,1,1,0,Detroit Red Wings,0,Anaheim Ducks
+786,2026020787,2027-01-19T19:00:00,787,1,1,0,New Jersey Devils,0,Dallas Stars
+787,2026020788,2027-01-19T19:00:00,788,1,1,0,New York Rangers,0,Philadelphia Flyers
+788,2026020789,2027-01-19T19:00:00,789,1,1,0,Washington Capitals,0,Montréal Canadiens
+789,2026020790,2027-01-19T19:00:00,790,1,1,0,Winnipeg Jets,0,Minnesota Wild
+790,2026020791,2027-01-19T22:00:00,791,1,1,0,Los Angeles Kings,0,Seattle Kraken
+791,2026020792,2027-01-20T14:00:00,792,1,1,0,Nashville Predators,0,Vancouver Canucks
+792,2026020793,2027-01-20T19:00:00,793,1,1,0,New York Islanders,0,Buffalo Sabres
+793,2026020794,2027-01-20T19:30:00,794,1,1,0,Ottawa Senators,0,Toronto Maple Leafs
+794,2026020795,2027-01-20T21:00:00,795,1,1,0,Colorado Avalanche,0,Boston Bruins
+795,2026020796,2027-01-20T19:30:00,796,1,1,0,Chicago Blackhawks,0,Dallas Stars
+796,2026020797,2027-01-20T22:00:00,797,1,1,0,Vegas Golden Knights,0,Edmonton Oilers
+797,2026020798,2027-01-21T19:00:00,798,1,1,0,Buffalo Sabres,0,Seattle Kraken
+798,2026020799,2027-01-21T19:00:00,799,1,1,0,Montréal Canadiens,0,St. Louis Blues
+799,2026020800,2027-01-21T19:00:00,800,1,1,0,Florida Panthers,0,Carolina Hurricanes
+800,2026020801,2027-01-21T19:00:00,801,1,1,0,New Jersey Devils,0,Tampa Bay Lightning
+801,2026020802,2027-01-21T19:00:00,802,1,1,0,Philadelphia Flyers,0,Nashville Predators
+802,2026020803,2027-01-21T19:00:00,803,1,1,0,Pittsburgh Penguins,0,Anaheim Ducks
+803,2026020804,2027-01-21T19:00:00,804,1,1,0,Columbus Blue Jackets,0,Calgary Flames
+804,2026020805,2027-01-21T19:00:00,805,1,1,0,Winnipeg Jets,0,New York Rangers
+805,2026020806,2027-01-21T21:00:00,806,1,1,0,Minnesota Wild,0,Detroit Red Wings
+806,2026020807,2027-01-21T22:00:00,807,1,1,0,Los Angeles Kings,0,Edmonton Oilers
+807,2026020808,2027-01-22T19:00:00,808,1,1,0,Washington Capitals,0,New York Islanders
+808,2026020809,2027-01-22T20:00:00,809,1,1,0,Chicago Blackhawks,0,Vancouver Canucks
+809,2026020810,2027-01-22T20:00:00,810,1,1,0,Dallas Stars,0,Colorado Avalanche
+810,2026020811,2027-01-22T22:00:00,811,1,1,0,Vegas Golden Knights,0,Boston Bruins
+811,2026020812,2027-01-23T12:30:00,812,1,1,0,Detroit Red Wings,0,Tampa Bay Lightning
+812,2026020813,2027-01-23T15:30:00,813,1,1,0,Ottawa Senators,0,Columbus Blue Jackets
+813,2026020814,2027-01-23T17:00:00,814,1,1,0,Nashville Predators,0,Los Angeles Kings
+814,2026020815,2027-01-23T19:00:00,815,1,1,0,Montréal Canadiens,0,Calgary Flames
+815,2026020816,2027-01-23T19:00:00,816,1,1,0,Pittsburgh Penguins,0,Vancouver Canucks
+816,2026020817,2027-01-23T19:00:00,817,1,1,0,Carolina Hurricanes,0,Anaheim Ducks
+817,2026020818,2027-01-23T19:00:00,818,1,1,0,St. Louis Blues,0,Toronto Maple Leafs
+818,2026020819,2027-01-23T19:30:00,819,1,1,0,New York Islanders,0,Seattle Kraken
+819,2026020820,2027-01-23T19:30:00,820,1,1,0,Philadelphia Flyers,0,New Jersey Devils
+820,2026020821,2027-01-23T20:00:00,821,1,1,0,Minnesota Wild,0,New York Rangers
+821,2026020822,2027-01-23T21:00:00,822,1,1,0,Utah Mammoth,0,Boston Bruins
+822,2026020823,2027-01-23T22:00:00,823,1,1,0,San Jose Sharks,0,Edmonton Oilers
+823,2026020824,2027-01-24T15:00:00,824,1,1,0,Winnipeg Jets,0,Buffalo Sabres
+824,2026020825,2027-01-24T17:00:00,825,1,1,0,Columbus Blue Jackets,0,Anaheim Ducks
+825,2026020826,2027-01-24T17:00:00,826,1,1,0,Colorado Avalanche,0,Dallas Stars
+826,2026020827,2027-01-24T18:00:00,827,1,1,0,Florida Panthers,0,Los Angeles Kings
+827,2026020828,2027-01-24T19:00:00,828,1,1,0,New Jersey Devils,0,Washington Capitals
+828,2026020829,2027-01-24T19:00:00,829,1,1,0,Chicago Blackhawks,0,Vegas Golden Knights
+829,2026020830,2027-01-25T19:00:00,830,1,1,0,Detroit Red Wings,0,Pittsburgh Penguins
+830,2026020831,2027-01-25T19:00:00,831,1,1,0,New York Rangers,0,Seattle Kraken
+831,2026020832,2027-01-25T19:30:00,832,1,1,0,Ottawa Senators,0,Carolina Hurricanes
+832,2026020833,2027-01-25T21:00:00,833,1,1,0,Utah Mammoth,0,Minnesota Wild
+833,2026020834,2027-01-26T19:00:00,834,1,1,0,Boston Bruins,0,Columbus Blue Jackets
+834,2026020835,2027-01-26T19:00:00,835,1,1,0,Toronto Maple Leafs,0,Calgary Flames
+835,2026020836,2027-01-26T19:00:00,836,1,1,0,Montréal Canadiens,0,Carolina Hurricanes
+836,2026020837,2027-01-26T19:00:00,837,1,1,0,Tampa Bay Lightning,0,Los Angeles Kings
+837,2026020838,2027-01-26T19:00:00,838,1,1,0,New Jersey Devils,0,Seattle Kraken
+838,2026020839,2027-01-26T19:00:00,839,1,1,0,Philadelphia Flyers,0,Florida Panthers
+839,2026020840,2027-01-26T19:00:00,840,1,1,0,Pittsburgh Penguins,0,New York Islanders
+840,2026020841,2027-01-26T20:00:00,841,1,1,0,St. Louis Blues,0,Chicago Blackhawks
+841,2026020842,2027-01-26T20:00:00,842,1,1,0,Nashville Predators,0,Vegas Golden Knights
+842,2026020843,2027-01-26T20:00:00,843,1,1,0,Dallas Stars,0,Anaheim Ducks
+843,2026020844,2027-01-26T20:00:00,844,1,1,0,Minnesota Wild,0,Vancouver Canucks
+844,2026020845,2027-01-26T21:00:00,845,1,1,0,Colorado Avalanche,0,Edmonton Oilers
+845,2026020846,2027-01-27T19:30:00,846,1,1,0,Detroit Red Wings,0,Toronto Maple Leafs
+846,2026020847,2027-01-27T19:30:00,847,1,1,0,New York Rangers,0,Florida Panthers
+847,2026020848,2027-01-27T21:00:00,848,1,1,0,Utah Mammoth,0,Buffalo Sabres
+848,2026020849,2027-01-28T19:00:00,849,1,1,0,Ottawa Senators,0,Boston Bruins
+849,2026020850,2027-01-28T19:30:00,850,1,1,0,Philadelphia Flyers,0,Los Angeles Kings
+850,2026020851,2027-01-28T18:30:00,851,1,1,0,Carolina Hurricanes,0,New York Islanders
+851,2026020852,2027-01-28T19:00:00,852,1,1,0,Columbus Blue Jackets,0,Winnipeg Jets
+852,2026020853,2027-01-28T20:00:00,853,1,1,0,St. Louis Blues,0,Colorado Avalanche
+853,2026020854,2027-01-28T20:00:00,854,1,1,0,Dallas Stars,0,Vancouver Canucks
+854,2026020855,2027-01-28T20:00:00,855,1,1,0,Calgary Flames,0,Montréal Canadiens
+855,2026020856,2027-01-28T20:00:00,856,1,1,0,Edmonton Oilers,0,New Jersey Devils
+856,2026020857,2027-01-28T21:00:00,857,1,1,0,Minnesota Wild,0,Seattle Kraken
+857,2026020858,2027-01-28T22:00:00,858,1,1,0,Vegas Golden Knights,0,Buffalo Sabres
+858,2026020859,2027-01-28T22:00:00,859,1,1,0,Anaheim Ducks,0,Chicago Blackhawks
+859,2026020860,2027-01-28T22:00:00,860,1,1,0,San Jose Sharks,0,Nashville Predators
+860,2026020861,2027-01-29T19:00:00,861,1,1,0,Detroit Red Wings,0,Florida Panthers
+861,2026020862,2027-01-29T19:00:00,862,1,1,0,Pittsburgh Penguins,0,New York Rangers
+862,2026020863,2027-01-29T21:00:00,863,1,1,0,Utah Mammoth,0,Washington Capitals
+863,2026020864,2027-01-30T13:00:00,864,1,1,0,Philadelphia Flyers,0,Winnipeg Jets
+864,2026020865,2027-01-30T15:30:00,865,1,1,0,St. Louis Blues,0,Vancouver Canucks
+865,2026020866,2027-01-30T15:30:00,866,1,1,0,Calgary Flames,0,New Jersey Devils
+866,2026020867,2027-01-30T16:00:00,867,1,1,0,San Jose Sharks,0,Chicago Blackhawks
+867,2026020868,2027-01-30T17:00:00,868,1,1,0,Colorado Avalanche,0,Buffalo Sabres
+868,2026020869,2027-01-30T19:00:00,869,1,1,0,Boston Bruins,0,Toronto Maple Leafs
+869,2026020870,2027-01-30T19:00:00,870,1,1,0,Ottawa Senators,0,New York Rangers
+870,2026020871,2027-01-30T19:00:00,871,1,1,0,Tampa Bay Lightning,0,New York Islanders
+871,2026020872,2027-01-30T19:00:00,872,1,1,0,Carolina Hurricanes,0,Los Angeles Kings
+872,2026020873,2027-01-30T19:00:00,873,1,1,0,Columbus Blue Jackets,0,Detroit Red Wings
+873,2026020874,2027-01-30T19:00:00,874,1,1,0,Edmonton Oilers,0,Montréal Canadiens
+874,2026020875,2027-01-30T21:00:00,875,1,1,0,Minnesota Wild,0,Dallas Stars
+875,2026020876,2027-01-30T22:00:00,876,1,1,0,Vegas Golden Knights,0,Washington Capitals
+876,2026020877,2027-01-30T22:00:00,877,1,1,0,Anaheim Ducks,0,Nashville Predators
+877,2026020878,2027-01-31T12:00:00,878,1,1,0,Pittsburgh Penguins,0,Philadelphia Flyers
+878,2026020879,2027-01-31T16:00:00,879,1,1,0,Seattle Kraken,0,New Jersey Devils
+879,2026020880,2027-01-31T20:00:00,880,1,1,0,Utah Mammoth,0,Nashville Predators
+880,2026020881,2027-02-01T14:00:00,881,1,1,0,Florida Panthers,0,New York Islanders
+881,2026020882,2027-02-01T19:30:00,882,1,1,0,Calgary Flames,0,Vegas Golden Knights
+882,2026020883,2027-02-01T20:30:00,883,1,1,0,Vancouver Canucks,0,Montréal Canadiens
+883,2026020884,2027-02-02T18:00:00,884,1,1,0,Washington Capitals,0,Winnipeg Jets
+884,2026020885,2027-02-02T19:00:00,885,1,1,0,Pittsburgh Penguins,0,Tampa Bay Lightning
+885,2026020886,2027-02-02T21:00:00,886,1,1,0,Utah Mammoth,0,Nashville Predators
+886,2026020887,2027-02-03T19:00:00,887,1,1,0,Buffalo Sabres,0,New York Islanders
+887,2026020888,2027-02-03T19:00:00,888,1,1,0,Florida Panthers,0,Washington Capitals
+888,2026020889,2027-02-03T19:30:00,889,1,1,0,New York Rangers,0,Winnipeg Jets
+889,2026020890,2027-02-03T19:30:00,890,1,1,0,Philadelphia Flyers,0,Tampa Bay Lightning
+890,2026020891,2027-02-03T21:00:00,891,1,1,0,Calgary Flames,0,Utah Mammoth
+891,2026020892,2027-02-03T21:00:00,892,1,1,0,Edmonton Oilers,0,Vegas Golden Knights
+892,2026020893,2027-02-03T21:00:00,893,1,1,0,Vancouver Canucks,0,New Jersey Devils
+893,2026020894,2027-02-03T21:40:00,894,1,1,0,Seattle Kraken,0,Montréal Canadiens
+894,2026020895,2027-02-08T19:30:00,895,1,1,0,Toronto Maple Leafs,0,Columbus Blue Jackets
+895,2026020896,2027-02-08T20:00:00,896,1,1,0,Dallas Stars,0,Los Angeles Kings
+896,2026020897,2027-02-09T19:00:00,897,1,1,0,Ottawa Senators,0,Columbus Blue Jackets
+897,2026020898,2027-02-09T19:30:00,898,1,1,0,Carolina Hurricanes,0,Colorado Avalanche
+898,2026020899,2027-02-09T20:00:00,899,1,1,0,St. Louis Blues,0,Los Angeles Kings
+899,2026020900,2027-02-09T22:00:00,900,1,1,0,Anaheim Ducks,0,Detroit Red Wings
+900,2026020901,2027-02-10T19:30:00,901,1,1,0,Toronto Maple Leafs,0,Boston Bruins
+901,2026020902,2027-02-10T22:00:00,902,1,1,0,San Jose Sharks,0,Chicago Blackhawks
+902,2026020903,2027-02-11T19:00:00,903,1,1,0,Columbus Blue Jackets,0,Ottawa Senators
+903,2026020904,2027-02-11T19:30:00,904,1,1,0,Carolina Hurricanes,0,Minnesota Wild
+904,2026020905,2027-02-11T22:00:00,905,1,1,0,Anaheim Ducks,0,Chicago Blackhawks
+905,2026020906,2027-02-11T22:00:00,906,1,1,0,Los Angeles Kings,0,Detroit Red Wings
+906,2026020907,2027-02-12T19:00:00,907,1,1,0,Tampa Bay Lightning,0,Dallas Stars
+907,2026020908,2027-02-12T19:00:00,908,1,1,0,Florida Panthers,0,Colorado Avalanche
+908,2026020909,2027-02-12T19:00:00,909,1,1,0,New York Rangers,0,New York Islanders
+909,2026020910,2027-02-12T20:00:00,910,1,1,0,Edmonton Oilers,0,St. Louis Blues
+910,2026020911,2027-02-12T21:00:00,911,1,1,0,Utah Mammoth,0,Calgary Flames
+911,2026020912,2027-02-13T13:00:00,912,1,1,0,Montréal Canadiens,0,Washington Capitals
+912,2026020913,2027-02-13T13:00:00,913,1,1,0,Nashville Predators,0,Anaheim Ducks
+913,2026020914,2027-02-13T16:00:00,914,1,1,0,San Jose Sharks,0,Detroit Red Wings
+914,2026020915,2027-02-13T18:00:00,915,1,1,0,Florida Panthers,0,Dallas Stars
+915,2026020916,2027-02-13T18:00:00,916,1,1,0,Los Angeles Kings,0,Chicago Blackhawks
+916,2026020917,2027-02-13T19:00:00,917,1,1,0,Boston Bruins,0,Columbus Blue Jackets
+917,2026020918,2027-02-13T19:00:00,918,1,1,0,Ottawa Senators,0,Toronto Maple Leafs
+918,2026020919,2027-02-13T19:00:00,919,1,1,0,Tampa Bay Lightning,0,Colorado Avalanche
+919,2026020920,2027-02-13T19:00:00,920,1,1,0,New York Islanders,0,Minnesota Wild
+920,2026020921,2027-02-13T19:00:00,921,1,1,0,Carolina Hurricanes,0,Buffalo Sabres
+921,2026020922,2027-02-13T19:00:00,922,1,1,0,Edmonton Oilers,0,Pittsburgh Penguins
+922,2026020923,2027-02-13T19:30:00,923,1,1,0,Philadelphia Flyers,0,New Jersey Devils
+923,2026020924,2027-02-13T22:00:00,924,1,1,0,Vancouver Canucks,0,Winnipeg Jets
+924,2026020925,2027-02-13T22:00:00,925,1,1,0,Vegas Golden Knights,0,Calgary Flames
+925,2026020926,2027-02-13T22:00:00,926,1,1,0,Seattle Kraken,0,St. Louis Blues
+926,2026020927,2027-02-14T13:00:00,927,1,1,0,Montréal Canadiens,0,New York Rangers
+927,2026020928,2027-02-14T13:00:00,928,1,1,0,Washington Capitals,0,Utah Mammoth
+928,2026020929,2027-02-15T14:00:00,929,1,1,0,Boston Bruins,0,Anaheim Ducks
+929,2026020930,2027-02-15T15:00:00,930,1,1,0,New York Islanders,0,Utah Mammoth
+930,2026020931,2027-02-15T18:00:00,931,1,1,0,New York Rangers,0,Buffalo Sabres
+931,2026020932,2027-02-15T15:00:00,932,1,1,0,Colorado Avalanche,0,Columbus Blue Jackets
+932,2026020933,2027-02-15T16:00:00,933,1,1,0,Seattle Kraken,0,Pittsburgh Penguins
+933,2026020934,2027-02-15T19:30:00,934,1,1,0,Minnesota Wild,0,Ottawa Senators
+934,2026020935,2027-02-15T19:30:00,935,1,1,0,San Jose Sharks,0,Winnipeg Jets
+935,2026020936,2027-02-15T20:00:00,936,1,1,0,St. Louis Blues,0,Philadelphia Flyers
+936,2026020937,2027-02-15T22:00:00,937,1,1,0,Vegas Golden Knights,0,Detroit Red Wings
+937,2026020938,2027-02-15T22:00:00,938,1,1,0,Los Angeles Kings,0,Calgary Flames
+938,2026020939,2027-02-16T19:00:00,939,1,1,0,Toronto Maple Leafs,0,Carolina Hurricanes
+939,2026020940,2027-02-16T19:30:00,940,1,1,0,Tampa Bay Lightning,0,Florida Panthers
+940,2026020941,2027-02-16T19:00:00,941,1,1,0,Washington Capitals,0,Anaheim Ducks
+941,2026020942,2027-02-16T20:00:00,942,1,1,0,Nashville Predators,0,New Jersey Devils
+942,2026020943,2027-02-16T20:00:00,943,1,1,0,Dallas Stars,0,Minnesota Wild
+943,2026020944,2027-02-16T21:00:00,944,1,1,0,Vancouver Canucks,0,Pittsburgh Penguins
+944,2026020945,2027-02-17T19:30:00,945,1,1,0,Chicago Blackhawks,0,St. Louis Blues
+945,2026020946,2027-02-17T19:30:00,946,1,1,0,Winnipeg Jets,0,Los Angeles Kings
+946,2026020947,2027-02-17T21:00:00,947,1,1,0,Utah Mammoth,0,Columbus Blue Jackets
+947,2026020948,2027-02-17T21:00:00,948,1,1,0,Calgary Flames,0,Boston Bruins
+948,2026020949,2027-02-17T21:00:00,949,1,1,0,Edmonton Oilers,0,Colorado Avalanche
+949,2026020950,2027-02-17T21:40:00,950,1,1,0,Seattle Kraken,0,Ottawa Senators
+950,2026020951,2027-02-18T19:00:00,951,1,1,0,Buffalo Sabres,0,Carolina Hurricanes
+951,2026020952,2027-02-18T19:00:00,952,1,1,0,Detroit Red Wings,0,Montréal Canadiens
+952,2026020953,2027-02-18T19:00:00,953,1,1,0,Tampa Bay Lightning,0,Anaheim Ducks
+953,2026020954,2027-02-18T19:00:00,954,1,1,0,Florida Panthers,0,New Jersey Devils
+954,2026020955,2027-02-18T19:00:00,955,1,1,0,New York Islanders,0,New York Rangers
+955,2026020956,2027-02-18T20:00:00,956,1,1,0,Nashville Predators,0,Toronto Maple Leafs
+956,2026020957,2027-02-18T21:00:00,957,1,1,0,Dallas Stars,0,Philadelphia Flyers
+957,2026020958,2027-02-18T20:00:00,958,1,1,0,Minnesota Wild,0,Los Angeles Kings
+958,2026020959,2027-02-18T21:00:00,959,1,1,0,Vancouver Canucks,0,Ottawa Senators
+959,2026020960,2027-02-18T22:00:00,960,1,1,0,Vegas Golden Knights,0,Columbus Blue Jackets
+960,2026020961,2027-02-19T19:00:00,961,1,1,0,Washington Capitals,0,San Jose Sharks
+961,2026020962,2027-02-19T19:00:00,962,1,1,0,Carolina Hurricanes,0,Detroit Red Wings
+962,2026020963,2027-02-19T19:00:00,963,1,1,0,Winnipeg Jets,0,St. Louis Blues
+963,2026020964,2027-02-19T20:00:00,964,1,1,0,Calgary Flames,0,Pittsburgh Penguins
+964,2026020965,2027-02-19T20:00:00,965,1,1,0,Edmonton Oilers,0,Boston Bruins
+965,2026020966,2027-02-19T21:00:00,966,1,1,0,Utah Mammoth,0,Seattle Kraken
+966,2026020967,2027-02-20T12:30:00,967,1,1,0,Philadelphia Flyers,0,New York Rangers
+967,2026020968,2027-02-20T13:30:00,968,1,1,0,New Jersey Devils,0,Buffalo Sabres
+968,2026020969,2027-02-20T15:00:00,969,1,1,0,Chicago Blackhawks,0,Minnesota Wild
+969,2026020970,2027-02-20T17:00:00,970,1,1,0,Florida Panthers,0,Anaheim Ducks
+970,2026020971,2027-02-20T17:00:00,971,1,1,0,Columbus Blue Jackets,0,Nashville Predators
+971,2026020972,2027-02-20T19:00:00,972,1,1,0,Montréal Canadiens,0,New York Islanders
+972,2026020973,2027-02-20T19:00:00,973,1,1,0,Tampa Bay Lightning,0,Toronto Maple Leafs
+973,2026020974,2027-02-20T20:00:00,974,1,1,0,Dallas Stars,0,Vegas Golden Knights
+974,2026020975,2027-02-20T22:00:00,975,1,1,0,Vancouver Canucks,0,Colorado Avalanche
+975,2026020976,2027-02-20T22:30:00,976,1,1,0,Los Angeles Kings,0,Seattle Kraken
+976,2026020977,2027-02-21T13:00:00,977,1,1,0,Carolina Hurricanes,0,New York Rangers
+977,2026020978,2027-02-21T15:30:00,978,1,1,0,Detroit Red Wings,0,Buffalo Sabres
+978,2026020979,2027-02-21T18:00:00,979,1,1,0,Chicago Blackhawks,0,New Jersey Devils
+979,2026020980,2027-02-21T18:00:00,980,1,1,0,Florida Panthers,0,San Jose Sharks
+980,2026020981,2027-02-21T18:00:00,981,1,1,0,Washington Capitals,0,Nashville Predators
+981,2026020982,2027-02-21T18:00:00,982,1,1,0,St. Louis Blues,0,Utah Mammoth
+982,2026020983,2027-02-21T17:00:00,983,1,1,0,Winnipeg Jets,0,Pittsburgh Penguins
+983,2026020984,2027-02-21T19:00:00,984,1,1,0,Calgary Flames,0,Ottawa Senators
+984,2026020985,2027-02-21T20:00:00,985,1,1,0,Vancouver Canucks,0,Boston Bruins
+985,2026020986,2027-02-22T14:00:00,986,1,1,0,Philadelphia Flyers,0,Montréal Canadiens
+986,2026020987,2027-02-22T19:00:00,987,1,1,0,Columbus Blue Jackets,0,New York Islanders
+987,2026020988,2027-02-22T19:30:00,988,1,1,0,Edmonton Oilers,0,Ottawa Senators
+988,2026020989,2027-02-22T21:00:00,989,1,1,0,Colorado Avalanche,0,Vegas Golden Knights
+989,2026020990,2027-02-22T21:40:00,990,1,1,0,Seattle Kraken,0,Boston Bruins
+990,2026020991,2027-02-23T19:00:00,991,1,1,0,Toronto Maple Leafs,0,Detroit Red Wings
+991,2026020992,2027-02-23T19:00:00,992,1,1,0,Tampa Bay Lightning,0,San Jose Sharks
+992,2026020993,2027-02-23T19:30:00,993,1,1,0,New Jersey Devils,0,Carolina Hurricanes
+993,2026020994,2027-02-23T19:00:00,994,1,1,0,Washington Capitals,0,New York Rangers
+994,2026020995,2027-02-23T20:00:00,995,1,1,0,Chicago Blackhawks,0,New York Islanders
+995,2026020996,2027-02-23T20:00:00,996,1,1,0,Nashville Predators,0,Winnipeg Jets
+996,2026020997,2027-02-23T20:00:00,997,1,1,0,Dallas Stars,0,Vancouver Canucks
+997,2026020998,2027-02-23T20:00:00,998,1,1,0,Minnesota Wild,0,Pittsburgh Penguins
+998,2026020999,2027-02-24T19:00:00,999,1,1,0,Philadelphia Flyers,0,Buffalo Sabres
+999,2026021000,2027-02-24T20:00:00,1000,1,1,0,Utah Mammoth,0,Calgary Flames
+1000,2026021001,2027-02-24T21:30:00,1001,1,1,0,Vegas Golden Knights,0,Florida Panthers
+1001,2026021002,2027-02-24T22:00:00,1002,1,1,0,Anaheim Ducks,0,Seattle Kraken
+1002,2026021003,2027-02-24T22:00:00,1003,1,1,0,Los Angeles Kings,0,Montréal Canadiens
+1003,2026021004,2027-02-25T19:00:00,1004,1,1,0,Ottawa Senators,0,Detroit Red Wings
+1004,2026021005,2027-02-25T19:00:00,1005,1,1,0,Pittsburgh Penguins,0,Toronto Maple Leafs
+1005,2026021006,2027-02-25T19:00:00,1006,1,1,0,Carolina Hurricanes,0,San Jose Sharks
+1006,2026021007,2027-02-25T20:00:00,1007,1,1,0,Boston Bruins,0,Washington Capitals
+1007,2026021008,2027-02-25T20:00:00,1008,1,1,0,St. Louis Blues,0,Vancouver Canucks
+1008,2026021009,2027-02-25T20:00:00,1009,1,1,0,Nashville Predators,0,Edmonton Oilers
+1009,2026021010,2027-02-25T20:00:00,1010,1,1,0,Dallas Stars,0,Tampa Bay Lightning
+1010,2026021011,2027-02-25T21:00:00,1011,1,1,0,Colorado Avalanche,0,Winnipeg Jets
+1011,2026021012,2027-02-26T19:30:00,1012,1,1,0,Buffalo Sabres,0,Ottawa Senators
+1012,2026021013,2027-02-26T19:00:00,1013,1,1,0,New York Islanders,0,Philadelphia Flyers
+1013,2026021014,2027-02-26T19:00:00,1014,1,1,0,New York Rangers,0,Washington Capitals
+1014,2026021015,2027-02-26T19:00:00,1015,1,1,0,Columbus Blue Jackets,0,New Jersey Devils
+1015,2026021016,2027-02-26T20:00:00,1016,1,1,0,Chicago Blackhawks,0,Los Angeles Kings
+1016,2026021017,2027-02-26T21:00:00,1017,1,1,0,Utah Mammoth,0,Florida Panthers
+1017,2026021018,2027-02-26T21:00:00,1018,1,1,0,Vegas Golden Knights,0,Anaheim Ducks
+1018,2026021019,2027-02-27T12:30:00,1019,1,1,0,Boston Bruins,0,Detroit Red Wings
+1019,2026021020,2027-02-27T15:00:00,1020,1,1,0,Dallas Stars,0,Edmonton Oilers
+1020,2026021021,2027-02-27T16:00:00,1021,1,1,0,St. Louis Blues,0,Minnesota Wild
+1021,2026021022,2027-02-27T19:00:00,1022,1,1,0,Buffalo Sabres,0,Toronto Maple Leafs
+1022,2026021023,2027-02-27T19:00:00,1023,1,1,0,Philadelphia Flyers,0,San Jose Sharks
+1023,2026021024,2027-02-27T19:00:00,1024,1,1,0,Carolina Hurricanes,0,Tampa Bay Lightning
+1024,2026021025,2027-02-27T19:00:00,1025,1,1,0,Columbus Blue Jackets,0,New York Islanders
+1025,2026021026,2027-02-27T19:00:00,1026,1,1,0,Colorado Avalanche,0,Florida Panthers
+1026,2026021027,2027-02-27T19:00:00,1027,1,1,0,Anaheim Ducks,0,Montréal Canadiens
+1027,2026021028,2027-02-27T19:00:00,1028,1,1,0,Seattle Kraken,0,Winnipeg Jets
+1028,2026021029,2027-02-27T20:00:00,1029,1,1,0,Nashville Predators,0,Los Angeles Kings
+1029,2026021030,2027-02-27T22:00:00,1030,1,1,0,Vancouver Canucks,0,Calgary Flames
+1030,2026021031,2027-02-28T13:00:00,1031,1,1,0,Pittsburgh Penguins,0,New York Rangers
+1031,2026021032,2027-02-28T15:30:00,1032,1,1,0,Minnesota Wild,0,New Jersey Devils
+1032,2026021033,2027-02-28T18:30:00,1033,1,1,0,Chicago Blackhawks,0,Colorado Avalanche
+1033,2026021034,2027-02-28T19:00:00,1034,1,1,0,Tampa Bay Lightning,0,Utah Mammoth
+1034,2026021035,2027-02-28T21:00:00,1035,1,1,0,St. Louis Blues,0,Dallas Stars
+1035,2026021036,2027-03-01T19:00:00,1036,1,1,0,Toronto Maple Leafs,0,Detroit Red Wings
+1036,2026021037,2027-03-01T19:00:00,1037,1,1,0,New York Islanders,0,Washington Capitals
+1037,2026021038,2027-03-01T19:00:00,1038,1,1,0,Columbus Blue Jackets,0,Carolina Hurricanes
+1038,2026021039,2027-03-01T19:00:00,1039,1,1,0,Winnipeg Jets,0,Seattle Kraken
+1039,2026021040,2027-03-01T20:30:00,1040,1,1,0,Chicago Blackhawks,0,Edmonton Oilers
+1040,2026021041,2027-03-01T22:00:00,1041,1,1,0,Los Angeles Kings,0,Anaheim Ducks
+1041,2026021042,2027-03-01T22:00:00,1042,1,1,0,San Jose Sharks,0,Montréal Canadiens
+1042,2026021043,2027-03-02T19:00:00,1043,1,1,0,Buffalo Sabres,0,Pittsburgh Penguins
+1043,2026021044,2027-03-02T19:00:00,1044,1,1,0,Florida Panthers,0,Utah Mammoth
+1044,2026021045,2027-03-02T19:00:00,1045,1,1,0,New Jersey Devils,0,Ottawa Senators
+1045,2026021046,2027-03-02T19:00:00,1046,1,1,0,Philadelphia Flyers,0,Vegas Golden Knights
+1046,2026021047,2027-03-02T20:00:00,1047,1,1,0,Nashville Predators,0,Colorado Avalanche
+1047,2026021048,2027-03-03T18:30:00,1048,1,1,0,Toronto Maple Leafs,0,Seattle Kraken
+1048,2026021049,2027-03-03T19:00:00,1049,1,1,0,New York Rangers,0,Boston Bruins
+1049,2026021050,2027-03-03T19:00:00,1050,1,1,0,Washington Capitals,0,Carolina Hurricanes
+1050,2026021051,2027-03-03T20:00:00,1051,1,1,0,Dallas Stars,0,Minnesota Wild
+1051,2026021052,2027-03-03T20:30:00,1052,1,1,0,Calgary Flames,0,Edmonton Oilers
+1052,2026021053,2027-03-03T22:00:00,1053,1,1,0,Vancouver Canucks,0,Chicago Blackhawks
+1053,2026021054,2027-03-03T22:00:00,1054,1,1,0,Los Angeles Kings,0,Tampa Bay Lightning
+1054,2026021055,2027-03-03T22:00:00,1055,1,1,0,San Jose Sharks,0,Columbus Blue Jackets
+1055,2026021056,2027-03-04T19:00:00,1056,1,1,0,Buffalo Sabres,0,St. Louis Blues
+1056,2026021057,2027-03-04T19:00:00,1057,1,1,0,Montréal Canadiens,0,Seattle Kraken
+1057,2026021058,2027-03-04T19:00:00,1058,1,1,0,Ottawa Senators,0,Boston Bruins
+1058,2026021059,2027-03-04T18:00:00,1059,1,1,0,Detroit Red Wings,0,New Jersey Devils
+1059,2026021060,2027-03-04T20:30:00,1060,1,1,0,Florida Panthers,0,Pittsburgh Penguins
+1060,2026021061,2027-03-04T19:00:00,1061,1,1,0,New York Islanders,0,Vegas Golden Knights
+1061,2026021062,2027-03-04T20:00:00,1062,1,1,0,Nashville Predators,0,Utah Mammoth
+1062,2026021063,2027-03-05T19:00:00,1063,1,1,0,New Jersey Devils,0,Vegas Golden Knights
+1063,2026021064,2027-03-05T19:00:00,1064,1,1,0,Philadelphia Flyers,0,Dallas Stars
+1064,2026021065,2027-03-05T19:00:00,1065,1,1,0,Carolina Hurricanes,0,Toronto Maple Leafs
+1065,2026021066,2027-03-05T19:00:00,1066,1,1,0,Winnipeg Jets,0,Washington Capitals
+1066,2026021067,2027-03-05T20:00:00,1067,1,1,0,Calgary Flames,0,Chicago Blackhawks
+1067,2026021068,2027-03-05T22:00:00,1068,1,1,0,Anaheim Ducks,0,Tampa Bay Lightning
+1068,2026021069,2027-03-05T22:00:00,1069,1,1,0,Los Angeles Kings,0,Columbus Blue Jackets
+1069,2026021070,2027-03-05T22:00:00,1070,1,1,0,San Jose Sharks,0,Colorado Avalanche
+1070,2026021071,2027-03-06T12:30:00,1071,1,1,0,Boston Bruins,0,Pittsburgh Penguins
+1071,2026021072,2027-03-06T15:00:00,1072,1,1,0,Buffalo Sabres,0,New York Rangers
+1072,2026021073,2027-03-06T15:00:00,1073,1,1,0,Ottawa Senators,0,Seattle Kraken
+1073,2026021074,2027-03-06T19:00:00,1074,1,1,0,Montréal Canadiens,0,Vancouver Canucks
+1074,2026021075,2027-03-06T19:00:00,1075,1,1,0,Detroit Red Wings,0,Dallas Stars
+1075,2026021076,2027-03-06T19:00:00,1076,1,1,0,Florida Panthers,0,Toronto Maple Leafs
+1076,2026021077,2027-03-06T20:00:00,1077,1,1,0,Nashville Predators,0,Minnesota Wild
+1077,2026021078,2027-03-06T22:00:00,1078,1,1,0,Edmonton Oilers,0,Chicago Blackhawks
+1078,2026021079,2027-03-06T22:00:00,1079,1,1,0,San Jose Sharks,0,Tampa Bay Lightning
+1079,2026021080,2027-03-07T13:00:00,1080,1,1,0,New York Islanders,0,Pittsburgh Penguins
+1080,2026021081,2027-03-07T15:30:00,1081,1,1,0,Philadelphia Flyers,0,St. Louis Blues
+1081,2026021082,2027-03-07T13:00:00,1082,1,1,0,Carolina Hurricanes,0,Utah Mammoth
+1082,2026021083,2027-03-07T14:00:00,1083,1,1,0,Winnipeg Jets,0,Calgary Flames
+1083,2026021084,2027-03-07T16:00:00,1084,1,1,0,Los Angeles Kings,0,Colorado Avalanche
+1084,2026021085,2027-03-07T15:00:00,1085,1,1,0,Ottawa Senators,0,Buffalo Sabres
+1085,2026021086,2027-03-07T19:00:00,1086,1,1,0,New York Rangers,0,Vegas Golden Knights
+1086,2026021087,2027-03-07T20:00:00,1087,1,1,0,Anaheim Ducks,0,Columbus Blue Jackets
+1087,2026021088,2027-03-07T21:30:00,1088,1,1,0,Minnesota Wild,0,Washington Capitals
+1088,2026021089,2027-03-08T19:00:00,1089,1,1,0,Boston Bruins,0,Seattle Kraken
+1089,2026021090,2027-03-08T19:30:00,1090,1,1,0,Toronto Maple Leafs,0,Dallas Stars
+1090,2026021091,2027-03-08T20:00:00,1091,1,1,0,Chicago Blackhawks,0,Tampa Bay Lightning
+1091,2026021092,2027-03-09T19:00:00,1092,1,1,0,Buffalo Sabres,0,Vancouver Canucks
+1092,2026021093,2027-03-09T19:00:00,1093,1,1,0,Florida Panthers,0,New Jersey Devils
+1093,2026021094,2027-03-09T19:00:00,1094,1,1,0,New York Islanders,0,Montréal Canadiens
+1094,2026021095,2027-03-09T19:00:00,1095,1,1,0,Pittsburgh Penguins,0,Ottawa Senators
+1095,2026021096,2027-03-09T19:00:00,1096,1,1,0,Washington Capitals,0,Calgary Flames
+1096,2026021097,2027-03-09T20:00:00,1097,1,1,0,St. Louis Blues,0,Nashville Predators
+1097,2026021098,2027-03-09T20:00:00,1098,1,1,0,Minnesota Wild,0,Carolina Hurricanes
+1098,2026021099,2027-03-09T19:00:00,1099,1,1,0,Winnipeg Jets,0,Detroit Red Wings
+1099,2026021100,2027-03-09T20:00:00,1100,1,1,0,Edmonton Oilers,0,Los Angeles Kings
+1100,2026021101,2027-03-09T21:00:00,1101,1,1,0,Colorado Avalanche,0,Philadelphia Flyers
+1101,2026021102,2027-03-09T21:00:00,1102,1,1,0,Utah Mammoth,0,New York Rangers
+1102,2026021103,2027-03-09T22:30:00,1103,1,1,0,Vegas Golden Knights,0,San Jose Sharks
+1103,2026021104,2027-03-10T19:30:00,1104,1,1,0,Montréal Canadiens,0,Boston Bruins
+1104,2026021105,2027-03-10T20:00:00,1105,1,1,0,Chicago Blackhawks,0,Washington Capitals
+1105,2026021106,2027-03-10T20:00:00,1106,1,1,0,Dallas Stars,0,Anaheim Ducks
+1106,2026021107,2027-03-11T19:00:00,1107,1,1,0,Ottawa Senators,0,Minnesota Wild
+1107,2026021108,2027-03-11T19:00:00,1108,1,1,0,Tampa Bay Lightning,0,New Jersey Devils
+1108,2026021109,2027-03-11T19:30:00,1109,1,1,0,Pittsburgh Penguins,0,Boston Bruins
+1109,2026021110,2027-03-11T19:00:00,1110,1,1,0,Columbus Blue Jackets,0,Vancouver Canucks
+1110,2026021111,2027-03-11T20:00:00,1111,1,1,0,St. Louis Blues,0,San Jose Sharks
+1111,2026021112,2027-03-11T19:00:00,1112,1,1,0,Winnipeg Jets,0,Toronto Maple Leafs
+1112,2026021113,2027-03-11T20:00:00,1113,1,1,0,Edmonton Oilers,0,Nashville Predators
+1113,2026021114,2027-03-11T21:00:00,1114,1,1,0,Colorado Avalanche,0,New York Rangers
+1114,2026021115,2027-03-11T21:30:00,1115,1,1,0,Seattle Kraken,0,Los Angeles Kings
+1115,2026021116,2027-03-11T22:00:00,1116,1,1,0,Vegas Golden Knights,0,Philadelphia Flyers
+1116,2026021117,2027-03-12T19:00:00,1117,1,1,0,Detroit Red Wings,0,Buffalo Sabres
+1117,2026021118,2027-03-12T19:00:00,1118,1,1,0,Florida Panthers,0,New York Islanders
+1118,2026021119,2027-03-12T19:00:00,1119,1,1,0,Carolina Hurricanes,0,Calgary Flames
+1119,2026021120,2027-03-13T15:00:00,1120,1,1,0,Pittsburgh Penguins,0,Washington Capitals
+1120,2026021121,2027-03-13T15:30:00,1121,1,1,0,Winnipeg Jets,0,Nashville Predators
+1121,2026021122,2027-03-13T18:00:00,1122,1,1,0,Colorado Avalanche,0,Chicago Blackhawks
+1122,2026021123,2027-03-13T18:30:00,1123,1,1,0,St. Louis Blues,0,Anaheim Ducks
+1123,2026021124,2027-03-13T19:00:00,1124,1,1,0,Boston Bruins,0,Calgary Flames
+1124,2026021125,2027-03-13T19:00:00,1125,1,1,0,Toronto Maple Leafs,0,Vancouver Canucks
+1125,2026021126,2027-03-13T19:00:00,1126,1,1,0,Ottawa Senators,0,Montréal Canadiens
+1126,2026021127,2027-03-13T19:00:00,1127,1,1,0,Tampa Bay Lightning,0,New York Islanders
+1127,2026021128,2027-03-13T19:00:00,1128,1,1,0,Carolina Hurricanes,0,New Jersey Devils
+1128,2026021129,2027-03-13T19:00:00,1129,1,1,0,Columbus Blue Jackets,0,San Jose Sharks
+1129,2026021130,2027-03-13T17:00:00,1130,1,1,0,Utah Mammoth,0,Philadelphia Flyers
+1130,2026021131,2027-03-13T21:00:00,1131,1,1,0,Los Angeles Kings,0,Dallas Stars
+1131,2026021132,2027-03-13T22:00:00,1132,1,1,0,Vegas Golden Knights,0,New York Rangers
+1132,2026021133,2027-03-13T22:00:00,1133,1,1,0,Seattle Kraken,0,Edmonton Oilers
+1133,2026021134,2027-03-14T14:00:00,1134,1,1,0,Pittsburgh Penguins,0,Detroit Red Wings
+1134,2026021135,2027-03-14T16:30:00,1135,1,1,0,Chicago Blackhawks,0,Anaheim Ducks
+1135,2026021136,2027-03-14T17:00:00,1136,1,1,0,Ottawa Senators,0,Vancouver Canucks
+1136,2026021137,2027-03-14T19:00:00,1137,1,1,0,Minnesota Wild,0,Buffalo Sabres
+1137,2026021138,2027-03-15T15:00:00,1138,1,1,0,Washington Capitals,0,Tampa Bay Lightning
+1138,2026021139,2027-03-15T19:00:00,1139,1,1,0,Boston Bruins,0,New York Islanders
+1139,2026021140,2027-03-15T19:00:00,1140,1,1,0,Buffalo Sabres,0,San Jose Sharks
+1140,2026021141,2027-03-15T19:30:00,1141,1,1,0,Toronto Maple Leafs,0,Florida Panthers
+1141,2026021142,2027-03-15T21:00:00,1142,1,1,0,Utah Mammoth,0,Dallas Stars
+1142,2026021143,2027-03-15T21:30:00,1143,1,1,0,Colorado Avalanche,0,Edmonton Oilers
+1143,2026021144,2027-03-15T21:30:00,1144,1,1,0,Calgary Flames,0,Nashville Predators
+1144,2026021145,2027-03-15T21:40:00,1145,1,1,0,Seattle Kraken,0,St. Louis Blues
+1145,2026021146,2027-03-15T22:00:00,1146,1,1,0,Vegas Golden Knights,0,Winnipeg Jets
+1146,2026021147,2027-03-16T19:00:00,1147,1,1,0,Montréal Canadiens,0,Florida Panthers
+1147,2026021148,2027-03-16T19:00:00,1148,1,1,0,New York Rangers,0,Ottawa Senators
+1148,2026021149,2027-03-16T19:00:00,1149,1,1,0,Philadelphia Flyers,0,Detroit Red Wings
+1149,2026021150,2027-03-16T19:00:00,1150,1,1,0,Columbus Blue Jackets,0,Pittsburgh Penguins
+1150,2026021151,2027-03-16T20:00:00,1151,1,1,0,Chicago Blackhawks,0,San Jose Sharks
+1151,2026021152,2027-03-16T22:30:00,1152,1,1,0,Anaheim Ducks,0,Carolina Hurricanes
+1152,2026021153,2027-03-16T22:00:00,1153,1,1,0,Los Angeles Kings,0,Winnipeg Jets
+1153,2026021154,2027-03-17T19:00:00,1154,1,1,0,Washington Capitals,0,New York Islanders
+1154,2026021155,2027-03-17T19:30:00,1155,1,1,0,Toronto Maple Leafs,0,Tampa Bay Lightning
+1155,2026021156,2027-03-17T20:30:00,1156,1,1,0,Colorado Avalanche,0,Minnesota Wild
+1156,2026021157,2027-03-17T21:30:00,1157,1,1,0,Calgary Flames,0,Dallas Stars
+1157,2026021158,2027-03-17T22:00:00,1158,1,1,0,Vancouver Canucks,0,Nashville Predators
+1158,2026021159,2027-03-17T22:00:00,1159,1,1,0,Vegas Golden Knights,0,Seattle Kraken
+1159,2026021160,2027-03-18T19:30:00,1160,1,1,0,Buffalo Sabres,0,Washington Capitals
+1160,2026021161,2027-03-18T19:00:00,1161,1,1,0,Montréal Canadiens,0,Tampa Bay Lightning
+1161,2026021162,2027-03-18T19:00:00,1162,1,1,0,Ottawa Senators,0,Florida Panthers
+1162,2026021163,2027-03-18T19:00:00,1163,1,1,0,Detroit Red Wings,0,Columbus Blue Jackets
+1163,2026021164,2027-03-18T19:00:00,1164,1,1,0,New Jersey Devils,0,Pittsburgh Penguins
+1164,2026021165,2027-03-18T19:00:00,1165,1,1,0,New York Rangers,0,Toronto Maple Leafs
+1165,2026021166,2027-03-18T19:00:00,1166,1,1,0,Philadelphia Flyers,0,Boston Bruins
+1166,2026021167,2027-03-18T20:00:00,1167,1,1,0,Winnipeg Jets,0,San Jose Sharks
+1167,2026021168,2027-03-18T21:00:00,1168,1,1,0,Edmonton Oilers,0,St. Louis Blues
+1168,2026021169,2027-03-18T22:00:00,1169,1,1,0,Anaheim Ducks,0,Utah Mammoth
+1169,2026021170,2027-03-18T22:00:00,1170,1,1,0,Los Angeles Kings,0,Carolina Hurricanes
+1170,2026021171,2027-03-19T20:00:00,1171,1,1,0,Minnesota Wild,0,Calgary Flames
+1171,2026021172,2027-03-19T22:00:00,1172,1,1,0,Utah Mammoth,0,Chicago Blackhawks
+1172,2026021173,2027-03-19T22:00:00,1173,1,1,0,Seattle Kraken,0,Colorado Avalanche
+1173,2026021174,2027-03-20T13:00:00,1174,1,1,0,Buffalo Sabres,0,Florida Panthers
+1174,2026021175,2027-03-20T12:30:00,1175,1,1,0,Detroit Red Wings,0,Montréal Canadiens
+1175,2026021176,2027-03-20T15:00:00,1176,1,1,0,New York Islanders,0,Philadelphia Flyers
+1176,2026021177,2027-03-20T15:30:00,1177,1,1,0,Edmonton Oilers,0,Dallas Stars
+1177,2026021178,2027-03-20T17:00:00,1178,1,1,0,Nashville Predators,0,Boston Bruins
+1178,2026021179,2027-03-20T19:00:00,1179,1,1,0,Ottawa Senators,0,Tampa Bay Lightning
+1179,2026021180,2027-03-20T19:00:00,1180,1,1,0,New Jersey Devils,0,Toronto Maple Leafs
+1180,2026021181,2027-03-20T19:00:00,1181,1,1,0,Winnipeg Jets,0,Columbus Blue Jackets
+1181,2026021182,2027-03-20T20:00:00,1182,1,1,0,New York Rangers,0,Pittsburgh Penguins
+1182,2026021183,2027-03-20T22:00:00,1183,1,1,0,Vancouver Canucks,0,St. Louis Blues
+1183,2026021184,2027-03-20T22:30:00,1184,1,1,0,Anaheim Ducks,0,Vegas Golden Knights
+1184,2026021185,2027-03-20T22:30:00,1185,1,1,0,San Jose Sharks,0,Carolina Hurricanes
+1185,2026021186,2027-03-21T14:00:00,1186,1,1,0,Minnesota Wild,0,Utah Mammoth
+1186,2026021187,2027-03-21T15:00:00,1187,1,1,0,New York Islanders,0,Buffalo Sabres
+1187,2026021188,2027-03-21T17:00:00,1188,1,1,0,Colorado Avalanche,0,Chicago Blackhawks
+1188,2026021189,2027-03-21T20:00:00,1189,1,1,0,New York Rangers,0,Washington Capitals
+1189,2026021190,2027-03-21T20:00:00,1190,1,1,0,Calgary Flames,0,St. Louis Blues
+1190,2026021191,2027-03-21T20:00:00,1191,1,1,0,Seattle Kraken,0,Los Angeles Kings
+1191,2026021192,2027-03-21T21:00:00,1192,1,1,0,Vancouver Canucks,0,Edmonton Oilers
+1192,2026021193,2027-03-22T19:00:00,1193,1,1,0,Pittsburgh Penguins,0,Columbus Blue Jackets
+1193,2026021194,2027-03-22T19:30:00,1194,1,1,0,Montréal Canadiens,0,Toronto Maple Leafs
+1194,2026021195,2027-03-22T22:00:00,1195,1,1,0,Anaheim Ducks,0,San Jose Sharks
+1195,2026021196,2027-03-23T19:00:00,1196,1,1,0,Boston Bruins,0,Buffalo Sabres
+1196,2026021197,2027-03-23T19:00:00,1197,1,1,0,Tampa Bay Lightning,0,Florida Panthers
+1197,2026021198,2027-03-23T19:00:00,1198,1,1,0,New Jersey Devils,0,Philadelphia Flyers
+1198,2026021199,2027-03-23T19:00:00,1199,1,1,0,Washington Capitals,0,Detroit Red Wings
+1199,2026021200,2027-03-23T20:00:00,1200,1,1,0,Nashville Predators,0,New York Rangers
+1200,2026021201,2027-03-23T20:00:00,1201,1,1,0,Dallas Stars,0,Carolina Hurricanes
+1201,2026021202,2027-03-23T20:00:00,1202,1,1,0,Minnesota Wild,0,Chicago Blackhawks
+1202,2026021203,2027-03-23T20:00:00,1203,1,1,0,Winnipeg Jets,0,St. Louis Blues
+1203,2026021204,2027-03-23T21:30:00,1204,1,1,0,Colorado Avalanche,0,Utah Mammoth
+1204,2026021205,2027-03-23T21:00:00,1205,1,1,0,Calgary Flames,0,Edmonton Oilers
+1205,2026021206,2027-03-23T21:40:00,1206,1,1,0,Seattle Kraken,0,Vegas Golden Knights
+1206,2026021207,2027-03-23T22:00:00,1207,1,1,0,Vancouver Canucks,0,Los Angeles Kings
+1207,2026021208,2027-03-24T19:30:00,1208,1,1,0,Montréal Canadiens,0,Ottawa Senators
+1208,2026021209,2027-03-24T19:30:00,1209,1,1,0,Detroit Red Wings,0,Washington Capitals
+1209,2026021210,2027-03-24T22:00:00,1210,1,1,0,San Jose Sharks,0,Anaheim Ducks
+1210,2026021211,2027-03-25T19:00:00,1211,1,1,0,Boston Bruins,0,Ottawa Senators
+1211,2026021212,2027-03-25T19:00:00,1212,1,1,0,Buffalo Sabres,0,Toronto Maple Leafs
+1212,2026021213,2027-03-25T18:30:00,1213,1,1,0,Tampa Bay Lightning,0,Philadelphia Flyers
+1213,2026021214,2027-03-25T19:00:00,1214,1,1,0,Florida Panthers,0,New York Rangers
+1214,2026021215,2027-03-25T19:00:00,1215,1,1,0,Pittsburgh Penguins,0,New Jersey Devils
+1215,2026021216,2027-03-25T19:00:00,1216,1,1,0,Carolina Hurricanes,0,Dallas Stars
+1216,2026021217,2027-03-25T19:00:00,1217,1,1,0,Columbus Blue Jackets,0,Chicago Blackhawks
+1217,2026021218,2027-03-25T20:00:00,1218,1,1,0,St. Louis Blues,0,New York Islanders
+1218,2026021219,2027-03-25T20:00:00,1219,1,1,0,Winnipeg Jets,0,Colorado Avalanche
+1219,2026021220,2027-03-25T21:00:00,1220,1,1,0,Minnesota Wild,0,Edmonton Oilers
+1220,2026021221,2027-03-25T21:00:00,1221,1,1,0,Calgary Flames,0,Los Angeles Kings
+1221,2026021222,2027-03-25T21:40:00,1222,1,1,0,Seattle Kraken,0,Anaheim Ducks
+1222,2026021223,2027-03-25T22:00:00,1223,1,1,0,Vancouver Canucks,0,Vegas Golden Knights
+1223,2026021224,2027-03-26T19:00:00,1224,1,1,0,Washington Capitals,0,Boston Bruins
+1224,2026021225,2027-03-26T20:00:00,1225,1,1,0,Chicago Blackhawks,0,Nashville Predators
+1225,2026021226,2027-03-26T21:00:00,1226,1,1,0,Utah Mammoth,0,San Jose Sharks
+1226,2026021227,2027-03-27T15:30:00,1227,1,1,0,Edmonton Oilers,0,Los Angeles Kings
+1227,2026021228,2027-03-27T14:00:00,1228,1,1,0,Minnesota Wild,0,Seattle Kraken
+1228,2026021229,2027-03-27T16:00:00,1229,1,1,0,Vancouver Canucks,0,Anaheim Ducks
+1229,2026021230,2027-03-27T18:00:00,1230,1,1,0,Florida Panthers,0,Philadelphia Flyers
+1230,2026021231,2027-03-27T19:00:00,1231,1,1,0,Toronto Maple Leafs,0,Ottawa Senators
+1231,2026021232,2027-03-27T19:00:00,1232,1,1,0,Montréal Canadiens,0,New Jersey Devils
+1232,2026021233,2027-03-27T19:00:00,1233,1,1,0,Tampa Bay Lightning,0,New York Rangers
+1233,2026021234,2027-03-27T19:00:00,1234,1,1,0,Pittsburgh Penguins,0,Carolina Hurricanes
+1234,2026021235,2027-03-27T19:00:00,1235,1,1,0,Columbus Blue Jackets,0,St. Louis Blues
+1235,2026021236,2027-03-27T19:00:00,1236,1,1,0,Colorado Avalanche,0,Winnipeg Jets
+1236,2026021237,2027-03-27T19:30:00,1237,1,1,0,New York Islanders,0,Detroit Red Wings
+1237,2026021238,2027-03-27T20:00:00,1238,1,1,0,Dallas Stars,0,Nashville Predators
+1238,2026021239,2027-03-27T22:00:00,1239,1,1,0,Calgary Flames,0,Vegas Golden Knights
+1239,2026021240,2027-03-28T14:00:00,1240,1,1,0,Chicago Blackhawks,0,Seattle Kraken
+1240,2026021241,2027-03-28T19:00:00,1241,1,1,0,Toronto Maple Leafs,0,Washington Capitals
+1241,2026021242,2027-03-28T18:00:00,1242,1,1,0,Montréal Canadiens,0,Detroit Red Wings
+1242,2026021243,2027-03-28T20:30:00,1243,1,1,0,St. Louis Blues,0,Buffalo Sabres
+1243,2026021244,2027-03-29T19:00:00,1244,1,1,0,New Jersey Devils,0,Carolina Hurricanes
+1244,2026021245,2027-03-29T19:00:00,1245,1,1,0,New York Rangers,0,Minnesota Wild
+1245,2026021246,2027-03-29T21:30:00,1246,1,1,0,Los Angeles Kings,0,Vancouver Canucks
+1246,2026021247,2027-03-29T22:00:00,1247,1,1,0,San Jose Sharks,0,Colorado Avalanche
+1247,2026021248,2027-03-30T19:00:00,1248,1,1,0,Boston Bruins,0,Montréal Canadiens
+1248,2026021249,2027-03-30T19:00:00,1249,1,1,0,Detroit Red Wings,0,Ottawa Senators
+1249,2026021250,2027-03-30T19:00:00,1250,1,1,0,Tampa Bay Lightning,0,Toronto Maple Leafs
+1250,2026021251,2027-03-30T19:00:00,1251,1,1,0,Florida Panthers,0,Columbus Blue Jackets
+1251,2026021252,2027-03-30T19:30:00,1252,1,1,0,New York Islanders,0,Carolina Hurricanes
+1252,2026021253,2027-03-30T19:00:00,1253,1,1,0,Philadelphia Flyers,0,Pittsburgh Penguins
+1253,2026021254,2027-03-30T19:00:00,1254,1,1,0,Washington Capitals,0,Chicago Blackhawks
+1254,2026021255,2027-03-30T20:00:00,1255,1,1,0,Nashville Predators,0,Buffalo Sabres
+1255,2026021256,2027-03-30T20:00:00,1256,1,1,0,Dallas Stars,0,Calgary Flames
+1256,2026021257,2027-03-30T21:40:00,1257,1,1,0,Seattle Kraken,0,Utah Mammoth
+1257,2026021258,2027-03-30T22:00:00,1258,1,1,0,Anaheim Ducks,0,Colorado Avalanche
+1258,2026021259,2027-03-31T19:30:00,1259,1,1,0,New Jersey Devils,0,Minnesota Wild
+1259,2026021260,2027-03-31T20:30:00,1260,1,1,0,Edmonton Oilers,0,San Jose Sharks
+1260,2026021261,2027-03-31T22:00:00,1261,1,1,0,Los Angeles Kings,0,Winnipeg Jets
+1261,2026021262,2027-03-31T22:30:00,1262,1,1,0,Vegas Golden Knights,0,Vancouver Canucks
+1262,2026021263,2027-04-01T19:00:00,1263,1,1,0,Montréal Canadiens,0,New York Rangers
+1263,2026021264,2027-04-01T19:00:00,1264,1,1,0,Tampa Bay Lightning,0,Columbus Blue Jackets
+1264,2026021265,2027-04-01T19:00:00,1265,1,1,0,Florida Panthers,0,Toronto Maple Leafs
+1265,2026021266,2027-04-01T19:30:00,1266,1,1,0,Philadelphia Flyers,0,Washington Capitals
+1266,2026021267,2027-04-01T19:00:00,1267,1,1,0,Pittsburgh Penguins,0,New York Islanders
+1267,2026021268,2027-04-01T19:00:00,1268,1,1,0,Buffalo Sabres,0,Boston Bruins
+1268,2026021269,2027-04-01T20:00:00,1269,1,1,0,St. Louis Blues,0,Calgary Flames
+1269,2026021270,2027-04-01T20:00:00,1270,1,1,0,Nashville Predators,0,Chicago Blackhawks
+1270,2026021271,2027-04-01T21:00:00,1271,1,1,0,Utah Mammoth,0,Anaheim Ducks
+1271,2026021272,2027-04-02T19:00:00,1272,1,1,0,Detroit Red Wings,0,Carolina Hurricanes
+1272,2026021273,2027-04-02T19:00:00,1273,1,1,0,New York Islanders,0,Ottawa Senators
+1273,2026021274,2027-04-02T20:00:00,1274,1,1,0,Minnesota Wild,0,Dallas Stars
+1274,2026021275,2027-04-02T21:00:00,1275,1,1,0,Colorado Avalanche,0,Los Angeles Kings
+1275,2026021276,2027-04-02T22:00:00,1276,1,1,0,Vegas Golden Knights,0,Edmonton Oilers
+1276,2026021277,2027-04-03T12:30:00,1277,1,1,0,New York Rangers,0,Florida Panthers
+1277,2026021278,2027-04-03T15:00:00,1278,1,1,0,Boston Bruins,0,Tampa Bay Lightning
+1278,2026021279,2027-04-03T15:30:00,1279,1,1,0,Nashville Predators,0,Calgary Flames
+1279,2026021280,2027-04-03T17:00:00,1280,1,1,0,Washington Capitals,0,Columbus Blue Jackets
+1280,2026021281,2027-04-03T17:00:00,1281,1,1,0,Carolina Hurricanes,0,New Jersey Devils
+1281,2026021282,2027-04-03T18:00:00,1282,1,1,0,Dallas Stars,0,Chicago Blackhawks
+1282,2026021283,2027-04-03T19:00:00,1283,1,1,0,Toronto Maple Leafs,0,Buffalo Sabres
+1283,2026021284,2027-04-03T19:00:00,1284,1,1,0,Seattle Kraken,0,Winnipeg Jets
+1284,2026021285,2027-04-03T20:00:00,1285,1,1,0,Pittsburgh Penguins,0,Philadelphia Flyers
+1285,2026021286,2027-04-03T22:00:00,1286,1,1,0,Utah Mammoth,0,Vegas Golden Knights
+1286,2026021287,2027-04-03T22:00:00,1287,1,1,0,Vancouver Canucks,0,San Jose Sharks
+1287,2026021288,2027-04-03T22:00:00,1288,1,1,0,Anaheim Ducks,0,Edmonton Oilers
+1288,2026021289,2027-04-03T22:30:00,1289,1,1,0,Los Angeles Kings,0,St. Louis Blues
+1289,2026021290,2027-04-04T14:00:00,1290,1,1,0,Minnesota Wild,0,Colorado Avalanche
+1290,2026021291,2027-04-04T16:30:00,1291,1,1,0,New Jersey Devils,0,Florida Panthers
+1291,2026021292,2027-04-04T15:00:00,1292,1,1,0,Ottawa Senators,0,Detroit Red Wings
+1292,2026021293,2027-04-04T19:00:00,1293,1,1,0,Washington Capitals,0,Pittsburgh Penguins
+1293,2026021294,2027-04-04T19:30:00,1294,1,1,0,New York Islanders,0,Montréal Canadiens
+1294,2026021295,2027-04-04T21:30:00,1295,1,1,0,San Jose Sharks,0,St. Louis Blues
+1295,2026021296,2027-04-05T14:00:00,1296,1,1,0,Carolina Hurricanes,0,Philadelphia Flyers
+1296,2026021297,2027-04-05T19:00:00,1297,1,1,0,Buffalo Sabres,0,Tampa Bay Lightning
+1297,2026021298,2027-04-05T19:00:00,1298,1,1,0,Toronto Maple Leafs,0,Boston Bruins
+1298,2026021299,2027-04-05T20:00:00,1299,1,1,0,Dallas Stars,0,Seattle Kraken
+1299,2026021300,2027-04-05T21:30:00,1300,1,1,0,Utah Mammoth,0,Winnipeg Jets
+1300,2026021301,2027-04-05T21:30:00,1301,1,1,0,Edmonton Oilers,0,Calgary Flames
+1301,2026021302,2027-04-06T19:15:00,1302,1,1,0,Florida Panthers,0,Montréal Canadiens
+1302,2026021303,2027-04-06T19:30:00,1303,1,1,0,New Jersey Devils,0,Tampa Bay Lightning
+1303,2026021304,2027-04-06T19:45:00,1304,1,1,0,Columbus Blue Jackets,0,Washington Capitals
+1304,2026021305,2027-04-06T19:30:00,1305,1,1,0,New York Islanders,0,Detroit Red Wings
+1305,2026021306,2027-04-06T19:00:00,1306,1,1,0,New York Rangers,0,Pittsburgh Penguins
+1306,2026021307,2027-04-06T20:00:00,1307,1,1,0,Nashville Predators,0,Seattle Kraken
+1307,2026021308,2027-04-06T20:00:00,1308,1,1,0,Minnesota Wild,0,Chicago Blackhawks
+1308,2026021309,2027-04-06T22:00:00,1309,1,1,0,Vancouver Canucks,0,Colorado Avalanche
+1309,2026021310,2027-04-06T22:30:00,1310,1,1,0,Vegas Golden Knights,0,St. Louis Blues
+1310,2026021311,2027-04-06T22:15:00,1311,1,1,0,Anaheim Ducks,0,Los Angeles Kings
+1311,2026021312,2027-04-07T19:30:00,1312,1,1,0,Buffalo Sabres,0,Boston Bruins
+1312,2026021313,2027-04-07T19:00:00,1313,1,1,0,Carolina Hurricanes,0,Ottawa Senators
+1313,2026021314,2027-04-07T20:00:00,1314,1,1,0,Winnipeg Jets,0,Edmonton Oilers
+1314,2026021315,2027-04-07T21:00:00,1315,1,1,0,Utah Mammoth,0,Dallas Stars
+1315,2026021316,2027-04-08T19:00:00,1316,1,1,0,Ottawa Senators,0,Washington Capitals
+1316,2026021317,2027-04-08T19:00:00,1317,1,1,0,Tampa Bay Lightning,0,Montréal Canadiens
+1317,2026021318,2027-04-08T19:00:00,1318,1,1,0,New Jersey Devils,0,New York Islanders
+1318,2026021319,2027-04-08T19:30:00,1319,1,1,0,Columbus Blue Jackets,0,Philadelphia Flyers
+1319,2026021320,2027-04-08T20:00:00,1320,1,1,0,Chicago Blackhawks,0,Nashville Predators
+1320,2026021321,2027-04-08T20:00:00,1321,1,1,0,St. Louis Blues,0,Seattle Kraken
+1321,2026021322,2027-04-08T21:00:00,1322,1,1,0,Calgary Flames,0,Colorado Avalanche
+1322,2026021323,2027-04-08T22:00:00,1323,1,1,0,San Jose Sharks,0,Minnesota Wild
+1323,2026021324,2027-04-08T22:00:00,1324,1,1,0,Los Angeles Kings,0,Vegas Golden Knights
+1324,2026021325,2027-04-09T19:00:00,1325,1,1,0,Detroit Red Wings,0,Pittsburgh Penguins
+1325,2026021326,2027-04-09T19:00:00,1326,1,1,0,Florida Panthers,0,Boston Bruins
+1326,2026021327,2027-04-09T19:00:00,1327,1,1,0,Winnipeg Jets,0,Vancouver Canucks
+1327,2026021328,2027-04-09T20:00:00,1328,1,1,0,Dallas Stars,0,Utah Mammoth
+1328,2026021329,2027-04-10T12:30:00,1329,1,1,0,Philadelphia Flyers,0,Washington Capitals
+1329,2026021330,2027-04-10T15:00:00,1330,1,1,0,Colorado Avalanche,0,Minnesota Wild
+1330,2026021331,2027-04-10T16:00:00,1331,1,1,0,San Jose Sharks,0,Anaheim Ducks
+1331,2026021332,2027-04-10T17:00:00,1332,1,1,0,New York Islanders,0,Columbus Blue Jackets
+1332,2026021333,2027-04-10T18:00:00,1333,1,1,0,Buffalo Sabres,0,Detroit Red Wings
+1333,2026021334,2027-04-10T18:00:00,1334,1,1,0,Florida Panthers,0,Carolina Hurricanes
+1334,2026021335,2027-04-10T18:00:00,1335,1,1,0,New Jersey Devils,0,Pittsburgh Penguins
+1335,2026021336,2027-04-10T18:00:00,1336,1,1,0,Chicago Blackhawks,0,Seattle Kraken
+1336,2026021337,2027-04-10T19:00:00,1337,1,1,0,Nashville Predators,0,Dallas Stars
+1337,2026021338,2027-04-10T19:00:00,1338,1,1,0,Ottawa Senators,0,Montréal Canadiens
+1338,2026021339,2027-04-10T19:00:00,1339,1,1,0,New York Rangers,0,Toronto Maple Leafs
+1339,2026021340,2027-04-10T19:00:00,1340,1,1,0,St. Louis Blues,0,Utah Mammoth
+1340,2026021341,2027-04-10T20:00:00,1341,1,1,0,Tampa Bay Lightning,0,Boston Bruins
+1341,2026021342,2027-04-10T22:00:00,1342,1,1,0,Calgary Flames,0,Vancouver Canucks
+1342,2026021343,2027-04-10T22:00:00,1343,1,1,0,Edmonton Oilers,0,Winnipeg Jets
+1343,2026021344,2027-04-10T22:30:00,1344,1,1,0,Vegas Golden Knights,0,Los Angeles Kings

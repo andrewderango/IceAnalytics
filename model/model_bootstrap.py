@@ -142,7 +142,7 @@ def bootstrap_atoi_inferences(projection_year, bootstrap_df, retrain_model, down
         print(f'ATOI | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
     # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
-    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
+    combined_df['ATOI'] = combined_df['ATOI'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 84)/84)
 
     # Merge adjusted variance inferences into bootstrap_df
     if bootstrap_df is None or bootstrap_df.empty:
@@ -295,7 +295,7 @@ def bootstrap_gp_inferences(projection_year, bootstrap_df, retrain_model, downlo
         print(f'GP | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
     # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
-    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
+    combined_df['GP'] = combined_df['GP'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 84)/84)
 
     # Drop columns without Player ID
     bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
@@ -456,7 +456,7 @@ def bootstrap_goal_inferences(projection_year, bootstrap_df, retrain_model, down
         print(f'Gper1kChunk | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
     # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
-    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
+    combined_df['Gper1kChunk'] = combined_df['Gper1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 84)/84)
 
     # Drop columns without Player ID
     bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
@@ -615,7 +615,7 @@ def bootstrap_a1_inferences(projection_year, bootstrap_df, retrain_model, downlo
         print(f'A1per1kChunk | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
     # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
-    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
+    combined_df['A1per1kChunk'] = combined_df['A1per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 84)/84)
 
     # Drop columns without Player ID
     bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
@@ -774,7 +774,7 @@ def bootstrap_a2_inferences(projection_year, bootstrap_df, retrain_model, downlo
         print(f'A2per1kChunk | Residual Variance: {residual_variance} | Actual Variance: {actual_variance} | Bootstrap Mask R2: {1 - residual_variance/actual_variance}')
     # r_squared = 1 - residual_variance/actual_variance # proportion of variance explained by model
     # evp = 1 - r_squared # error variance proportion (evp) = 1 - r2
-    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 82)/82)
+    combined_df['A2per1kChunk'] = combined_df['A2per1kChunk'] * np.sqrt(1 - np.minimum(combined_df['Y-0 GP'], 84)/84)
 
     # Drop columns without Player ID
     bootstrap_df = bootstrap_df.dropna(subset=['PlayerID'])
