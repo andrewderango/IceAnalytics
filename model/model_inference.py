@@ -53,9 +53,9 @@ def atoi_model_inference(projection_year, player_stat_df, atoi_model, download_f
     atoi_model_data.append(atoi_model.intercept_)
     max_gp = combined_df['Y-0 GP'].max()
     atoi_model_data = np.insert(atoi_model_data, 3, atoi_model_data[2])
-    atoi_model_data[0] = (0 - atoi_model_data[0])*max_gp/82 + atoi_model_data[0]
-    atoi_model_data[1] = (atoi_model_data[0] - atoi_model_data[1])*max_gp/82 + atoi_model_data[1]
-    atoi_model_data[2] = (atoi_model_data[1] - atoi_model_data[2])*max_gp/82 + atoi_model_data[2]
+    atoi_model_data[0] = (0 - atoi_model_data[0])*max_gp/84 + atoi_model_data[0]
+    atoi_model_data[1] = (atoi_model_data[0] - atoi_model_data[1])*max_gp/84 + atoi_model_data[1]
+    atoi_model_data[2] = (atoi_model_data[1] - atoi_model_data[2])*max_gp/84 + atoi_model_data[2]
 
     # Calculate projected ATOI using weighted averages and bias
     combined_df['Y-3 Score'] = combined_df['Y-3 ATOI']*combined_df['Y-3 GP']*atoi_model_data[0]
@@ -202,9 +202,9 @@ def p24_gp_model_inference(projection_year, player_stat_df, model, verbose):
     combined_df = combined_df.reset_index(drop=True)
 
     # Phase in current season
-    max_gp = min(82, combined_df['Y-0 GP'].max())
+    max_gp = min(84, combined_df['Y-0 GP'].max())
     combined_df['P24_GP_Score_Current'] = combined_df['Y-0 GP'].rank(pct=True)
-    combined_df['P24_GP_Score'] = combined_df['P24_GP_Score_Current']*max_gp/82 + combined_df['P24_GP_Score']*(1-max_gp/82)
+    combined_df['P24_GP_Score'] = combined_df['P24_GP_Score_Current']*max_gp/84 + combined_df['P24_GP_Score']*(1-max_gp/84)
     combined_df = combined_df.drop(columns=['P24_GP_Score_Current'])
 
     if verbose:
@@ -285,9 +285,9 @@ def u24_gp_model_inference(projection_year, player_stat_df, model, verbose):
     combined_df = combined_df.reset_index(drop=True)
 
     # Phase in current season
-    max_gp = min(82, combined_df['Y-0 GP'].max())
+    max_gp = min(84, combined_df['Y-0 GP'].max())
     combined_df['U24_GP_Score_Current'] = combined_df['Y-0 GP'].rank(pct=True)
-    combined_df['U24_GP_Score'] = combined_df['U24_GP_Score_Current']*max_gp/82 + combined_df['U24_GP_Score']*(1-max_gp/82)
+    combined_df['U24_GP_Score'] = combined_df['U24_GP_Score_Current']*max_gp/84 + combined_df['U24_GP_Score']*(1-max_gp/84)
     combined_df = combined_df.drop(columns=['U24_GP_Score_Current'])
 
     if verbose:
@@ -387,7 +387,7 @@ def goal_model_inference(projection_year, player_stat_df, goal_model, download_f
     except TypeError:
         data = combined_df[features].values
         predictions = goal_model.predict(data)
-    combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 Gper1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. Gper1kChunk'] = combined_df['Y-0 GP']/84*combined_df['Y-0 Gper1kChunk'] + (84-combined_df['Y-0 GP'])/84*predictions
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. Gper1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. Gper1kChunk', ascending=False, inplace=True)
     combined_df = combined_df.reset_index(drop=True)
@@ -497,7 +497,7 @@ def a1_model_inference(projection_year, player_stat_df, a1_model, download_file,
     # create predictions
     predictions = a1_model.predict(combined_df[features], verbose=verbose)
     predictions = predictions.reshape(-1)
-    combined_df['Proj. A1per1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 A1per1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. A1per1kChunk'] = combined_df['Y-0 GP']/84*combined_df['Y-0 A1per1kChunk'] + (84-combined_df['Y-0 GP'])/84*predictions
 
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. A1per1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. A1per1kChunk', ascending=False, inplace=True)
@@ -608,7 +608,7 @@ def a2_model_inference(projection_year, player_stat_df, a2_model, download_file,
     # create predictions
     predictions = a2_model.predict(combined_df[features], verbose=verbose)
     predictions = predictions.reshape(-1)
-    combined_df['Proj. A2per1kChunk'] = combined_df['Y-0 GP']/82*combined_df['Y-0 A2per1kChunk'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. A2per1kChunk'] = combined_df['Y-0 GP']/84*combined_df['Y-0 A2per1kChunk'] + (84-combined_df['Y-0 GP'])/84*predictions
 
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. A2per1kChunk', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. A2per1kChunk', ascending=False, inplace=True)
@@ -705,7 +705,7 @@ def skater_xga_model_inference(projection_year, player_stat_df, skater_xga_model
         data_dmatrix = xgb.DMatrix(combined_df[['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 CA/60', 'Y-2 CA/60', 'Y-1 CA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']])
         predictions = skater_xga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
-    combined_df['Proj. xGA/60'] = combined_df['Y-0 GP']/82*combined_df['Y-0 xGA/60'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. xGA/60'] = combined_df['Y-0 GP']/84*combined_df['Y-0 xGA/60'] + (84-combined_df['Y-0 GP'])/84*predictions
 
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. xGA/60', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. xGA/60', ascending=False, inplace=True)
@@ -804,7 +804,7 @@ def skater_ga_model_inference(projection_year, player_stat_df, skater_ga_model, 
         data_dmatrix = xgb.DMatrix(combined_df[['Y-3 GA/60', 'Y-2 GA/60', 'Y-1 GA/60', 'Y-3 xGA/60', 'Y-2 xGA/60', 'Y-1 xGA/60', 'Y-3 SA/60', 'Y-2 SA/60', 'Y-1 SA/60', 'Y-0 Age', 'PositionBool']])
         predictions = skater_ga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
-    combined_df['Proj. GA/60'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/60'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. GA/60'] = combined_df['Y-0 GP']/84*combined_df['Y-0 GA/60'] + (84-combined_df['Y-0 GP'])/84*predictions
 
     combined_df = combined_df[['PlayerID', 'Player', 'Proj. GA/60', 'Position', 'Y-0 Age']]
     combined_df.sort_values(by='Proj. GA/60', ascending=False, inplace=True)
@@ -908,7 +908,7 @@ def team_ga_model_inference(projection_year, team_stat_df, player_stat_df, team_
         data_dmatrix = xgb.DMatrix(combined_df[['Y-2 FA/GP', 'Y-1 FA/GP', 'Y-2 GA/GP', 'Y-1 GA/GP', 'Y-2 xGA/GP', 'Y-1 xGA/GP', 'Y-2 SV%', 'Y-1 SV%', 'Y-2 P%', 'Y-1 P%']])
         predictions = team_ga_model.predict(data_dmatrix)
     predictions = predictions.reshape(-1)
-    combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/82*combined_df['Y-0 GA/GP'] + (82-combined_df['Y-0 GP'])/82*predictions
+    combined_df['Proj. GA/GP'] = combined_df['Y-0 GP']/84*combined_df['Y-0 GA/GP'] + (84-combined_df['Y-0 GP'])/84*predictions
     nhlapi_data = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Team Data', 'nhlapi_team_data.csv'), index_col=0)
     nhlapi_data = nhlapi_data[['Team Name', 'Abbreviation']].rename(columns={'Team Name': 'Team'})
 
@@ -969,7 +969,7 @@ def display_inferences(projection_year, player_stat_df, bootstrap_df, inference_
 
     # Load the existing stats
     existing_stats = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'engine_data', 'Historical Skater Data', f'{projection_year-1}-{projection_year}_skater_data.csv'))[['PlayerID', 'Player', 'GP', 'TOI', 'Goals', 'First Assists', 'Second Assists', 'Total Assists']]
-    gp_remain = 82 - existing_stats.sort_values(by='GP', ascending=False).iloc[29]['GP']
+    gp_remain = 84 - existing_stats.sort_values(by='GP', ascending=False).iloc[29]['GP']
     if verbose:
         print(f'GP remaining: {gp_remain}')
 
@@ -1064,9 +1064,9 @@ def gp_inference_calibration(projection_year, player_stat_df):
     y0_skater_data = y0_skater_data.dropna()
     y0_gp_max = y0_skater_data['GP'].max()
     player_stat_df = pd.merge(player_stat_df, y0_skater_data, on=['PlayerID', 'Player'], how='outer')
-    player_stat_df['GPprbPrime'] = player_stat_df['GP']*y0_gp_max/82 + player_stat_df['GPprb']*(82-player_stat_df['GP'])/82
+    player_stat_df['GPprbPrime'] = player_stat_df['GP']*y0_gp_max/84 + player_stat_df['GPprb']*(84-player_stat_df['GP'])/84
     player_stat_df['GPprbPrime'] = player_stat_df['GPprbPrime'].fillna(player_stat_df['GPprb'])
-    player_stat_df['GPprbPrime'] = player_stat_df['GPprb'].fillna(player_stat_df['GP'] / 82)
+    player_stat_df['GPprbPrime'] = player_stat_df['GPprb'].fillna(player_stat_df['GP'] / 84)
     player_stat_df = player_stat_df.dropna(subset=['GP'])
     player_stat_df = player_stat_df.drop(columns=['GP', 'GPprb'])
     player_stat_df = player_stat_df.rename(columns={'GPprbPrime': 'GPprb'})
